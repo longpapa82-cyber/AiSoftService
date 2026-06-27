@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import styles from './StoreBadges.module.css';
 
 export type StoreTone = 'light' | 'dark';
@@ -60,6 +60,10 @@ interface BadgeDef {
   ariaLabel: string;
 }
 
+/** 게임 CTA 톤 kicker — 다운로드를 "획득 액션"처럼. */
+const INSTALL_KICKER = '▶ INSTALL';
+const OPEN_KICKER = '▶ OPEN';
+
 export function StoreBadges({
   ios,
   android,
@@ -72,7 +76,7 @@ export function StoreBadges({
   if (ios) {
     badges.push({
       href: ios,
-      kicker: 'Download on the',
+      kicker: INSTALL_KICKER,
       label: 'App Store',
       logo: AppleLogo,
       ariaLabel: 'App Store에서 다운로드',
@@ -81,7 +85,7 @@ export function StoreBadges({
   if (android) {
     badges.push({
       href: android,
-      kicker: 'GET IT ON',
+      kicker: INSTALL_KICKER,
       label: 'Google Play',
       logo: PlayLogo,
       ariaLabel: 'Google Play에서 다운로드',
@@ -90,7 +94,7 @@ export function StoreBadges({
   if (web) {
     badges.push({
       href: web,
-      kicker: 'Open the',
+      kicker: OPEN_KICKER,
       label: '웹사이트',
       logo: GlobeLogo,
       ariaLabel: '웹사이트 바로가기',
@@ -100,26 +104,50 @@ export function StoreBadges({
   if (badges.length === 0) return null;
 
   const listClass = [styles.list, className].filter(Boolean).join(' ');
-  const badgeClass = [styles.badge, styles[tone]].join(' ');
 
   return (
     <div className={listClass}>
-      {badges.map((badge) => (
-        <a
-          key={badge.label}
-          href={badge.href}
-          className={badgeClass}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={badge.ariaLabel}
-        >
-          {badge.logo}
-          <span className={styles.text}>
-            <span className={styles.kicker}>{badge.kicker}</span>
-            <span className={styles.label}>{badge.label}</span>
-          </span>
-        </a>
-      ))}
+      {badges.map((badge, i) => {
+        // 첫 배지 = 주 플랫폼 → 골드 채움+글로우로 강조. 나머지는 글래스 아웃라인.
+        const isPrimary = i === 0;
+        const isInstall = badge.kicker === INSTALL_KICKER;
+        const badgeClass = [
+          styles.badge,
+          styles[tone],
+          isPrimary ? styles.primary : styles.secondary,
+        ].join(' ');
+        return (
+          <a
+            key={badge.label}
+            href={badge.href}
+            className={badgeClass}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={badge.ariaLabel}
+            style={{ '--bdg-i': i } as CSSProperties}
+          >
+            {/* 뷰포트 진입 시 1회 가로지르는 광택 (장식) */}
+            <span className={styles.sheen} aria-hidden="true" />
+            <span className={styles.logoWrap} aria-hidden="true">
+              {badge.logo}
+            </span>
+            <span className={styles.text}>
+              <span className={styles.kicker}>{badge.kicker}</span>
+              <span className={styles.label}>{badge.label}</span>
+            </span>
+            {/* 무료 앱 — "획득" 보상 칩 (장식) */}
+            {isInstall && (
+              <span className={styles.freePin} aria-hidden="true">
+                FREE
+              </span>
+            )}
+            {/* 호버 시 떠오르는 XP 마이크로 피드백 (장식) */}
+            <span className={styles.xpPop} aria-hidden="true">
+              +10&nbsp;XP
+            </span>
+          </a>
+        );
+      })}
     </div>
   );
 }

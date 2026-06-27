@@ -1,79 +1,103 @@
 /*
- * StoreBadges: App Store / Google Play / 웹사이트 배지.
- * tone에 따라 명/암 카드 위 모두에서 읽히도록 색 대비를 토큰화한다.
+ * StoreBadges: App Store / Google Play / 웹사이트 "획득(LOOT)" 버튼.
+ * - 위계: 첫 배지(.primary)=골드 채움+글로우, 나머지(.secondary)=글래스 아웃라인.
+ * - 게임 톤: FREE 칩, 호버 젤리 바운스 + 로고 팝, 진입 시 1회 광택 스윕, +XP 마이크로 피드백.
+ * - tone(dark/light)에 따라 명/암 표면 모두에서 읽히도록 색 대비를 토큰화한다.
+ * - 모션은 transform/opacity만(컴포지터 친화), reduced-motion에서 전부 정지.
  */
 .list {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.7rem;
+  gap: 0.75rem;
 }
 
 .badge {
-  --bdg-bg: var(--ais-surface);
-  --bdg-border: var(--ais-border);
   --bdg-fg: var(--ais-text);
   --bdg-sub: var(--ais-text-soft);
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.65rem;
-  min-width: 9.5rem;
+  gap: 0.7rem;
+  min-width: 10.5rem;
   max-width: 100%;
-  padding: 0.6rem 1rem;
-  border: 1px solid var(--bdg-border);
-  border-radius: 14px;
-  background: var(--bdg-bg);
-  color: var(--bdg-fg);
+  padding: 0.7rem 1.05rem;
+  border-radius: 16px;
   text-decoration: none;
+  overflow: hidden; /* sheen 클리핑 */
+  isolation: isolate;
   transition:
-    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    transform var(--ais-dur-fast) var(--ais-ease-bounce),
     box-shadow var(--ais-dur) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo);
   will-change: transform;
 }
 
-/* 암(어두운 스테이지/벽) 위: 밝은 글자 (다크 스테이지 예외) */
-.dark {
-  --bdg-bg: rgba(255, 255, 255, 0.06);
-  --bdg-border: rgba(255, 255, 255, 0.18);
-  --bdg-fg: #f3f6fc;
-  --bdg-sub: rgba(243, 246, 252, 0.82);
-}
-.dark.badge:hover {
-  border-color: var(--ais-gold);
+/* ── 위계 1: 주 플랫폼 — 골드 채움 + 글로우로 시선 집중 ── */
+.primary {
+  border: 1px solid transparent;
+  background: var(--ais-brand-grad);
+  color: var(--ais-navy);
+  --bdg-fg: var(--ais-navy);
+  --bdg-sub: rgba(10, 25, 47, 0.66);
   box-shadow:
-    0 10px 24px rgba(0, 0, 0, 0.28),
-    var(--ais-glow-gold);
+    0 6px 18px -2px var(--ais-glow),
+    0 2px 6px rgba(10, 25, 47, 0.12);
 }
-.dark.badge:focus-visible {
-  outline-color: var(--ais-gold);
-}
-
-/* 명(밝은 카드) 위: 어두운 잉크 글자 (기본/주 사용) */
-.light {
-  --bdg-bg: var(--ais-surface);
-  --bdg-border: var(--ais-border);
-  --bdg-fg: var(--ais-text);
-  --bdg-sub: var(--ais-text-mid);
+.primary:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    0 16px 34px -4px var(--ais-glow),
+    var(--ais-neon-gold);
 }
 
-.badge:hover {
-  transform: translateY(-2px) scale(1.015);
+/* ── 위계 2: 보조 플랫폼 — 글래스 아웃라인(낮은 강조) ── */
+.secondary {
+  border: 1px solid var(--ais-border-strong);
+  background: var(--ais-surface);
+  color: var(--bdg-fg);
+  box-shadow: var(--ais-shadow-card);
+}
+.secondary:hover {
+  transform: translateY(-3px) scale(1.02);
   border-color: var(--ais-brand);
-  box-shadow: var(--ais-shadow-lift);
+  box-shadow: var(--ais-shadow-lift), var(--ais-glow-gold);
 }
+
+/* 암(어두운 스테이지/벽) 위 — 보조 배지를 밝은 글라스로 전환 */
+.dark.secondary {
+  --bdg-fg: #f3f6fc;
+  --bdg-sub: rgba(243, 246, 252, 0.78);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
+}
+.dark.secondary:hover {
+  border-color: var(--ais-gold);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3), var(--ais-glow-gold);
+}
+/* primary(골드)는 다크/라이트 동일 — 그 위 잉크는 항상 네이비라 대비 충분 */
+
 .badge:active {
-  transform: translateY(0) scale(1);
+  transform: translateY(-1px) scale(0.99);
 }
 .badge:focus-visible {
   outline: 2px solid var(--ais-brand);
   outline-offset: 3px;
 }
 
-.logo {
+/* ── 로고: 호버 시 통통 팝 ── */
+.logoWrap {
   flex: 0 0 auto;
-  width: 1.6rem;
-  height: 1.6rem;
+  display: inline-flex;
+  transition: transform var(--ais-dur-fast) var(--ais-ease-bounce);
+}
+.badge:hover .logoWrap {
+  transform: scale(1.18) rotate(-6deg);
+}
+.logo {
+  width: 1.65rem;
+  height: 1.65rem;
   color: var(--bdg-fg);
 }
 
@@ -81,14 +105,15 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  line-height: 1.15;
+  line-height: 1.12;
   text-align: left;
 }
 
 .kicker {
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
+  font-family: var(--ais-font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--bdg-sub);
   white-space: nowrap;
@@ -96,11 +121,96 @@
 
 .label {
   font-family: var(--ais-font-display);
-  font-size: 0.95rem;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 800;
   letter-spacing: -0.01em;
   color: var(--bdg-fg);
   white-space: nowrap;
+}
+
+/* ── FREE 핀: "무료 획득" 보상 칩 ── */
+.freePin {
+  margin-left: auto;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  padding: 0.12rem 0.42rem;
+  border-radius: 999px;
+  font-family: var(--ais-font-mono);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  transition: transform var(--ais-dur-fast) var(--ais-ease-bounce);
+}
+.primary .freePin {
+  background: var(--ais-navy);
+  color: var(--ais-gold);
+}
+.secondary .freePin {
+  background: var(--ais-brand-grad);
+  color: var(--ais-navy);
+}
+.badge:hover .freePin {
+  transform: scale(1.12) rotate(3deg);
+}
+
+/* ── sheen: 진입 후 1회 가로지르는 광택 (장식) ── */
+.sheen {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 70%
+  );
+  transform: translateX(-130%);
+  animation: bdg-sheen 2.6s var(--ais-ease-expo) 0.4s 1 both;
+  /* 배지마다 살짝 시차 — 순차적으로 반짝 */
+  animation-delay: calc(0.4s + var(--bdg-i, 0) * 0.18s);
+}
+.dark .sheen {
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 70%
+  );
+}
+@keyframes bdg-sheen {
+  0% { transform: translateX(-130%); }
+  60%, 100% { transform: translateX(130%); }
+}
+
+/* ── +XP 마이크로 피드백: 호버 시 떠오름 (장식) ── */
+.xpPop {
+  position: absolute;
+  top: 0.3rem;
+  right: 0.55rem;
+  z-index: 2;
+  pointer-events: none;
+  font-family: var(--ais-font-mono);
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--ais-gold-deep);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--ais-dur-fast) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-expo);
+}
+.primary .xpPop {
+  color: var(--ais-navy);
+}
+.dark.secondary .xpPop {
+  color: var(--ais-gold);
+}
+.badge:hover .xpPop {
+  opacity: 1;
+  transform: translateY(-6px);
 }
 
 @media (max-width: 380px) {
@@ -111,8 +221,24 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .badge,
+  .logoWrap,
+  .freePin {
+    transition: none;
+  }
   .badge:hover,
   .badge:active {
     transform: none;
+  }
+  .badge:hover .logoWrap,
+  .badge:hover .freePin {
+    transform: none;
+  }
+  .sheen {
+    animation: none;
+    display: none;
+  }
+  .xpPop {
+    display: none;
   }
 }
