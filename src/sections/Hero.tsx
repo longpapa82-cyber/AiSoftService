@@ -2,14 +2,12 @@ import type { CSSProperties } from 'react';
 import { COMPANY } from '../data/company';
 import { SERVICES_SORTED } from '../data/services';
 import { Button } from '../components/ui/Button';
-import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import { usePointerParallax } from '../hooks/usePointerParallax';
-import aiCore from '../assets/photos/ai-core.jpg';
 import styles from './Hero.module.css';
 
-// 첫 서비스(myTravel)의 웹 링크를 보조 CTA로 노출.
-const FEATURED = SERVICES_SORTED.find((s) => s.links.web);
+// Hero 다음 첫 콘텐츠 섹션(첫 미니 홍보)의 앵커 — 둘러보기/스크롤 타겟.
+const FIRST_PROMO = SERVICES_SORTED.find((s) => s.promo);
 
 /** 슬로건을 단어 단위로 쪼개 글자별 stagger 등장에 사용. 공백/줄바꿈 보존. */
 function splitWords(text: string): string[] {
@@ -17,14 +15,15 @@ function splitWords(text: string): string[] {
 }
 
 /**
- * 풀블리드 히어로. 어두운 갤러리 벽 위에 은은한 aurora blob이 떠 있고,
- * 거대한 슬로건 헤드라인 + 서브카피 + CTA + 떠다니는 서비스 칩으로 구성.
+ * 히어로. 게임 HUD(레벨/XP/언락 서비스 칩)는 유지하되, 우측 실사 비주얼은 제거해
+ * 핵심 메시지 중심으로 간결화. 카피/HUD를 단일 컬럼으로 배치.
  * 모션은 transform/opacity만 사용. reduced-motion에서 blob/float 정지.
  */
 export function Hero() {
   const copyRef = useReveal<HTMLDivElement>({ threshold: 0.1 });
   const heroRef = usePointerParallax<HTMLElement>();
   const words = splitWords(COMPANY.slogan);
+  const promoHref = FIRST_PROMO ? `#promo-${FIRST_PROMO.id}` : '#main';
 
   return (
     <section
@@ -91,7 +90,7 @@ export function Hero() {
 
           <div className={styles.actions}>
             <Button
-              href="#services"
+              href={promoHref}
               variant="primary"
               icon="▶"
               className={styles.startBtn}
@@ -101,11 +100,6 @@ export function Hero() {
                 PRESS&nbsp;START
               </span>
             </Button>
-            {FEATURED?.links.web && (
-              <Button href={FEATURED.links.web} variant="outline">
-                {FEATURED.name} 웹사이트
-              </Button>
-            )}
           </div>
 
           {/* 언락된 캐릭터 슬롯 — 레어도 테두리 + 미니 스탯 */}
@@ -149,9 +143,7 @@ export function Hero() {
                     <span className={styles.chipStatBar}>
                       <span
                         className={styles.chipStatFill}
-                        style={
-                          { '--stat': `${72 + i * 9}%` } as CSSProperties
-                        }
+                        style={{ '--stat': `${72 + i * 9}%` } as CSSProperties}
                       />
                     </span>
                     <span className={styles.chipStatVal}>+XP</span>
@@ -161,42 +153,11 @@ export function Hero() {
             ))}
           </ul>
         </div>
-
-        {/* 우측 실사 비주얼: AI 코어 — 글래스 프레임 + 골드 헤어라인 + subtle float */}
-        <div className={styles.visual} aria-hidden="true">
-          <figure className={styles.visualFrame}>
-            <img
-              className={styles.visualImg}
-              src={aiCore}
-              alt=""
-              width={720}
-              height={900}
-              loading="eager"
-              decoding="async"
-            />
-            {/* 네이비/골드 그라디언트 오버레이로 텍스트 가독성·매거진 톤 확보 */}
-            <span className={styles.visualOverlay} />
-            <span className={styles.visualHairline} />
-          </figure>
-
-          {/* 플로팅 테크 태그 */}
-          <span className={styles.visualBadge}>
-            <TechBadge variant="gold" dot>
-              NPU · NEURAL ENGINE
-            </TechBadge>
-          </span>
-
-          {/* 진척 링 — 메인 퀘스트 게이지 */}
-          <span className={styles.questRing}>
-            <span className={styles.questRingNum}>3</span>
-            <span className={styles.questRingLabel}>QUEST</span>
-          </span>
-        </div>
       </div>
 
       {/* 스크롤 인디케이터 */}
       <a
-        href="#services"
+        href={promoHref}
         className={styles.scrollHint}
         aria-label="아래로 스크롤하여 서비스 보기"
       >

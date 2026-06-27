@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
 import { useReveal } from '../hooks/useReveal';
-import { iconFor } from './Features';
+import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
 
 /**
@@ -52,6 +52,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
   return (
     <section
+      id={`promo-${service.id}`}
       className={sectionClass}
       style={themeVars}
       aria-labelledby={`promo-${service.id}-title`}

@@ -159,7 +159,7 @@ export const SERVICES: AppService[] = [
     emoji: '✦',
     iconUrl: mytravelIcon,
     links: {
-      web: 'https://www.myTravel-planner.com',
+      web: 'https://www.mytravel-planner.com',
       ios: 'https://apps.apple.com/app/id6766147060',
       android:
         'https://play.google.com/store/apps/details?id=com.longpapa82.travelplanner',
@@ -245,6 +245,7 @@ export const SERVICES: AppService[] = [
     emoji: '🐾',
     iconUrl: mypetIcon,
     links: {
+      web: 'https://longpapa82-cyber.github.io/mypet-promo/',
       ios: 'https://apps.apple.com/kr/app/id6780117383',
       android: 'https://play.google.com/store/apps/details?id=com.longpapa82.mypet',
     },
@@ -308,6 +309,7 @@ export const SERVICES: AppService[] = [
     emoji: '💙',
     iconUrl: mybabyIcon,
     links: {
+      web: 'https://mybaby-backend.onrender.com/',
       ios: 'https://apps.apple.com/app/id6772832100',
       android: 'https://play.google.com/store/apps/details?id=com.naesaekki.app',
     },

@@ -8,7 +8,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { href: '#services', label: '서비스' },
+  { href: '#promo-mytravel', label: '서비스' },
   { href: '#technology', label: '기술' },
   { href: '#about', label: '회사소개' },
 ];
@@ -60,7 +60,7 @@ export function Header() {
               </li>
             ))}
           </ul>
-          <a href="#services" className={styles.navCta}>
+          <a href="#promo-mytravel" className={styles.navCta}>
             둘러보기
           </a>
         </nav>
