@@ -1,6 +1,9 @@
 import { useState, type CSSProperties } from 'react';
 import { SectionHeader } from '../components/ui/SectionHeader';
+import { TechBadge } from '../components/ui/TechBadge';
+import { useReveal } from '../hooks/useReveal';
 import { SERVICES_SORTED, type AppService } from '../data/services';
+import semiconductor from '../assets/photos/semiconductor.jpg';
 import styles from './Features.module.css';
 
 /** 서비스 테마를 CSS 변수로 노출하는 스타일 객체 생성. */
@@ -90,6 +93,7 @@ function iconFor(name: string): string {
  */
 export function Features() {
   const [activeId, setActiveId] = useState(SERVICES_SORTED[0]?.id ?? '');
+  const bannerRef = useReveal<HTMLElement>();
   const active =
     SERVICES_SORTED.find((s) => s.id === activeId) ?? SERVICES_SORTED[0];
 
@@ -108,6 +112,32 @@ export function Features() {
             eyebrow="핵심 기능"
             title="각 서비스가 잘하는 것"
           />
+
+          {/* 하드웨어/정밀공학 매거진 밴드 — 반도체 실사 위 네이비/골드 오버레이 */}
+          <figure className={`${styles.hwBand} reveal`} ref={bannerRef}>
+            <img
+              className={styles.hwBandImg}
+              src={semiconductor}
+              alt="정밀하게 설계된 반도체 회로기판"
+              width={1100}
+              height={620}
+              loading="lazy"
+              decoding="async"
+            />
+            <div className={styles.hwBandOverlay} aria-hidden="true" />
+            <figcaption className={styles.hwBandCaption}>
+              <span className={styles.hwBandBadge}>
+                <TechBadge variant="gold" dot>
+                  ON-DEVICE
+                </TechBadge>
+              </span>
+              <p className={styles.hwBandText}>
+                칩에서 화면까지. 하드웨어 가속 위에 올린 AI로 빠르고 정밀한
+                경험을 설계합니다.
+              </p>
+              <span className={styles.hwBandCode}>// SILICON_TO_SCREEN</span>
+            </figcaption>
+          </figure>
 
           <div
             className={styles.tablist}

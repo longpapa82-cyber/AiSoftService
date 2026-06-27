@@ -5,6 +5,7 @@ import { Button } from '../components/ui/Button';
 import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import { usePointerParallax } from '../hooks/usePointerParallax';
+import aiCore from '../assets/photos/ai-core.jpg';
 import styles from './Hero.module.css';
 
 // 첫 서비스(myTravel)의 웹 링크를 보조 CTA로 노출.
@@ -108,6 +109,31 @@ export function Hero() {
               </li>
             ))}
           </ul>
+        </div>
+
+        {/* 우측 실사 비주얼: AI 코어 — 글래스 프레임 + 골드 헤어라인 + subtle float */}
+        <div className={styles.visual} aria-hidden="true">
+          <figure className={styles.visualFrame}>
+            <img
+              className={styles.visualImg}
+              src={aiCore}
+              alt=""
+              width={720}
+              height={900}
+              loading="eager"
+              decoding="async"
+            />
+            {/* 네이비/골드 그라디언트 오버레이로 텍스트 가독성·매거진 톤 확보 */}
+            <span className={styles.visualOverlay} />
+            <span className={styles.visualHairline} />
+          </figure>
+
+          {/* 플로팅 테크 태그 */}
+          <span className={styles.visualBadge}>
+            <TechBadge variant="gold" dot>
+              NPU · NEURAL ENGINE
+            </TechBadge>
+          </span>
         </div>
       </div>
 

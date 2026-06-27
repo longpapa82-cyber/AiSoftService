@@ -49,6 +49,104 @@
   gap: clamp(2rem, 1rem + 3vw, 3.5rem);
 }
 
+/* ── 하드웨어/정밀공학 매거진 밴드 (반도체 실사) ── */
+.hwBand {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--ais-radius-card);
+  border: 1px solid var(--ais-glass-border);
+  box-shadow: var(--ais-shadow-card);
+  min-height: clamp(180px, 12rem + 6vw, 300px);
+}
+
+.hwBandImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 45%;
+  /* 호버 시 미세 줌(컴포지터 친화) */
+  transform: scale(1.02);
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.hwBand:hover .hwBandImg {
+  transform: scale(1.06);
+}
+
+/* 네이비/골드 그라디언트 오버레이 — 텍스트 가독성 + 고급 매거진 톤 */
+.hwBandOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(10, 25, 47, 0.92) 0%,
+      rgba(10, 25, 47, 0.74) 44%,
+      rgba(10, 25, 47, 0.32) 80%,
+      rgba(10, 25, 47, 0.12) 100%
+    ),
+    radial-gradient(
+      120% 90% at 100% 0%,
+      rgba(249, 217, 73, 0.2),
+      transparent 58%
+    );
+  pointer-events: none;
+}
+
+/* 상단 골드 헤어라인 — 카드와 동일한 위계 시그니처 */
+.hwBand::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 1;
+  background: var(--ais-brand-grad);
+  opacity: 0.9;
+}
+
+.hwBandCaption {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  max-width: 34rem;
+  height: 100%;
+  padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+  justify-content: center;
+}
+
+.hwBandBadge {
+  display: inline-flex;
+}
+
+.hwBandText {
+  margin: 0;
+  font-family: var(--ais-font-display);
+  font-size: clamp(1.1rem, 0.95rem + 0.9vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: var(--ais-bg);
+  text-wrap: balance;
+}
+
+.hwBandCode {
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(247, 249, 251, 0.82);
+}
+
 /* ── 탭 목록 ── */
 .tablist {
   display: flex;
@@ -359,5 +457,10 @@
   .panel,
   .feature {
     animation: none;
+  }
+  .hwBandImg,
+  .hwBand:hover .hwBandImg {
+    transition: none;
+    transform: none;
   }
 }

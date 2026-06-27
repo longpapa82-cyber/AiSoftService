@@ -2,6 +2,7 @@ import { SectionHeader } from '../components/ui/SectionHeader';
 import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import { SERVICES } from '../data/services';
+import trustTeam from '../assets/photos/trust-team.jpg';
 import styles from './Technology.module.css';
 
 /**
@@ -150,6 +151,7 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
 }
 
 export function Technology() {
+  const bannerRef = useReveal<HTMLElement>();
   return (
     <section
       id="technology"
@@ -170,6 +172,32 @@ export function Technology() {
           desc={`${SERVICE_COUNT}개의 서비스를 관통하는 AI·위치·다국어·크로스플랫폼 역량으로 일상의 문제를 단순하게 풉니다.`}
           id="technology-heading"
         />
+
+        {/* 신뢰/전문성 매거진 배너 — 협업 팀 실사 위 네이비/골드 오버레이 */}
+        <figure className={`${styles.banner} reveal`} ref={bannerRef}>
+          <img
+            className={styles.bannerImg}
+            src={trustTeam}
+            alt="AI Soft 팀이 협업하며 서비스를 설계하는 모습"
+            width={1100}
+            height={733}
+            loading="lazy"
+            decoding="async"
+          />
+          <div className={styles.bannerOverlay} aria-hidden="true" />
+          <figcaption className={styles.bannerCaption}>
+            <span className={styles.bannerCode}>// HUMAN_x_MACHINE</span>
+            <p className={styles.bannerText}>
+              사람의 통찰과 AI 엔진이 만나는 곳. 기획부터 출시까지 한 팀이
+              설계합니다.
+            </p>
+            <span className={styles.bannerStats}>
+              {`${LANGUAGE_COUNT ?? '다국어'}${
+                LANGUAGE_COUNT !== null ? '개 언어' : ''
+              } · ${SERVICE_COUNT}개 서비스 · ${PLATFORMS.join(' / ')}`}
+            </span>
+          </figcaption>
+        </figure>
 
         <ul className={styles.grid}>
           {CAPABILITIES.map((cap, i) => (

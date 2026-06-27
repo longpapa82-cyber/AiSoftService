@@ -18,9 +18,118 @@
   margin-bottom: clamp(1rem, 0.6rem + 1vw, 1.5rem);
 }
 
+/* ── 신뢰/전문성 매거진 배너 (협업 팀 실사) ── */
+.banner {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: clamp(2rem, 1.2rem + 2.5vw, 3.25rem) 0 0;
+  border-radius: var(--ais-radius-card);
+  border: 1px solid var(--ais-glass-border);
+  box-shadow: var(--ais-shadow-card);
+  /* 컴포지터 친화 리빌: opacity + transform만 */
+  min-height: clamp(220px, 16rem + 8vw, 360px);
+}
+
+.bannerImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  object-fit: cover;
+  object-position: center 35%;
+  /* 호버 시 미세 줌(컴포지터 친화) */
+  transform: scale(1.02);
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.banner:hover .bannerImg {
+  transform: scale(1.06);
+}
+
+/* 네이비/골드 그라디언트 오버레이 — 텍스트 가독성 + 고급 매거진 톤 */
+.bannerOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(
+      100deg,
+      rgba(10, 25, 47, 0.94) 0%,
+      rgba(10, 25, 47, 0.78) 42%,
+      rgba(10, 25, 47, 0.35) 78%,
+      rgba(10, 25, 47, 0.15) 100%
+    ),
+    radial-gradient(
+      120% 90% at 0% 100%,
+      rgba(249, 217, 73, 0.22),
+      transparent 60%
+    );
+  pointer-events: none;
+}
+
+/* 상단 골드 헤어라인 — 카드와 동일한 위계 시그니처 */
+.banner::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  z-index: 1;
+  background: var(--ais-brand-grad);
+  opacity: 0.9;
+}
+
+.bannerCaption {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  max-width: 36rem;
+  height: 100%;
+  padding: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+  justify-content: center;
+}
+
+.bannerCode {
+  font-family: var(--ais-font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--ais-gold);
+  padding: 0.3rem 0.6rem;
+  border: 1px solid rgba(249, 217, 73, 0.32);
+  border-radius: var(--ais-radius-pill);
+  background: rgba(249, 217, 73, 0.08);
+}
+
+.bannerText {
+  margin: 0;
+  font-family: var(--ais-font-display);
+  font-size: clamp(1.15rem, 1rem + 0.9vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.32;
+  letter-spacing: -0.01em;
+  color: var(--ais-bg);
+  text-wrap: balance;
+}
+
+.bannerStats {
+  font-family: var(--ais-font-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(247, 249, 251, 0.84);
+  overflow-wrap: anywhere;
+}
+
 .grid {
   list-style: none;
-  margin: clamp(2.5rem, 1.5rem + 3vw, 4rem) 0 0;
+  margin: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;
@@ -246,11 +355,16 @@
   .card,
   .card::before,
   .card::after,
-  .cardGlow {
+  .cardGlow,
+  .bannerImg {
     transition: none;
   }
   .card:hover,
   .card:focus-within {
     transform: none;
+  }
+  .bannerImg,
+  .banner:hover .bannerImg {
+    transform: scale(1.02);
   }
 }
