@@ -3,10 +3,16 @@ import { COMPANY } from '../data/company';
 import { SERVICES_SORTED } from '../data/services';
 import { Button } from '../components/ui/Button';
 import { useReveal } from '../hooks/useReveal';
+import { usePointerParallax } from '../hooks/usePointerParallax';
 import styles from './Hero.module.css';
 
 // 첫 서비스(myTravel)의 웹 링크를 보조 CTA로 노출.
 const FEATURED = SERVICES_SORTED.find((s) => s.links.web);
+
+/** 슬로건을 단어 단위로 쪼개 글자별 stagger 등장에 사용. 공백/줄바꿈 보존. */
+function splitWords(text: string): string[] {
+  return text.split(/(\s+)/);
+}
 
 /**
  * 풀블리드 히어로. 어두운 갤러리 벽 위에 은은한 aurora blob이 떠 있고,
@@ -15,14 +21,17 @@ const FEATURED = SERVICES_SORTED.find((s) => s.links.web);
  */
 export function Hero() {
   const copyRef = useReveal<HTMLDivElement>({ threshold: 0.1 });
+  const heroRef = usePointerParallax<HTMLElement>();
+  const words = splitWords(COMPANY.slogan);
 
   return (
     <section
       id="top"
+      ref={heroRef}
       className={styles.hero}
       aria-labelledby="hero-heading"
     >
-      {/* 배경: aurora / mesh blob (장식, 스크린리더 무시) */}
+      {/* 배경: aurora / mesh blob (장식, 스크린리더 무시). 마우스 패럴랙스 반응. */}
       <div className={styles.aurora} aria-hidden="true">
         <span className={`${styles.blob} ${styles.blobA}`} />
         <span className={`${styles.blob} ${styles.blobB}`} />
@@ -38,7 +47,19 @@ export function Hero() {
           </span>
 
           <h1 id="hero-heading" className={styles.headline}>
-            {COMPANY.slogan}
+            {words.map((word, i) =>
+              /\s+/.test(word) ? (
+                ' '
+              ) : (
+                <span
+                  key={i}
+                  className={styles.word}
+                  style={{ '--word-i': i } as CSSProperties}
+                >
+                  {word}
+                </span>
+              ),
+            )}
           </h1>
 
           <p className={styles.sub}>{COMPANY.intro}</p>

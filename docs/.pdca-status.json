@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-27T04:31:34.282Z",
+  "lastUpdated": "2026-06-27T04:40:58.572Z",
   "activeFeatures": [
     "AiSoftService",
     "data",
@@ -19,9 +19,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T03:56:05.317Z",
-        "lastUpdated": "2026-06-27T04:07:59.592Z"
+        "lastUpdated": "2026-06-27T04:40:33.694Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/hooks/useReveal.ts"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/hooks/usePointerParallax.ts"
     },
     "data": {
       "phase": "do",
@@ -58,9 +58,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T04:01:50.258Z",
-        "lastUpdated": "2026-06-27T04:22:00.916Z"
+        "lastUpdated": "2026-06-27T04:40:58.572Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Features.tsx"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Hero.tsx"
     },
     "tmp": {
       "phase": "do",
@@ -84,7 +84,7 @@
   "session": {
     "startedAt": "2026-06-27T02:53:55.923Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-27T04:31:34.282Z"
+    "lastActivity": "2026-06-27T04:40:58.572Z"
   },
   "history": [
     {
@@ -330,6 +330,30 @@
     {
       "timestamp": "2026-06-27T04:31:34.282Z",
       "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:40:33.694Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:40:43.699Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:40:52.656Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:40:58.572Z",
+      "feature": "sections",
       "phase": "do",
       "action": "updated"
     }

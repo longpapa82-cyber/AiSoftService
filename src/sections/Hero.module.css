@@ -18,9 +18,16 @@
 /* ── 배경 aurora ── */
 .aurora {
   position: absolute;
-  inset: 0;
+  inset: -8%;
   z-index: -1;
   pointer-events: none;
+  /* 마우스 패럴랙스: 포인터 반대 방향으로 은은하게 이동(--px/--py는 usePointerParallax) */
+  transform: translate3d(
+    calc(var(--px, 0) * -22px),
+    calc(var(--py, 0) * -22px),
+    0
+  );
+  transition: transform 0.3s var(--ais-ease-expo);
 }
 
 .blob {
@@ -156,6 +163,30 @@
   background-clip: text;
   color: transparent;
   text-wrap: balance;
+}
+
+/* 슬로건 단어별 stagger 등장.
+ * inline-block은 부모의 background-clip:text를 끊으므로 각 단어가 자기 그라디언트를 클립한다. */
+.word {
+  display: inline-block;
+  background: linear-gradient(150deg, #1a2238 0%, #234a8c 52%, #2f7fd4 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: wordIn 0.8s var(--ais-ease-expo) both;
+  animation-delay: calc(var(--word-i, 0) * 90ms + 0.15s);
+  will-change: transform, opacity;
+}
+
+@keyframes wordIn {
+  from {
+    opacity: 0;
+    transform: translateY(0.5em) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .sub {
@@ -336,8 +367,16 @@
   .blobB,
   .blobC,
   .chip,
-  .scrollThumb {
+  .scrollThumb,
+  .word {
     animation: none !important;
+  }
+  .word {
+    opacity: 1;
+    transform: none;
+  }
+  .aurora {
+    transform: none;
   }
   .chip:hover,
   .scrollHint:hover {
