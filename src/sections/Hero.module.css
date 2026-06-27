@@ -215,76 +215,137 @@
   }
 }
 
-/* ── XP 진척 게이지 ── */
+/* ── XP 진척 게이지 (RPG 경험치 바) ── */
 .xpRow {
-  margin-top: 1rem;
+  --xp-pct: 0%;
+  margin-top: 1.15rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  max-width: 460px;
+}
+/* 바 위 캡션: 좌측 XP 배지 + 우측 현재/다음 수치 */
+.xpMeta {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
-  width: 100%;
-  max-width: 420px;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
-.xpLabel,
-.xpValue {
+.xpBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.16rem 0.5rem;
+  border-radius: var(--ais-radius-pill);
+  background: var(--ais-brand-grad);
+  color: var(--ais-navy);
   font-family: var(--ais-font-mono);
   font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  box-shadow: 0 2px 8px var(--ais-glow);
+}
+.xpBadgeIcon {
+  font-size: 0.7rem;
+  line-height: 1;
+}
+.xpNext {
+  font-family: var(--ais-font-mono);
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--ais-text-mid);
-  flex: 0 0 auto;
+  letter-spacing: 0.06em;
+  color: var(--ais-text-soft);
 }
-.xpValue {
+.xpNow {
   color: var(--ais-gold-deep);
+  font-weight: 800;
 }
+.xpSep {
+  margin: 0 0.25rem;
+  opacity: 0.5;
+}
+
+/* 두꺼운 트랙 — 홈이 파인 입체 게이지 */
 .xpTrack {
   position: relative;
-  flex: 1 1 auto;
-  height: 8px;
-  min-width: 0;
+  width: 100%;
+  height: clamp(18px, 2.2vw, 26px);
   border-radius: var(--ais-radius-pill);
-  background: color-mix(in srgb, var(--ais-navy) 8%, var(--ais-surface-2));
-  border: 1px solid var(--ais-glass-border);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ais-navy) 14%, var(--ais-surface-2)) 0%,
+      color-mix(in srgb, var(--ais-navy) 6%, var(--ais-surface)) 100%
+    );
+  border: 1px solid var(--ais-border-strong);
+  box-shadow:
+    inset 0 2px 4px rgba(10, 25, 47, 0.16),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.5);
   overflow: hidden;
 }
+/* 채움 — 카운트업 값(--xp-pct)에 동기화. scaleX로 컴포지터 친화 */
 .xpFill {
   position: absolute;
-  inset: 0;
-  width: 78%;
-  border-radius: inherit;
+  inset: 2px;
+  width: calc(var(--xp-pct, 0%) - 0px);
+  border-radius: var(--ais-radius-pill);
   background: var(--ais-xp-bar);
-  transform-origin: left center;
-  animation: xpFill 1.4s var(--ais-ease-expo) both;
-  animation-delay: 0.3s;
+  box-shadow:
+    0 0 12px var(--ais-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: width 0.18s linear; /* 카운트업 매 프레임 갱신 → 부드럽게 추종 */
+  overflow: hidden;
 }
-/* 게이지 위를 훑는 하이라이트(시머) — 보상감 */
+/* 채움 위 시머 — 보상감 */
 .xpFill::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.55) 50%,
-    transparent 100%
+    100deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 70%
   );
-  transform: translateX(-100%);
-  animation: xpShimmer 2.6s var(--ais-ease-expo) 1.4s infinite;
+  transform: translateX(-120%);
+  animation: xpShimmer 2.8s var(--ais-ease-expo) 1.6s infinite;
 }
-@keyframes xpFill {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
+/* 채움 끝 리딩 엣지 — 밝은 캡 + 글로우(게이지가 "차오르는 머리") */
+.xpEdge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: #fffbe6;
+  box-shadow:
+    0 0 8px rgba(255, 255, 255, 0.9),
+    0 0 16px var(--ais-glow);
+}
+/* 세그먼트 눈금 — 경험치 칸(RPG 게이지 분절). 채움 위에 오버레이 */
+.xpSegments {
+  position: absolute;
+  inset: 2px;
+  border-radius: var(--ais-radius-pill);
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(10% - 1.5px),
+    color-mix(in srgb, var(--ais-navy) 22%, transparent) calc(10% - 1.5px),
+    color-mix(in srgb, var(--ais-navy) 22%, transparent) 10%
+  );
+  mix-blend-mode: multiply;
 }
 @keyframes xpShimmer {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(-120%);
   }
   60%,
   100% {
-    transform: translateX(200%);
+    transform: translateX(220%);
   }
 }
 
@@ -726,7 +787,6 @@
   .scrollThumb,
   .word,
   .statusDot,
-  .xpFill,
   .xpFill::after,
   .startMono {
     animation: none !important;
@@ -738,9 +798,9 @@
   .aurora {
     transform: none;
   }
-  /* XP/스탯 게이지는 최종 채워진 상태로 고정 */
+  /* XP 바는 카운트업 즉시 최종값 → width 전환 없이 바로 채워진 상태 */
   .xpFill {
-    transform: scaleX(1);
+    transition: none;
   }
   .scrollHint:hover {
     transform: translateX(-50%);

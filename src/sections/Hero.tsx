@@ -12,6 +12,8 @@ const FIRST_PROMO = SERVICES_SORTED.find((s) => s.promo);
 
 // 히어로 HUD의 XP 목표치 — 진입 시 0부터 이 값까지 롤업된다.
 const HERO_XP = 9999;
+// 다음 레벨까지 필요한 총 경험치(게이지 100% 기준). 바 채움 비율 산출용.
+const HERO_XP_NEXT = 10000;
 
 /** 슬로건을 단어 단위로 쪼개 글자별 stagger 등장에 사용. 공백/줄바꿈 보존. */
 function splitWords(text: string): string[] {
@@ -29,11 +31,13 @@ export function Hero() {
   const words = splitWords(COMPANY.slogan);
   const promoHref = FIRST_PROMO ? `#promo-${FIRST_PROMO.id}` : '#main';
 
-  // XP 숫자 롤업 — XP 바 채움(CSS, delay 0.3s)과 호흡 맞춰 약간 뒤따라 마무리.
-  const [xpRef, xp] = useCountUp<HTMLSpanElement>(HERO_XP, {
+  // XP 숫자 롤업 — 카운트업 값으로 바 채움 비율(--xp-pct)을 동기화해
+  // 숫자와 게이지가 함께 차오르게 한다(이전: 숫자=JS, 바=CSS 독립 → 불일치).
+  const [xpRef, xp] = useCountUp<HTMLDivElement>(HERO_XP, {
     durationMs: 1500,
     delayMs: 300,
   });
+  const xpPct = Math.min(100, (xp / HERO_XP_NEXT) * 100);
 
   return (
     <section
@@ -67,18 +71,31 @@ export function Hero() {
             </span>
           </div>
 
-          {/* XP 진척 게이지 — 슬로건 위 장식 HUD */}
+          {/* XP 진척 게이지 — RPG 경험치 바. 카운트업 값으로 채움 동기화. */}
           <div
+            ref={xpRef}
             className={styles.xpRow}
+            style={{ '--xp-pct': `${xpPct}%` } as CSSProperties}
             role="img"
-            aria-label="플레이어 경험치 게이지"
+            aria-label={`경험치 ${HERO_XP.toLocaleString('en-US')} / 다음 레벨까지 ${HERO_XP_NEXT.toLocaleString('en-US')}`}
           >
-            <span className={styles.xpLabel}>XP</span>
+            {/* 바 위 캡션: 좌측 XP 배지 + 우측 현재/다음 레벨 수치 */}
+            <div className={styles.xpMeta} aria-hidden="true">
+              <span className={styles.xpBadge}>
+                <span className={styles.xpBadgeIcon}>✦</span>XP
+              </span>
+              <span className={styles.xpNext}>
+                <span className={styles.xpNow}>{xp.toLocaleString('en-US')}</span>
+                <span className={styles.xpSep}>/</span>
+                {HERO_XP_NEXT.toLocaleString('en-US')}
+              </span>
+            </div>
+            {/* 두꺼운 트랙: 세그먼트 눈금 + 채움 + 리딩 엣지 */}
             <span className={styles.xpTrack} aria-hidden="true">
-              <span className={styles.xpFill} />
-            </span>
-            <span ref={xpRef} className={styles.xpValue}>
-              {xp.toLocaleString('en-US')}
+              <span className={styles.xpFill}>
+                <span className={styles.xpEdge} />
+              </span>
+              <span className={styles.xpSegments} />
             </span>
           </div>
 

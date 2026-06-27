@@ -504,21 +504,66 @@
 }
 
 /* ── 아이콘 ── */
+/*
+ * 아이콘 칩 = RPG 스킬 슬롯. 각 카드의 레어도 색(--rarity)으로 칠해
+ * 골드 단색 단조로움을 없애고 카드 정체성과 일치시킨다.
+ * 다크 네이비 글래스 슬롯 + 레어도 글로우 + 미세 베벨.
+ */
 .iconWrap {
+  position: relative;
   display: inline-grid;
   place-items: center;
   flex: 0 0 auto;
-  width: 52px;
-  height: 52px;
-  border-radius: var(--ais-radius-soft);
-  /* 골드 칩 위 아이콘은 항상 네이비 — 대비 보존 */
-  color: var(--ais-navy);
-  background: var(--ais-brand-grad);
-  box-shadow: 0 8px 22px rgba(249, 217, 73, 0.35);
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  /* 아이콘은 레어도 색으로 발광 */
+  color: var(--rarity, var(--ais-gold));
+  background:
+    radial-gradient(
+      120% 120% at 30% 20%,
+      color-mix(in srgb, var(--rarity, var(--ais-gold)) 32%, transparent) 0%,
+      color-mix(in srgb, var(--ais-navy) 86%, transparent) 70%
+    );
+  border: 1px solid color-mix(in srgb, var(--rarity, var(--ais-gold)) 55%, transparent);
+  box-shadow:
+    0 8px 22px color-mix(in srgb, var(--rarity, var(--ais-gold)) 28%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-bounce),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+}
+/* 슬롯 모서리 글로우 링(상시 은은) */
+.iconWrap::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--rarity, var(--ais-gold)) 80%, transparent),
+    transparent 60%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+/* 카드 호버 시 슬롯이 팝 + 글로우 강화 */
+.card:hover .iconWrap,
+.card:focus-within .iconWrap {
+  transform: translateY(-2px) scale(1.06) rotate(-3deg);
+  box-shadow:
+    0 12px 30px color-mix(in srgb, var(--rarity, var(--ais-gold)) 45%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .iconWrap svg {
   display: block;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--rarity, var(--ais-gold)) 60%, transparent));
 }
 
 /* ── 카운터 메트릭 ── */
@@ -656,6 +701,10 @@
   }
   .card:hover .achievementStar,
   .card:focus-within .achievementStar {
+    transform: none;
+  }
+  .card:hover .iconWrap,
+  .card:focus-within .iconWrap {
     transform: none;
   }
   .rarityDot,
