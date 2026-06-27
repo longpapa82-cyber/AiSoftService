@@ -276,42 +276,6 @@
 }
 
 /* 시스템 상태 인디케이터 */
-.status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.statusDot {
-  width: 0.45rem;
-  height: 0.45rem;
-  border-radius: 50%;
-  background: var(--ais-gold);
-  box-shadow: 0 0 8px var(--ais-gold);
-  animation: signalPulse 2.4s var(--ais-ease-expo) infinite;
-}
-
-.statusText {
-  font-family: var(--ais-font-mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: rgba(249, 217, 73, 0.85);
-}
-
-@keyframes signalPulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(0.78);
-  }
-}
-
 /* ── 반응형 ── */
 @media (max-width: 860px) {
   .inner {
@@ -346,8 +310,5 @@
   .serviceLink,
   .serviceLink:hover {
     transform: none;
-  }
-  .statusDot {
-    animation: none;
   }
 }

@@ -81,34 +81,13 @@ export function Footer() {
           </ul>
         </nav>
 
-        <nav className={styles.nav} aria-label="정책">
-          <h2 className={styles.navTitle}>정책</h2>
-          <ul className={styles.navList}>
-            <li>
-              <a className={styles.serviceLink} href="#privacy">
-                개인정보처리방침
-              </a>
-            </li>
-            <li>
-              <a className={styles.serviceLink} href="#terms">
-                이용약관
-              </a>
-            </li>
-          </ul>
-        </nav>
       </div>
 
       <div className={`ais-container ${styles.bottom}`}>
         <p className={styles.copyright}>
-          <span className={styles.copyMono}>
-            © 2026 {COMPANY.name} / SYSTEM_STABLE
-          </span>
+          <span className={styles.copyMono}>© 2026 {COMPANY.name}</span>
           <span className={styles.copyRights}>All rights reserved.</span>
         </p>
-        <span className={styles.status} aria-hidden="true">
-          <span className={styles.statusDot} />
-          <span className={styles.statusText}>UPTIME 100%</span>
-        </span>
       </div>
     </footer>
   );
