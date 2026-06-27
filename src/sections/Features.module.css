@@ -147,17 +147,34 @@
   color: rgba(247, 249, 251, 0.82);
 }
 
-/* ── 탭 목록 ── */
+/* ── 스킬 트리 (탭 = 스킬/능력 노드 선택) ── */
 .tablist {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.625rem;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+/* 스킬 트리 배선: 노드들을 잇는 점선 회로 라인(장식, 클릭 비방해) */
+.tablist::before {
+  content: '';
+  position: absolute;
+  left: 1.2rem;
+  right: 1.2rem;
+  top: 50%;
+  height: 0;
+  border-top: 2px dashed color-mix(in srgb, var(--ais-gold) 28%, transparent);
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .tab {
   --svc-primary: var(--ais-brand);
   --svc-accent: var(--ais-brand-2);
   position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
@@ -182,12 +199,36 @@
     transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
 
+/* 비활성 노드: "잠금/미장착" 모노 LOCK 힌트 — hover 시 노출 */
+.tab::before {
+  content: 'LOCK';
+  position: absolute;
+  top: -0.55rem;
+  right: 0.5rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ais-text-mid);
+  opacity: 0;
+  transform: translateY(3px);
+  transition:
+    opacity var(--ais-dur-fast) var(--ais-ease-expo),
+    transform var(--ais-dur-fast) var(--ais-ease-expo);
+  pointer-events: none;
+}
+
 .tab:hover {
   color: var(--ais-text);
-  /* 골드 hover: 보더 + 글로우 + lift */
+  /* 골드 hover: 보더 + 글로우 + lift(노드 팝) */
   border-color: color-mix(in srgb, var(--ais-gold) 60%, transparent);
   box-shadow: var(--ais-glow-gold);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.03);
+}
+
+.tab:hover::before {
+  opacity: 0.75;
+  transform: translateY(0);
 }
 
 .tab:focus-visible {
@@ -198,15 +239,25 @@
 .tabActive,
 .tabActive:hover {
   color: var(--ais-text);
-  /* 활성: 골드 보더 + 서비스색 옅은 틴트로 정체성 유지 */
-  border-color: color-mix(in srgb, var(--ais-gold) 65%, transparent);
-  background: color-mix(in srgb, var(--svc-primary) 10%, var(--ais-glass-bg));
+  /* 장착됨(EQUIPPED): 골드 네온 보더 + 서비스색 틴트 + 네온 글로우 */
+  border-color: color-mix(in srgb, var(--ais-gold) 80%, transparent);
+  background: color-mix(in srgb, var(--svc-primary) 12%, var(--ais-glass-bg));
   box-shadow:
-    var(--ais-glow-gold),
-    0 8px 22px color-mix(in srgb, var(--svc-primary) 14%, transparent);
+    var(--ais-neon-gold),
+    0 8px 22px color-mix(in srgb, var(--svc-primary) 16%, transparent);
+  transform: translateY(-3px) scale(1.04);
 }
 
-/* 활성 탭 골드 언더라인 */
+/* 장착 노드: LOCK 대신 "ON" 모노 라벨로 교체 */
+.tabActive::before,
+.tabActive:hover::before {
+  content: 'ON';
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--ais-gold-deep);
+}
+
+/* 장착 노드 골드 네온 언더라인 */
 .tabActive::after {
   content: '';
   position: absolute;
@@ -216,17 +267,26 @@
   height: 2px;
   border-radius: 2px;
   background: var(--ais-brand-grad);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--ais-gold) 70%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--ais-gold) 80%, transparent);
 }
 
-/* 탭 앞 서비스 컬러 점 */
+/* 스킬 노드 아이콘: 원형 게이지 링으로 감싼 서비스 아이콘 */
 .tabIcon {
   width: 24px;
   height: 24px;
-  border-radius: 7px;
+  border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  box-shadow: inset 0 0 0 1px var(--ais-border);
+  box-shadow:
+    inset 0 0 0 1px var(--ais-border),
+    0 0 0 2px color-mix(in srgb, var(--svc-primary) 30%, transparent);
+}
+
+.tabActive .tabIcon {
+  box-shadow:
+    inset 0 0 0 1px var(--ais-border),
+    0 0 0 2px var(--ais-gold),
+    0 0 10px color-mix(in srgb, var(--ais-gold) 60%, transparent);
 }
 
 /* ── 패널 ── */
@@ -285,11 +345,15 @@
   gap: 0.3rem;
 }
 
-/* 모노스페이스 테크 배지 스타일 eyebrow: 서비스 accent 유지 + 시그널 점 */
+/* HUD eyebrow: "SKILL UNLOCKED" 모노 라벨 톤 + 서비스 accent + 시그널 점 */
 .panelEyebrow {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
+  padding: 0.18rem 0.6rem 0.18rem 0.5rem;
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid color-mix(in srgb, var(--ais-gold) 45%, transparent);
+  background: color-mix(in srgb, var(--ais-gold) 8%, var(--ais-glass-bg));
   font-family: var(--ais-font-mono);
   font-size: 0.72rem;
   font-weight: 600;
@@ -305,6 +369,15 @@
   border-radius: 50%;
   background: var(--svc-primary);
   box-shadow: 0 0 8px color-mix(in srgb, var(--svc-primary) 75%, transparent);
+}
+
+/* HUD eyebrow 뒤: "UNLOCKED" 게임 라벨 — 골드 톤 */
+.panelEyebrow::after {
+  content: 'UNLOCKED';
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--ais-gold-deep);
+  opacity: 0.9;
 }
 
 .panelName {
@@ -341,6 +414,7 @@
 }
 
 .feature {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
@@ -372,38 +446,104 @@
   }
 }
 
+/* 능력 카드 hover 보상감: 팝(lift+scale+미세 회전) + 골드 네온 글로우 */
 .feature:hover {
-  transform: translateY(-6px);
-  /* 골드 hover 보더 + 골드 글로우(외피 액센트) + 서비스색 잔향 */
-  border-color: color-mix(in srgb, var(--ais-gold) 55%, transparent);
+  transform: translateY(-6px) scale(1.025) rotate(-0.6deg);
+  /* 골드 hover 보더 + 골드 네온(외피 액센트) + 서비스색 잔향 */
+  border-color: color-mix(in srgb, var(--ais-gold) 60%, transparent);
   background: var(--ais-surface);
   box-shadow:
-    var(--ais-glow-gold),
-    0 18px 38px color-mix(in srgb, var(--svc-primary) 14%, transparent);
+    var(--ais-neon-gold),
+    0 18px 38px color-mix(in srgb, var(--svc-primary) 16%, transparent);
 }
 
+/* 능력 카드 hover 시 "+XP" 마이크로 피드백 — 모노 라벨 떠오름 */
+.feature::after {
+  content: '+XP';
+  position: absolute;
+  top: 0.75rem;
+  right: 0.85rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--ais-gold-deep);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--ais-dur) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-spring);
+  pointer-events: none;
+}
+
+.feature:hover::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 능력 카드 아이콘: 원형 게이지 링(conic 진척감) + 서비스색 코어 */
 .featureIcon {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 3rem;
   height: 3rem;
-  border-radius: 16px;
-  font-size: 1.5rem;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  /* 원형 게이지: conic 골드 링(약 78% 채움) */
+  background: conic-gradient(
+    var(--ais-gold) 0deg,
+    var(--ais-gold-2) 280deg,
+    color-mix(in srgb, var(--svc-primary) 22%, transparent) 280deg 360deg
+  );
+  color: var(--ais-text);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--ais-gold) 35%, transparent);
+}
+
+/* 링 내부 코어: 아이콘 글리프가 앉는 서비스색 디스크 */
+.featureIcon::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
   background: linear-gradient(
     135deg,
-    color-mix(in srgb, var(--svc-primary) 30%, transparent),
-    color-mix(in srgb, var(--svc-accent) 24%, transparent)
+    color-mix(in srgb, var(--svc-primary) 32%, var(--ais-surface)),
+    color-mix(in srgb, var(--svc-accent) 26%, var(--ais-surface))
   );
   border: 1px solid color-mix(in srgb, var(--svc-primary) 40%, transparent);
-  color: var(--ais-text);
+  z-index: 0;
+}
+
+.featureIcon > * {
+  position: relative;
+  z-index: 1;
 }
 
 .featureTitle {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
   font-family: var(--ais-font-display);
   font-size: 1.1rem;
   font-weight: 700;
   color: var(--ais-text);
+}
+
+/* 능력 카드 제목 앞 HUD 스탯 라벨 */
+.featureTitle::before {
+  content: 'LV.MAX';
+  font-family: var(--ais-font-mono);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--svc-accent);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--svc-primary) 14%, transparent);
+  flex-shrink: 0;
+  align-self: center;
 }
 
 .featureDesc {
@@ -447,11 +587,20 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tab,
-  .feature {
+  .feature,
+  .tab::before,
+  .feature::after {
     transition: none;
   }
   .tab:hover,
+  .tabActive,
+  .tabActive:hover,
   .feature:hover {
+    transform: none;
+  }
+  /* reduced-motion에서도 진척/장착 상태는 즉시 노출(opacity만, 모션 없음) */
+  .feature:hover::after,
+  .tab:hover::before {
     transform: none;
   }
   .panel,

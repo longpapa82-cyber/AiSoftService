@@ -227,10 +227,221 @@
   }
 }
 
-/* eyebrow는 TechBadge로 대체됨 — 래퍼 정렬만 담당 */
-.eyebrow {
+/* 진척 링 — 메인 퀘스트 게이지 (프레임 우하단에 떠 있는 HUD) */
+.questRing {
+  position: absolute;
+  right: clamp(-0.6rem, 0vw, 0.2rem);
+  bottom: clamp(0.6rem, 2vw, 1.2rem);
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  /* conic 진척(72%) + 코어 */
+  background:
+    radial-gradient(closest-side, var(--ais-navy) 70%, transparent 71%),
+    conic-gradient(var(--ais-gold) 0% 72%, color-mix(in srgb, var(--ais-navy) 30%, transparent) 72% 100%);
+  box-shadow:
+    var(--ais-neon-gold),
+    0 10px 24px rgba(10, 25, 47, 0.35);
+  animation: questSpinIn 1s var(--ais-ease-expo) both;
+  animation-delay: 0.5s;
+}
+.questRingNum {
+  font-family: var(--ais-font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--ais-gold);
+}
+.questRingLabel {
+  font-family: var(--ais-font-mono);
+  font-size: 0.5rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.75);
+}
+@keyframes questSpinIn {
+  from {
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.7);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+/* ── 플레이어 레벨 배지 (HUD 진입점) ── */
+.levelBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.levelBadge {
   display: inline-flex;
   align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid color-mix(in srgb, var(--ais-gold) 50%, transparent);
+  background: color-mix(in srgb, var(--ais-gold) 10%, var(--ais-glass-bg));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--ais-neon-gold);
+}
+.levelLv {
+  font-family: var(--ais-font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ais-gold-deep);
+}
+.levelDiv {
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  color: var(--ais-text-soft);
+  opacity: 0.7;
+}
+.levelTitle {
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ais-text-mid);
+}
+
+.statusChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--ais-text-soft);
+}
+.statusDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ais-hp);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 70%, transparent);
+  animation: hpPulse 1.8s var(--ais-ease-expo) infinite;
+}
+@keyframes hpPulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 60%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+/* ── XP 진척 게이지 ── */
+.xpRow {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  max-width: 420px;
+}
+.xpLabel,
+.xpValue {
+  font-family: var(--ais-font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ais-text-mid);
+  flex: 0 0 auto;
+}
+.xpValue {
+  color: var(--ais-gold-deep);
+}
+.xpTrack {
+  position: relative;
+  flex: 1 1 auto;
+  height: 8px;
+  min-width: 0;
+  border-radius: var(--ais-radius-pill);
+  background: color-mix(in srgb, var(--ais-navy) 8%, var(--ais-surface-2));
+  border: 1px solid var(--ais-glass-border);
+  overflow: hidden;
+}
+.xpFill {
+  position: absolute;
+  inset: 0;
+  width: 78%;
+  border-radius: inherit;
+  background: var(--ais-xp-bar);
+  transform-origin: left center;
+  animation: xpFill 1.4s var(--ais-ease-expo) both;
+  animation-delay: 0.3s;
+}
+/* 게이지 위를 훑는 하이라이트(시머) — 보상감 */
+.xpFill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: xpShimmer 2.6s var(--ais-ease-expo) 1.4s infinite;
+}
+@keyframes xpFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes xpShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  60%,
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+/* ── PRESS START CTA ── */
+.startBtn {
+  position: relative;
+  overflow: hidden;
+}
+.startMono {
+  margin-left: 0.55rem;
+  padding-left: 0.55rem;
+  border-left: 1px solid color-mix(in srgb, currentColor 35%, transparent);
+  font-family: var(--ais-font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+  animation: startBlink 1.6s steps(1, end) infinite;
+}
+@keyframes startBlink {
+  0%,
+  60% {
+    opacity: 0.85;
+  }
+  61%,
+  100% {
+    opacity: 0.35;
+  }
 }
 
 .headline {
@@ -299,7 +510,7 @@
   gap: 0.85rem;
 }
 
-/* ── 서비스 칩 ── */
+/* ── 언락된 캐릭터 슬롯 (게임 인벤토리 감성) ── */
 .chips {
   margin-top: clamp(2.5rem, 5vw, 3.5rem);
   list-style: none;
@@ -310,16 +521,20 @@
 }
 
 .chip {
+  --rare: var(--ais-gold);
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.7rem;
-  padding: 0.6rem 1.05rem 0.6rem 0.6rem;
-  border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-glass-border);
+  gap: 0.8rem;
+  padding: 0.65rem 1.15rem 0.65rem 0.65rem;
+  border-radius: var(--ais-radius-card);
+  border: 1px solid color-mix(in srgb, var(--rare) 38%, var(--ais-glass-border));
   background: var(--ais-glass-bg);
   backdrop-filter: blur(14px) saturate(1.1);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
-  box-shadow: var(--ais-shadow-card);
+  box-shadow:
+    var(--ais-shadow-card),
+    inset 0 0 0 1px color-mix(in srgb, var(--rare) 12%, transparent);
   transition:
     transform var(--ais-dur) var(--ais-ease-spring),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
@@ -328,39 +543,87 @@
   animation-delay: var(--chip-delay, 0s);
   will-change: transform;
 }
-/* hover: 골드 액센트 보더 + 골드 글로우 + 리프트.
- * 칩별 고유색(--chip-accent)이 있으면 그 색 hint와 골드를 함께 — 외피는 골드로 통일. */
-.chip:hover {
-  transform: translateY(-5px);
-  border-color: var(--ais-gold);
-  box-shadow:
-    var(--ais-shadow-lift),
-    var(--ais-glow-gold),
-    0 0 0 1px color-mix(in srgb, var(--chip-accent, var(--ais-gold)) 45%, transparent);
+/* 레어도별 테두리 컬러 */
+.rare0 {
+  --rare: var(--ais-rare);
+}
+.rare1 {
+  --rare: var(--ais-epic);
+}
+.rare2 {
+  --rare: var(--ais-legend);
 }
 
+/* hover: 카드 팝(리프트 + 살짝 회전) + 레어도 네온 글로우 — 보상감 */
+.chip:hover {
+  transform: translateY(-6px) rotate(-1.2deg) scale(1.03);
+  border-color: var(--rare);
+  box-shadow:
+    var(--ais-shadow-lift),
+    0 0 26px color-mix(in srgb, var(--rare) 45%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--rare) 55%, transparent);
+}
+
+.chipIconWrap {
+  position: relative;
+  flex: 0 0 auto;
+}
 .chipIcon {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   object-fit: cover;
   box-shadow:
     0 6px 16px rgba(30, 50, 90, 0.18),
     inset 0 0 0 1px rgba(20, 40, 80, 0.08);
 }
+/* 아이콘 위 레벨 핀 — RPG 캐릭터 레벨 */
+.chipLevel {
+  position: absolute;
+  bottom: -6px;
+  right: -7px;
+  padding: 1px 5px;
+  border-radius: var(--ais-radius-pill);
+  font-family: var(--ais-font-mono);
+  font-size: 0.54rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ais-navy);
+  background: var(--rare);
+  box-shadow: 0 2px 8px rgba(10, 25, 47, 0.3);
+}
 
 .chipBody {
   display: flex;
   flex-direction: column;
+  gap: 0.18rem;
   line-height: 1.15;
   /* flex 자식 축소 허용 — 좁은 화면에서 이름/모노 라벨이 잘리지 않고 줄바꿈되도록 */
   min-width: 0;
 }
+.chipTop {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
 .chipName {
   font-family: var(--ais-font-display);
-  font-size: 0.98rem;
+  font-size: 1rem;
   font-weight: 700;
   color: var(--ais-text);
+}
+.chipUnlocked {
+  font-family: var(--ais-font-mono);
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  color: color-mix(in srgb, var(--rare) 75%, var(--ais-navy));
+  background: color-mix(in srgb, var(--rare) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rare) 35%, transparent);
 }
 .chipMood {
   font-family: var(--ais-font-mono);
@@ -371,6 +634,39 @@
   color: var(--ais-text-soft);
   /* 모노 라벨이 좁은 폭에서 넘치지 않도록 줄바꿈 허용 */
   overflow-wrap: anywhere;
+}
+/* 미니 스탯 게이지 — 캐릭터 능력치 */
+.chipStat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.1rem;
+}
+.chipStatBar {
+  position: relative;
+  width: 64px;
+  height: 5px;
+  border-radius: var(--ais-radius-pill);
+  background: color-mix(in srgb, var(--ais-navy) 8%, var(--ais-surface-2));
+  overflow: hidden;
+}
+.chipStatFill {
+  position: absolute;
+  inset: 0;
+  width: var(--stat, 70%);
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--rare) 60%, var(--ais-gold)),
+    var(--rare)
+  );
+}
+.chipStatVal {
+  font-family: var(--ais-font-mono);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ais-gold-deep);
 }
 
 @keyframes chipFloat {
@@ -508,7 +804,12 @@
   .chip,
   .scrollThumb,
   .word,
-  .visual {
+  .visual,
+  .statusDot,
+  .xpFill,
+  .xpFill::after,
+  .startMono,
+  .questRing {
     animation: none !important;
   }
   .visual {
@@ -521,11 +822,15 @@
   .aurora {
     transform: none;
   }
-  .chip:hover,
-  .scrollHint:hover {
-    transform: translateX(-50%);
+  /* XP/스탯 게이지는 최종 채워진 상태로 고정 */
+  .xpFill {
+    transform: scaleX(1);
   }
   .scrollHint:hover {
     transform: translateX(-50%);
+  }
+  /* hover 팝도 회전/스케일 없이 안정적으로 */
+  .chip:hover {
+    transform: none;
   }
 }

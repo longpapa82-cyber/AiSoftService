@@ -34,6 +34,14 @@
   --ais-glass-nav: rgba(255, 255, 255, 0.85);
   --ais-glass-border: rgba(10, 25, 47, 0.08);
 
+  /* ── 게이미피케이션 HUD ── */
+  --ais-xp-bar: linear-gradient(90deg, #f9d949 0%, #ffe89a 50%, #f1c40f 100%);
+  --ais-rare: #5ea0ff;
+  --ais-epic: #b06cff;
+  --ais-legend: #ff8a3d;
+  --ais-hp: #3ddc84;
+  --ais-neon-gold: 0 0 0 2px rgba(249, 217, 73, 0.25), 0 0 24px rgba(249, 217, 73, 0.5);
+
   /* ── 타이포 ── */
   --ais-font-display: 'Outfit', system-ui, -apple-system, sans-serif;
   --ais-font-body: 'Inter', system-ui, -apple-system, sans-serif;

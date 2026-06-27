@@ -51,18 +51,38 @@ export function ServiceCard({ service, featured = false, index = 0 }: ServiceCar
   const tone = toneForSurface(theme.surface);
   const isLive = service.status === 'live';
   const titleId = `svc-${service.id}-title`;
+  // 게임 HUD: 카드 인덱스를 캐릭터 레벨로 재해석(LV.1~)
+  const level = index + 1;
 
   return (
     <article
       ref={ref}
-      className={[styles.card, featured ? styles.featured : '', 'reveal']
+      className={[
+        styles.card,
+        styles.questCard,
+        isLive ? styles.unlocked : '',
+        featured ? styles.featured : '',
+        'reveal',
+      ]
         .filter(Boolean)
         .join(' ')}
       style={cardStyle}
       aria-labelledby={titleId}
     >
+      {/* LIVE = 언락된 캐릭터: 골드 "UNLOCKED" 리본 */}
+      {isLive && (
+        <span className={styles.unlockRibbon} aria-hidden="true">
+          UNLOCKED
+        </span>
+      )}
+
       {/* 작품 상단: 무드 그라디언트 영역 + 실제 앱 아이콘 */}
       <div className={styles.stage} aria-hidden="true">
+        {/* 상단 HUD: 레벨 + 타입(무드) 칩 */}
+        <div className={styles.hudRow}>
+          <span className={styles.levelChip}>LV.{level}</span>
+          <span className={styles.typeChip}>{service.moodLabel}</span>
+        </div>
         <span className={styles.iconGlow} />
         <img
           className={styles.appIcon}
@@ -78,7 +98,9 @@ export function ServiceCard({ service, featured = false, index = 0 }: ServiceCar
 
       <div className={styles.body}>
         <div className={styles.metaRow}>
-          <TechBadge variant="outline">{service.moodLabel}</TechBadge>
+          <span className={styles.questLabel} aria-hidden="true">
+            QUEST
+          </span>
           {isLive && (
             <TechBadge variant="gold" dot>
               LIVE
@@ -109,8 +131,14 @@ export function ServiceCard({ service, featured = false, index = 0 }: ServiceCar
           <dl className={styles.stats}>
             {service.stats.map((stat) => (
               <div key={stat.label} className={styles.stat}>
-                <dt className={styles.statLabel}>{stat.label}</dt>
-                <dd className={styles.statValue}>{stat.value}</dd>
+                <div className={styles.statHead}>
+                  <dt className={styles.statLabel}>{stat.label}</dt>
+                  <dd className={styles.statValue}>{stat.value}</dd>
+                </div>
+                {/* 게임 스탯 게이지 — 언락된 서비스는 풀 게이지 */}
+                <span className={styles.statGauge} aria-hidden="true">
+                  <span className={styles.statGaugeFill} />
+                </span>
               </div>
             ))}
           </dl>
@@ -140,13 +168,16 @@ export function ComingSoonCard() {
       ref={ref}
       className={[styles.card, styles.placeholder, 'reveal'].join(' ')}
     >
+      <span className={styles.lockedTag} aria-hidden="true">
+        LOCKED
+      </span>
       <div className={styles.placeholderInner}>
         <span className={styles.placeholderGlyph} aria-hidden="true">
-          +
+          🔒
         </span>
-        <p className={styles.placeholderTitle}>더 많은 서비스가 준비 중입니다</p>
+        <p className={styles.placeholderTitle}>COMING SOON</p>
         <p className={styles.placeholderDesc}>
-          AI Soft의 다음 작품을 기대해 주세요
+          더 많은 서비스가 준비 중입니다 · 다음 퀘스트를 기대해 주세요
         </p>
       </div>
     </div>

@@ -43,11 +43,33 @@ export function Hero() {
 
       <div className={`ais-container ${styles.inner}`}>
         <div ref={copyRef} className={`${styles.copy} reveal`}>
-          <span className={styles.eyebrow}>
-            <TechBadge variant="gold" dot>
-              AI APP STUDIO
-            </TechBadge>
-          </span>
+          {/* 플레이어 레벨 배지 — HUD 진입점 */}
+          <div className={styles.levelBar}>
+            <span className={styles.levelBadge}>
+              <span className={styles.levelLv}>LV.∞</span>
+              <span className={styles.levelDiv} aria-hidden="true">
+                //
+              </span>
+              <span className={styles.levelTitle}>AI APP STUDIO</span>
+            </span>
+            <span className={styles.statusChip}>
+              <span className={styles.statusDot} aria-hidden="true" />
+              ONLINE
+            </span>
+          </div>
+
+          {/* XP 진척 게이지 — 슬로건 위 장식 HUD */}
+          <div
+            className={styles.xpRow}
+            role="img"
+            aria-label="플레이어 경험치 게이지"
+          >
+            <span className={styles.xpLabel}>XP</span>
+            <span className={styles.xpTrack} aria-hidden="true">
+              <span className={styles.xpFill} />
+            </span>
+            <span className={styles.xpValue}>9,999</span>
+          </div>
 
           <h1 id="hero-heading" className={styles.headline}>
             {words.map((word, i) =>
@@ -68,8 +90,16 @@ export function Hero() {
           <p className={styles.sub}>{COMPANY.intro}</p>
 
           <div className={styles.actions}>
-            <Button href="#services" variant="primary" icon="→">
+            <Button
+              href="#services"
+              variant="primary"
+              icon="▶"
+              className={styles.startBtn}
+            >
               서비스 둘러보기
+              <span className={styles.startMono} aria-hidden="true">
+                PRESS&nbsp;START
+              </span>
             </Button>
             {FEATURED?.links.web && (
               <Button href={FEATURED.links.web} variant="outline">
@@ -78,12 +108,12 @@ export function Hero() {
             )}
           </div>
 
-          {/* 떠다니는 서비스 칩 */}
-          <ul className={styles.chips} aria-label="AI Soft 서비스">
+          {/* 언락된 캐릭터 슬롯 — 레어도 테두리 + 미니 스탯 */}
+          <ul className={styles.chips} aria-label="언락된 AI Soft 서비스">
             {SERVICES_SORTED.map((service, i) => (
               <li
                 key={service.id}
-                className={styles.chip}
+                className={`${styles.chip} ${styles[`rare${i % 3}`]}`}
                 style={
                   {
                     '--chip-accent': service.theme.primary,
@@ -92,19 +122,40 @@ export function Hero() {
                   } as CSSProperties
                 }
               >
-                <img
-                  className={styles.chipIcon}
-                  src={service.iconUrl}
-                  alt=""
-                  width={36}
-                  height={36}
-                  loading="eager"
-                  decoding="async"
-                  aria-hidden="true"
-                />
+                <span className={styles.chipIconWrap}>
+                  <img
+                    className={styles.chipIcon}
+                    src={service.iconUrl}
+                    alt=""
+                    width={36}
+                    height={36}
+                    loading="eager"
+                    decoding="async"
+                    aria-hidden="true"
+                  />
+                  <span className={styles.chipLevel} aria-hidden="true">
+                    {`LV.${i + 1}`}
+                  </span>
+                </span>
                 <span className={styles.chipBody}>
-                  <span className={styles.chipName}>{service.name}</span>
+                  <span className={styles.chipTop}>
+                    <span className={styles.chipName}>{service.name}</span>
+                    <span className={styles.chipUnlocked} aria-hidden="true">
+                      UNLOCKED
+                    </span>
+                  </span>
                   <span className={styles.chipMood}>{service.moodLabel}</span>
+                  <span className={styles.chipStat} aria-hidden="true">
+                    <span className={styles.chipStatBar}>
+                      <span
+                        className={styles.chipStatFill}
+                        style={
+                          { '--stat': `${72 + i * 9}%` } as CSSProperties
+                        }
+                      />
+                    </span>
+                    <span className={styles.chipStatVal}>+XP</span>
+                  </span>
                 </span>
               </li>
             ))}
@@ -133,6 +184,12 @@ export function Hero() {
             <TechBadge variant="gold" dot>
               NPU · NEURAL ENGINE
             </TechBadge>
+          </span>
+
+          {/* 진척 링 — 메인 퀘스트 게이지 */}
+          <span className={styles.questRing}>
+            <span className={styles.questRingNum}>3</span>
+            <span className={styles.questRingLabel}>QUEST</span>
           </span>
         </div>
       </div>

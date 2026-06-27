@@ -127,9 +127,96 @@
   overflow-wrap: anywhere;
 }
 
+/* ── 스탯 보드 요약 HUD (총 퀘스트 진척 게이지) ── */
+.board {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 0.4rem + 1vw, 1.25rem);
+  flex-wrap: wrap;
+  margin: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 0;
+  padding: clamp(0.85rem, 0.6rem + 0.8vw, 1.15rem) clamp(1rem, 0.7rem + 1vw, 1.4rem);
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid rgba(249, 217, 73, 0.28);
+  background:
+    linear-gradient(110deg, rgba(10, 25, 47, 0.96), rgba(10, 25, 47, 0.86));
+  box-shadow: var(--ais-shadow-card);
+}
+
+.boardHead {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex: 0 0 auto;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.boardLabel {
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--ais-gold);
+}
+
+.boardQuests {
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: rgba(247, 249, 251, 0.82);
+}
+
+.boardQuests strong {
+  color: var(--ais-bg);
+  font-weight: 800;
+}
+
+.boardBar {
+  position: relative;
+  flex: 1 1 200px;
+  min-width: 140px;
+  height: 10px;
+  border-radius: var(--ais-radius-pill);
+  overflow: hidden;
+  background: rgba(247, 249, 251, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(247, 249, 251, 0.08);
+}
+
+.boardFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--gauge, 0%);
+  border-radius: var(--ais-radius-pill);
+  background: var(--ais-xp-bar);
+  box-shadow: 0 0 14px rgba(249, 217, 73, 0.55);
+  transform-origin: left;
+  /* 컴포지터 친화 채움 애니메이션 */
+  animation: ais-fill-in var(--ais-dur-slow) var(--ais-ease-expo) both;
+}
+
+.boardPct {
+  flex: 0 0 auto;
+  font-family: var(--ais-font-display);
+  font-weight: 800;
+  font-size: 1.1rem;
+  letter-spacing: -0.02em;
+  color: var(--ais-gold);
+}
+
+/* XP 바 채움 — width를 transform으로 흉내(레이아웃 변동 없음) */
+@keyframes ais-fill-in {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
 .grid {
   list-style: none;
-  margin: clamp(1.5rem, 1rem + 2vw, 2.5rem) 0 0;
+  margin: clamp(1rem, 0.6rem + 1vw, 1.5rem) 0 0;
   padding: 0;
   display: grid;
   grid-template-columns: 1fr;
@@ -201,11 +288,12 @@
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
 }
 
+/* 호버 시 카드 팝: 살짝 띄우고 + 미세 확대 + 살짝 회전(게임 카드 픽업 느낌) */
 .card:hover,
 .card:focus-within {
-  transform: translateY(-6px);
-  border-color: var(--ais-gold);
-  box-shadow: var(--ais-shadow-lift), var(--ais-glow-gold);
+  transform: translateY(-8px) scale(1.025) rotate(-0.6deg);
+  border-color: var(--rarity, var(--ais-gold));
+  box-shadow: var(--ais-shadow-lift), var(--ais-neon-gold);
 }
 
 .card:hover::after,
@@ -239,7 +327,99 @@
   opacity: 1;
 }
 
-/* ── 카드 상단: 아이콘 + 모노 코드 라벨 ── */
+/* ── 레어도 변수(RPG 등급) — 칩/링/테두리 색을 카드별로 ── */
+.r_rare {
+  --rarity: var(--ais-rare);
+}
+.r_epic {
+  --rarity: var(--ais-epic);
+}
+.r_legend {
+  --rarity: var(--ais-legend);
+}
+.r_gold {
+  --rarity: var(--ais-gold);
+}
+
+/* ── HUD 헤더 행: 업적 등급 + UNLOCKED 칩 ── */
+.hudRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  gap: 0.5rem;
+  min-width: 0;
+  margin-bottom: 0.85rem;
+}
+
+.achievement {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+  font-family: var(--ais-font-mono);
+  font-size: 0.64rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--rarity, var(--ais-gold));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.achievementStar {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  color: var(--rarity, var(--ais-gold));
+  /* 호버 시 반짝 회전 */
+  transition: transform var(--ais-dur) var(--ais-ease-spring);
+}
+
+.card:hover .achievementStar,
+.card:focus-within .achievementStar {
+  transform: rotate(72deg) scale(1.18);
+}
+
+/* UNLOCKED 칩 — 언락된 캐릭터/퀘스트 느낌(HP 그린 도트) */
+.rarityChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  flex: 0 0 auto;
+  font-family: var(--ais-font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ais-hp);
+  padding: 0.24rem 0.5rem;
+  border: 1px solid rgba(61, 220, 132, 0.35);
+  border-radius: var(--ais-radius-pill);
+  background: rgba(61, 220, 132, 0.08);
+  white-space: nowrap;
+}
+
+.rarityDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ais-hp);
+  box-shadow: 0 0 8px rgba(61, 220, 132, 0.8);
+  /* 살아있는 LIVE 펄스(opacity만 — 컴포지터 친화) */
+  animation: ais-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes ais-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ── 카드 상단: 아이콘 + 진척 링 ── */
 .cardTop {
   display: flex;
   align-items: center;
@@ -248,6 +428,41 @@
   gap: 0.5rem;
   min-width: 0;
   margin-bottom: 0.75rem;
+}
+
+/* ── 진척 링 (게임 스탯 게이지) ── */
+.ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+}
+
+.ring svg {
+  transform: rotate(-90deg);
+}
+
+.ringTrack {
+  stroke: rgba(247, 249, 251, 0.12);
+  stroke-width: 4;
+}
+
+.ringFill {
+  stroke: var(--rarity, var(--ais-gold));
+  stroke-width: 4;
+  filter: drop-shadow(0 0 5px color-mix(in oklab, var(--rarity, var(--ais-gold)) 70%, transparent));
+  transition: stroke-dashoffset var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.ringValue {
+  position: absolute;
+  font-family: var(--ais-font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--rarity, var(--ais-gold));
 }
 
 /* ── 아이콘 ── */
@@ -266,25 +481,6 @@
 
 .iconWrap svg {
   display: block;
-}
-
-/* ── 모노 코드 라벨 (CORE_AI / GEO_ENGINE …) — 회로 칩 마킹 느낌 ── */
-.code {
-  font-family: var(--ais-font-mono);
-  font-size: 0.66rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--ais-gold);
-  padding: 0.28rem 0.5rem;
-  border: 1px solid rgba(249, 217, 73, 0.32);
-  border-radius: var(--ais-radius-pill);
-  background: rgba(249, 217, 73, 0.06);
-  white-space: nowrap;
-  /* 좁은 화면에서 아이콘과 충돌 시 칩이 줄어들되 잘리지 않도록 */
-  flex: 0 1 auto;
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 /* ── 카운터 메트릭 ── */
@@ -351,17 +547,83 @@
   overflow-wrap: anywhere;
 }
 
+/* ── 하단 스탯 게이지 바 (XP 진척감) ── */
+.statBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: stretch;
+  margin-top: auto;
+  padding-top: 1.1rem;
+}
+
+.statCode {
+  font-family: var(--ais-font-mono);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(247, 249, 251, 0.6);
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 7.5rem;
+}
+
+.gaugeTrack {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 32px;
+  height: 7px;
+  border-radius: var(--ais-radius-pill);
+  overflow: hidden;
+  background: rgba(247, 249, 251, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(247, 249, 251, 0.07);
+}
+
+.gaugeFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--gauge, 0%);
+  border-radius: var(--ais-radius-pill);
+  background: var(--ais-xp-bar);
+  box-shadow: 0 0 10px rgba(249, 217, 73, 0.5);
+  transform-origin: left;
+  animation: ais-fill-in var(--ais-dur-slow) var(--ais-ease-expo) both;
+}
+
+.gaugeLabel {
+  flex: 0 0 auto;
+  font-family: var(--ais-font-mono);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--rarity, var(--ais-gold));
+  white-space: nowrap;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card::before,
   .card::after,
   .cardGlow,
+  .ringFill,
+  .achievementStar,
   .bannerImg {
     transition: none;
   }
   .card:hover,
   .card:focus-within {
     transform: none;
+  }
+  .card:hover .achievementStar,
+  .card:focus-within .achievementStar {
+    transform: none;
+  }
+  .rarityDot,
+  .boardFill,
+  .gaugeFill {
+    animation: none;
   }
   .bannerImg,
   .banner:hover .bannerImg {

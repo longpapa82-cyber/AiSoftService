@@ -47,39 +47,60 @@ interface TechCapability {
   icon: 'ai' | 'location' | 'globe' | 'devices';
   /** 모노스페이스 코드 라벨 — 하이테크 시그니처 */
   code: string;
+  /** 게임 HUD 업적 등급 라벨 (ACHIEVEMENT 타이틀) */
+  achievement: string;
   title: string;
   desc: string;
   metric: TechMetric;
+  /** 진척 게이지 채움 비율(0~100) — 게임 스탯 보드 */
+  gauge: number;
+  /** 게이지 우측 모노 라벨 ("100%" / "MAX" 등) */
+  gaugeLabel: string;
+  /** 레어도 칩 컬러 토큰 (게임 RPG 레어도) */
+  rarity: 'rare' | 'epic' | 'legend' | 'gold';
 }
 
 const CAPABILITIES: TechCapability[] = [
   {
     icon: 'ai',
     code: 'CORE_AI',
+    achievement: 'AI ARCHITECT',
     title: '생성형 AI 설계',
     desc: '목적지·증상만 입력하면 AI가 여행 일정과 건강 가이드를 자동으로 설계합니다.',
     metric: { value: '3', unit: '단계', label: 'AI 자동 완성' },
+    gauge: 100,
+    gaugeLabel: 'MAX',
+    rarity: 'legend',
   },
   {
     icon: 'location',
     code: 'GEO_ENGINE',
+    achievement: 'REALTIME SCOUT',
     title: '위치 기반 추천',
     desc: '실시간 위치를 기반으로 주변 펫 시설과 여행 동선을 똑똑하게 추천합니다.',
     metric: { value: '실시간', label: '주변 탐색·동선' },
+    gauge: 100,
+    gaugeLabel: 'LIVE',
+    rarity: 'epic',
   },
   {
     icon: 'globe',
     code: 'MULTI_LANG',
+    achievement: 'GLOBAL LINGUIST',
     title: '다국어 지원',
     desc: '글로벌 사용자를 위해 다양한 언어로 동일한 경험을 제공합니다.',
     metric:
       LANGUAGE_COUNT !== null
         ? { value: String(LANGUAGE_COUNT), unit: '개 언어', label: 'myTravel 기준' }
         : { value: '다국어', label: '글로벌 대응' },
+    gauge: 100,
+    gaugeLabel: LANGUAGE_COUNT !== null ? `${LANGUAGE_COUNT} LANGS` : 'MULTI',
+    rarity: 'rare',
   },
   {
     icon: 'devices',
     code: 'CROSS_PLATFORM',
+    achievement: 'OMNI DEPLOY',
     title: '크로스플랫폼',
     desc: 'iOS·Android·Web 어디서나 끊김 없는 경험으로 서비스를 이용할 수 있습니다.',
     metric: {
@@ -87,8 +108,16 @@ const CAPABILITIES: TechCapability[] = [
       unit: '개 플랫폼',
       label: PLATFORMS.join(' · '),
     },
+    gauge: 100,
+    gaugeLabel: `${PLATFORMS.length}/${PLATFORMS.length}`,
+    rarity: 'gold',
   },
 ];
+
+// ── 게임 스탯 보드 상단 요약 (총 진척/언락 카운터) ──
+const TOTAL_QUESTS = CAPABILITIES.length;
+const UNLOCKED_QUESTS = CAPABILITIES.length; // 모든 역량이 LIVE = 언락 완료
+const COMPLETION_PCT = Math.round((UNLOCKED_QUESTS / TOTAL_QUESTS) * 100);
 
 const ICONS: Record<TechCapability['icon'], JSX.Element> = {
   ai: (
@@ -117,21 +146,72 @@ const ICONS: Record<TechCapability['icon'], JSX.Element> = {
   ),
 };
 
+// 진척 링 둘레 — stroke-dasharray 계산용 (r=20)
+const RING_RADIUS = 20;
+const RING_CIRC = 2 * Math.PI * RING_RADIUS;
+
 function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) {
   const ref = useReveal<HTMLLIElement>();
+  const dashOffset = RING_CIRC * (1 - cap.gauge / 100);
   return (
     <li
       ref={ref}
-      className={`${styles.card} reveal`}
+      className={`${styles.card} ${styles[`r_${cap.rarity}`]} reveal`}
       style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}
     >
+      {/* ── HUD 헤더: 업적 등급 + LIVE 언락 칩 ── */}
+      <div className={styles.hudRow}>
+        <span className={styles.achievement}>
+          <span className={styles.achievementStar} aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="11" height="11">
+              <path
+                d="M12 2l2.9 6.26L21.5 9l-5 4.6L18 21l-6-3.4L6 21l1.5-7.4-5-4.6 6.6-.74L12 2z"
+                fill="currentColor"
+              />
+            </svg>
+          </span>
+          {cap.achievement}
+        </span>
+        <span className={styles.rarityChip}>
+          <span className={styles.rarityDot} aria-hidden="true" />
+          UNLOCKED
+        </span>
+      </div>
+
       <div className={styles.cardTop}>
         <span className={styles.iconWrap} aria-hidden="true">
           <svg viewBox="0 0 24 24" width="26" height="26" role="img">
             {ICONS[cap.icon]}
           </svg>
         </span>
-        <span className={styles.code}>{cap.code}</span>
+
+        {/* ── 진척 링 (게임 스탯 게이지) ── */}
+        <span
+          className={styles.ring}
+          role="img"
+          aria-label={`달성률 ${cap.gauge}%`}
+        >
+          <svg viewBox="0 0 48 48" width="48" height="48">
+            <circle
+              className={styles.ringTrack}
+              cx="24"
+              cy="24"
+              r={RING_RADIUS}
+              fill="none"
+            />
+            <circle
+              className={styles.ringFill}
+              cx="24"
+              cy="24"
+              r={RING_RADIUS}
+              fill="none"
+              strokeDasharray={RING_CIRC}
+              strokeDashoffset={dashOffset}
+              strokeLinecap="round"
+            />
+          </svg>
+          <span className={styles.ringValue}>{cap.gauge}%</span>
+        </span>
       </div>
 
       <div className={styles.metric}>
@@ -145,6 +225,18 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
       <h3 className={styles.cardTitle}>{cap.title}</h3>
       <p className={styles.cardDesc}>{cap.desc}</p>
 
+      {/* ── 하단 스탯 게이지 바 (XP/진척감) ── */}
+      <div className={styles.statBar}>
+        <span className={styles.statCode}>{cap.code}</span>
+        <span className={styles.gaugeTrack} aria-hidden="true">
+          <span
+            className={styles.gaugeFill}
+            style={{ '--gauge': `${cap.gauge}%` } as React.CSSProperties}
+          />
+        </span>
+        <span className={styles.gaugeLabel}>{cap.gaugeLabel}</span>
+      </div>
+
       <span className={styles.cardGlow} aria-hidden="true" />
     </li>
   );
@@ -152,6 +244,7 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
 
 export function Technology() {
   const bannerRef = useReveal<HTMLElement>();
+  const boardRef = useReveal<HTMLDivElement>();
   return (
     <section
       id="technology"
@@ -198,6 +291,23 @@ export function Technology() {
             </span>
           </figcaption>
         </figure>
+
+        {/* ── 스탯 보드 요약 HUD: 총 퀘스트 진척 게이지 ── */}
+        <div className={`${styles.board} reveal`} ref={boardRef}>
+          <div className={styles.boardHead}>
+            <span className={styles.boardLabel}>// STAT_BOARD</span>
+            <span className={styles.boardQuests}>
+              <strong>{UNLOCKED_QUESTS}</strong>/{TOTAL_QUESTS} QUESTS UNLOCKED
+            </span>
+          </div>
+          <div className={styles.boardBar} aria-hidden="true">
+            <span
+              className={styles.boardFill}
+              style={{ '--gauge': `${COMPLETION_PCT}%` } as React.CSSProperties}
+            />
+          </div>
+          <span className={styles.boardPct}>{COMPLETION_PCT}%</span>
+        </div>
 
         <ul className={styles.grid}>
           {CAPABILITIES.map((cap, i) => (

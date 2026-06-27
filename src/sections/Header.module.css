@@ -135,7 +135,28 @@
   font-weight: 600;
   color: var(--ais-text-mid);
   padding: 0.35rem 0;
-  transition: color var(--ais-dur-fast) var(--ais-ease-expo);
+  transition:
+    color var(--ais-dur-fast) var(--ais-ease-expo),
+    transform var(--ais-dur-fast) var(--ais-ease-spring);
+}
+/* 게임 HUD: 메뉴 항목 좌측 퀘스트 마커(◆) — hover 시 골드로 점등 */
+.navLink::before {
+  content: '◆';
+  margin-right: 0.4rem;
+  font-size: 0.62em;
+  color: var(--ais-text-soft);
+  opacity: 0.55;
+  transition:
+    color var(--ais-dur-fast) var(--ais-ease-expo),
+    opacity var(--ais-dur-fast) var(--ais-ease-expo);
+}
+.navLink:hover {
+  transform: translateY(-1px);
+}
+.navLink:hover::before,
+.navLink:focus-visible::before {
+  color: var(--ais-gold-deep);
+  opacity: 1;
 }
 .navLink::after {
   content: '';
@@ -189,7 +210,7 @@
     background-color var(--ais-dur-fast) var(--ais-ease-expo);
   will-change: transform;
 }
-/* 좌측 골드 시그널 도트(라이브 상태 느낌) */
+/* 좌측 골드 시그널 도트(라이브 상태 느낌) — PRESS START 점멸 */
 .navCta::before {
   content: '';
   width: 6px;
@@ -197,6 +218,17 @@
   border-radius: 50%;
   background: var(--ais-gold);
   box-shadow: 0 0 8px var(--ais-glow);
+  animation: ctaBlink 1.6s steps(1, end) infinite;
+}
+@keyframes ctaBlink {
+  0%,
+  60% {
+    opacity: 1;
+  }
+  61%,
+  100% {
+    opacity: 0.3;
+  }
 }
 .navCta:hover {
   transform: translateY(-2px);
@@ -360,8 +392,13 @@
   .logo:hover .logoMark,
   .navCta:hover,
   .navCta:active,
+  .navLink:hover,
   .menuBtn:active {
     transform: none;
+  }
+  .navCta::before {
+    animation: none;
+    opacity: 1;
   }
   .mobileLink:hover,
   .mobileLink:focus-visible {
