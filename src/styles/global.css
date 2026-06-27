@@ -8,9 +8,10 @@
 
 html {
   scroll-behavior: smooth;
-  /* 고정 헤더(72px) 높이만큼 앵커 점프 위치를 내려, 섹션 상단이 헤더에 가리지 않게 한다.
+  /* 고정 헤더(72px) 높이에 맞춰 앵커 점프 위치를 내린다. 헤더에 가리지 않으면서
+     섹션 위 빈 여백이 노출되지 않도록 헤더 높이에 가깝게(74px) 설정.
      모든 #앵커 이동(서비스 둘러보기·GNB 메뉴·푸터 바로가기)에 일괄 적용. */
-  scroll-padding-top: 90px;
+  scroll-padding-top: 74px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,6 +1,7 @@
 .footer {
   position: relative;
-  margin-top: var(--ais-section);
+  /* About 하단과의 간격 — 과한 흰 여백 방지(기존 --ais-section은 너무 큼) */
+  margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
   padding-block: clamp(3.5rem, 2.5rem + 4vw, 5.5rem) 1.75rem;
   background: var(--ais-navy);
   border-top: 1px solid rgba(249, 217, 73, 0.18);

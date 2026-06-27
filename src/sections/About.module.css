@@ -4,7 +4,9 @@
  * 좌: 소개 본문 + 거대 워드마크. 우: 대표/이메일/주소 정보 카드.
  */
 .section {
-  padding-block: var(--ais-section);
+  /* 상단은 섹션 리듬 유지, 하단은 축소 — 주소 카드 제거 후 하단 흰 여백 과다 방지 */
+  padding-top: var(--ais-section);
+  padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem);
   position: relative;
   /* 섹션 리듬: 연회색 틴트 (Technology 흰색 다음에 교차) */
   background: linear-gradient(
