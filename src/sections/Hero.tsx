@@ -68,9 +68,16 @@ export function Hero() {
                   } as CSSProperties
                 }
               >
-                <span className={styles.chipEmoji} aria-hidden="true">
-                  {service.emoji}
-                </span>
+                <img
+                  className={styles.chipIcon}
+                  src={service.iconUrl}
+                  alt=""
+                  width={36}
+                  height={36}
+                  loading="eager"
+                  decoding="async"
+                  aria-hidden="true"
+                />
                 <span className={styles.chipBody}>
                   <span className={styles.chipName}>{service.name}</span>
                   <span className={styles.chipMood}>{service.moodLabel}</span>

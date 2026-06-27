@@ -62,20 +62,47 @@
   transform: translate(-12%, 12%) scale(1.12);
 }
 
-.glyph {
+/* 실제 앱 아이콘 뒤 앰비언트 글로우 */
+.iconGlow {
+  position: absolute;
+  width: 56%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--svc-primary) 65%, transparent) 0%,
+    transparent 68%
+  );
+  filter: blur(18px);
+  opacity: 0.85;
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.card:hover .iconGlow {
+  transform: scale(1.18);
+}
+
+.appIcon {
   position: relative;
-  font-size: clamp(3.5rem, 2rem + 6vw, 6rem);
-  line-height: 1;
-  filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.3));
+  width: clamp(76px, 9vw, 104px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 24px;
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.38),
+    0 2px 8px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14);
   transition: transform var(--ais-dur) var(--ais-ease-spring);
+  will-change: transform;
 }
 
-.featured .glyph {
-  font-size: clamp(4.5rem, 2rem + 8vw, 8rem);
+.featured .appIcon {
+  width: clamp(96px, 11vw, 132px);
+  border-radius: 28px;
 }
 
-.card:hover .glyph {
-  transform: scale(1.08) rotate(-3deg);
+.card:hover .appIcon {
+  transform: translateY(-6px) scale(1.06) rotate(-3deg);
 }
 
 /* hover 시 자라나는 accent 라인 */
@@ -286,7 +313,8 @@
 @media (prefers-reduced-motion: reduce) {
   .card,
   .stage::before,
-  .glyph,
+  .appIcon,
+  .iconGlow,
   .accentLine,
   .liveDot,
   .placeholderGlyph {
@@ -297,6 +325,10 @@
   .card:focus-within,
   .placeholder:hover,
   .placeholder:focus-within {
+    transform: none;
+  }
+  .card:hover .appIcon,
+  .card:hover .iconGlow {
     transform: none;
   }
 }

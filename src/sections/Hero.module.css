@@ -206,15 +206,14 @@
     0 0 0 1px color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 50%, transparent);
 }
 
-.chipEmoji {
-  display: grid;
-  place-items: center;
+.chipIcon {
   width: 38px;
   height: 38px;
-  font-size: 1.15rem;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 22%, transparent);
-  border: 1px solid color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 45%, transparent);
+  border-radius: 11px;
+  object-fit: cover;
+  box-shadow:
+    0 6px 16px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
 }
 
 .chipBody {

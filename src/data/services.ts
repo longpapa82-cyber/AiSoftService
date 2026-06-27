@@ -2,6 +2,11 @@
 // 신규 서비스는 이 배열에 항목만 추가하면 쇼케이스/Features 등에 자동 반영된다.
 // (CLAUDE.md: "신규 서비스가 추가될 수 있는 형태로 개발")
 
+// 실제 앱 아이콘(각 서비스 빌드 자산에서 추출, 256px 최적화).
+import mytravelIcon from '../assets/services/mytravel-icon.png';
+import mypetIcon from '../assets/services/mypet-icon.png';
+import mybabyIcon from '../assets/services/mybaby-icon.png';
+
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
 export interface ServiceFeature {
@@ -39,7 +44,10 @@ export interface AppService {
   status: ServiceStatus;
   /** 무드 라벨 (카드 상단 칩) */
   moodLabel: string;
+  /** 폴백/장식용 이모지 */
   emoji: string;
+  /** 실제 앱 아이콘 URL (Vite가 최적화한 경로) */
+  iconUrl: string;
   links: {
     web?: string;
     ios?: string;
@@ -61,6 +69,7 @@ export const SERVICES: AppService[] = [
     status: 'live',
     moodLabel: 'Dark Tech Luxe',
     emoji: '✦',
+    iconUrl: mytravelIcon,
     links: {
       web: 'https://www.myTravel-planner.com',
       ios: 'https://apps.apple.com/app/id6766147060',
@@ -95,6 +104,7 @@ export const SERVICES: AppService[] = [
     status: 'live',
     moodLabel: 'Warm Light Luxury',
     emoji: '🐾',
+    iconUrl: mypetIcon,
     links: {
       ios: 'https://apps.apple.com/kr/app/id6780117383',
       android: 'https://play.google.com/store/apps/details?id=com.longpapa82.mypet',
@@ -125,6 +135,7 @@ export const SERVICES: AppService[] = [
     status: 'live',
     moodLabel: 'Cool Clean',
     emoji: '💙',
+    iconUrl: mybabyIcon,
     links: {
       ios: 'https://apps.apple.com/app/id6772832100',
       android: 'https://play.google.com/store/apps/details?id=com.naesaekki.app',

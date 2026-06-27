@@ -60,9 +60,18 @@ export function ServiceCard({ service, featured = false, index = 0 }: ServiceCar
       style={cardStyle}
       aria-labelledby={titleId}
     >
-      {/* 작품 상단: 무드 그라디언트 영역 */}
+      {/* 작품 상단: 무드 그라디언트 영역 + 실제 앱 아이콘 */}
       <div className={styles.stage} aria-hidden="true">
-        <span className={styles.glyph}>{service.emoji}</span>
+        <span className={styles.iconGlow} />
+        <img
+          className={styles.appIcon}
+          src={service.iconUrl}
+          alt=""
+          width={104}
+          height={104}
+          loading="lazy"
+          decoding="async"
+        />
         <span className={styles.accentLine} />
       </div>
 

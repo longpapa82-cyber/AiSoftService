@@ -27,9 +27,16 @@ function FeaturePanel({ service }: FeaturePanelProps) {
       style={svcVars(service)}
     >
       <div className={styles.panelHead}>
-        <span className={styles.panelEmoji} aria-hidden="true">
-          {service.emoji}
-        </span>
+        <img
+          className={styles.panelIcon}
+          src={service.iconUrl}
+          alt=""
+          width={56}
+          height={56}
+          loading="lazy"
+          decoding="async"
+          aria-hidden="true"
+        />
         <div className={styles.panelTitleWrap}>
           <span className={styles.panelEyebrow}>{service.moodLabel}</span>
           <h3 className={styles.panelName}>{service.name}</h3>
@@ -122,10 +129,16 @@ export function Features() {
                   style={svcVars(service)}
                   onClick={() => setActiveId(service.id)}
                 >
-                  <span className={styles.tabDot} aria-hidden="true" />
-                  <span className={styles.tabEmoji} aria-hidden="true">
-                    {service.emoji}
-                  </span>
+                  <img
+                    className={styles.tabIcon}
+                    src={service.iconUrl}
+                    alt=""
+                    width={24}
+                    height={24}
+                    loading="lazy"
+                    decoding="async"
+                    aria-hidden="true"
+                  />
                   {service.name}
                 </button>
               );
