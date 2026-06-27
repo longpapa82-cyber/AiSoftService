@@ -10,6 +10,18 @@ import styles from './Hero.module.css';
 // Hero 다음 첫 콘텐츠 섹션(첫 미니 홍보)의 앵커 — 둘러보기/스크롤 타겟.
 const FIRST_PROMO = SERVICES_SORTED.find((s) => s.promo);
 
+// 미니 스탯 칩 — services.ts에서 도출한 "근거 있는 값"만 사용(허위 수치 금지).
+const SERVICE_COUNT = SERVICES_SORTED.length;
+const PLATFORM_COUNT = (() => {
+  const set = new Set<string>();
+  for (const s of SERVICES_SORTED) {
+    if (s.links.ios) set.add('iOS');
+    if (s.links.android) set.add('Android');
+    if (s.links.web) set.add('Web');
+  }
+  return set.size;
+})();
+
 // 히어로 HUD의 XP 목표치 — 진입 시 0부터 이 값까지 롤업된다.
 const HERO_XP = 9999;
 // 다음 레벨까지 필요한 총 경험치(게이지 100% 기준). 바 채움 비율 산출용.
@@ -113,6 +125,31 @@ export function Hero() {
               ONLINE
             </span>
           </div>
+
+          {/* 미니 스탯 칩 — services.ts 도출 값(근거 있는 수치만) */}
+          <ul className={styles.statChips} aria-label="AI Soft 현황">
+            <li className={styles.statChip}>
+              <span className={styles.statChipIcon} aria-hidden="true">
+                ◈
+              </span>
+              <strong className={styles.statChipNum}>{SERVICE_COUNT}</strong>
+              <span className={styles.statChipLabel}>SERVICES</span>
+            </li>
+            <li className={styles.statChip}>
+              <span className={styles.statChipIcon} aria-hidden="true">
+                ⬡
+              </span>
+              <strong className={styles.statChipNum}>{PLATFORM_COUNT}</strong>
+              <span className={styles.statChipLabel}>PLATFORMS</span>
+            </li>
+            <li className={styles.statChip}>
+              <span className={styles.statChipIcon} aria-hidden="true">
+                ⚡
+              </span>
+              <strong className={styles.statChipNum}>AI</strong>
+              <span className={styles.statChipLabel}>POWERED</span>
+            </li>
+          </ul>
 
           {/* XP 진척 게이지 — RPG 경험치 바. 카운트업 값으로 채움 동기화. */}
           <div

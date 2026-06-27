@@ -283,23 +283,45 @@
 }
 
 .levelBadge {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.4rem 0.85rem;
+  padding: 0.46rem 0.95rem;
   border-radius: var(--ais-radius-pill);
-  border: 1px solid color-mix(in srgb, var(--ais-gold) 50%, transparent);
-  background: color-mix(in srgb, var(--ais-gold) 10%, var(--ais-glass-bg));
+  border: 1px solid color-mix(in srgb, var(--ais-gold) 60%, transparent);
+  /* 입체: 골드 워시 + 상단 하이라이트(베벨) + 하단 그림자 */
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ais-gold) 20%, var(--ais-glass-bg)) 0%,
+      color-mix(in srgb, var(--ais-gold) 8%, var(--ais-glass-bg)) 100%
+    );
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: var(--ais-neon-gold);
+  box-shadow:
+    var(--ais-neon-gold),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(201, 168, 0, 0.18);
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-bounce),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+}
+/* 호버 시 살짝 들리며 광택(HUD 인터랙션) */
+.levelBadge:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--ais-neon-gold),
+    0 8px 20px var(--ais-glow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .levelLv {
   font-family: var(--ais-font-mono);
-  font-size: 0.82rem;
-  font-weight: 700;
+  font-size: 0.84rem;
+  font-weight: 800;
   letter-spacing: 0.04em;
   color: var(--ais-gold-deep);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .levelDiv {
   font-family: var(--ais-font-mono);
@@ -316,6 +338,55 @@
   color: var(--ais-text-mid);
 }
 
+/* ── 미니 스탯 칩 (근거 있는 도출 값) ── */
+.statChips {
+  list-style: none;
+  margin: 0.7rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.statChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid var(--ais-glass-border);
+  background: var(--ais-glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: var(--ais-shadow-card);
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-bounce),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo);
+}
+.statChip:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--ais-gold) 50%, transparent);
+}
+.statChipIcon {
+  font-size: 0.72rem;
+  color: var(--ais-gold-deep);
+  line-height: 1;
+}
+.statChipNum {
+  font-family: var(--ais-font-display);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--ais-text);
+}
+.statChipLabel {
+  font-family: var(--ais-font-mono);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--ais-text-soft);
+}
+
 .statusChip {
   display: inline-flex;
   align-items: center;
@@ -327,19 +398,34 @@
   color: var(--ais-text-soft);
 }
 .statusDot {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--ais-hp);
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 70%, transparent);
-  animation: hpPulse 1.8s var(--ais-ease-expo) infinite;
+  box-shadow:
+    0 0 8px color-mix(in srgb, var(--ais-hp) 70%, transparent),
+    inset 0 0 0 1.5px rgba(255, 255, 255, 0.6);
+}
+/* 2겹 펄스 — 더 살아있는 LIVE 느낌(::before 안쪽, ::after 바깥) */
+.statusDot::before,
+.statusDot::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 60%, transparent);
+  animation: hpPulse 2s var(--ais-ease-expo) infinite;
+}
+.statusDot::after {
+  animation-delay: 1s; /* 두 번째 링은 반 박자 뒤 */
 }
 @keyframes hpPulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 60%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 55%, transparent);
   }
   70% {
-    box-shadow: 0 0 0 7px transparent;
+    box-shadow: 0 0 0 9px transparent;
   }
   100% {
     box-shadow: 0 0 0 0 transparent;
@@ -949,7 +1035,9 @@
   }
   /* hover 팝도 회전/스케일 없이 안정적으로 */
   .chip:hover,
-  .word:hover {
+  .word:hover,
+  .levelBadge:hover,
+  .statChip:hover {
     transform: none;
   }
   /* 레어도 테두리 흐름 / 아이콘 팝 정지 */
@@ -960,5 +1048,10 @@
   }
   .chip:hover .chipIcon {
     transform: none;
+  }
+  /* ONLINE 2겹 펄스 정지 */
+  .statusDot::before,
+  .statusDot::after {
+    animation: none !important;
   }
 }
