@@ -15,11 +15,11 @@
 }
 
 .scrolled {
-  background: rgba(11, 16, 32, 0.72);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(18px) saturate(140%);
   -webkit-backdrop-filter: blur(18px) saturate(140%);
   border-bottom-color: var(--ais-border);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 12px 40px rgba(30, 50, 90, 0.1);
 }
 
 .inner {
@@ -128,7 +128,7 @@
   padding: 0.55rem 1.1rem;
   border-radius: var(--ais-radius-pill);
   border: 1px solid var(--ais-border-strong);
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(20, 40, 80, 0.04);
   transition:
     transform var(--ais-dur-fast) var(--ais-ease-spring),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
@@ -138,7 +138,7 @@
 .navCta:hover {
   transform: translateY(-2px);
   border-color: var(--ais-brand);
-  background: rgba(94, 160, 255, 0.12);
+  background: color-mix(in oklab, var(--ais-brand) 12%, transparent);
 }
 
 /* ── 모바일 토글 버튼 ── */
@@ -150,7 +150,7 @@
   justify-content: center;
   border: 1px solid var(--ais-border-strong);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(20, 40, 80, 0.04);
   cursor: pointer;
 }
 
@@ -193,7 +193,7 @@
 .mobilePanel {
   display: none;
   overflow: hidden;
-  background: rgba(11, 16, 32, 0.94);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--ais-border);

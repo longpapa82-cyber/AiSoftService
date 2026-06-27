@@ -64,7 +64,7 @@ export function StoreBadges({
   ios,
   android,
   web,
-  tone = 'dark',
+  tone = 'light',
   className,
 }: StoreBadgesProps) {
   const badges: BadgeDef[] = [];

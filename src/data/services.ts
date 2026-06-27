@@ -77,13 +77,13 @@ export const SERVICES: AppService[] = [
         'https://play.google.com/store/apps/details?id=com.longpapa82.travelplanner',
     },
     theme: {
-      surface: '#0d1c33',
-      ink: '#f1f5fb',
-      inkSoft: '#b6c4da',
-      primary: '#4a90d9',
+      surface: '#ffffff',
+      ink: '#14304f',
+      inkSoft: '#5a6a86',
+      primary: '#3a86d4',
       accent: '#2dd4bf',
       gradient:
-        'linear-gradient(135deg, #1e4d8c 0%, #14304f 60%, #0f2038 100%)',
+        'linear-gradient(135deg, #d6ecff 0%, #eaf6ff 55%, #e0fbf4 100%)',
       font: "'Noto Sans KR', system-ui, sans-serif",
       onPrimary: '#ffffff',
     },

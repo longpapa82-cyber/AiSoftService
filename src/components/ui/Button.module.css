@@ -44,9 +44,9 @@
   line-height: 1;
 }
 
-/* ── primary: 브랜드 그라디언트, hover 시 떠오르며 글로우 ── */
+/* ── primary: 브랜드 그라디언트, hover 시 떠오르며 글로우 (컬러 배경이므로 흰 텍스트/하이라이트 OK) ── */
 .primary {
-  --btn-fg: #06122b;
+  --btn-fg: #ffffff;
   background-image: var(--ais-brand-grad);
   box-shadow: 0 6px 20px var(--ais-glow);
 }
@@ -54,7 +54,7 @@
   transform: translateY(-2px);
   box-shadow:
     0 14px 34px var(--ais-glow),
-    0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+    0 0 0 1px rgba(255, 255, 255, 0.25) inset;
 }
 .primary:active {
   transform: translateY(0);
@@ -64,13 +64,13 @@
 .outline {
   border-color: var(--ais-border-strong);
   color: var(--ais-text);
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--ais-surface);
 }
 .outline:hover {
   transform: translateY(-2px);
   border-color: var(--ais-brand);
-  background: rgba(94, 160, 255, 0.1);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  background: rgba(74, 144, 217, 0.08);
+  box-shadow: var(--ais-shadow-card);
 }
 .outline:active {
   transform: translateY(0);
@@ -83,7 +83,7 @@
 }
 .ghost:hover {
   color: var(--ais-text);
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(20, 40, 80, 0.05);
 }
 .ghost:active {
   transform: translateY(1px);

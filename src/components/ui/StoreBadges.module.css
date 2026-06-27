@@ -9,8 +9,8 @@
 }
 
 .badge {
-  --bdg-bg: rgba(255, 255, 255, 0.06);
-  --bdg-border: var(--ais-border-strong);
+  --bdg-bg: var(--ais-surface);
+  --bdg-border: var(--ais-border);
   --bdg-fg: var(--ais-text);
   --bdg-sub: var(--ais-text-soft);
   display: inline-flex;
@@ -31,26 +31,29 @@
   will-change: transform;
 }
 
-/* 암(어두운 카드/벽) 위: 밝은 글자 */
+/* 암(어두운 스테이지/벽) 위: 밝은 글자 (다크 스테이지 예외) */
 .dark {
   --bdg-bg: rgba(255, 255, 255, 0.06);
   --bdg-border: rgba(255, 255, 255, 0.18);
   --bdg-fg: #f3f6fc;
   --bdg-sub: rgba(243, 246, 252, 0.66);
 }
+.dark.badge:hover {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+}
 
-/* 명(밝은 카드) 위: 어두운 글자 */
+/* 명(밝은 카드) 위: 어두운 잉크 글자 (기본/주 사용) */
 .light {
-  --bdg-bg: rgba(12, 18, 33, 0.04);
-  --bdg-border: rgba(12, 18, 33, 0.16);
-  --bdg-fg: #0c1221;
-  --bdg-sub: rgba(12, 18, 33, 0.6);
+  --bdg-bg: var(--ais-surface);
+  --bdg-border: var(--ais-border);
+  --bdg-fg: var(--ais-text);
+  --bdg-sub: var(--ais-text-mid);
 }
 
 .badge:hover {
   transform: translateY(-2px);
   border-color: var(--ais-brand);
-  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--ais-shadow-lift);
 }
 .badge:active {
   transform: translateY(0);

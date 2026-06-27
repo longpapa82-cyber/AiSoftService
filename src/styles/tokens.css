@@ -1,27 +1,34 @@
 /*
- * AI Soft 전역 디자인 토큰.
- * 방향성: "Portfolio of Worlds" — 어두운 갤러리 벽 위에 각 서비스를 작품처럼 전시.
+ * AI Soft 전역 디자인 토큰 — Light "순백·소프트" 테마.
+ * 방향성: 순백~연한 회색 갤러리 위에 각 서비스를 밝은 작품 카드로 전시.
+ * 부드럽고 깔끔, 밝은 톤 포인트 컬러(파스텔). (CLAUDE.md)
  * 서비스별 컬러는 카드 컴포넌트가 런타임에 --svc-* 변수로 주입한다.
  */
 :root {
-  /* ── 갤러리 베이스(어두운 벽) ── */
-  --ais-bg: #0b1020;
-  --ais-bg-2: #0e1426;
-  --ais-surface: #141b30;
-  --ais-surface-2: #1b2440;
-  --ais-border: rgba(140, 170, 230, 0.14);
-  --ais-border-strong: rgba(140, 170, 230, 0.26);
+  /* ── 밝은 갤러리 베이스 ── */
+  --ais-bg: #fbfcfe;
+  --ais-bg-2: #f4f7fb;
+  --ais-surface: #ffffff;
+  --ais-surface-2: #f7f9fc;
+  --ais-border: rgba(20, 40, 80, 0.1);
+  --ais-border-strong: rgba(20, 40, 80, 0.18);
 
-  /* ── 텍스트 ── */
-  --ais-text: #eef2fb;
-  --ais-text-mid: #b3bed6;
-  --ais-text-soft: #7c8aa8;
+  /* ── 텍스트 (밝은 배경용 짙은 잉크) ── */
+  --ais-text: #1a2238;
+  --ais-text-mid: #4a5670;
+  --ais-text-soft: #8893ab;
 
-  /* ── AI Soft 브랜드 포인트(세 서비스 컬러의 교집합 = 밝은 시안·블루) ── */
-  --ais-brand: #5ea0ff;
-  --ais-brand-2: #46e0c8;
+  /* ── AI Soft 브랜드 포인트 (밝은 파스텔 블루·민트) ── */
+  --ais-brand: #4a90d9;
+  --ais-brand-2: #2dd4bf;
   --ais-brand-grad: linear-gradient(120deg, #5ea0ff 0%, #46e0c8 100%);
-  --ais-glow: rgba(94, 160, 255, 0.35);
+  --ais-glow: rgba(94, 160, 255, 0.28);
+
+  /* 파스텔 분위기 워시(배경 blob 용) */
+  --ais-wash-blue: rgba(120, 180, 255, 0.5);
+  --ais-wash-mint: rgba(90, 224, 200, 0.42);
+  --ais-wash-peach: rgba(255, 180, 165, 0.4);
+  --ais-wash-lilac: rgba(190, 170, 255, 0.4);
 
   /* ── 타이포 ── */
   --ais-font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
@@ -37,14 +44,14 @@
   --ais-gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
   --ais-maxw: 1200px;
 
-  /* ── 라운드 / 그림자 ── */
+  /* ── 라운드 / 그림자 (밝은 톤: 부드럽고 옅은 다층 그림자로 depth) ── */
   --ais-radius-card: 24px;
   --ais-radius-lg: 32px;
   --ais-radius-pill: 999px;
-  --ais-shadow-card: 0 24px 60px rgba(0, 0, 0, 0.45),
-    0 4px 16px rgba(0, 0, 0, 0.3);
-  --ais-shadow-lift: 0 36px 90px rgba(0, 0, 0, 0.55),
-    0 8px 28px rgba(0, 0, 0, 0.4);
+  --ais-shadow-card: 0 18px 48px rgba(30, 50, 90, 0.1),
+    0 4px 14px rgba(30, 50, 90, 0.06);
+  --ais-shadow-lift: 0 30px 70px rgba(30, 50, 90, 0.16),
+    0 8px 24px rgba(30, 50, 90, 0.1);
 
   /* ── 모션 ── */
   --ais-ease-expo: cubic-bezier(0.16, 1, 0.3, 1);

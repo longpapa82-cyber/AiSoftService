@@ -35,15 +35,18 @@ body {
 }
 
 /* 갤러리 벽 분위기: 미세한 방사형 글로우 + 그레인 느낌 */
+/* 밝은 갤러리 분위기: 순백 위 은은한 파스텔 워시(상단 블루/민트, 우하단 피치) */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(60% 50% at 50% -10%, rgba(94, 160, 255, 0.16), transparent 70%),
-    radial-gradient(50% 40% at 100% 0%, rgba(70, 224, 200, 0.1), transparent 70%),
+    radial-gradient(55% 45% at 18% -8%, var(--ais-wash-blue), transparent 70%),
+    radial-gradient(50% 40% at 92% 4%, var(--ais-wash-mint), transparent 72%),
+    radial-gradient(45% 45% at 78% 96%, var(--ais-wash-peach), transparent 72%),
     var(--ais-bg);
+  opacity: 0.5;
 }
 
 h1,
