@@ -6,13 +6,14 @@
 .hero {
   position: relative;
   isolation: isolate;
-  /* 풀스크린 느낌은 유지하되, 콘텐츠 대비 과한 하단 공백을 막기 위해 상한을 둔다. */
-  min-height: min(100svh, 860px);
+  /* 풀스크린 느낌은 유지하되, 콘텐츠 대비 과한 하단 공백을 막기 위해 상한을 낮춘다.
+     콘텐츠 실제 높이에 더 가깝게(760px) 잡아 큰 화면에서 하단 여백이 뜨지 않게. */
+  min-height: min(100svh, 760px);
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-top: clamp(6rem, 11vh, 9rem);
-  padding-bottom: clamp(4rem, 8vh, 6rem);
+  padding-top: clamp(5.5rem, 10vh, 8rem);
+  padding-bottom: clamp(2.5rem, 5vh, 4rem);
 }
 
 /* ── 배경 aurora ── */
