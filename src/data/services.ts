@@ -103,6 +103,21 @@ export interface ServicePromo {
    * (myTravel: 실제 여행지 사진 — 원본 앱 Featured Destinations와 동일 Unsplash ID)
    */
   gallery?: { src: string; label: string; sub?: string }[];
+  /**
+   * 어두운 럭셔리 테마 여부. true면 다크 네이비 배경 + 골드/라이트 텍스트로 전환.
+   * (내새끼 랜딩의 골드 넘버링 섹션 톤)
+   */
+  dark?: boolean;
+  /**
+   * 우측 비주얼: 번호 매긴 스텝 카드 (실제 랜딩의 "3단계" 흐름).
+   * (myTravel: 1 목적지 선택 → 2 AI 일정 생성 → 3 …)
+   */
+  steps?: { no: string; title: string; desc: string }[];
+  /**
+   * 우측 비주얼: 스타/카테고리 그리드 칩 (내새끼 라인업 그리드).
+   * 인물 실사 대신 원형 컬러 아바타 + 이름으로 표현(초상권 안전).
+   */
+  stars?: { name: string; tag: string; color: string }[];
 }
 
 export interface AppService {
@@ -168,51 +183,52 @@ export const SERVICES: AppService[] = [
     stats: [{ label: '지원 언어', value: '17개' }],
     promo: {
       kicker: 'AI Travel Planner',
-      headline: '목적지만 정하면,\n나머지는 ',
-      headlineAccent: 'AI가',
+      headline: 'AI가 만드는\n',
+      headlineAccent: '나만의 여행 일정',
       subcopy:
-        '복잡한 여행 계획은 AI에게 맡기세요. 일정·날씨·동선까지 3단계로 완성. 17개 언어로 전 세계 어디든 떠날 수 있습니다.',
-      // travelPlanner Design System v2.0: 오션블루 #3B82F6 + 석양오렌지 #F59E0B
+        '목적지와 날짜만 입력하세요. AI가 명소·맛집·날씨·이동 동선까지 꼼꼼하게 계획합니다. 17개 언어 지원.',
+      // 내새끼와 대비되는 딥 네이비 테크 럭셔리 (실제 랜딩 톤). 시안→블루 그라디언트 헤드라인.
+      dark: true,
       palette: {
-        bg: '#f6fbff',
+        bg: '#0c1828',
         heroGradient:
-          'linear-gradient(135deg, #3B82F6 0%, #0EA5E9 52%, #F59E0B 120%)',
-        surface: '#ffffff',
-        primary: '#2563EB',
-        accent: '#F59E0B',
-        ink: '#0f2742',
-        inkSoft: '#51627a',
-        onPrimary: '#ffffff',
+          'linear-gradient(135deg, #38bdf8 0%, #3b82f6 55%, #1e3a8a 100%)',
+        surface: '#13243a',
+        primary: '#5ab9f2',
+        accent: '#38bdf8',
+        ink: '#eef6ff',
+        inkSoft: '#9fb4cc',
+        onPrimary: '#062033',
       },
       fontDisplay: "'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Noto Sans KR', system-ui, sans-serif",
       radius: 20,
-      motif: 'sky',
+      motif: 'none',
       highlights: [
         { value: '17개', label: '지원 언어' },
-        { value: '3단계', label: '일정 완성' },
-        { value: 'AI', label: '자동 추천' },
+        { value: 'AI 기반', label: '자동 일정' },
+        { value: '20+', label: '인기 여행지' },
       ],
-      // myTravel(travelPlanner) 홈의 실제 여행지 실사 — 원본 앱과 동일한 Unsplash 도쿄 사진
+      // 실제 랜딩의 여행 소품 평면러이 실사 (지도+카메라+여권 flat-lay)
       heroImage:
-        'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&q=70&fm=webp&fit=crop',
-      heroFocus: 'center 45%',
-      // 우측 비주얼: 실제 앱 Featured Destinations와 동일한 여행지 사진 카드
-      gallery: [
+        'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=1200&q=70&fm=webp&fit=crop',
+      heroFocus: 'center 40%',
+      // 우측 비주얼: 실제 랜딩의 "3단계로 완성하는 여행 계획" 번호 스텝
+      steps: [
         {
-          src: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500&q=72&fm=webp&fit=crop',
-          label: '도쿄, 일본',
-          sub: '23° · ★ 4.8',
+          no: '1',
+          title: '목적지 선택',
+          desc: '가고 싶은 도시나 나라를 입력하세요. 인기 여행지를 빠르게 선택하거나 직접 검색할 수 있습니다.',
         },
         {
-          src: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500&q=72&fm=webp&fit=crop',
-          label: '파리, 프랑스',
-          sub: '18° · ★ 4.9',
+          no: '2',
+          title: 'AI 일정 생성',
+          desc: 'AI가 최근 여행 데이터와 현지 정보를 분석해 최적의 일정을 만들어 줍니다.',
         },
         {
-          src: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=500&q=72&fm=webp&fit=crop',
-          label: '방콕, 태국',
-          sub: '32° · ★ 4.6',
+          no: '3',
+          title: '자유로운 편집',
+          desc: '관광지·맛집·카페·쇼핑 등 시간대별 일정을 자유롭게 추가·삭제·재배치하세요.',
         },
       ],
     },
@@ -311,31 +327,43 @@ export const SERVICES: AppService[] = [
       { icon: 'bookmark', title: '스크랩', desc: '중요한 소식 저장하고 다시 보기' },
     ],
     promo: {
-      kicker: '최애 소식 모아보기',
+      kicker: 'AI 셀럽 뉴스 플랫폼',
       headline: '내가 애정하는\n스타의 모든 ',
       headlineAccent: '소식',
       subcopy:
-        '좋아하는 셀럽의 뉴스와 일정을 놓치지 마세요. AI가 모아주는 깔끔한 카드 피드로 최애의 모든 순간을 빠르게 확인합니다.',
-      // myBaby app: 스카이블루 #2196F3 + 민트 #00BFA5, White-First
+        'K-pop·할리우드·라틴·유럽·스포츠까지, 전 세계 37개국 10,000명+ 셀럽의 공개 소식을 AI가 핵심만 골라 매일 요약해 드립니다.',
+      // 내새끼 랜딩: 다크 네이비 럭셔리 + 골드 넘버링 (실제 랜딩 톤)
+      dark: true,
       palette: {
-        bg: '#f4f6f8',
+        bg: '#0e1018',
         heroGradient:
-          'linear-gradient(150deg, #e3f2fd 0%, #f4f6f8 55%, #e0f2f1 100%)',
-        surface: '#ffffff',
-        primary: '#2196f3',
-        accent: '#00bfa5',
-        ink: '#111827',
-        inkSoft: '#6b7280',
-        onPrimary: '#ffffff',
+          'linear-gradient(150deg, #1a1f33 0%, #12141f 55%, #0e1018 100%)',
+        surface: '#191d2b',
+        primary: '#f5c451',
+        accent: '#ff8fb1',
+        ink: '#f5f6fa',
+        inkSoft: '#a3a8b8',
+        onPrimary: '#1a1206',
       },
       fontDisplay: "'Jua', 'Plus Jakarta Sans', system-ui, sans-serif",
       fontBody: "'Plus Jakarta Sans', system-ui, sans-serif",
-      radius: 28,
-      motif: 'feed',
+      radius: 22,
+      motif: 'none',
       highlights: [
-        { value: 'AI', label: '소식 수집' },
-        { value: '실시간', label: '뉴스 피드' },
-        { value: '알림', label: '일정 관리' },
+        { value: '10,000+', label: '지원 셀럽' },
+        { value: '37개국', label: '글로벌 라인업' },
+        { value: '매일', label: 'AI 요약' },
+      ],
+      // 우측: 스타 라인업 그리드 (인물 실사 대신 원형 컬러 아바타 — 초상권 안전)
+      stars: [
+        { name: 'BTS', tag: 'K-pop', color: '#7c5cff' },
+        { name: '아이유', tag: 'K-pop', color: '#ff7eb6' },
+        { name: 'BLACKPINK', tag: 'K-pop', color: '#ff4f8b' },
+        { name: 'SEVENTEEN', tag: 'K-pop', color: '#5ea0ff' },
+        { name: 'NewJeans', tag: 'K-pop', color: '#9b8cff' },
+        { name: 'aespa', tag: 'K-pop', color: '#4dd6c4' },
+        { name: 'TWICE', tag: 'K-pop', color: '#ff9e57' },
+        { name: '손흥민', tag: '스포츠', color: '#54c98a' },
       ],
     },
     order: 3,

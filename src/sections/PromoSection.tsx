@@ -41,6 +41,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
   const sectionClass = [
     styles.section,
     styles[`motif_${promo.motif}`],
+    promo.dark ? styles.dark : '',
     flip ? styles.flip : '',
   ]
     .filter(Boolean)
@@ -119,7 +120,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
               ios={service.links.ios}
               android={service.links.android}
               web={service.links.web}
-              tone="light"
+              tone={promo.dark ? 'dark' : 'light'}
               className={styles.badges}
             />
           </div>
@@ -137,8 +138,42 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                   loading="lazy"
                 />
               </div>
+            ) : promo.steps ? (
+              /* 번호 매긴 스텝 흐름 (myTravel: 3단계로 완성하는 여행 계획) */
+              <ol className={styles.steps}>
+                {promo.steps.map((s) => (
+                  <li key={s.no} className={styles.step}>
+                    <span className={styles.stepNo} aria-hidden="true">
+                      {s.no}
+                    </span>
+                    <span className={styles.stepBody}>
+                      <strong className={styles.stepTitle}>{s.title}</strong>
+                      <span className={styles.stepDesc}>{s.desc}</span>
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            ) : promo.stars ? (
+              /* 스타 라인업 그리드 (내새끼: 원형 컬러 아바타 칩) */
+              <ul className={styles.stars}>
+                {promo.stars.map((star) => (
+                  <li key={star.name} className={styles.starChip}>
+                    <span
+                      className={styles.starAvatar}
+                      style={{ background: star.color }}
+                      aria-hidden="true"
+                    >
+                      {star.name.slice(0, 1)}
+                    </span>
+                    <span className={styles.starText}>
+                      <strong className={styles.starName}>{star.name}</strong>
+                      <span className={styles.starTag}>{star.tag}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
             ) : promo.gallery ? (
-              /* 실제 여행지 실사 카드 갤러리 (myTravel) */
+              /* 실제 여행지 실사 카드 갤러리 */
               <ul className={styles.gallery}>
                 {promo.gallery.map((g) => (
                   <li key={g.label} className={styles.galleryCard}>
