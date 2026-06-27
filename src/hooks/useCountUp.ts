@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import type { MutableRefObject } from 'react';
 
 /**
  * 뷰포트 진입 시 0 → target 으로 숫자를 올리는 카운트업 훅.
@@ -23,7 +24,7 @@ export function useCountUp<T extends HTMLElement = HTMLElement>(
     /** 관찰 임계치 */
     threshold?: number;
   },
-): [React.RefObject<T>, number] {
+): [MutableRefObject<T | null>, number] {
   const ref = useRef<T>(null);
   const [value, setValue] = useState(0);
   const { durationMs = 1200, delayMs = 0, threshold = 0.4 } = options ?? {};

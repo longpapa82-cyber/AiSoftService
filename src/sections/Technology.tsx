@@ -1,9 +1,20 @@
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
+import { useCountUp } from '../hooks/useCountUp';
+import { useTilt } from '../hooks/useTilt';
 import { SERVICES } from '../data/services';
+import type { MutableRefObject, RefObject } from 'react';
 import trustTeam from '../assets/photos/trust-team.jpg';
 import styles from './Technology.module.css';
+
+/**
+ * 여러 훅의 ref를 한 DOM 노드에 병합할 때 사용.
+ * useRef 기반 ref는 런타임상 가변이므로 .current 할당이 안전하다(타입만 정정).
+ */
+function assignRef<T>(ref: RefObject<T> | MutableRefObject<T | null>, node: T | null) {
+  (ref as MutableRefObject<T | null>).current = node;
+}
 
 /**
  * Technology 섹션.
@@ -151,11 +162,24 @@ const RING_RADIUS = 20;
 const RING_CIRC = 2 * Math.PI * RING_RADIUS;
 
 function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) {
-  const ref = useReveal<HTMLLIElement>();
-  const dashOffset = RING_CIRC * (1 - cap.gauge / 100);
+  const revealRef = useReveal<HTMLLIElement>();
+  const tiltRef = useTilt<HTMLLIElement>(6);
+  // 게이지 0→목표 롤업. 카드마다 살짝 시차를 둬 "스탯이 채워지는" 연출.
+  const [gaugeRef, g] = useCountUp<HTMLLIElement>(cap.gauge, {
+    durationMs: 1100,
+    delayMs: 200 + index * 120,
+  });
+  // 세 훅의 ref를 한 요소에 병합(reveal 클래스 토글 + 틸트 리스너 + 카운트업 관찰).
+  // 각 훅의 ref는 런타임상 가변(useRef)이라 .current 할당이 안전하다.
+  const setRefs = (node: HTMLLIElement | null) => {
+    assignRef(revealRef, node);
+    assignRef(tiltRef, node);
+    assignRef(gaugeRef, node);
+  };
+  const dashOffset = RING_CIRC * (1 - g / 100);
   return (
     <li
-      ref={ref}
+      ref={setRefs}
       className={`${styles.card} ${styles[`r_${cap.rarity}`]} reveal`}
       style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}
     >
@@ -190,7 +214,7 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
           className={styles.ring}
           role="img"
           aria-label={`달성률 ${cap.gauge}%`}
-        >
+        >{/* aria는 최종값으로 고정(스크린리더에 롤업 노이즈 방지) */}
           <svg viewBox="0 0 48 48" width="48" height="48">
             <circle
               className={styles.ringTrack}
@@ -210,7 +234,7 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
               strokeLinecap="round"
             />
           </svg>
-          <span className={styles.ringValue}>{cap.gauge}%</span>
+          <span className={styles.ringValue}>{g}%</span>
         </span>
       </div>
 
@@ -231,7 +255,7 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
         <span className={styles.gaugeTrack} aria-hidden="true">
           <span
             className={styles.gaugeFill}
-            style={{ '--gauge': `${cap.gauge}%` } as React.CSSProperties}
+            style={{ '--gauge': `${g}%` } as React.CSSProperties}
           />
         </span>
         <span className={styles.gaugeLabel}>{cap.gaugeLabel}</span>
@@ -244,7 +268,20 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
 
 export function Technology() {
   const bannerRef = useReveal<HTMLElement>();
-  const boardRef = useReveal<HTMLDivElement>();
+  const boardReveal = useReveal<HTMLDivElement>();
+  // 보드 진척 게이지·퀘스트 카운터 롤업
+  const [boardPctRef, boardPct] = useCountUp<HTMLDivElement>(COMPLETION_PCT, {
+    durationMs: 1100,
+    delayMs: 200,
+  });
+  const [questRef, quests] = useCountUp<HTMLElement>(UNLOCKED_QUESTS, {
+    durationMs: 900,
+    delayMs: 200,
+  });
+  const setBoardRefs = (node: HTMLDivElement | null) => {
+    assignRef(boardReveal, node);
+    assignRef(boardPctRef, node);
+  };
   return (
     <section
       id="technology"
@@ -293,20 +330,20 @@ export function Technology() {
         </figure>
 
         {/* ── 스탯 보드 요약 HUD: 총 퀘스트 진척 게이지 ── */}
-        <div className={`${styles.board} reveal`} ref={boardRef}>
+        <div className={`${styles.board} reveal`} ref={setBoardRefs}>
           <div className={styles.boardHead}>
             <span className={styles.boardLabel}>// STAT_BOARD</span>
-            <span className={styles.boardQuests}>
-              <strong>{UNLOCKED_QUESTS}</strong>/{TOTAL_QUESTS} QUESTS UNLOCKED
+            <span ref={questRef} className={styles.boardQuests}>
+              <strong>{quests}</strong>/{TOTAL_QUESTS} QUESTS UNLOCKED
             </span>
           </div>
           <div className={styles.boardBar} aria-hidden="true">
             <span
               className={styles.boardFill}
-              style={{ '--gauge': `${COMPLETION_PCT}%` } as React.CSSProperties}
+              style={{ '--gauge': `${boardPct}%` } as React.CSSProperties}
             />
           </div>
-          <span className={styles.boardPct}>{COMPLETION_PCT}%</span>
+          <span className={styles.boardPct}>{boardPct}%</span>
         </div>
 
         <ul className={styles.grid}>

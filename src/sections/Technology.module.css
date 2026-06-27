@@ -221,6 +221,8 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(1rem, 0.5rem + 1.5vw, 1.5rem);
+  /* 카드 3D 틸트를 위한 원근 — 카드들이 입체적으로 기운다 */
+  perspective: 1000px;
 }
 
 @media (min-width: 600px) {
@@ -237,6 +239,8 @@
 
 /* ── 카드 ── */
 .card {
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -253,6 +257,7 @@
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   box-shadow: var(--ais-shadow-card);
+  transform-style: preserve-3d;
   transition:
     transform var(--ais-dur) var(--ais-ease-bounce),
     border-color var(--ais-dur) var(--ais-ease-expo),
@@ -288,12 +293,20 @@
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
 }
 
-/* 호버 시 카드 통통 팝: 띄우고 + 확대 + 통통한 회전(도감 카드 픽업 느낌) */
+/* 호버 시 카드 통통 팝 + 포인터 추종 3D 틸트(도감 카드 픽업 느낌) */
 .card:hover,
 .card:focus-within {
-  transform: translateY(-8px) scale(1.04) rotate(-1deg);
+  transform: translateY(-8px) scale(1.04)
+    rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   border-color: var(--rarity, var(--ais-gold));
   box-shadow: var(--ais-shadow-lift), var(--ais-neon-gold);
+}
+/* 포인터 이동 중엔 틸트가 즉각 따라오도록 transition을 짧게(rAF 갱신과 호흡) */
+.card:hover {
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-tech),
+    border-color var(--ais-dur) var(--ais-ease-expo),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
 
 .card:hover::after,
@@ -330,15 +343,40 @@
 /* ── 레어도 변수(RPG 등급) — 칩/링/테두리 색을 카드별로 ── */
 .r_rare {
   --rarity: var(--ais-rare);
+  --rarity-glow: 0.32;
 }
 .r_epic {
   --rarity: var(--ais-epic);
+  --rarity-glow: 0.42;
 }
 .r_legend {
   --rarity: var(--ais-legend);
+  --rarity-glow: 0.6;
 }
 .r_gold {
   --rarity: var(--ais-gold);
+  --rarity-glow: 0.5;
+}
+
+/*
+ * 레어도 빛 차등: 등급이 높을수록 카드 상단 헤어라인이 레어도 색으로 더 강하게
+ * 빛난다(--rarity-glow). 항상 켜져 있어 "희귀할수록 빛난다"가 한눈에 보인다.
+ * ::before(상단 헤어라인)에 레어도 색 글로우를 얹는다(opacity만 → 컴포지터 친화).
+ */
+.card::before {
+  background: linear-gradient(
+    90deg,
+    var(--rarity, var(--ais-gold)),
+    var(--ais-gold)
+  );
+  box-shadow: 0 0 12px
+    color-mix(in srgb, var(--rarity, var(--ais-gold)) calc(var(--rarity-glow, 0.4) * 100%), transparent);
+}
+/* legend는 상시 은은한 외곽 글로우 — 최고 등급 차별화 */
+.r_legend {
+  box-shadow:
+    var(--ais-shadow-card),
+    0 0 0 1px color-mix(in srgb, var(--ais-legend) 22%, transparent);
 }
 
 /* ── HUD 헤더 행: 업적 등급 + UNLOCKED 칩 ── */
