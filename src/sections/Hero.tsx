@@ -3,11 +3,15 @@ import { COMPANY } from '../data/company';
 import { SERVICES_SORTED } from '../data/services';
 import { Button } from '../components/ui/Button';
 import { useReveal } from '../hooks/useReveal';
+import { useCountUp } from '../hooks/useCountUp';
 import { usePointerParallax } from '../hooks/usePointerParallax';
 import styles from './Hero.module.css';
 
 // Hero 다음 첫 콘텐츠 섹션(첫 미니 홍보)의 앵커 — 둘러보기/스크롤 타겟.
 const FIRST_PROMO = SERVICES_SORTED.find((s) => s.promo);
+
+// 히어로 HUD의 XP 목표치 — 진입 시 0부터 이 값까지 롤업된다.
+const HERO_XP = 9999;
 
 /** 슬로건을 단어 단위로 쪼개 글자별 stagger 등장에 사용. 공백/줄바꿈 보존. */
 function splitWords(text: string): string[] {
@@ -24,6 +28,12 @@ export function Hero() {
   const heroRef = usePointerParallax<HTMLElement>();
   const words = splitWords(COMPANY.slogan);
   const promoHref = FIRST_PROMO ? `#promo-${FIRST_PROMO.id}` : '#main';
+
+  // XP 숫자 롤업 — XP 바 채움(CSS, delay 0.3s)과 호흡 맞춰 약간 뒤따라 마무리.
+  const [xpRef, xp] = useCountUp<HTMLSpanElement>(HERO_XP, {
+    durationMs: 1500,
+    delayMs: 300,
+  });
 
   return (
     <section
@@ -67,7 +77,9 @@ export function Hero() {
             <span className={styles.xpTrack} aria-hidden="true">
               <span className={styles.xpFill} />
             </span>
-            <span className={styles.xpValue}>9,999</span>
+            <span ref={xpRef} className={styles.xpValue}>
+              {xp.toLocaleString('en-US')}
+            </span>
           </div>
 
           <h1 id="hero-heading" className={styles.headline}>
