@@ -1,9 +1,13 @@
+import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
 import { useReveal } from '../hooks/useReveal';
 import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
+
+// 토스트 표시 시간(ms) — 진입 후 잠깐 떴다 사라진다.
+const TOAST_MS = 2600;
 
 /**
  * 서비스별 "미니 홍보 사이트" 섹션.
@@ -16,11 +20,45 @@ interface PromoSectionProps {
   service: AppService;
   /** 좌우 배치 방향. 짝수/홀수로 교차하면 리듬이 생긴다. */
   flip?: boolean;
+  /** 섹션이 뷰포트에서 충분히 보일 때 1회 호출 — 게이미피케이션 "수집". */
+  onCollect?: (id: string) => void;
 }
 
-export function PromoSection({ service, flip = false }: PromoSectionProps) {
+export function PromoSection({
+  service,
+  flip = false,
+  onCollect,
+}: PromoSectionProps) {
   const { promo } = service;
   const reveal = useReveal<HTMLDivElement>();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [toastVisible, setToastVisible] = useState(false);
+
+  // 섹션이 절반 이상 보이면 "수집" → onCollect 1회 + UNLOCKED 토스트 1회.
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+
+    let done = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting && !done) {
+            done = true;
+            io.unobserve(entry.target); // 한 번만 — 중복 수집 방지
+            onCollect?.(service.id);
+            setToastVisible(true);
+            window.setTimeout(() => setToastVisible(false), TOAST_MS);
+          }
+        }
+      },
+      // 섹션 상단이 뷰포트 중앙(아래 35%) 안에 들어오면 수집.
+      // threshold 0.5는 뷰포트보다 긴 섹션에서 트리거 안 될 수 있어 rootMargin으로 대체.
+      { threshold: 0.01, rootMargin: '0px 0px -35% 0px' },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [service.id, onCollect]);
 
   if (!promo) return null;
 
@@ -52,11 +90,28 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
   return (
     <section
+      ref={sectionRef}
       id={`promo-${service.id}`}
       className={sectionClass}
       style={themeVars}
       aria-labelledby={`promo-${service.id}-title`}
     >
+      {/* 수집 토스트 — 섹션 진입 시 "✓ {서비스} UNLOCKED" 1회 (게임 보상감) */}
+      <div
+        className={`${styles.unlockToast} ${
+          toastVisible ? styles.unlockToastShow : ''
+        }`}
+        role="status"
+        aria-live="polite"
+      >
+        <span className={styles.unlockCheck} aria-hidden="true">
+          ✓
+        </span>
+        <span className={styles.unlockText}>
+          <strong>{service.name}</strong> UNLOCKED
+        </span>
+      </div>
+
       {/* 실사 히어로 배경 (있으면) — 각 서비스 홈의 실제 사진. 오버레이로 가독성 확보 */}
       {promo.heroImage && (
         <div className={styles.heroBg} aria-hidden="true">

@@ -387,6 +387,85 @@
   }
 }
 
+/* ── 스크롤 진행 골드바 ── */
+.progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  overflow: hidden;
+  pointer-events: none;
+}
+.progressFill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform-origin: left center;
+  transform: scaleX(var(--scroll, 0));
+  background: var(--ais-xp-bar);
+  box-shadow: 0 0 10px var(--ais-glow);
+  /* --scroll은 rAF로 매 프레임 갱신되므로 transition 없이 즉시 반영 */
+}
+
+/* ── 수집 카운터 칩 ── */
+.collect {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-right: auto;
+  margin-left: 0.85rem;
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid var(--ais-glass-border);
+  background: var(--ais-glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--ais-font-mono);
+  /* 0 수집 시 살짝 가라앉은 상태 → 수집되면 골드로 점등 */
+  opacity: 0.55;
+  transform: scale(0.96);
+  transition:
+    opacity var(--ais-dur) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-bounce),
+    border-color var(--ais-dur) var(--ais-ease-expo);
+}
+.collectActive {
+  opacity: 1;
+  transform: scale(1);
+  border-color: color-mix(in srgb, var(--ais-gold) 55%, transparent);
+  box-shadow: var(--ais-glow-gold);
+}
+.collectIcon {
+  color: var(--ais-gold-deep);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+.collectNum {
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--ais-text);
+}
+.collectLabel {
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--ais-text-soft);
+}
+
+/* 좁은 화면에선 COLLECTED 라벨 숨겨 공간 절약 */
+@media (max-width: 720px) {
+  .collectLabel {
+    display: none;
+  }
+}
+@media (max-width: 520px) {
+  .collect {
+    display: none; /* 모바일: 네비 토글과 충돌 방지 — 진행바로 대체 */
+  }
+}
+
 /* ── reduced-motion 가드: 모션 최소화 시 transform/translate 무효화 ── */
 @media (prefers-reduced-motion: reduce) {
   .logo:hover .logoMark,
@@ -403,5 +482,13 @@
   .mobileLink:hover,
   .mobileLink:focus-visible {
     padding-left: 0.85rem;
+  }
+  /* 카운터 등장 모션 정지(가시성은 유지). 진행바 채움은 위치정보라 유지. */
+  .collect {
+    transition: opacity var(--ais-dur) linear;
+    transform: none;
+  }
+  .collectActive {
+    transform: none;
   }
 }

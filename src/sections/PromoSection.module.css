@@ -767,6 +767,59 @@
   }
 }
 
+/* ── 수집 토스트: "✓ {서비스} UNLOCKED" — 섹션 진입 시 상단에 잠깐 ── */
+.unlockToast {
+  position: absolute;
+  top: clamp(1rem, 2vw, 1.75rem);
+  left: 50%;
+  z-index: 6;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--ais-radius-pill);
+  background: color-mix(in srgb, var(--p-surface) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p-primary) 45%, transparent);
+  box-shadow:
+    0 10px 30px -6px color-mix(in srgb, var(--p-primary) 40%, transparent),
+    0 2px 8px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--p-ink);
+  white-space: nowrap;
+  pointer-events: none;
+  /* 기본: 위로 숨김 + 투명 */
+  opacity: 0;
+  transform: translate(-50%, -14px) scale(0.96);
+  transition:
+    opacity var(--ais-dur) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-bounce);
+}
+.unlockToastShow {
+  opacity: 1;
+  transform: translate(-50%, 0) scale(1);
+}
+.unlockCheck {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15rem;
+  height: 1.15rem;
+  border-radius: 50%;
+  background: var(--p-primary);
+  color: var(--p-on-primary);
+  font-size: 0.7rem;
+  font-weight: 900;
+}
+.unlockText strong {
+  color: var(--p-primary);
+  font-weight: 800;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .appCard,
   .appCard:hover,
@@ -784,6 +837,14 @@
   .starChip:hover {
     transform: none;
     transition: none;
+  }
+  /* 토스트: 슬라이드/바운스 없이 페이드만(가시성은 유지) */
+  .unlockToast {
+    transform: translate(-50%, 0);
+    transition: opacity var(--ais-dur) linear;
+  }
+  .unlockToastShow {
+    transform: translate(-50%, 0);
   }
   .phone {
     transform: rotate(-2deg);

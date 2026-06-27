@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
+import type { CSSProperties } from 'react';
 import { COMPANY } from '../data/company';
+import { useScrollProgress } from '../hooks/useScrollProgress';
 import styles from './Header.module.css';
 
 interface NavItem {
   href: string;
   label: string;
+}
+
+interface HeaderProps {
+  /** 지금까지 "수집"한 서비스 수 (스크롤로 통과한 미니 홍보 섹션). */
+  collected: number;
+  /** 수집 가능한 총 서비스 수. */
+  total: number;
 }
 
 const NAV_ITEMS: NavItem[] = [
@@ -20,9 +29,10 @@ const SCROLL_THRESHOLD = 24;
  * 스크롤 시 배경 블러/보더가 강해지는 상태 전환(opacity/backdrop만 변경).
  * 모바일에서는 메뉴를 펼치는 토글 패널 제공.
  */
-export function Header() {
+export function Header({ collected, total }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const progress = useScrollProgress();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
@@ -49,6 +59,26 @@ export function Header() {
             AI&nbsp;APP&nbsp;STUDIO
           </span>
         </a>
+
+        {/* 수집 카운터 — 서비스를 통과(수집)할수록 채워지는 게임 HUD */}
+        <span
+          className={[styles.collect, collected > 0 ? styles.collectActive : '']
+            .filter(Boolean)
+            .join(' ')}
+          role="status"
+          aria-live="polite"
+          aria-label={`서비스 ${total}개 중 ${collected}개 확인함`}
+        >
+          <span className={styles.collectIcon} aria-hidden="true">
+            ◈
+          </span>
+          <span className={styles.collectNum}>
+            {collected}/{total}
+          </span>
+          <span className={styles.collectLabel} aria-hidden="true">
+            COLLECTED
+          </span>
+        </span>
 
         <nav className={styles.nav} aria-label="주요 메뉴">
           <ul className={styles.navList}>
@@ -81,6 +111,14 @@ export function Header() {
           />
         </button>
       </div>
+
+      {/* 스크롤 진행 골드바 — 페이지를 "플레이"하며 차오르는 XP 라인 */}
+      <span className={styles.progress} aria-hidden="true">
+        <span
+          className={styles.progressFill}
+          style={{ '--scroll': progress } as CSSProperties}
+        />
+      </span>
 
       <div
         id="mobile-menu"
