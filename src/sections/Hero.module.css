@@ -377,7 +377,8 @@
 }
 
 .headline {
-  margin-top: 1.4rem;
+  /* XP 바를 헤드라인에서 살짝 떼어 위로 보이게 — 간격 약간 확대 */
+  margin-top: 2.1rem;
   /* 몽글몽글: 둥근 한글 디스플레이 폰트(Jua) */
   font-family: 'Jua', var(--ais-font-display);
   font-size: var(--ais-text-hero);
