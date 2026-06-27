@@ -1,14 +1,15 @@
 /*
- * Features 섹션: 서비스별 탭 + 기능 패널.
- * 순백 배경(--ais-bg) 위 밝은 카드. 활성 서비스 컬러는 런타임에
- * --svc-primary / --svc-accent 변수로 주입(인라인 style).
+ * Features 섹션: 서비스별 탭 + 기능 패널. 하이테크 톤.
+ * 회백색 베이스(--ais-bg) + 회로 도트 질감 위, 글래스 패널.
+ * 외피 액센트는 Signal Gold(--ais-gold), 카드 내부는 서비스 고유색(--svc-primary/--svc-accent).
+ * 활성 서비스 컬러는 런타임에 변수로 주입(인라인 style).
  * 애니메이션은 transform/opacity/clip-path만 사용(컴포지터 친화).
  */
 
 .section {
   position: relative;
   padding-block: var(--ais-section);
-  /* 섹션 리듬: 연회색 틴트로 흰 섹션과 교차. 위아래는 흰색으로 부드럽게 페이드. */
+  /* 섹션 리듬: 연회색 틴트로 베이스와 교차. 위아래는 부드럽게 페이드. */
   background: linear-gradient(
     180deg,
     transparent 0%,
@@ -18,7 +19,31 @@
   );
 }
 
+/* 회로 도트 질감: 섹션 좌상단에 옅은 골드 글로우 한 점(재미 디테일, 과하지 않게) */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      40% 30% at 88% 8%,
+      color-mix(in srgb, var(--ais-gold) 10%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle,
+      color-mix(in srgb, var(--ais-navy) 7%, transparent) 1px,
+      transparent 1.4px
+    );
+  background-size: auto, 26px 26px;
+  background-position: 0 0, 6px 6px;
+  opacity: 0.5;
+  mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+
 .inner {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: clamp(2rem, 1rem + 3vw, 3.5rem);
@@ -39,9 +64,12 @@
   align-items: center;
   gap: 0.6rem;
   padding: 0.7rem 1.15rem;
-  border: 1px solid var(--ais-border);
+  border: 1px solid var(--ais-glass-border);
   border-radius: var(--ais-radius-pill);
-  background: var(--ais-surface);
+  /* 글래스: 반투명 화이트 + blur */
+  background: var(--ais-glass-bg);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
   color: var(--ais-text-mid);
   font-family: var(--ais-font-display);
   font-size: 0.95rem;
@@ -52,26 +80,45 @@
     color var(--ais-dur-fast) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo),
+    box-shadow var(--ais-dur-fast) var(--ais-ease-expo),
     transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
 
 .tab:hover {
   color: var(--ais-text);
-  border-color: var(--ais-border-strong);
+  /* 골드 hover: 보더 + 글로우 + lift */
+  border-color: color-mix(in srgb, var(--ais-gold) 60%, transparent);
+  box-shadow: var(--ais-glow-gold);
   transform: translateY(-2px);
 }
 
 .tab:focus-visible {
-  outline: 2px solid var(--svc-primary);
+  outline: 2px solid var(--ais-gold-deep);
   outline-offset: 3px;
 }
 
-.tabActive {
+.tabActive,
+.tabActive:hover {
   color: var(--ais-text);
-  border-color: color-mix(in srgb, var(--svc-primary) 55%, transparent);
-  background: color-mix(in srgb, var(--svc-primary) 12%, var(--ais-surface));
-  box-shadow: 0 8px 22px
-    color-mix(in srgb, var(--svc-primary) 18%, transparent);
+  /* 활성: 골드 보더 + 서비스색 옅은 틴트로 정체성 유지 */
+  border-color: color-mix(in srgb, var(--ais-gold) 65%, transparent);
+  background: color-mix(in srgb, var(--svc-primary) 10%, var(--ais-glass-bg));
+  box-shadow:
+    var(--ais-glow-gold),
+    0 8px 22px color-mix(in srgb, var(--svc-primary) 14%, transparent);
+}
+
+/* 활성 탭 골드 언더라인 */
+.tabActive::after {
+  content: '';
+  position: absolute;
+  left: 1.15rem;
+  right: 1.15rem;
+  bottom: -7px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--ais-brand-grad);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ais-gold) 70%, transparent);
 }
 
 /* 탭 앞 서비스 컬러 점 */
@@ -89,20 +136,29 @@
   --svc-primary: var(--ais-brand);
   --svc-accent: var(--ais-brand-2);
   position: relative;
-  border: 1px solid var(--ais-border);
+  border: 1px solid var(--ais-glass-border);
   border-radius: var(--ais-radius-lg);
+  /* 글래스 패널: 반투명 화이트 + 서비스색/골드 코너 글로우 + blur */
   background:
     radial-gradient(
       120% 90% at 0% 0%,
-      color-mix(in srgb, var(--svc-primary) 14%, transparent) 0%,
+      color-mix(in srgb, var(--svc-primary) 13%, transparent) 0%,
       transparent 55%
     ),
-    var(--ais-surface);
+    radial-gradient(
+      90% 70% at 100% 0%,
+      color-mix(in srgb, var(--ais-gold) 9%, transparent) 0%,
+      transparent 55%
+    ),
+    var(--ais-glass-bg);
+  backdrop-filter: blur(18px) saturate(135%);
+  -webkit-backdrop-filter: blur(18px) saturate(135%);
+  box-shadow: var(--ais-shadow-card);
   padding: clamp(1.5rem, 1rem + 3vw, 3rem);
   overflow: hidden;
 }
 
-/* 패널 상단 서비스 컬러 띠 */
+/* 패널 상단 띠: 서비스색 → 골드로 전이(외피 액센트 연결) */
 .panel::before {
   content: '';
   position: absolute;
@@ -111,9 +167,10 @@
   background: linear-gradient(
     90deg,
     var(--svc-primary),
-    var(--svc-accent)
+    var(--svc-accent) 55%,
+    var(--ais-gold)
   );
-  opacity: 0.9;
+  opacity: 0.95;
 }
 
 .panelHead {
@@ -130,16 +187,26 @@
   gap: 0.3rem;
 }
 
+/* 모노스페이스 테크 배지 스타일 eyebrow: 서비스 accent 유지 + 시그널 점 */
 .panelEyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  font-family: var(--ais-font-display);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  gap: 0.55rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--svc-accent);
+}
+
+.panelEyebrow::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--svc-primary);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--svc-primary) 75%, transparent);
 }
 
 .panelName {
@@ -180,13 +247,16 @@
   flex-direction: column;
   gap: 0.65rem;
   padding: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
-  border: 1px solid var(--ais-border);
+  border: 1px solid var(--ais-glass-border);
   border-radius: var(--ais-radius-card);
-  /* 흰 패널 표면 위에서 카드가 구분되도록 옅은 쿨그레이 틴트 */
-  background: color-mix(in srgb, var(--ais-bg) 60%, rgba(20, 40, 80, 0.04));
+  /* 글래스 패널 위에서 카드가 떠 보이도록 반투명 화이트 + blur */
+  background: color-mix(in srgb, var(--ais-surface) 78%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   transition:
     transform var(--ais-dur) var(--ais-ease-spring),
     border-color var(--ais-dur) var(--ais-ease-expo),
+    background-color var(--ais-dur) var(--ais-ease-expo),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
   /* 패널 마운트/탭 전환 시 stagger 진입. IO 비의존 → 항상 표시 보장. */
   animation: featureIn var(--ais-dur) var(--ais-ease-expo) both;
@@ -206,10 +276,12 @@
 
 .feature:hover {
   transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--svc-primary) 45%, transparent);
+  /* 골드 hover 보더 + 골드 글로우(외피 액센트) + 서비스색 잔향 */
+  border-color: color-mix(in srgb, var(--ais-gold) 55%, transparent);
   background: var(--ais-surface);
-  box-shadow: 0 18px 38px
-    color-mix(in srgb, var(--svc-primary) 15%, transparent);
+  box-shadow:
+    var(--ais-glow-gold),
+    0 18px 38px color-mix(in srgb, var(--svc-primary) 14%, transparent);
 }
 
 .featureIcon {

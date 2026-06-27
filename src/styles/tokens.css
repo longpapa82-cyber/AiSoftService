@@ -1,66 +1,73 @@
 /*
- * AI Soft 전역 디자인 토큰 — Light "순백·소프트" 테마.
- * 방향성: 순백~연한 회색 갤러리 위에 각 서비스를 밝은 작품 카드로 전시.
- * 부드럽고 깔끔, 밝은 톤 포인트 컬러(파스텔). (CLAUDE.md)
- * 서비스별 컬러는 카드 컴포넌트가 런타임에 --svc-* 변수로 주입한다.
+ * AI Soft 전역 디자인 토큰 — "하이테크 반도체/AI" 테마.
+ * 베이스: 밝은 회백색 + 회로 도트 패턴. 잉크: Deep Navy. 포인트: Signal Gold.
+ * 외피(--ais-*)만 하이테크. 서비스 카드는 자기 --svc-* 컬러를 유지(2계층).
+ * 타이포: Outfit(디스플레이) / Inter(본문) / JetBrains Mono(테크 배지).
  */
 :root {
-  /* ── 밝은 갤러리 베이스 ── */
-  --ais-bg: #fbfcfe;
-  --ais-bg-2: #f4f7fb;
+  /* ── 베이스 (밝은 회백색 — CLAUDE.md '밝은 톤'과 양립) ── */
+  --ais-bg: #f7f9fb;
+  --ais-bg-2: #eef2f6;
   --ais-surface: #ffffff;
-  --ais-surface-2: #f7f9fc;
-  --ais-border: rgba(20, 40, 80, 0.1);
-  --ais-border-strong: rgba(20, 40, 80, 0.18);
+  --ais-surface-2: #f2f4f6;
+  --ais-border: rgba(10, 25, 47, 0.1);
+  --ais-border-strong: rgba(10, 25, 47, 0.18);
 
-  /* ── 텍스트 (밝은 배경용 짙은 잉크) ── */
-  --ais-text: #1a2238;
-  --ais-text-mid: #4a5670;
-  --ais-text-soft: #8893ab;
+  /* ── 잉크 (Deep Technical Navy) ── */
+  --ais-navy: #0a192f;
+  --ais-navy-2: #172a45;
+  --ais-text: #0a192f;
+  --ais-text-mid: #465a6d; /* Slate Gray */
+  --ais-text-soft: #778597;
 
-  /* ── AI Soft 브랜드 포인트 (밝은 파스텔 블루·민트) ── */
-  --ais-brand: #4a90d9;
-  --ais-brand-2: #2dd4bf;
-  --ais-brand-grad: linear-gradient(120deg, #5ea0ff 0%, #46e0c8 100%);
-  --ais-glow: rgba(94, 160, 255, 0.28);
+  /* ── 포인트 (Signal Gold) ── */
+  --ais-gold: #f9d949;
+  --ais-gold-2: #f1c40f;
+  --ais-gold-deep: #c9a800;
+  --ais-brand: #f9d949;
+  --ais-brand-2: #f1c40f;
+  --ais-brand-grad: linear-gradient(135deg, #f9d949 0%, #f1c40f 100%);
+  --ais-glow: rgba(249, 217, 73, 0.35);
 
-  /* 파스텔 분위기 워시(배경 blob 용) */
-  --ais-wash-blue: rgba(120, 180, 255, 0.5);
-  --ais-wash-mint: rgba(90, 224, 200, 0.42);
-  --ais-wash-peach: rgba(255, 180, 165, 0.4);
-  --ais-wash-lilac: rgba(190, 170, 255, 0.4);
+  /* 글래스 표면 */
+  --ais-glass-bg: rgba(255, 255, 255, 0.7);
+  --ais-glass-nav: rgba(255, 255, 255, 0.85);
+  --ais-glass-border: rgba(10, 25, 47, 0.08);
 
   /* ── 타이포 ── */
-  --ais-font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  --ais-font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --ais-font-display: 'Outfit', system-ui, -apple-system, sans-serif;
+  --ais-font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --ais-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
 
-  --ais-text-hero: clamp(2.5rem, 1rem + 7vw, 6.5rem);
-  --ais-text-h2: clamp(1.75rem, 1rem + 3vw, 3rem);
-  --ais-text-h3: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+  --ais-text-hero: clamp(2.25rem, 1rem + 6.5vw, 5rem);
+  --ais-text-h2: clamp(1.6rem, 1rem + 2.4vw, 2.25rem);
+  --ais-text-h3: clamp(1.2rem, 1rem + 0.9vw, 1.5rem);
   --ais-text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
 
   /* ── 간격 / 리듬 ── */
-  --ais-section: clamp(4.5rem, 3rem + 7vw, 9rem);
-  --ais-gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
-  --ais-maxw: 1200px;
+  --ais-section: clamp(4.5rem, 3rem + 7vw, 8rem);
+  --ais-gutter: clamp(1rem, 0.5rem + 3vw, 3rem);
+  --ais-maxw: 1280px;
 
-  /* ── 라운드 / 그림자 (밝은 톤: 부드럽고 옅은 다층 그림자로 depth) ── */
-  --ais-radius-card: 24px;
-  --ais-radius-lg: 32px;
+  /* ── 라운드 / 그림자 ── */
+  --ais-radius-card: 1.25rem;
+  --ais-radius-lg: 1.5rem;
   --ais-radius-pill: 999px;
-  /* 흰 카드가 밝은 배경에서 또렷이 떠 보이도록 다층 소프트 섀도우 */
-  --ais-shadow-card: 0 1px 2px rgba(30, 50, 90, 0.04),
-    0 8px 20px rgba(30, 50, 90, 0.08), 0 24px 56px rgba(30, 50, 90, 0.1);
-  --ais-shadow-lift: 0 2px 6px rgba(30, 50, 90, 0.08),
-    0 16px 36px rgba(30, 50, 90, 0.14), 0 36px 80px rgba(30, 50, 90, 0.16);
-  /* 섹션 표면 교차용 톤 */
-  --ais-section-tint: #f1f5fb;
+  --ais-shadow-card: 0 4px 24px -1px rgba(10, 25, 47, 0.06),
+    0 1px 3px rgba(10, 25, 47, 0.04);
+  --ais-shadow-lift: 0 18px 44px -4px rgba(10, 25, 47, 0.14),
+    0 6px 16px rgba(10, 25, 47, 0.08);
+  /* 골드 hover 글로우 (하이테크 시그니처) */
+  --ais-glow-gold: 0 0 24px rgba(249, 217, 73, 0.28);
+
+  --ais-section-tint: #eef2f6;
 
   /* ── 모션 ── */
   --ais-ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ais-ease-spring: cubic-bezier(0.34, 1.3, 0.5, 1);
+  --ais-ease-tech: cubic-bezier(0.4, 0, 0.2, 1);
   --ais-dur-fast: 0.2s;
-  --ais-dur: 0.45s;
-  --ais-dur-slow: 0.7s;
+  --ais-dur: 0.4s;
+  --ais-dur-slow: 0.6s;
   --ais-stagger: 70ms;
 }

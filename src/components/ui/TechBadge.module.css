@@ -1,0 +1,64 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.4rem 0.85rem;
+  border-radius: 0.4rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.gold {
+  color: var(--ais-gold-deep);
+  background: color-mix(in srgb, var(--ais-gold) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ais-gold) 40%, transparent);
+}
+
+.navy {
+  color: var(--ais-navy);
+  background: color-mix(in srgb, var(--ais-navy) 6%, transparent);
+  border: 1px solid var(--ais-border);
+}
+
+.outline {
+  color: var(--ais-text-mid);
+  background: transparent;
+  border: 1px solid var(--ais-border-strong);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ais-gold);
+  box-shadow: 0 0 0 0 var(--ais-gold);
+  animation: techPulse 2s var(--ais-ease-expo) infinite;
+}
+
+.icon {
+  display: inline-flex;
+  font-size: 0.95rem;
+}
+
+@keyframes techPulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-gold) 70%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 6px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}

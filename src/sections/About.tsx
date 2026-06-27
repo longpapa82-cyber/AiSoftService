@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { COMPANY } from '../data/company';
 import { SectionHeader } from '../components/ui/SectionHeader';
+import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import styles from './About.module.css';
 
@@ -10,12 +11,14 @@ type InfoRow = {
   key: string;
   label: string;
   icon: string;
+  /** 모노스페이스 기술 라벨(레지스터 식별자 느낌) */
+  reg: string;
 };
 
 const INFO_ROWS: readonly InfoRow[] = [
-  { key: 'ceo', label: '대표이사', icon: '👤' },
-  { key: 'email', label: '이메일', icon: '✉️' },
-  { key: 'address', label: '주소', icon: '📍' },
+  { key: 'ceo', label: '대표이사', icon: '👤', reg: 'CEO' },
+  { key: 'email', label: '이메일', icon: '✉️', reg: 'CONTACT' },
+  { key: 'address', label: '주소', icon: '📍', reg: 'HQ' },
 ] as const;
 
 /**
@@ -43,14 +46,18 @@ export function About() {
       aria-labelledby="about-title"
     >
       <div className="ais-container">
-        <SectionHeader
-          eyebrow="COMPANY"
-          title="회사 소개"
-          id="about-title"
-        />
+        <div className={styles.heading}>
+          <TechBadge variant="gold" dot>
+            COMPANY
+          </TechBadge>
+          <SectionHeader title="회사 소개" id="about-title" />
+        </div>
 
         <div ref={ref} className={`${styles.grid} reveal`}>
           <div className={styles.intro}>
+            <span className={styles.introTag} aria-hidden="true">
+              // about_aisoft
+            </span>
             <p className={styles.slogan}>{COMPANY.slogan}</p>
             <p className={styles.body}>{COMPANY.intro}</p>
             <span className={styles.wordmark} aria-hidden="true">
@@ -66,6 +73,9 @@ export function About() {
                     {row.icon}
                   </span>
                   {row.label}
+                  <span className={styles.reg} aria-hidden="true">
+                    {row.reg}
+                  </span>
                 </dt>
                 <dd className={styles.value}>
                   {row.key === 'ceo' && COMPANY.ceo}

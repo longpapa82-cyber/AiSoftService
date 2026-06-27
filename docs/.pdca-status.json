@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-27T04:40:58.572Z",
+  "lastUpdated": "2026-06-27T05:18:26.465Z",
   "activeFeatures": [
     "AiSoftService",
     "data",
@@ -45,9 +45,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T03:59:52.011Z",
-        "lastUpdated": "2026-06-27T04:31:34.282Z"
+        "lastUpdated": "2026-06-27T05:09:52.372Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/components/ui/StoreBadges.tsx"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/components/ui/TechBadge.tsx"
     },
     "sections": {
       "phase": "do",
@@ -58,9 +58,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T04:01:50.258Z",
-        "lastUpdated": "2026-06-27T04:40:58.572Z"
+        "lastUpdated": "2026-06-27T05:18:26.465Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Hero.tsx"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Header.tsx"
     },
     "tmp": {
       "phase": "do",
@@ -84,7 +84,7 @@
   "session": {
     "startedAt": "2026-06-27T02:53:55.923Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-27T04:40:58.572Z"
+    "lastActivity": "2026-06-27T05:18:26.465Z"
   },
   "history": [
     {
@@ -353,6 +353,114 @@
     },
     {
       "timestamp": "2026-06-27T04:40:58.572Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:09:52.372Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:13:57.333Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:00.363Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:00.727Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:05.169Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:05.481Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:15.228Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:19.472Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:25.209Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:32.450Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:14:58.378Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:15:04.316Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:15:12.199Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:15:14.614Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:15:16.693Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:15:27.073Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:15:32.383Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T05:18:26.465Z",
       "feature": "sections",
       "phase": "do",
       "action": "updated"

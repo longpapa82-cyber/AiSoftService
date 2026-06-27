@@ -1,5 +1,6 @@
 /*
- * 갤러리 작품 카드. 색/폰트는 ServiceCard.tsx가 주입하는 --svc-* 변수로만 채색.
+ * 갤러리 작품 카드. 외피(글래스/보더/hover)는 하이테크 골드 액센트.
+ * 내부 색/폰트는 ServiceCard.tsx가 주입하는 --svc-* 변수로 서비스 고유색 유지.
  * 컴포지터 친화 속성(transform/opacity/box-shadow)만 애니메이션.
  */
 
@@ -13,18 +14,22 @@
   color: var(--svc-ink);
   font-family: var(--svc-font);
   box-shadow: var(--ais-shadow-card);
-  border: 1px solid var(--ais-border);
+  border: 1px solid var(--ais-glass-border);
   transform: translateZ(0);
   transition:
     transform var(--ais-dur) var(--ais-ease-spring),
-    box-shadow var(--ais-dur) var(--ais-ease-expo);
+    box-shadow var(--ais-dur) var(--ais-ease-expo),
+    border-color var(--ais-dur) var(--ais-ease-expo);
   will-change: transform;
 }
 
 .card:hover,
 .card:focus-within {
   transform: translateY(-10px);
-  box-shadow: var(--ais-shadow-lift);
+  border-color: var(--ais-gold);
+  box-shadow:
+    var(--ais-shadow-lift),
+    var(--ais-glow-gold);
 }
 
 /* ── 상단 무드 스테이지(작품 액자) ── */
@@ -35,6 +40,31 @@
   min-height: 168px;
   background: var(--svc-gradient);
   overflow: hidden;
+  /* 하단 골드 시그널 헤어라인 — 하이테크 잉크 디테일 */
+  border-bottom: 1px solid color-mix(in srgb, var(--ais-gold) 38%, transparent);
+}
+
+/* hover 시 골드 헤어라인 신호 강화 */
+.stage::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ais-gold) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--ais-dur) var(--ais-ease-expo);
+}
+
+.card:hover .stage::after,
+.card:focus-within .stage::after {
+  opacity: 1;
 }
 
 .featured .stage {
@@ -140,23 +170,27 @@
 }
 
 .mood {
-  font-size: 0.72rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.7rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--svc-primary);
   padding: 0.32rem 0.7rem;
   border-radius: var(--ais-radius-pill);
-  background: color-mix(in srgb, var(--svc-primary) 14%, transparent);
+  background: color-mix(in srgb, var(--svc-primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--svc-primary) 24%, transparent);
 }
 
 .liveBadge {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-size: 0.68rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.66rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--svc-on-primary);
   background: var(--svc-primary);
   padding: 0.3rem 0.62rem;
@@ -232,16 +266,20 @@
 .statValue {
   margin: 0;
   order: -1;
-  font-weight: 800;
-  font-size: 1.25rem;
+  font-family: var(--ais-font-mono);
+  font-weight: 700;
+  font-size: 1.22rem;
+  letter-spacing: -0.01em;
   line-height: 1;
   color: var(--svc-ink);
 }
 
 .statLabel {
-  font-size: 0.74rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.7rem;
   font-weight: 500;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: var(--svc-ink-soft);
 }
 
@@ -262,8 +300,10 @@
 .placeholder:hover,
 .placeholder:focus-within {
   transform: translateY(-6px);
-  box-shadow: var(--ais-shadow-lift);
-  border-color: var(--ais-brand);
+  box-shadow:
+    var(--ais-shadow-lift),
+    var(--ais-glow-gold);
+  border-color: var(--ais-gold);
 }
 
 .placeholderInner {
@@ -299,6 +339,7 @@
 
 .placeholderTitle {
   margin: 0;
+  font-family: var(--ais-font-display);
   font-weight: 700;
   font-size: 1.05rem;
   color: var(--ais-text);
@@ -313,6 +354,7 @@
 @media (prefers-reduced-motion: reduce) {
   .card,
   .stage::before,
+  .stage::after,
   .appIcon,
   .iconGlow,
   .accentLine,

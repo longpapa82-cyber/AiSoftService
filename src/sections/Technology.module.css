@@ -1,12 +1,21 @@
 /*
- * Technology 섹션.
- * 어두운 갤러리 벽 위, 브랜드 그라디언트 포인트를 가진 depth 있는 역량 카드.
- * 카운터 느낌의 큰 타이포로 데이터 기반 수치를 강조한다.
+ * Technology 섹션 — 하이테크 톤(NEURAL ENGINE).
+ * Deep Navy 잉크 위, Signal Gold 액센트의 글래스 역량 카드.
+ * JetBrains Mono 라벨 + Outfit 카운터로 데이터 기반 수치를 강조한다.
  */
 
 .section {
   padding-block: var(--ais-section);
   position: relative;
+}
+
+/* ── 섹션 eyebrow 배지 행 (NEURAL ENGINE / SYSTEM STATS) ── */
+.badgeRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: clamp(1rem, 0.6rem + 1vw, 1.5rem);
 }
 
 .grid {
@@ -41,9 +50,12 @@
   gap: 0.4rem;
   padding: clamp(1.5rem, 1.1rem + 1vw, 2rem);
   border-radius: var(--ais-radius-card);
+  /* Deep Navy 글래스 외피 — 골드가 살아나는 어두운 잉크 베이스 */
   background:
-    linear-gradient(165deg, var(--ais-surface-2) 0%, var(--ais-surface) 100%);
-  border: 1px solid var(--ais-border);
+    linear-gradient(165deg, rgba(10, 25, 47, 0.97) 0%, rgba(10, 25, 47, 0.88) 100%);
+  border: 1px solid var(--ais-glass-border);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   box-shadow: var(--ais-shadow-card);
   transition:
     transform var(--ais-dur) var(--ais-ease-spring),
@@ -51,14 +63,30 @@
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
 
-/* 상단 그라디언트 헤어라인 — depth/위계 */
+/* 회로 도트 텍스처 — 네이비 잉크 위 미세 그리드(재미/디테일) */
+.card::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-image: radial-gradient(
+    rgba(249, 217, 73, 0.14) 1px,
+    transparent 1px
+  );
+  background-size: 14px 14px;
+  opacity: 0.35;
+  pointer-events: none;
+  transition: opacity var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+/* 상단 골드 헤어라인 — depth/위계 */
 .card::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
   background: var(--ais-brand-grad);
-  opacity: 0.85;
+  opacity: 0.9;
   transform: scaleX(0.4);
   transform-origin: left;
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
@@ -66,9 +94,14 @@
 
 .card:hover,
 .card:focus-within {
-  transform: translateY(-8px);
-  border-color: var(--ais-border-strong);
-  box-shadow: var(--ais-shadow-lift);
+  transform: translateY(-6px);
+  border-color: var(--ais-gold);
+  box-shadow: var(--ais-shadow-lift), var(--ais-glow-gold);
+}
+
+.card:hover::after,
+.card:focus-within::after {
+  opacity: 0.6;
 }
 
 .card:hover::before,
@@ -76,7 +109,7 @@
   transform: scaleX(1);
 }
 
-/* 호버 시 떠오르는 브랜드 글로우(컴포지터 친화: opacity만) */
+/* 호버 시 떠오르는 골드 글로우(컴포지터 친화: opacity만) */
 .cardGlow {
   position: absolute;
   z-index: -1;
@@ -84,7 +117,7 @@
   height: 70%;
   background: radial-gradient(
     60% 80% at 50% 100%,
-    var(--ais-glow),
+    rgba(249, 217, 73, 0.4),
     transparent 70%
   );
   opacity: 0;
@@ -97,21 +130,43 @@
   opacity: 1;
 }
 
+/* ── 카드 상단: 아이콘 + 모노 코드 라벨 ── */
+.cardTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: stretch;
+  margin-bottom: 0.75rem;
+}
+
 /* ── 아이콘 ── */
 .iconWrap {
   display: inline-grid;
   place-items: center;
   width: 52px;
   height: 52px;
-  margin-bottom: 0.75rem;
   border-radius: 16px;
-  color: var(--ais-bg);
+  color: var(--ais-navy);
   background: var(--ais-brand-grad);
-  box-shadow: 0 8px 22px var(--ais-glow);
+  box-shadow: 0 8px 22px rgba(249, 217, 73, 0.35);
 }
 
 .iconWrap svg {
   display: block;
+}
+
+/* ── 모노 코드 라벨 (CORE_AI / GEO_ENGINE …) — 회로 칩 마킹 느낌 ── */
+.code {
+  font-family: var(--ais-font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ais-gold);
+  padding: 0.28rem 0.5rem;
+  border: 1px solid rgba(249, 217, 73, 0.32);
+  border-radius: var(--ais-radius-pill);
+  background: rgba(249, 217, 73, 0.06);
+  white-space: nowrap;
 }
 
 /* ── 카운터 메트릭 ── */
@@ -137,35 +192,39 @@
   font-family: var(--ais-font-display);
   font-weight: 700;
   font-size: 0.95rem;
-  color: var(--ais-text-mid);
+  color: var(--ais-gold);
 }
 
+/* JetBrains Mono 테크 라벨 — 모노 대문자 */
 .metricLabel {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--ais-text-soft);
+  font-family: var(--ais-font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: rgba(247, 249, 251, 0.6);
   text-transform: uppercase;
 }
 
-/* ── 본문 ── */
+/* ── 본문 (네이비 잉크 위 라이트 텍스트) ── */
 .cardTitle {
   margin-top: 0.9rem;
+  font-family: var(--ais-font-display);
   font-size: var(--ais-text-h3);
   font-weight: 800;
-  color: var(--ais-text);
+  color: var(--ais-bg);
 }
 
 .cardDesc {
   margin: 0.4rem 0 0;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: var(--ais-text-mid);
+  color: rgba(247, 249, 251, 0.74);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .card,
   .card::before,
+  .card::after,
   .cardGlow {
     transition: none;
   }

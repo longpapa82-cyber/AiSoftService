@@ -45,6 +45,9 @@ export function Header() {
             <span className={styles.logoDot} />
           </span>
           <span className={styles.logoText}>AI&nbsp;Soft</span>
+          <span className={styles.logoTag} aria-hidden="true">
+            AI&nbsp;APP&nbsp;STUDIO
+          </span>
         </a>
 
         <nav className={styles.nav} aria-label="주요 메뉴">

@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { COMPANY } from '../data/company';
 import { SERVICES_SORTED } from '../data/services';
 import { Button } from '../components/ui/Button';
+import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import { usePointerParallax } from '../hooks/usePointerParallax';
 import styles from './Hero.module.css';
@@ -42,8 +43,9 @@ export function Hero() {
       <div className={`ais-container ${styles.inner}`}>
         <div ref={copyRef} className={`${styles.copy} reveal`}>
           <span className={styles.eyebrow}>
-            <span className={styles.eyebrowDot} aria-hidden="true" />
-            {COMPANY.name} · AI App Studio
+            <TechBadge variant="gold" dot>
+              AI APP STUDIO
+            </TechBadge>
           </span>
 
           <h1 id="hero-heading" className={styles.headline}>

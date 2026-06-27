@@ -1,7 +1,7 @@
 /*
- * Hero — "Portfolio of Worlds" 진입 갤러리.
- * 어두운 벽 위 aurora blob(blur + slow float, transform/opacity만 애니메이션),
- * 거대 슬로건 + 떠다니는 서비스 칩.
+ * Hero — "AI App Studio" 하이테크 진입 화면.
+ * 밝은 회백색 베이스 위 골드/네이비 aurora(blur + slow float, transform/opacity만 애니메이션),
+ * 회로 도트 질감 + 거대 슬로건 + 글래스 서비스 칩.
  */
 .hero {
   position: relative;
@@ -46,7 +46,7 @@
   max-height: 640px;
   top: -8%;
   left: -6%;
-  background: radial-gradient(circle at 50% 50%, var(--ais-wash-blue), transparent 68%);
+  background: radial-gradient(circle at 50% 50%, rgba(249, 217, 73, 0.22), transparent 68%);
   animation: floatA 22s var(--ais-ease-expo) infinite alternate;
 }
 
@@ -57,7 +57,7 @@
   max-height: 560px;
   top: 6%;
   right: -8%;
-  background: radial-gradient(circle at 50% 50%, var(--ais-wash-mint), transparent 66%);
+  background: radial-gradient(circle at 50% 50%, rgba(10, 25, 47, 0.1), transparent 66%);
   opacity: 0.6;
   animation: floatB 26s var(--ais-ease-expo) infinite alternate;
 }
@@ -69,21 +69,35 @@
   max-height: 480px;
   bottom: -12%;
   left: 28%;
-  background: radial-gradient(circle at 50% 50%, var(--ais-wash-lilac), transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(249, 217, 73, 0.14), transparent 70%);
   opacity: 0.55;
   animation: floatC 30s var(--ais-ease-expo) infinite alternate;
 }
 
-/* 미세한 격자 — 갤러리 바닥/벽 질감 */
+/* 회로 도트 + 미세 격자 — 하이테크 보드 질감 (네이비 잉크) */
 .grid {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(140, 170, 230, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(140, 170, 230, 0.05) 1px, transparent 1px);
-  background-size: 64px 64px;
-  mask-image: radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 80%);
-  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 80%);
+    /* 회로 도트 노드 */
+    radial-gradient(rgba(10, 25, 47, 0.09) 1.3px, transparent 1.6px),
+    /* 골드 신호 도트 (드물게) */
+    radial-gradient(rgba(201, 168, 0, 0.1) 1px, transparent 1.4px),
+    /* 격자 라인 */
+    linear-gradient(rgba(10, 25, 47, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(10, 25, 47, 0.045) 1px, transparent 1px);
+  background-size:
+    32px 32px,
+    96px 96px,
+    64px 64px,
+    64px 64px;
+  background-position:
+    0 0,
+    16px 48px,
+    0 0,
+    0 0;
+  mask-image: radial-gradient(125% 95% at 50% 0%, #000 32%, transparent 82%);
+  -webkit-mask-image: radial-gradient(125% 95% at 50% 0%, #000 32%, transparent 82%);
 }
 
 @keyframes floatA {
@@ -120,29 +134,10 @@
   max-width: 920px;
 }
 
+/* eyebrow는 TechBadge로 대체됨 — 래퍼 정렬만 담당 */
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ais-text-mid);
-  padding: 0.45rem 0.95rem;
-  border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-border);
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: var(--ais-shadow-card);
-}
-.eyebrowDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--ais-brand-grad);
-  box-shadow: 0 0 12px var(--ais-glow);
 }
 
 .headline {
@@ -152,12 +147,13 @@
   letter-spacing: -0.035em;
   line-height: 1.02;
   color: var(--ais-text);
-  /* 짙은 잉크 → 진한 블루 그라디언트 — 밝은 배경에서도 또렷하게 읽힘 */
+  /* Deep Navy 잉크 위주 그라디언트 — 밝은 배경에서 또렷한 가독성, 끝에 골드로 신호 강조 */
   background: linear-gradient(
     150deg,
-    #1a2238 0%,
-    #234a8c 52%,
-    #2f7fd4 100%
+    var(--ais-navy) 0%,
+    #14375f 46%,
+    #1f4f7a 72%,
+    var(--ais-gold-deep) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -169,7 +165,13 @@
  * inline-block은 부모의 background-clip:text를 끊으므로 각 단어가 자기 그라디언트를 클립한다. */
 .word {
   display: inline-block;
-  background: linear-gradient(150deg, #1a2238 0%, #234a8c 52%, #2f7fd4 100%);
+  background: linear-gradient(
+    150deg,
+    var(--ais-navy) 0%,
+    #14375f 46%,
+    #1f4f7a 72%,
+    var(--ais-gold-deep) 100%
+  );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -220,10 +222,10 @@
   gap: 0.7rem;
   padding: 0.6rem 1.05rem 0.6rem 0.6rem;
   border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-border);
-  background: rgba(255, 255, 255, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--ais-glass-border);
+  background: var(--ais-glass-bg);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
   box-shadow: var(--ais-shadow-card);
   transition:
     transform var(--ais-dur) var(--ais-ease-spring),
@@ -233,12 +235,15 @@
   animation-delay: var(--chip-delay, 0s);
   will-change: transform;
 }
+/* hover: 골드 액센트 보더 + 골드 글로우 + 리프트.
+ * 칩별 고유색(--chip-accent)이 있으면 그 색 hint와 골드를 함께 — 외피는 골드로 통일. */
 .chip:hover {
-  transform: translateY(-4px);
-  border-color: var(--chip-accent, var(--ais-brand));
+  transform: translateY(-5px);
+  border-color: var(--ais-gold);
   box-shadow:
     var(--ais-shadow-lift),
-    0 0 0 1px color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 50%, transparent);
+    var(--ais-glow-gold),
+    0 0 0 1px color-mix(in srgb, var(--chip-accent, var(--ais-gold)) 45%, transparent);
 }
 
 .chipIcon {
@@ -263,9 +268,11 @@
   color: var(--ais-text);
 }
 .chipMood {
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-family: var(--ais-font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--ais-text-soft);
 }
 
@@ -297,10 +304,12 @@
 }
 
 .scrollText {
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.32em;
-  padding-left: 0.32em;
+  font-family: var(--ais-font-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding-left: 0.3em;
 }
 
 .scrollTrack {
@@ -309,6 +318,9 @@
   height: 36px;
   border-radius: var(--ais-radius-pill);
   border: 1.5px solid var(--ais-border-strong);
+  background: var(--ais-glass-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   overflow: hidden;
 }
 .scrollThumb {

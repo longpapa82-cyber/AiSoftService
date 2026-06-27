@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges, type StoreTone } from '../components/ui/StoreBadges';
+import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import styles from './ServiceCard.module.css';
 
@@ -77,17 +78,29 @@ export function ServiceCard({ service, featured = false, index = 0 }: ServiceCar
 
       <div className={styles.body}>
         <div className={styles.metaRow}>
-          <span className={styles.mood}>{service.moodLabel}</span>
+          <TechBadge variant="outline">{service.moodLabel}</TechBadge>
           {isLive && (
-            <span className={styles.liveBadge}>
-              <span className={styles.liveDot} aria-hidden="true" />
+            <TechBadge variant="gold" dot>
               LIVE
-            </span>
+            </TechBadge>
           )}
         </div>
 
         <h3 id={titleId} className={styles.name}>
           {service.name}
+          <span
+            aria-hidden="true"
+            style={{
+              marginLeft: '0.4rem',
+              fontFamily: 'var(--ais-font-mono)',
+              fontWeight: 600,
+              fontSize: '0.85em',
+              color: 'var(--ais-gold-deep)',
+              opacity: 0.7,
+            }}
+          >
+            &rarr;
+          </span>
         </h3>
         <p className={styles.tagline}>{service.tagline}</p>
         <p className={styles.desc}>{service.description}</p>

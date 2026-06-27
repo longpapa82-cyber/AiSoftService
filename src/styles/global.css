@@ -34,36 +34,28 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* 밝은 갤러리 분위기: 순백 위 은은한 파스텔 워시(상단 블루/민트, 우하단 피치) */
+/* 하이테크 베이스: 밝은 회백색 + 상단 골드/네이비 은은한 글로우 */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(55% 45% at 18% -8%, var(--ais-wash-blue), transparent 70%),
-    radial-gradient(50% 40% at 92% 4%, var(--ais-wash-mint), transparent 72%),
-    radial-gradient(45% 45% at 78% 96%, var(--ais-wash-peach), transparent 72%),
+    radial-gradient(60% 40% at 50% -10%, rgba(249, 217, 73, 0.08), transparent 70%),
+    radial-gradient(50% 40% at 100% 0%, rgba(10, 25, 47, 0.05), transparent 72%),
     var(--ais-bg);
-  opacity: 0.5;
 }
 
-/* 미세 필름 그레인 — 평면적인 밝은 화면에 질감 부여(아주 옅게). SVG 노이즈 인라인. */
+/* 회로 도트 패턴 — 반도체 PCB 질감(아주 옅게) */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 160px 160px;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  body::after {
-    opacity: 0.025;
-  }
+  opacity: 0.04;
+  background-image: radial-gradient(var(--ais-navy) 0.5px, transparent 0.5px);
+  background-size: 24px 24px;
 }
 
 h1,

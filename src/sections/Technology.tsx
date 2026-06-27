@@ -1,4 +1,5 @@
 import { SectionHeader } from '../components/ui/SectionHeader';
+import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
 import { SERVICES } from '../data/services';
 import styles from './Technology.module.css';
@@ -43,6 +44,8 @@ interface TechMetric {
 interface TechCapability {
   /** 인라인 SVG 키 */
   icon: 'ai' | 'location' | 'globe' | 'devices';
+  /** 모노스페이스 코드 라벨 — 하이테크 시그니처 */
+  code: string;
   title: string;
   desc: string;
   metric: TechMetric;
@@ -51,18 +54,21 @@ interface TechCapability {
 const CAPABILITIES: TechCapability[] = [
   {
     icon: 'ai',
+    code: 'CORE_AI',
     title: '생성형 AI 설계',
     desc: '목적지·증상만 입력하면 AI가 여행 일정과 건강 가이드를 자동으로 설계합니다.',
     metric: { value: '3', unit: '단계', label: 'AI 자동 완성' },
   },
   {
     icon: 'location',
+    code: 'GEO_ENGINE',
     title: '위치 기반 추천',
     desc: '실시간 위치를 기반으로 주변 펫 시설과 여행 동선을 똑똑하게 추천합니다.',
     metric: { value: '실시간', label: '주변 탐색·동선' },
   },
   {
     icon: 'globe',
+    code: 'MULTI_LANG',
     title: '다국어 지원',
     desc: '글로벌 사용자를 위해 다양한 언어로 동일한 경험을 제공합니다.',
     metric:
@@ -72,6 +78,7 @@ const CAPABILITIES: TechCapability[] = [
   },
   {
     icon: 'devices',
+    code: 'CROSS_PLATFORM',
     title: '크로스플랫폼',
     desc: 'iOS·Android·Web 어디서나 끊김 없는 경험으로 서비스를 이용할 수 있습니다.',
     metric: {
@@ -117,11 +124,14 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
       className={`${styles.card} reveal`}
       style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}
     >
-      <span className={styles.iconWrap} aria-hidden="true">
-        <svg viewBox="0 0 24 24" width="26" height="26" role="img">
-          {ICONS[cap.icon]}
-        </svg>
-      </span>
+      <div className={styles.cardTop}>
+        <span className={styles.iconWrap} aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="26" height="26" role="img">
+            {ICONS[cap.icon]}
+          </svg>
+        </span>
+        <span className={styles.code}>{cap.code}</span>
+      </div>
 
       <div className={styles.metric}>
         <span className={styles.metricValue}>{cap.metric.value}</span>
@@ -147,6 +157,13 @@ export function Technology() {
       aria-labelledby="technology-heading"
     >
       <div className="ais-container">
+        <div className={styles.badgeRow}>
+          <TechBadge variant="navy" dot>
+            NEURAL ENGINE
+          </TechBadge>
+          <TechBadge variant="outline">{`${SERVICE_COUNT} SERVICES // ${PLATFORMS.length} PLATFORMS`}</TechBadge>
+        </div>
+
         <SectionHeader
           eyebrow="TECHNOLOGY"
           title="AI Soft의 기술력"
