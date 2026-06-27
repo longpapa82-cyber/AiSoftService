@@ -1,0 +1,98 @@
+/*
+ * StoreBadges: App Store / Google Play / 웹사이트 배지.
+ * tone에 따라 명/암 카드 위 모두에서 읽히도록 색 대비를 토큰화한다.
+ */
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.badge {
+  --bdg-bg: rgba(255, 255, 255, 0.06);
+  --bdg-border: var(--ais-border-strong);
+  --bdg-fg: var(--ais-text);
+  --bdg-sub: var(--ais-text-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-width: 9.5rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--bdg-border);
+  border-radius: 14px;
+  background: var(--bdg-bg);
+  color: var(--bdg-fg);
+  text-decoration: none;
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    box-shadow var(--ais-dur) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    background-color var(--ais-dur-fast) var(--ais-ease-expo);
+  will-change: transform;
+}
+
+/* 암(어두운 카드/벽) 위: 밝은 글자 */
+.dark {
+  --bdg-bg: rgba(255, 255, 255, 0.06);
+  --bdg-border: rgba(255, 255, 255, 0.18);
+  --bdg-fg: #f3f6fc;
+  --bdg-sub: rgba(243, 246, 252, 0.66);
+}
+
+/* 명(밝은 카드) 위: 어두운 글자 */
+.light {
+  --bdg-bg: rgba(12, 18, 33, 0.04);
+  --bdg-border: rgba(12, 18, 33, 0.16);
+  --bdg-fg: #0c1221;
+  --bdg-sub: rgba(12, 18, 33, 0.6);
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  border-color: var(--ais-brand);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
+}
+.badge:active {
+  transform: translateY(0);
+}
+.badge:focus-visible {
+  outline: 2px solid var(--ais-brand);
+  outline-offset: 3px;
+}
+
+.logo {
+  flex: 0 0 auto;
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--bdg-fg);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.kicker {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bdg-sub);
+}
+
+.label {
+  font-family: var(--ais-font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--bdg-fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge:hover,
+  .badge:active {
+    transform: none;
+  }
+}

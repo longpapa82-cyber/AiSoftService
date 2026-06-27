@@ -1,0 +1,218 @@
+/*
+ * About 섹션.
+ * 어두운 갤러리 벽 위에 회사 정보를 신뢰감 있는 2열 레이아웃으로 전시.
+ * 좌: 소개 본문 + 거대 워드마크. 우: 대표/이메일/주소 정보 카드.
+ */
+.section {
+  padding-block: var(--ais-section);
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(1.5rem, 1rem + 3vw, 3.5rem);
+  align-items: stretch;
+  margin-top: clamp(2rem, 1rem + 3vw, 3.5rem);
+}
+
+/* ── 좌측: 소개 ── */
+.intro {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+  border: 1px solid var(--ais-border);
+  border-radius: var(--ais-radius-lg);
+  background: linear-gradient(
+    155deg,
+    var(--ais-surface) 0%,
+    var(--ais-bg-2) 100%
+  );
+  box-shadow: var(--ais-shadow-card);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* 은은한 브랜드 글로우 */
+.intro::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: auto -30% -40% auto;
+  width: 60%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, var(--ais-glow) 0%, transparent 68%);
+  opacity: 0.6;
+}
+
+.slogan {
+  font-family: var(--ais-font-display);
+  font-size: var(--ais-text-h3);
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--ais-text);
+  background: var(--ais-brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-wrap: balance;
+}
+
+.body {
+  font-size: var(--ais-text-body);
+  line-height: 1.75;
+  color: var(--ais-text-mid);
+  max-width: 48ch;
+}
+
+/* 거대 워드마크 — depth/위계용 배경 타이포 */
+.wordmark {
+  margin-top: auto;
+  font-family: var(--ais-font-display);
+  font-size: clamp(2.5rem, 1rem + 7vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--ais-border-strong);
+  user-select: none;
+}
+
+/* ── 우측: 정보 ── */
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(1rem, 0.75rem + 1vw, 1.5rem);
+  border: 1px solid var(--ais-border);
+  border-radius: var(--ais-radius-card);
+  background: var(--ais-surface);
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    box-shadow var(--ais-dur-fast) var(--ais-ease-expo);
+}
+
+.row:hover {
+  transform: translateY(-3px);
+  border-color: var(--ais-border-strong);
+  box-shadow: var(--ais-shadow-card);
+}
+
+.term {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ais-font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ais-text-soft);
+}
+
+.rowIcon {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.value {
+  margin: 0;
+  font-size: var(--ais-text-body);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ais-text);
+  word-break: keep-all;
+}
+
+/* ── 이메일: 링크 + 복사 ── */
+.emailWrap {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.emailLink {
+  font-weight: 700;
+  color: var(--ais-brand);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    color var(--ais-dur-fast) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo);
+}
+
+.emailLink:hover,
+.emailLink:focus-visible {
+  color: var(--ais-brand-2);
+  border-bottom-color: currentColor;
+  outline: none;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--ais-font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ais-text-mid);
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--ais-border-strong);
+  border-radius: var(--ais-radius-pill);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    color var(--ais-dur-fast) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    background-color var(--ais-dur-fast) var(--ais-ease-expo);
+}
+
+.copyBtn:hover {
+  color: var(--ais-text);
+  border-color: var(--ais-brand);
+  background: rgba(94, 160, 255, 0.1);
+}
+
+.copyBtn:active {
+  transform: scale(0.94);
+}
+
+.copyBtn:focus-visible {
+  outline: 2px solid var(--ais-brand);
+  outline-offset: 2px;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row,
+  .copyBtn,
+  .emailLink {
+    transition: none;
+  }
+
+  .row:hover {
+    transform: none;
+  }
+
+  .copyBtn:active {
+    transform: none;
+  }
+}

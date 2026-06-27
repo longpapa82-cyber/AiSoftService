@@ -1,0 +1,97 @@
+/*
+ * 공통 Button. 갤러리 벽(어두운 배경) 위에서 동작하는 기본 스타일.
+ * 색은 토큰(--ais-*) 기반. 서비스 카드 내부에서 쓸 때는 부모가
+ * --ais-brand-grad / --ais-brand 등을 service.theme 값으로 덮어쓸 수 있다.
+ */
+.base {
+  --btn-fg: var(--ais-text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55em;
+  padding: 0.85em 1.5em;
+  font-family: var(--ais-font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  border: 1px solid transparent;
+  border-radius: var(--ais-radius-pill);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  user-select: none;
+  color: var(--btn-fg);
+  background: transparent;
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    box-shadow var(--ais-dur) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    background-color var(--ais-dur-fast) var(--ais-ease-expo),
+    color var(--ais-dur-fast) var(--ais-ease-expo);
+  will-change: transform;
+}
+
+.base:focus-visible {
+  outline: 2px solid var(--ais-brand);
+  outline-offset: 3px;
+}
+
+/* 아이콘/이모지 슬롯 */
+.icon {
+  display: inline-flex;
+  font-size: 1.15em;
+  line-height: 1;
+}
+
+/* ── primary: 브랜드 그라디언트, hover 시 떠오르며 글로우 ── */
+.primary {
+  --btn-fg: #06122b;
+  background-image: var(--ais-brand-grad);
+  box-shadow: 0 6px 20px var(--ais-glow);
+}
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 34px var(--ais-glow),
+    0 0 0 1px rgba(255, 255, 255, 0.18) inset;
+}
+.primary:active {
+  transform: translateY(0);
+}
+
+/* ── outline: 테두리만, hover 시 채워지는 느낌 ── */
+.outline {
+  border-color: var(--ais-border-strong);
+  color: var(--ais-text);
+  background: rgba(255, 255, 255, 0.02);
+}
+.outline:hover {
+  transform: translateY(-2px);
+  border-color: var(--ais-brand);
+  background: rgba(94, 160, 255, 0.1);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+.outline:active {
+  transform: translateY(0);
+}
+
+/* ── ghost: 가장 약한 위계, 텍스트 위주 ── */
+.ghost {
+  color: var(--ais-text-mid);
+  background: transparent;
+}
+.ghost:hover {
+  color: var(--ais-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+.ghost:active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .base:hover,
+  .base:active {
+    transform: none;
+  }
+}

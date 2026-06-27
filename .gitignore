@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+*.local
+.DS_Store
+.vite
+
+# tool state (not part of the site)
+.claude/
+.bkit/

@@ -1,0 +1,110 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  font-family: var(--ais-font-body);
+  font-size: var(--ais-text-body);
+  line-height: 1.6;
+  color: var(--ais-text);
+  background: var(--ais-bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* 갤러리 벽 분위기: 미세한 방사형 글로우 + 그레인 느낌 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(60% 50% at 50% -10%, rgba(94, 160, 255, 0.16), transparent 70%),
+    radial-gradient(50% 40% at 100% 0%, rgba(70, 224, 200, 0.1), transparent 70%),
+    var(--ais-bg);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--ais-font-display);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+  font-weight: 800;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ais-brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.ais-skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--ais-surface);
+  color: var(--ais-text);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0 0 12px 0;
+}
+.ais-skip-link:focus {
+  left: 0;
+}
+
+/* 공통 컨테이너 */
+.ais-container {
+  width: 100%;
+  max-width: var(--ais-maxw);
+  margin-inline: auto;
+  padding-inline: var(--ais-gutter);
+}
+
+/* 스크롤 진입 리빌(IntersectionObserver가 .is-visible 부여) */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo),
+    transform var(--ais-dur-slow) var(--ais-ease-expo);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}

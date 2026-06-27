@@ -1,0 +1,56 @@
+/*
+ * AI Soft 전역 디자인 토큰.
+ * 방향성: "Portfolio of Worlds" — 어두운 갤러리 벽 위에 각 서비스를 작품처럼 전시.
+ * 서비스별 컬러는 카드 컴포넌트가 런타임에 --svc-* 변수로 주입한다.
+ */
+:root {
+  /* ── 갤러리 베이스(어두운 벽) ── */
+  --ais-bg: #0b1020;
+  --ais-bg-2: #0e1426;
+  --ais-surface: #141b30;
+  --ais-surface-2: #1b2440;
+  --ais-border: rgba(140, 170, 230, 0.14);
+  --ais-border-strong: rgba(140, 170, 230, 0.26);
+
+  /* ── 텍스트 ── */
+  --ais-text: #eef2fb;
+  --ais-text-mid: #b3bed6;
+  --ais-text-soft: #7c8aa8;
+
+  /* ── AI Soft 브랜드 포인트(세 서비스 컬러의 교집합 = 밝은 시안·블루) ── */
+  --ais-brand: #5ea0ff;
+  --ais-brand-2: #46e0c8;
+  --ais-brand-grad: linear-gradient(120deg, #5ea0ff 0%, #46e0c8 100%);
+  --ais-glow: rgba(94, 160, 255, 0.35);
+
+  /* ── 타이포 ── */
+  --ais-font-display: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --ais-font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+
+  --ais-text-hero: clamp(2.5rem, 1rem + 7vw, 6.5rem);
+  --ais-text-h2: clamp(1.75rem, 1rem + 3vw, 3rem);
+  --ais-text-h3: clamp(1.25rem, 1rem + 1vw, 1.6rem);
+  --ais-text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+
+  /* ── 간격 / 리듬 ── */
+  --ais-section: clamp(4.5rem, 3rem + 7vw, 9rem);
+  --ais-gutter: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  --ais-maxw: 1200px;
+
+  /* ── 라운드 / 그림자 ── */
+  --ais-radius-card: 24px;
+  --ais-radius-lg: 32px;
+  --ais-radius-pill: 999px;
+  --ais-shadow-card: 0 24px 60px rgba(0, 0, 0, 0.45),
+    0 4px 16px rgba(0, 0, 0, 0.3);
+  --ais-shadow-lift: 0 36px 90px rgba(0, 0, 0, 0.55),
+    0 8px 28px rgba(0, 0, 0, 0.4);
+
+  /* ── 모션 ── */
+  --ais-ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ais-ease-spring: cubic-bezier(0.34, 1.3, 0.5, 1);
+  --ais-dur-fast: 0.2s;
+  --ais-dur: 0.45s;
+  --ais-dur-slow: 0.7s;
+  --ais-stagger: 70ms;
+}

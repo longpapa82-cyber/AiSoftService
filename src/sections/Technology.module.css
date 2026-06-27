@@ -1,0 +1,176 @@
+/*
+ * Technology 섹션.
+ * 어두운 갤러리 벽 위, 브랜드 그라디언트 포인트를 가진 depth 있는 역량 카드.
+ * 카운터 느낌의 큰 타이포로 데이터 기반 수치를 강조한다.
+ */
+
+.section {
+  padding-block: var(--ais-section);
+  position: relative;
+}
+
+.grid {
+  list-style: none;
+  margin: clamp(2.5rem, 1.5rem + 3vw, 4rem) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1rem, 0.5rem + 1.5vw, 1.5rem);
+}
+
+@media (min-width: 600px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ── 카드 ── */
+.card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+  padding: clamp(1.5rem, 1.1rem + 1vw, 2rem);
+  border-radius: var(--ais-radius-card);
+  background:
+    linear-gradient(165deg, var(--ais-surface-2) 0%, var(--ais-surface) 100%);
+  border: 1px solid var(--ais-border);
+  box-shadow: var(--ais-shadow-card);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-spring),
+    border-color var(--ais-dur) var(--ais-ease-expo),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+}
+
+/* 상단 그라디언트 헤어라인 — depth/위계 */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--ais-brand-grad);
+  opacity: 0.85;
+  transform: scaleX(0.4);
+  transform-origin: left;
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-8px);
+  border-color: var(--ais-border-strong);
+  box-shadow: var(--ais-shadow-lift);
+}
+
+.card:hover::before,
+.card:focus-within::before {
+  transform: scaleX(1);
+}
+
+/* 호버 시 떠오르는 브랜드 글로우(컴포지터 친화: opacity만) */
+.cardGlow {
+  position: absolute;
+  z-index: -1;
+  inset: auto -30% -50% -30%;
+  height: 70%;
+  background: radial-gradient(
+    60% 80% at 50% 100%,
+    var(--ais-glow),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--ais-dur-slow) var(--ais-ease-expo);
+  pointer-events: none;
+}
+
+.card:hover .cardGlow,
+.card:focus-within .cardGlow {
+  opacity: 1;
+}
+
+/* ── 아이콘 ── */
+.iconWrap {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0.75rem;
+  border-radius: 16px;
+  color: var(--ais-bg);
+  background: var(--ais-brand-grad);
+  box-shadow: 0 8px 22px var(--ais-glow);
+}
+
+.iconWrap svg {
+  display: block;
+}
+
+/* ── 카운터 메트릭 ── */
+.metric {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.metricValue {
+  font-family: var(--ais-font-display);
+  font-weight: 800;
+  font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  background: var(--ais-brand-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.metricUnit {
+  font-family: var(--ais-font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--ais-text-mid);
+}
+
+.metricLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ais-text-soft);
+  text-transform: uppercase;
+}
+
+/* ── 본문 ── */
+.cardTitle {
+  margin-top: 0.9rem;
+  font-size: var(--ais-text-h3);
+  font-weight: 800;
+  color: var(--ais-text);
+}
+
+.cardDesc {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ais-text-mid);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .card::before,
+  .cardGlow {
+    transition: none;
+  }
+  .card:hover,
+  .card:focus-within {
+    transform: none;
+  }
+}

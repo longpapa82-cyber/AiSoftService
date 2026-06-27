@@ -1,0 +1,302 @@
+/*
+ * 갤러리 작품 카드. 색/폰트는 ServiceCard.tsx가 주입하는 --svc-* 변수로만 채색.
+ * 컴포지터 친화 속성(transform/opacity/box-shadow)만 애니메이션.
+ */
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--ais-radius-card);
+  background: var(--svc-surface);
+  color: var(--svc-ink);
+  font-family: var(--svc-font);
+  box-shadow: var(--ais-shadow-card);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transform: translateZ(0);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-spring),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+  will-change: transform;
+}
+
+.card:hover,
+.card:focus-within {
+  transform: translateY(-10px);
+  box-shadow: var(--ais-shadow-lift);
+}
+
+/* ── 상단 무드 스테이지(작품 액자) ── */
+.stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 168px;
+  background: var(--svc-gradient);
+  overflow: hidden;
+}
+
+.featured .stage {
+  min-height: 260px;
+}
+
+/* 떠다니는 광택 원 — depth/atmosphere */
+.stage::before {
+  content: '';
+  position: absolute;
+  inset: -30% -10% auto auto;
+  width: 60%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--svc-accent) 55%, transparent) 0%,
+    transparent 70%
+  );
+  opacity: 0.7;
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.card:hover .stage::before {
+  transform: translate(-12%, 12%) scale(1.12);
+}
+
+.glyph {
+  position: relative;
+  font-size: clamp(3.5rem, 2rem + 6vw, 6rem);
+  line-height: 1;
+  filter: drop-shadow(0 10px 26px rgba(0, 0, 0, 0.3));
+  transition: transform var(--ais-dur) var(--ais-ease-spring);
+}
+
+.featured .glyph {
+  font-size: clamp(4.5rem, 2rem + 8vw, 8rem);
+}
+
+.card:hover .glyph {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+/* hover 시 자라나는 accent 라인 */
+.accentLine {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  background: var(--svc-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--ais-dur) var(--ais-ease-expo);
+}
+
+.card:hover .accentLine,
+.card:focus-within .accentLine {
+  transform: scaleX(1);
+}
+
+/* ── 본문 ── */
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+  flex: 1;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.mood {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--svc-primary);
+  padding: 0.32rem 0.7rem;
+  border-radius: var(--ais-radius-pill);
+  background: color-mix(in srgb, var(--svc-primary) 14%, transparent);
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--svc-on-primary);
+  background: var(--svc-primary);
+  padding: 0.3rem 0.62rem;
+  border-radius: var(--ais-radius-pill);
+}
+
+.liveDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 0 currentColor;
+  animation: pulse 2s var(--ais-ease-expo) infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, currentColor 70%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+
+.name {
+  margin: 0;
+  font-family: var(--svc-font);
+  font-weight: 800;
+  font-size: var(--ais-text-h3);
+  line-height: 1.1;
+  color: var(--svc-ink);
+}
+
+.featured .name {
+  font-size: clamp(1.6rem, 1rem + 2vw, 2.4rem);
+}
+
+.tagline {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.02rem;
+  color: var(--svc-primary);
+}
+
+.desc {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.6;
+  color: var(--svc-ink-soft);
+}
+
+/* ── 통계 ── */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.25rem 0 0;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--svc-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--svc-accent) 24%, transparent);
+}
+
+.statValue {
+  margin: 0;
+  order: -1;
+  font-weight: 800;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--svc-ink);
+}
+
+.statLabel {
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--svc-ink-soft);
+}
+
+/* StoreBadges는 본문 하단에 정렬 */
+.badges {
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+/* ── 빈 슬롯(준비 중) 카드 ── */
+.placeholder {
+  background: var(--ais-surface);
+  border: 1.5px dashed var(--ais-border-strong);
+  box-shadow: none;
+  color: var(--ais-text);
+}
+
+.placeholder:hover,
+.placeholder:focus-within {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  border-color: var(--ais-brand);
+}
+
+.placeholderInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 0.55rem;
+  flex: 1;
+  min-height: 220px;
+  padding: clamp(1.5rem, 1rem + 1.5vw, 2.25rem);
+}
+
+.placeholderGlyph {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  font-size: 2rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ais-bg);
+  background: var(--ais-brand-grad);
+  box-shadow: 0 0 28px var(--ais-glow);
+  transition: transform var(--ais-dur) var(--ais-ease-spring);
+}
+
+.placeholder:hover .placeholderGlyph {
+  transform: scale(1.1) rotate(90deg);
+}
+
+.placeholderTitle {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ais-text);
+}
+
+.placeholderDesc {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ais-text-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .stage::before,
+  .glyph,
+  .accentLine,
+  .liveDot,
+  .placeholderGlyph {
+    transition: none;
+    animation: none;
+  }
+  .card:hover,
+  .card:focus-within,
+  .placeholder:hover,
+  .placeholder:focus-within {
+    transform: none;
+  }
+}

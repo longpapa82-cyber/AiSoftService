@@ -1,0 +1,346 @@
+/*
+ * Hero — "Portfolio of Worlds" 진입 갤러리.
+ * 어두운 벽 위 aurora blob(blur + slow float, transform/opacity만 애니메이션),
+ * 거대 슬로건 + 떠다니는 서비스 칩.
+ */
+.hero {
+  position: relative;
+  isolation: isolate;
+  /* 풀스크린 느낌은 유지하되, 콘텐츠 대비 과한 하단 공백을 막기 위해 상한을 둔다. */
+  min-height: min(100svh, 860px);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: clamp(6rem, 11vh, 9rem);
+  padding-bottom: clamp(4rem, 8vh, 6rem);
+}
+
+/* ── 배경 aurora ── */
+.aurora {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.blobA {
+  width: 46vw;
+  height: 46vw;
+  max-width: 640px;
+  max-height: 640px;
+  top: -8%;
+  left: -6%;
+  background: radial-gradient(circle at 50% 50%, #5ea0ff, transparent 68%);
+  animation: floatA 22s var(--ais-ease-expo) infinite alternate;
+}
+
+.blobB {
+  width: 40vw;
+  height: 40vw;
+  max-width: 560px;
+  max-height: 560px;
+  top: 6%;
+  right: -8%;
+  background: radial-gradient(circle at 50% 50%, #46e0c8, transparent 66%);
+  opacity: 0.42;
+  animation: floatB 26s var(--ais-ease-expo) infinite alternate;
+}
+
+.blobC {
+  width: 36vw;
+  height: 36vw;
+  max-width: 480px;
+  max-height: 480px;
+  bottom: -12%;
+  left: 28%;
+  background: radial-gradient(circle at 50% 50%, #8a7bff, transparent 70%);
+  opacity: 0.32;
+  animation: floatC 30s var(--ais-ease-expo) infinite alternate;
+}
+
+/* 미세한 격자 — 갤러리 바닥/벽 질감 */
+.grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(140, 170, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(140, 170, 230, 0.05) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 80%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, #000 35%, transparent 80%);
+}
+
+@keyframes floatA {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, 8%, 0) scale(1.12);
+  }
+}
+@keyframes floatB {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+  to {
+    transform: translate3d(-7%, 5%, 0) scale(0.92);
+  }
+}
+@keyframes floatC {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    transform: translate3d(5%, -7%, 0) scale(1.1);
+  }
+}
+
+/* ── 본문 ── */
+.inner {
+  width: 100%;
+}
+
+.copy {
+  max-width: 920px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ais-text-mid);
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid var(--ais-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+.eyebrowDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ais-brand-grad);
+  box-shadow: 0 0 12px var(--ais-glow);
+}
+
+.headline {
+  margin-top: 1.4rem;
+  font-size: var(--ais-text-hero);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+  color: var(--ais-text);
+  /* 밝은 그라디언트 잉크로 슬로건 강조 */
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #d6e3ff 55%,
+    #9fd6ff 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-wrap: balance;
+}
+
+.sub {
+  margin-top: 1.4rem;
+  max-width: 62ch;
+  font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+  line-height: 1.65;
+  color: var(--ais-text-mid);
+}
+
+.actions {
+  margin-top: 2.2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+/* ── 서비스 칩 ── */
+.chips {
+  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 1.05rem 0.6rem 0.6rem;
+  border-radius: var(--ais-radius-pill);
+  border: 1px solid var(--ais-border);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-spring),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+  animation: chipFloat 6s ease-in-out infinite;
+  animation-delay: var(--chip-delay, 0s);
+  will-change: transform;
+}
+.chip:hover {
+  transform: translateY(-4px);
+  border-color: var(--chip-accent, var(--ais-brand));
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 50%, transparent);
+}
+
+.chipEmoji {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  font-size: 1.15rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--chip-accent, var(--ais-brand)) 45%, transparent);
+}
+
+.chipBody {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+.chipName {
+  font-family: var(--ais-font-display);
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--ais-text);
+}
+.chipMood {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ais-text-soft);
+}
+
+@keyframes chipFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* ── 스크롤 인디케이터 ── */
+.scrollHint {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(1.25rem, 3vh, 2rem);
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ais-text-soft);
+  transition: color var(--ais-dur-fast) var(--ais-ease-expo);
+}
+.scrollHint:hover {
+  color: var(--ais-text-mid);
+}
+
+.scrollText {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  padding-left: 0.32em;
+}
+
+.scrollTrack {
+  position: relative;
+  width: 22px;
+  height: 36px;
+  border-radius: var(--ais-radius-pill);
+  border: 1.5px solid var(--ais-border-strong);
+  overflow: hidden;
+}
+.scrollThumb {
+  position: absolute;
+  left: 50%;
+  top: 7px;
+  width: 4px;
+  height: 8px;
+  border-radius: 2px;
+  background: var(--ais-brand-grad);
+  transform: translateX(-50%);
+  animation: scrollDrop 1.8s var(--ais-ease-expo) infinite;
+}
+
+@keyframes scrollDrop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -4px);
+  }
+  35% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, 14px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, 18px);
+  }
+}
+
+/* ── 반응형 ── */
+@media (max-width: 560px) {
+  .headline {
+    letter-spacing: -0.02em;
+  }
+  .sub {
+    font-size: 1.02rem;
+  }
+  .actions {
+    width: 100%;
+  }
+  .actions > * {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  .chip {
+    flex: 1 1 100%;
+  }
+}
+
+/* ── reduced-motion: 큰 모션 정지 ── */
+@media (prefers-reduced-motion: reduce) {
+  .blobA,
+  .blobB,
+  .blobC,
+  .chip,
+  .scrollThumb {
+    animation: none !important;
+  }
+  .chip:hover,
+  .scrollHint:hover {
+    transform: translateX(-50%);
+  }
+  .scrollHint:hover {
+    transform: translateX(-50%);
+  }
+}

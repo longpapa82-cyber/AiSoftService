@@ -1,0 +1,289 @@
+/*
+ * Features 섹션: 서비스별 탭 + 기능 패널.
+ * 갤러리 벽(--ais-bg) 위 어두운 카드. 활성 서비스 컬러는 런타임에
+ * --svc-primary / --svc-accent 변수로 주입(인라인 style).
+ * 애니메이션은 transform/opacity/clip-path만 사용(컴포지터 친화).
+ */
+
+.section {
+  position: relative;
+  padding-block: var(--ais-section);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 1rem + 3vw, 3.5rem);
+}
+
+/* ── 탭 목록 ── */
+.tablist {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.tab {
+  --svc-primary: var(--ais-brand);
+  --svc-accent: var(--ais-brand-2);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.15rem;
+  border: 1px solid var(--ais-border);
+  border-radius: var(--ais-radius-pill);
+  background: var(--ais-surface);
+  color: var(--ais-text-mid);
+  font-family: var(--ais-font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    color var(--ais-dur-fast) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    background-color var(--ais-dur-fast) var(--ais-ease-expo),
+    transform var(--ais-dur-fast) var(--ais-ease-spring);
+}
+
+.tab:hover {
+  color: var(--ais-text);
+  border-color: var(--ais-border-strong);
+  transform: translateY(-2px);
+}
+
+.tab:focus-visible {
+  outline: 2px solid var(--svc-primary);
+  outline-offset: 3px;
+}
+
+.tabActive {
+  color: var(--ais-text);
+  border-color: color-mix(in srgb, var(--svc-primary) 55%, transparent);
+  background: color-mix(in srgb, var(--svc-primary) 16%, var(--ais-surface));
+  box-shadow: 0 8px 24px
+    color-mix(in srgb, var(--svc-primary) 28%, transparent);
+}
+
+/* 탭 앞 서비스 컬러 점 */
+.tabDot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: linear-gradient(
+    135deg,
+    var(--svc-primary),
+    var(--svc-accent)
+  );
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--svc-primary) 22%, transparent);
+  flex-shrink: 0;
+}
+
+.tabEmoji {
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+/* ── 패널 ── */
+.panel {
+  --svc-primary: var(--ais-brand);
+  --svc-accent: var(--ais-brand-2);
+  position: relative;
+  border: 1px solid var(--ais-border);
+  border-radius: var(--ais-radius-lg);
+  background:
+    radial-gradient(
+      120% 90% at 0% 0%,
+      color-mix(in srgb, var(--svc-primary) 14%, transparent) 0%,
+      transparent 55%
+    ),
+    var(--ais-surface);
+  padding: clamp(1.5rem, 1rem + 3vw, 3rem);
+  overflow: hidden;
+}
+
+/* 패널 상단 서비스 컬러 띠 */
+.panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--svc-primary),
+    var(--svc-accent)
+  );
+  opacity: 0.9;
+}
+
+.panelHead {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem 1.25rem;
+  margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+
+.panelTitleWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.panelEyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--ais-font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--svc-accent);
+}
+
+.panelName {
+  font-family: var(--ais-font-display);
+  font-size: var(--ais-text-h3);
+  font-weight: 800;
+  color: var(--ais-text);
+  line-height: 1.1;
+}
+
+.panelTagline {
+  font-size: var(--ais-text-body);
+  color: var(--ais-text-mid);
+  line-height: 1.6;
+  max-width: 46ch;
+}
+
+.panelEmoji {
+  font-size: clamp(2rem, 1.4rem + 2vw, 2.8rem);
+  line-height: 1;
+  flex-shrink: 0;
+  filter: drop-shadow(
+    0 6px 18px color-mix(in srgb, var(--svc-primary) 45%, transparent)
+  );
+}
+
+/* ── 기능 그리드 ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(0.875rem, 0.5rem + 1.5vw, 1.5rem);
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: clamp(1.1rem, 0.8rem + 1vw, 1.5rem);
+  border: 1px solid var(--ais-border);
+  border-radius: var(--ais-radius-card);
+  background: color-mix(in srgb, var(--ais-bg) 55%, transparent);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-spring),
+    border-color var(--ais-dur) var(--ais-ease-expo),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+  /* 패널 마운트/탭 전환 시 stagger 진입. IO 비의존 → 항상 표시 보장. */
+  animation: featureIn var(--ais-dur) var(--ais-ease-expo) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes featureIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.feature:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--svc-primary) 45%, transparent);
+  box-shadow: 0 18px 40px
+    color-mix(in srgb, var(--svc-primary) 22%, transparent);
+}
+
+.featureIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 16px;
+  font-size: 1.5rem;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--svc-primary) 30%, transparent),
+    color-mix(in srgb, var(--svc-accent) 24%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--svc-primary) 40%, transparent);
+  color: var(--ais-text);
+}
+
+.featureTitle {
+  font-family: var(--ais-font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ais-text);
+}
+
+.featureDesc {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--ais-text-mid);
+}
+
+/* ── 반응형 ── */
+@media (max-width: 880px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .tablist {
+    gap: 0.5rem;
+  }
+  .tab {
+    padding: 0.6rem 0.95rem;
+    font-size: 0.875rem;
+  }
+}
+
+/* 패널 전환 시 부드러운 페이드(키 변경으로 재마운트) */
+.panel {
+  animation: panelIn var(--ais-dur) var(--ais-ease-expo) both;
+}
+
+@keyframes panelIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab,
+  .feature {
+    transition: none;
+  }
+  .tab:hover,
+  .feature:hover {
+    transform: none;
+  }
+  .panel,
+  .feature {
+    animation: none;
+  }
+}

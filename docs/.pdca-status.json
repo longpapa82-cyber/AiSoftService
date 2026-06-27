@@ -1,0 +1,271 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-06-27T04:10:28.775Z",
+  "activeFeatures": [
+    "AiSoftService",
+    "data",
+    "ui",
+    "sections",
+    "tmp"
+  ],
+  "primaryFeature": "AiSoftService",
+  "features": {
+    "AiSoftService": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-06-27T03:56:05.317Z",
+        "lastUpdated": "2026-06-27T04:07:59.592Z"
+      },
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/hooks/useReveal.ts"
+    },
+    "data": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-06-27T03:56:49.438Z",
+        "lastUpdated": "2026-06-27T04:04:28.131Z"
+      },
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/data/company.ts"
+    },
+    "ui": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-06-27T03:59:52.011Z",
+        "lastUpdated": "2026-06-27T04:00:46.270Z"
+      },
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/components/ui/SectionHeader.tsx"
+    },
+    "sections": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-06-27T04:01:50.258Z",
+        "lastUpdated": "2026-06-27T04:10:28.775Z"
+      },
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Features.tsx"
+    },
+    "tmp": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-06-27T04:05:05.087Z",
+        "lastUpdated": "2026-06-27T04:08:32.388Z"
+      },
+      "lastFile": "/tmp/aisoft_shot2.py"
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-06-27T02:53:55.923Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-06-27T04:10:28.775Z"
+  },
+  "history": [
+    {
+      "timestamp": "2026-06-27T03:56:05.317Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T03:56:49.438Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T03:56:56.343Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T03:57:47.918Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T03:59:52.011Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:00:30.131Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:00:46.270Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:01:04.072Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:01:50.258Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:01:52.245Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:01:57.489Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:02:03.585Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:02:14.750Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:02:28.293Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:02:34.248Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:02:44.377Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:03:23.466Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:03:26.085Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:04:00.667Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:04:04.421Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:04:28.131Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:05:05.087Z",
+      "feature": "tmp",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:06:06.380Z",
+      "feature": "tmp",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:07:11.520Z",
+      "feature": "tmp",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:07:44.596Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:07:59.593Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:08:32.388Z",
+      "feature": "tmp",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:10:10.326Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:10:18.507Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T04:10:28.775Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    }
+  ]
+}
