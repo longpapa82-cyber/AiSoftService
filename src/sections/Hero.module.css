@@ -317,52 +317,75 @@
 
 .headline {
   margin-top: 1.4rem;
+  /* 몽글몽글: 둥근 한글 디스플레이 폰트(Jua) */
+  font-family: 'Jua', var(--ais-font-display);
   font-size: var(--ais-text-hero);
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  line-height: 1.02;
+  font-weight: 400;
+  /* 각진 음수 자간 → 살짝 여유로운 자간으로 통통한 인상 */
+  letter-spacing: 0.005em;
+  line-height: 1.08;
   color: var(--ais-text);
-  /* Deep Navy 잉크 위주 그라디언트 — 밝은 배경에서 또렷한 가독성, 끝에 골드로 신호 강조 */
-  background: linear-gradient(
-    150deg,
-    var(--ais-navy) 0%,
-    #14375f 46%,
-    #1f4f7a 72%,
-    var(--ais-gold-deep) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
   text-wrap: balance;
 }
 
-/* 슬로건 단어별 stagger 등장.
- * inline-block은 부모의 background-clip:text를 끊으므로 각 단어가 자기 그라디언트를 클립한다. */
+/* 슬로건 단어별 등장 + 상시 둥실둥실(bob).
+ * inline-block은 부모의 background-clip:text를 끊으므로 각 단어가 자기 그라디언트를 클립한다.
+ * 2겹 애니메이션: popIn(등장, 1회) + heroBob(둥실, 무한) — 시차로 물결처럼 일렁인다. */
 .word {
   display: inline-block;
+  /* 차갑지 않게 — 네이비에서 따뜻한 골드로 부드럽게 흐르는 몽글 그라디언트 */
   background: linear-gradient(
     150deg,
-    var(--ais-navy) 0%,
-    #14375f 46%,
-    #1f4f7a 72%,
-    var(--ais-gold-deep) 100%
+    #1f4f7a 0%,
+    #2f6aa0 38%,
+    var(--ais-gold-deep) 82%,
+    var(--ais-gold-2) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  animation: wordIn 0.8s var(--ais-ease-expo) both;
-  animation-delay: calc(var(--word-i, 0) * 90ms + 0.15s);
+  /* 통통한 입체감(글자 뒤 부드러운 그림자) */
+  filter: drop-shadow(0 3px 6px rgba(10, 25, 47, 0.12));
+  animation:
+    wordPop 0.7s var(--ais-ease-bounce) both,
+    heroBob 3.2s ease-in-out infinite;
+  /* 등장은 순차, 둥실은 단어마다 위상차를 줘 물결처럼 */
+  animation-delay:
+    calc(var(--word-i, 0) * 90ms + 0.15s),
+    calc(var(--word-i, 0) * 220ms + 0.9s);
   will-change: transform, opacity;
+  transition: transform var(--ais-dur-fast) var(--ais-ease-bounce);
 }
 
-@keyframes wordIn {
-  from {
+/* hover 시 글자가 폴짝 — 장난스러운 인터랙션 */
+.word:hover {
+  transform: translateY(-8px) scale(1.12) rotate(-3deg);
+}
+
+/* 등장: 작게 쪼그라들었다 통통 튀어오르며 확대 */
+@keyframes wordPop {
+  0% {
     opacity: 0;
-    transform: translateY(0.5em) rotate(2deg);
+    transform: translateY(0.4em) scale(0.5) rotate(-6deg);
   }
-  to {
+  70% {
+    opacity: 1;
+    transform: translateY(0) scale(1.12) rotate(2deg);
+  }
+  100% {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* 둥실둥실: 위아래로 부드럽게 일렁(살짝 회전 섞어 말랑하게) */
+@keyframes heroBob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotate(-1.2deg);
   }
 }
 
@@ -686,7 +709,8 @@
     transform: translateX(-50%);
   }
   /* hover 팝도 회전/스케일 없이 안정적으로 */
-  .chip:hover {
+  .chip:hover,
+  .word:hover {
     transform: none;
   }
 }
