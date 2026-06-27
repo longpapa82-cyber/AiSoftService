@@ -8,6 +8,14 @@
 .section {
   position: relative;
   padding-block: var(--ais-section);
+  /* 섹션 리듬: 연회색 틴트로 흰 섹션과 교차. 위아래는 흰색으로 부드럽게 페이드. */
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--ais-section-tint) 12%,
+    var(--ais-section-tint) 88%,
+    transparent 100%
+  );
 }
 
 .inner {

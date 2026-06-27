@@ -1,11 +1,18 @@
 /*
  * About 섹션.
- * 어두운 갤러리 벽 위에 회사 정보를 신뢰감 있는 2열 레이아웃으로 전시.
+ * 밝은 갤러리 위에 회사 정보를 신뢰감 있는 2열 레이아웃으로 전시.
  * 좌: 소개 본문 + 거대 워드마크. 우: 대표/이메일/주소 정보 카드.
  */
 .section {
   padding-block: var(--ais-section);
   position: relative;
+  /* 섹션 리듬: 연회색 틴트 (Technology 흰색 다음에 교차) */
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--ais-section-tint) 14%,
+    var(--ais-section-tint) 100%
+  );
 }
 
 .grid {
