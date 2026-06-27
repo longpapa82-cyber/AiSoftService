@@ -15,6 +15,52 @@
   border-block: 1px solid color-mix(in srgb, var(--p-primary) 10%, transparent);
 }
 
+/* ── 실사 히어로 배경 — 각 서비스 홈의 실제 사진 ── */
+.heroBg {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.heroImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 가독성 스크림: 좌측(카피쪽)은 서비스 bg색으로 진하게, 우측은 사진이 비치게 */
+.heroScrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      100deg,
+      var(--p-bg) 0%,
+      color-mix(in srgb, var(--p-bg) 88%, transparent) 38%,
+      color-mix(in srgb, var(--p-bg) 55%, transparent) 64%,
+      color-mix(in srgb, var(--p-bg) 30%, transparent) 100%
+    ),
+    /* 위아래 가장자리도 부드럽게 페이드 → 섹션 경계 자연스럽게 */
+    linear-gradient(180deg, var(--p-bg) 0%, transparent 18%, transparent 82%, var(--p-bg) 100%);
+}
+
+/* flip(비주얼 좌측)일 땐 스크림 방향을 반대로 — 사진이 좌측에 비치도록 */
+.flip .heroScrim {
+  background:
+    linear-gradient(
+      260deg,
+      var(--p-bg) 0%,
+      color-mix(in srgb, var(--p-bg) 88%, transparent) 38%,
+      color-mix(in srgb, var(--p-bg) 55%, transparent) 64%,
+      color-mix(in srgb, var(--p-bg) 30%, transparent) 100%
+    ),
+    linear-gradient(180deg, var(--p-bg) 0%, transparent 18%, transparent 82%, var(--p-bg) 100%);
+}
+
 /* ── 배경 장식: 그라디언트 blob 2개 (서비스 hero 그라디언트 반향) ── */
 .decor {
   position: absolute;
@@ -248,6 +294,126 @@
   justify-content: center;
 }
 
+/* ── 폰 목업 — 실제 앱 홈 스크린샷을 디바이스 프레임에 (myPet) ── */
+.phone {
+  position: relative;
+  width: min(74%, 280px);
+  aspect-ratio: 9 / 19;
+  padding: 9px;
+  border-radius: 38px;
+  /* 다크 베젤 + 입체 그림자(실물 폰 느낌) */
+  background: linear-gradient(150deg, #1f2630, #11151c);
+  box-shadow:
+    0 30px 60px color-mix(in srgb, var(--p-primary) 24%, transparent),
+    0 12px 24px rgba(10, 20, 35, 0.22),
+    inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+  transform: rotate(-2deg);
+  transition: transform var(--ais-dur) var(--ais-ease-bounce);
+  will-change: transform;
+}
+
+.phone:hover {
+  transform: rotate(0deg) translateY(-6px) scale(1.02);
+}
+
+/* 노치 */
+.phoneNotch {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 18px;
+  border-radius: 0 0 12px 12px;
+  background: #11151c;
+  z-index: 2;
+}
+
+.phoneShot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 30px;
+}
+
+/* ── 여행지 실사 갤러리 (myTravel) ── */
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 440px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 첫 카드는 크게(2행 차지) — editorial 리듬 */
+.galleryCard:first-child {
+  grid-row: span 2;
+}
+
+.galleryCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--p-radius);
+  min-height: 130px;
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--p-primary) 18%, transparent);
+  transition: transform var(--ais-dur) var(--ais-ease-bounce);
+  will-change: transform;
+}
+
+.galleryCard:hover {
+  transform: translateY(-6px) scale(1.02);
+}
+
+.galleryImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.galleryCard:hover .galleryImg {
+  transform: scale(1.08);
+}
+
+.galleryMeta {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.85rem 0.9rem 0.8rem;
+  background: linear-gradient(
+    0deg,
+    rgba(10, 20, 35, 0.78) 0%,
+    rgba(10, 20, 35, 0.36) 60%,
+    transparent 100%
+  );
+}
+
+.galleryLabel {
+  font-family: var(--p-font-display);
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.gallerySub {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
 .appCard {
   position: relative;
   isolation: isolate;
@@ -411,6 +577,23 @@
   .appCard {
     width: min(100%, 460px);
   }
+  /* 모바일: 실사 스크림을 세로 방향으로 — 텍스트 영역 위쪽을 진하게 */
+  .heroScrim,
+  .flip .heroScrim {
+    background: linear-gradient(
+      180deg,
+      var(--p-bg) 0%,
+      color-mix(in srgb, var(--p-bg) 78%, transparent) 42%,
+      color-mix(in srgb, var(--p-bg) 50%, transparent) 100%
+    );
+  }
+  .phone {
+    width: min(64%, 240px);
+  }
+  .gallery {
+    max-width: 520px;
+    margin-inline: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -418,9 +601,17 @@
   .appCard:hover,
   .appCard:hover .appIcon,
   .featureItem,
-  .featureItem:hover {
+  .featureItem:hover,
+  .phone,
+  .phone:hover,
+  .galleryCard,
+  .galleryCard:hover,
+  .galleryCard:hover .galleryImg {
     transform: none;
     transition: none;
+  }
+  .phone {
+    transform: rotate(-2deg);
   }
   .reveal {
     opacity: 1;

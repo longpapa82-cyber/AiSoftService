@@ -7,6 +7,13 @@ import mytravelIcon from '../assets/services/mytravel-icon.png';
 import mypetIcon from '../assets/services/mypet-icon.png';
 import mybabyIcon from '../assets/services/mybaby-icon.png';
 
+// 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
+// myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
+// myTravel: 실사를 원격 Unsplash URL로 로드 — 원본 앱과 동일 여행지 사진.
+// myBaby: 현재 디자인이 "화이트 카드 뉴스피드" UI라 실사 배경 미사용 → 카드 목업으로 표현.
+import mypetHero from '../assets/promo/mypet/hero-puppy.webp';
+import mypetShot from '../assets/promo/mypet/shot-home.webp';
+
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
 export interface ServiceFeature {
@@ -79,6 +86,23 @@ export interface ServicePromo {
   motif: 'paw' | 'sky' | 'feed' | 'none';
   /** 미니 홍보용 통계 칩 (실제 수치) */
   highlights: { value: string; label: string }[];
+  /**
+   * 섹션 배경에 깔리는 실사 이미지 (각 서비스 홈의 실제 사진).
+   * 로컬 import URL 또는 원격 URL(myTravel=Unsplash). 그라디언트 오버레이로 가독성 확보.
+   */
+  heroImage?: string;
+  /** heroImage의 object-position (얼굴/피사체가 잘리지 않도록) */
+  heroFocus?: string;
+  /**
+   * 우측 비주얼에 표시할 실제 앱 화면 스크린샷 (폰 목업).
+   * 있으면 폰 프레임으로, 없으면 아이콘 카드로 표현.
+   */
+  shot?: string;
+  /**
+   * 우측 비주얼을 실사 갤러리로 구성할 때의 이미지+라벨 목록.
+   * (myTravel: 실제 여행지 사진 — 원본 앱 Featured Destinations와 동일 Unsplash ID)
+   */
+  gallery?: { src: string; label: string; sub?: string }[];
 }
 
 export interface AppService {
@@ -169,6 +193,28 @@ export const SERVICES: AppService[] = [
         { value: '3단계', label: '일정 완성' },
         { value: 'AI', label: '자동 추천' },
       ],
+      // myTravel(travelPlanner) 홈의 실제 여행지 실사 — 원본 앱과 동일한 Unsplash 도쿄 사진
+      heroImage:
+        'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=1200&q=70&fm=webp&fit=crop',
+      heroFocus: 'center 45%',
+      // 우측 비주얼: 실제 앱 Featured Destinations와 동일한 여행지 사진 카드
+      gallery: [
+        {
+          src: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500&q=72&fm=webp&fit=crop',
+          label: '도쿄, 일본',
+          sub: '23° · ★ 4.8',
+        },
+        {
+          src: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500&q=72&fm=webp&fit=crop',
+          label: '파리, 프랑스',
+          sub: '18° · ★ 4.9',
+        },
+        {
+          src: 'https://images.unsplash.com/photo-1508009603885-50cf7c579365?w=500&q=72&fm=webp&fit=crop',
+          label: '방콕, 태국',
+          sub: '32° · ★ 4.6',
+        },
+      ],
     },
     order: 1,
   },
@@ -228,6 +274,10 @@ export const SERVICES: AppService[] = [
         { value: '거리순', label: '시설 검색' },
         { value: 'AI', label: '건강 상담' },
       ],
+      // myPet web 홈의 실사 강아지 히어로 + 실제 앱 홈 화면 스크린샷
+      heroImage: mypetHero,
+      heroFocus: 'center 35%',
+      shot: mypetShot,
     },
     order: 2,
   },

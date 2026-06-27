@@ -55,6 +55,20 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
       style={themeVars}
       aria-labelledby={`promo-${service.id}-title`}
     >
+      {/* 실사 히어로 배경 (있으면) — 각 서비스 홈의 실제 사진. 오버레이로 가독성 확보 */}
+      {promo.heroImage && (
+        <div className={styles.heroBg} aria-hidden="true">
+          <img
+            className={styles.heroImg}
+            src={promo.heroImage}
+            alt=""
+            style={{ objectPosition: promo.heroFocus ?? 'center' }}
+            loading="lazy"
+          />
+          <span className={styles.heroScrim} />
+        </div>
+      )}
+
       {/* motif 배경 장식 레이어 (CSS로 그림) */}
       <div className={styles.decor} aria-hidden="true">
         <span className={styles.blobA} />
@@ -110,35 +124,69 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
             />
           </div>
 
-          {/* ── 우: 앱 비주얼 (아이콘 + 기능 카드 미니 목업) ── */}
+          {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
-            <div className={styles.appCard}>
-              <div className={styles.appCardGlow} aria-hidden="true" />
-              <img
-                className={styles.appIcon}
-                src={service.iconUrl}
-                alt={`${service.name} 앱 아이콘`}
-                width={120}
-                height={120}
-                loading="lazy"
-              />
-              <span className={styles.appName}>{service.name}</span>
-              <span className={styles.appTagline}>{service.tagline}</span>
-
-              <ul className={styles.featureList}>
-                {service.features.map((f) => (
-                  <li key={f.title} className={styles.featureItem}>
-                    <span className={styles.featureIcon} aria-hidden="true">
-                      {iconFor(f.icon)}
-                    </span>
-                    <span className={styles.featureText}>
-                      <strong className={styles.featureTitle}>{f.title}</strong>
-                      <span className={styles.featureDesc}>{f.desc}</span>
+            {promo.shot ? (
+              /* 실제 앱 홈 화면 스크린샷 → 폰 프레임 목업 (myPet) */
+              <div className={styles.phone}>
+                <span className={styles.phoneNotch} aria-hidden="true" />
+                <img
+                  className={styles.phoneShot}
+                  src={promo.shot}
+                  alt={`${service.name} 앱 화면`}
+                  loading="lazy"
+                />
+              </div>
+            ) : promo.gallery ? (
+              /* 실제 여행지 실사 카드 갤러리 (myTravel) */
+              <ul className={styles.gallery}>
+                {promo.gallery.map((g) => (
+                  <li key={g.label} className={styles.galleryCard}>
+                    <img
+                      className={styles.galleryImg}
+                      src={g.src}
+                      alt={g.label}
+                      loading="lazy"
+                    />
+                    <span className={styles.galleryMeta}>
+                      <strong className={styles.galleryLabel}>{g.label}</strong>
+                      {g.sub && (
+                        <span className={styles.gallerySub}>{g.sub}</span>
+                      )}
                     </span>
                   </li>
                 ))}
               </ul>
-            </div>
+            ) : (
+              /* 아이콘 + 기능 카드 (myBaby: 화이트 카드 UI 그대로) */
+              <div className={styles.appCard}>
+                <div className={styles.appCardGlow} aria-hidden="true" />
+                <img
+                  className={styles.appIcon}
+                  src={service.iconUrl}
+                  alt={`${service.name} 앱 아이콘`}
+                  width={120}
+                  height={120}
+                  loading="lazy"
+                />
+                <span className={styles.appName}>{service.name}</span>
+                <span className={styles.appTagline}>{service.tagline}</span>
+
+                <ul className={styles.featureList}>
+                  {service.features.map((f) => (
+                    <li key={f.title} className={styles.featureItem}>
+                      <span className={styles.featureIcon} aria-hidden="true">
+                        {iconFor(f.icon)}
+                      </span>
+                      <span className={styles.featureText}>
+                        <strong className={styles.featureTitle}>{f.title}</strong>
+                        <span className={styles.featureDesc}>{f.desc}</span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
         </div>
       </div>
