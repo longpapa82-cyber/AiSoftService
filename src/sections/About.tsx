@@ -18,7 +18,6 @@ type InfoRow = {
 const INFO_ROWS: readonly InfoRow[] = [
   { key: 'ceo', label: '대표이사', icon: '👤', reg: 'CEO' },
   { key: 'email', label: '이메일', icon: '✉️', reg: 'CONTACT' },
-  { key: 'address', label: '주소', icon: '📍', reg: 'HQ' },
 ] as const;
 
 /**
@@ -97,8 +96,6 @@ export function About() {
                       </button>
                     </span>
                   )}
-
-                  {row.key === 'address' && COMPANY.address}
                 </dd>
               </div>
             ))}

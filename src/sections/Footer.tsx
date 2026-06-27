@@ -56,10 +56,6 @@ export function Footer() {
                 </a>
               </dd>
             </div>
-            <div className={styles.companyRow}>
-              <dt className={styles.companyTerm}>주소</dt>
-              <dd className={styles.companyDesc}>{COMPANY.address}</dd>
-            </div>
           </dl>
         </div>
 
