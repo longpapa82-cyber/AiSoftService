@@ -79,17 +79,11 @@
 }
 
 .logoMark {
-  display: grid;
-  place-items: center;
+  display: block;
   width: 2.5rem;
   height: 2.5rem;
-  border-radius: 14px;
-  font-family: var(--ais-font-display);
-  font-weight: 800;
-  font-size: 1.05rem;
-  letter-spacing: -0.03em;
-  color: var(--ais-navy);
-  background: var(--ais-brand-grad);
+  border-radius: 12px;
+  object-fit: cover;
   box-shadow: 0 8px 24px var(--ais-glow-gold);
 }
 
