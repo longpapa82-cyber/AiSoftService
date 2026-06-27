@@ -196,7 +196,7 @@
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo),
     box-shadow var(--ais-dur-fast) var(--ais-ease-expo),
-    transform var(--ais-dur-fast) var(--ais-ease-spring);
+    transform var(--ais-dur-fast) var(--ais-ease-bounce);
 }
 
 /* 비활성 노드: "잠금/미장착" 모노 LOCK 힌트 — hover 시 노출 */
@@ -220,10 +220,15 @@
 
 .tab:hover {
   color: var(--ais-text);
-  /* 골드 hover: 보더 + 글로우 + lift(노드 팝) */
+  /* 골드 hover: 보더 + 글로우 + 통통 lift(노드 팝) */
   border-color: color-mix(in srgb, var(--ais-gold) 60%, transparent);
   box-shadow: var(--ais-glow-gold);
-  transform: translateY(-3px) scale(1.03);
+  transform: translateY(-3px) scale(1.05);
+}
+
+/* 탭 누름: 말랑 푸시 */
+.tab:active {
+  transform: translateY(0) scale(0.96);
 }
 
 .tab:hover::before {
@@ -426,7 +431,7 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   transition:
-    transform var(--ais-dur) var(--ais-ease-spring),
+    transform var(--ais-dur) var(--ais-ease-bounce),
     border-color var(--ais-dur) var(--ais-ease-expo),
     background-color var(--ais-dur) var(--ais-ease-expo),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
@@ -446,9 +451,9 @@
   }
 }
 
-/* 능력 카드 hover 보상감: 팝(lift+scale+미세 회전) + 골드 네온 글로우 */
+/* 능력 카드 hover 보상감: 통통 팝(lift+scale+회전) + 골드 네온 글로우 */
 .feature:hover {
-  transform: translateY(-6px) scale(1.025) rotate(-0.6deg);
+  transform: translateY(-6px) scale(1.04) rotate(-1deg);
   /* 골드 hover 보더 + 골드 네온(외피 액센트) + 서비스색 잔향 */
   border-color: color-mix(in srgb, var(--ais-gold) 60%, transparent);
   background: var(--ais-surface);
@@ -539,8 +544,8 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--svc-accent);
-  padding: 0.1rem 0.35rem;
-  border-radius: 4px;
+  padding: 0.12rem 0.45rem;
+  border-radius: var(--ais-radius-pill);
   background: color-mix(in srgb, var(--svc-primary) 14%, transparent);
   flex-shrink: 0;
   align-self: center;
@@ -593,6 +598,7 @@
     transition: none;
   }
   .tab:hover,
+  .tab:active,
   .tabActive,
   .tabActive:hover,
   .feature:hover {

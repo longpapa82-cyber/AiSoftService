@@ -254,7 +254,7 @@
   backdrop-filter: blur(14px);
   box-shadow: var(--ais-shadow-card);
   transition:
-    transform var(--ais-dur) var(--ais-ease-spring),
+    transform var(--ais-dur) var(--ais-ease-bounce),
     border-color var(--ais-dur) var(--ais-ease-expo),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
@@ -288,10 +288,10 @@
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
 }
 
-/* 호버 시 카드 팝: 살짝 띄우고 + 미세 확대 + 살짝 회전(게임 카드 픽업 느낌) */
+/* 호버 시 카드 통통 팝: 띄우고 + 확대 + 통통한 회전(도감 카드 픽업 느낌) */
 .card:hover,
 .card:focus-within {
-  transform: translateY(-8px) scale(1.025) rotate(-0.6deg);
+  transform: translateY(-8px) scale(1.04) rotate(-1deg);
   border-color: var(--rarity, var(--ais-gold));
   box-shadow: var(--ais-shadow-lift), var(--ais-neon-gold);
 }
@@ -372,13 +372,13 @@
   place-items: center;
   flex: 0 0 auto;
   color: var(--rarity, var(--ais-gold));
-  /* 호버 시 반짝 회전 */
-  transition: transform var(--ais-dur) var(--ais-ease-spring);
+  /* 호버 시 별이 통통 튀며 반짝 회전 */
+  transition: transform var(--ais-dur) var(--ais-ease-bounce);
 }
 
 .card:hover .achievementStar,
 .card:focus-within .achievementStar {
-  transform: rotate(72deg) scale(1.18);
+  transform: rotate(72deg) scale(1.3);
 }
 
 /* UNLOCKED 칩 — 언락된 캐릭터/퀘스트 느낌(HP 그린 도트) */
@@ -472,7 +472,7 @@
   flex: 0 0 auto;
   width: 52px;
   height: 52px;
-  border-radius: 16px;
+  border-radius: var(--ais-radius-soft);
   /* 골드 칩 위 아이콘은 항상 네이비 — 대비 보존 */
   color: var(--ais-navy);
   background: var(--ais-brand-grad);

@@ -29,7 +29,7 @@
   color: var(--btn-fg);
   background: transparent;
   transition:
-    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    transform var(--ais-dur-fast) var(--ais-ease-bounce),
     box-shadow var(--ais-dur) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo),
@@ -70,7 +70,8 @@
     0 0 0 1px rgba(249, 217, 73, 0.35) inset;
 }
 .primary:active {
-  transform: translateY(-1px) scale(0.99);
+  /* 말랑 푸시: 꾹 눌리는 젤리 피드백 */
+  transform: translateY(1px) scale(0.95);
   border-color: var(--ais-gold);
   box-shadow: 0 0 0 1px rgba(249, 217, 73, 0.35) inset;
 }
@@ -91,7 +92,8 @@
   box-shadow: var(--ais-glow-gold);
 }
 .outline:active {
-  transform: translateY(-1px) scale(0.99);
+  /* 말랑 푸시: 꾹 눌리는 젤리 피드백 */
+  transform: translateY(1px) scale(0.95);
   border-color: var(--ais-gold);
   color: var(--ais-navy);
   background: rgba(249, 217, 73, 0.16);
