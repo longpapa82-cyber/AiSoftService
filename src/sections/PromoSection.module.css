@@ -1,0 +1,430 @@
+/*
+ * 서비스별 미니 홍보 섹션.
+ * 모든 색/폰트/라운드는 --p-* 인라인 변수(서비스 palette)에서 온다 → 한 컴포넌트, N개 브랜드.
+ * motif_* 클래스로 서비스 시그니처 배경(발자국/하늘/피드)을 분기한다.
+ * 애니메이션은 transform/opacity만(컴포지터 친화).
+ */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(3.5rem, 2rem + 6vw, 6.5rem);
+  background: var(--p-bg);
+  /* 위아래 경계를 부드럽게 — 통합 사이트 흐름에 자연스럽게 녹아듦 */
+  border-block: 1px solid color-mix(in srgb, var(--p-primary) 10%, transparent);
+}
+
+/* ── 배경 장식: 그라디언트 blob 2개 (서비스 hero 그라디언트 반향) ── */
+.decor {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.blobA,
+.blobB {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+}
+
+.blobA {
+  width: 46%;
+  aspect-ratio: 1;
+  top: -14%;
+  right: -8%;
+  background: var(--p-hero);
+}
+
+.blobB {
+  width: 38%;
+  aspect-ratio: 1;
+  bottom: -16%;
+  left: -10%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--p-accent) 55%, transparent),
+    transparent 70%
+  );
+}
+
+/* ── motif: 서비스 시그니처 배경 패턴 ── */
+/* myPet: 발자국 패턴 (골드 톤, 옅게 타일링) */
+.motif_paw::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%23c19a5b' fill-opacity='0.1'%3E%3Cellipse cx='40' cy='46' rx='9' ry='11'/%3E%3Cellipse cx='27' cy='30' rx='4' ry='5.5'/%3E%3Cellipse cx='40' cy='25' rx='4' ry='5.5'/%3E%3Cellipse cx='53' cy='30' rx='4' ry='5.5'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 90px 90px;
+  mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent);
+}
+
+/* myTravel: 하늘 — 구름/별 도트 그리드 */
+.motif_sky::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--p-primary) 22%, transparent) 1.4px,
+    transparent 1.6px
+  );
+  background-size: 30px 30px;
+  mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+}
+
+/* myBaby: 피드 — 부드러운 수평 라인(카드 피드 리듬) */
+.motif_feed::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: repeating-linear-gradient(
+    180deg,
+    transparent 0,
+    transparent 46px,
+    color-mix(in srgb, var(--p-primary) 12%, transparent) 46px,
+    color-mix(in srgb, var(--p-primary) 12%, transparent) 47px
+  );
+  mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
+}
+
+/* ── 레이아웃 ── */
+.inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  align-items: center;
+  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+}
+
+.flip .inner {
+  grid-template-columns: 0.95fr 1.05fr;
+}
+
+.flip .copy {
+  order: 2;
+}
+
+.flip .visual {
+  order: 1;
+}
+
+/* ── 좌: 카피 ── */
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  font-family: var(--p-font-body);
+}
+
+.miniHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--p-primary) 22%, transparent);
+}
+
+.brand {
+  font-family: var(--p-font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--p-ink);
+  letter-spacing: -0.01em;
+}
+
+.kicker {
+  font-family: var(--p-font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--p-primary);
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--p-primary) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p-primary) 24%, transparent);
+}
+
+.headline {
+  margin: 0.2rem 0 0;
+  font-family: var(--p-font-display);
+  font-size: clamp(1.9rem, 1.2rem + 3.4vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--p-ink);
+  text-wrap: balance;
+}
+
+.headlineLine {
+  display: block;
+}
+
+.accent {
+  /* 브랜드 강조: primary→accent 그라디언트 텍스트 (폴백은 primary) */
+  color: var(--p-primary);
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .accent {
+    background: linear-gradient(
+      100deg,
+      var(--p-primary),
+      var(--p-accent)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.subcopy {
+  margin: 0;
+  max-width: 42ch;
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  line-height: 1.65;
+  color: var(--p-ink-soft);
+}
+
+/* 통계 하이라이트 칩 */
+.highlights {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin: 0.4rem 0 0.3rem;
+  padding: 0;
+  list-style: none;
+}
+
+.highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 1rem;
+  border-radius: 16px;
+  background: var(--p-surface);
+  border: 1px solid color-mix(in srgb, var(--p-primary) 16%, transparent);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--p-primary) 10%, transparent);
+}
+
+.highlightValue {
+  font-family: var(--p-font-display);
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--p-primary);
+}
+
+.highlightLabel {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--p-ink-soft);
+}
+
+.badges {
+  margin-top: 0.5rem;
+}
+
+/* ── 우: 앱 비주얼 카드 ── */
+.visual {
+  display: flex;
+  justify-content: center;
+}
+
+.appCard {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 420px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.55rem;
+  padding: clamp(1.75rem, 1.2rem + 2vw, 2.75rem);
+  border-radius: var(--p-radius);
+  /* 서비스 hero 그라디언트 위 표면 카드 (claymorphism 느낌) */
+  background: var(--p-surface);
+  border: 1px solid color-mix(in srgb, var(--p-primary) 14%, transparent);
+  box-shadow:
+    0 26px 56px color-mix(in srgb, var(--p-primary) 18%, transparent),
+    0 6px 16px color-mix(in srgb, var(--p-ink) 8%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transform: translateZ(0);
+  transition: transform var(--ais-dur) var(--ais-ease-bounce);
+  will-change: transform;
+}
+
+.appCard:hover {
+  transform: translateY(-8px) scale(1.015);
+}
+
+/* 카드 상단 hero 그라디언트 헤일로 */
+.appCardGlow {
+  position: absolute;
+  z-index: -1;
+  inset: -1px -1px auto -1px;
+  height: 42%;
+  border-radius: var(--p-radius) var(--p-radius) 40% 40%;
+  background: var(--p-hero);
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.appIcon {
+  width: clamp(96px, 11vw, 120px);
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 26px;
+  box-shadow:
+    0 18px 40px color-mix(in srgb, var(--p-primary) 28%, transparent),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: transform var(--ais-dur) var(--ais-ease-bounce);
+}
+
+.appCard:hover .appIcon {
+  transform: translateY(-6px) scale(1.06) rotate(-3deg);
+}
+
+.appName {
+  font-family: var(--p-font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--p-ink);
+  letter-spacing: -0.01em;
+}
+
+.appTagline {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--p-primary);
+  margin-bottom: 0.3rem;
+}
+
+/* 기능 미니 목록 (앱 화면 항목처럼) */
+.featureList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--p-primary) 6%, var(--p-surface));
+  border: 1px solid color-mix(in srgb, var(--p-primary) 12%, transparent);
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-bounce),
+    background-color var(--ais-dur-fast) var(--ais-ease-expo);
+}
+
+.featureItem:hover {
+  transform: translateX(3px);
+  background: color-mix(in srgb, var(--p-accent) 10%, var(--p-surface));
+}
+
+.featureIcon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  line-height: 1;
+  background: color-mix(in srgb, var(--p-primary) 14%, transparent);
+}
+
+.featureText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.featureTitle {
+  font-family: var(--p-font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--p-ink);
+}
+
+.featureDesc {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--p-ink-soft);
+}
+
+/* ── reveal 진입 ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo),
+    transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.reveal:global(.is-visible) {
+  opacity: 1;
+  transform: none;
+}
+
+/* ── 반응형 ── */
+@media (max-width: 860px) {
+  .inner,
+  .flip .inner {
+    grid-template-columns: 1fr;
+  }
+  /* 모바일: 항상 카피 먼저, 비주얼 아래로 (flip 무시) */
+  .copy,
+  .flip .copy {
+    order: 1;
+  }
+  .visual,
+  .flip .visual {
+    order: 2;
+  }
+  .appCard {
+    width: min(100%, 460px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .appCard,
+  .appCard:hover,
+  .appCard:hover .appIcon,
+  .featureItem,
+  .featureItem:hover {
+    transform: none;
+    transition: none;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

@@ -71,8 +71,9 @@ function FeaturePanel({ service }: FeaturePanelProps) {
 /**
  * Material Symbols 아이콘 이름을 이모지로 매핑.
  * (외부 아이콘 폰트 추가 부담 없이 일관된 시각 표현)
+ * PromoSection 등에서도 동일 매핑을 재사용한다.
  */
-function iconFor(name: string): string {
+export function iconFor(name: string): string {
   const map: Record<string, string> = {
     auto_awesome: '✨',
     partly_cloudy_day: '🌤️',

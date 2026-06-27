@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-06-27T06:45:29.742Z",
+  "lastUpdated": "2026-06-27T07:30:51.060Z",
   "activeFeatures": [
     "AiSoftService",
     "data",
@@ -19,9 +19,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T03:56:05.317Z",
-        "lastUpdated": "2026-06-27T04:40:33.694Z"
+        "lastUpdated": "2026-06-27T07:30:26.394Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/hooks/usePointerParallax.ts"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/App.tsx"
     },
     "data": {
       "phase": "do",
@@ -32,7 +32,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T03:56:49.438Z",
-        "lastUpdated": "2026-06-27T04:27:34.698Z"
+        "lastUpdated": "2026-06-27T07:27:59.475Z"
       },
       "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/data/services.ts"
     },
@@ -58,9 +58,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T04:01:50.258Z",
-        "lastUpdated": "2026-06-27T06:45:29.742Z"
+        "lastUpdated": "2026-06-27T07:29:10.907Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Technology.tsx"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/PromoSection.tsx"
     },
     "tmp": {
       "phase": "do",
@@ -71,9 +71,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T04:05:05.087Z",
-        "lastUpdated": "2026-06-27T04:08:32.388Z"
+        "lastUpdated": "2026-06-27T07:30:51.060Z"
       },
-      "lastFile": "/tmp/aisoft_shot2.py"
+      "lastFile": "/tmp/aisoft_promo_shot.py"
     }
   },
   "pipeline": {
@@ -84,7 +84,7 @@
   "session": {
     "startedAt": "2026-06-27T02:53:55.923Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-06-27T06:45:29.742Z"
+    "lastActivity": "2026-06-27T07:30:51.060Z"
   },
   "history": [
     {
@@ -564,6 +564,72 @@
     {
       "timestamp": "2026-06-27T06:45:29.742Z",
       "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:27:17.462Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:27:32.288Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:27:45.282Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:27:59.475Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:28:31.985Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:28:52.764Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:28:58.749Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:29:05.759Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:29:10.907Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:30:26.394Z",
+      "feature": "AiSoftService",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-06-27T07:30:51.060Z",
+      "feature": "tmp",
       "phase": "do",
       "action": "updated"
     }
