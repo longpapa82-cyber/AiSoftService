@@ -8,3 +8,4 @@ dist-ssr
 # tool state (not part of the site)
 .claude/
 .bkit/
+.vercel
