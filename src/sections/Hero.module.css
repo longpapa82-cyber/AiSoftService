@@ -125,6 +125,136 @@
   }
 }
 
+/* ── 부유 XP 오브 (빛 입자) ── */
+.orbs {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* 패럴랙스: 포인터 방향으로 살짝(aurora와 반대 깊이) */
+  transform: translate3d(
+    calc(var(--px, 0) * 14px),
+    calc(var(--py, 0) * 14px),
+    0
+  );
+  transition: transform 0.4s var(--ais-ease-expo);
+}
+.orb {
+  position: absolute;
+  width: var(--orb-size, 8px);
+  height: var(--orb-size, 8px);
+  border-radius: 50%;
+  opacity: 0.7;
+  will-change: transform;
+  animation: orbFloat var(--orb-dur, 12s) var(--ais-ease-expo)
+    var(--orb-delay, 0s) infinite alternate;
+}
+.orbGold {
+  background: radial-gradient(
+    circle at 35% 30%,
+    #fff3c4 0%,
+    var(--ais-gold) 45%,
+    transparent 72%
+  );
+  box-shadow: 0 0 12px var(--ais-glow);
+}
+.orbPastel {
+  background: radial-gradient(
+    circle at 35% 30%,
+    #ffffff 0%,
+    var(--ais-rare) 50%,
+    transparent 74%
+  );
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ais-rare) 40%, transparent);
+  opacity: 0.5;
+}
+@keyframes orbFloat {
+  from {
+    transform: translateY(0) scale(0.9);
+    opacity: 0.35;
+  }
+  to {
+    transform: translateY(-26px) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* ── 가로 스캔라인 글로우 ── */
+.scanline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ais-glow) 30%,
+    rgba(255, 251, 230, 0.9) 50%,
+    var(--ais-glow) 70%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  filter: blur(0.5px);
+  animation: scanMove 7s var(--ais-ease-tech) infinite;
+}
+@keyframes scanMove {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10%,
+  85% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(min(72svh, 760px));
+    opacity: 0;
+  }
+}
+
+/* ── 코너 HUD 브래킷 ── */
+.corner {
+  position: absolute;
+  z-index: -1;
+  width: clamp(28px, 4vw, 48px);
+  height: clamp(28px, 4vw, 48px);
+  pointer-events: none;
+  opacity: 0.45;
+  /* 골드 ㄱ자 브래킷 — border 2변만 */
+  border-color: var(--ais-gold-deep);
+  border-style: solid;
+  border-width: 0;
+}
+.cornerTL {
+  top: clamp(1.5rem, 4vh, 3rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-top-left-radius: 6px;
+}
+.cornerTR {
+  top: clamp(1.5rem, 4vh, 3rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-top-right-radius: 6px;
+}
+.cornerBL {
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  left: clamp(1.5rem, 4vw, 3rem);
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+  border-bottom-left-radius: 6px;
+}
+.cornerBR {
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  right: clamp(1.5rem, 4vw, 3rem);
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+  border-bottom-right-radius: 6px;
+}
+
 /* ── 본문 (단일 컬럼 — 우측 실사 비주얼 제거, 카피+HUD 중심·가운데 정렬) ── */
 .inner {
   width: 100%;
@@ -789,8 +919,18 @@
   .word,
   .statusDot,
   .xpFill::after,
-  .startMono {
+  .startMono,
+  .orb,
+  .scanline {
     animation: none !important;
+  }
+  /* 스캔라인은 정지 시 숨김(상단 고정선 잔존 방지) */
+  .scanline {
+    opacity: 0;
+  }
+  /* 오브는 정지된 위치에서 은은하게만 */
+  .orb {
+    opacity: 0.4;
   }
   .word {
     opacity: 1;

@@ -15,6 +15,22 @@ const HERO_XP = 9999;
 // 다음 레벨까지 필요한 총 경험치(게이지 100% 기준). 바 채움 비율 산출용.
 const HERO_XP_NEXT = 10000;
 
+/**
+ * 배경 부유 XP 오브 — 골드/파스텔 빛 입자. 에셋 없이 CSS로 떠다닌다.
+ * 각 입자의 위치(left/top)·크기·애니메이션 속도/딜레이를 분산해 자연스러운 부유.
+ * gold=true면 골드 발광, 아니면 파스텔. (장식, aria-hidden)
+ */
+const HERO_ORBS = [
+  { left: '12%', top: '24%', size: 10, dur: 11, delay: 0, gold: true },
+  { left: '22%', top: '68%', size: 6, dur: 14, delay: 1.5, gold: false },
+  { left: '34%', top: '14%', size: 7, dur: 13, delay: 0.8, gold: false },
+  { left: '68%', top: '20%', size: 9, dur: 12, delay: 2.2, gold: true },
+  { left: '80%', top: '58%', size: 6, dur: 15, delay: 0.4, gold: false },
+  { left: '88%', top: '32%', size: 8, dur: 10, delay: 1.1, gold: true },
+  { left: '56%', top: '76%', size: 5, dur: 16, delay: 2.8, gold: false },
+  { left: '46%', top: '40%', size: 7, dur: 13, delay: 1.9, gold: true },
+] as const;
+
 /** 슬로건을 단어 단위로 쪼개 글자별 stagger 등장에 사용. 공백/줄바꿈 보존. */
 function splitWords(text: string): string[] {
   return text.split(/(\s+)/);
@@ -52,7 +68,34 @@ export function Hero() {
         <span className={`${styles.blob} ${styles.blobB}`} />
         <span className={`${styles.blob} ${styles.blobC}`} />
         <span className={styles.grid} />
+        {/* 가로 스캔라인 글로우 — 하이테크 "스캐닝" 디테일 */}
+        <span className={styles.scanline} />
       </div>
+
+      {/* 부유 XP 오브 — 골드/파스텔 빛 입자 (장식) */}
+      <div className={styles.orbs} aria-hidden="true">
+        {HERO_ORBS.map((orb, i) => (
+          <span
+            key={i}
+            className={`${styles.orb} ${orb.gold ? styles.orbGold : styles.orbPastel}`}
+            style={
+              {
+                left: orb.left,
+                top: orb.top,
+                '--orb-size': `${orb.size}px`,
+                '--orb-dur': `${orb.dur}s`,
+                '--orb-delay': `${orb.delay}s`,
+              } as CSSProperties
+            }
+          />
+        ))}
+      </div>
+
+      {/* 코너 HUD 브래킷 — "게임 화면 안" 프레임 (절제, 장식) */}
+      <span className={`${styles.corner} ${styles.cornerTL}`} aria-hidden="true" />
+      <span className={`${styles.corner} ${styles.cornerTR}`} aria-hidden="true" />
+      <span className={`${styles.corner} ${styles.cornerBL}`} aria-hidden="true" />
+      <span className={`${styles.corner} ${styles.cornerBR}`} aria-hidden="true" />
 
       <div className={`ais-container ${styles.inner}`}>
         <div ref={copyRef} className={`${styles.copy} reveal`}>
