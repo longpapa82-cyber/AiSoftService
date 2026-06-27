@@ -40,6 +40,7 @@ export function PromoSection({
     if (!el || typeof IntersectionObserver === 'undefined') return;
 
     let done = false;
+    let toastTimer = 0;
     const io = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
@@ -48,7 +49,7 @@ export function PromoSection({
             io.unobserve(entry.target); // 한 번만 — 중복 수집 방지
             onCollect?.(service.id);
             setToastVisible(true);
-            window.setTimeout(() => setToastVisible(false), TOAST_MS);
+            toastTimer = window.setTimeout(() => setToastVisible(false), TOAST_MS);
           }
         }
       },
@@ -57,7 +58,10 @@ export function PromoSection({
       { threshold: 0.01, rootMargin: '0px 0px -35% 0px' },
     );
     io.observe(el);
-    return () => io.disconnect();
+    return () => {
+      io.disconnect();
+      if (toastTimer) window.clearTimeout(toastTimer); // 언마운트 시 타이머 정리
+    };
   }, [service.id, onCollect]);
 
   if (!promo) return null;
