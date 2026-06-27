@@ -310,7 +310,7 @@ export const SERVICES: AppService[] = [
     iconUrl: mybabyIcon,
     links: {
       web: 'https://mybaby-backend.onrender.com/',
-      ios: 'https://apps.apple.com/app/id6772832100',
+      ios: 'https://apps.apple.com/kr/app/id6772832100',
       android: 'https://play.google.com/store/apps/details?id=com.naesaekki.app',
     },
     theme: {
