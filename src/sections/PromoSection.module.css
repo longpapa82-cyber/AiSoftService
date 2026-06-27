@@ -15,6 +15,38 @@
   border-block: 1px solid color-mix(in srgb, var(--p-primary) 10%, transparent);
 }
 
+/*
+ * 섹션 경계 페더 — 다크↔라이트 전환의 칼선을 녹인다.
+ * 자기 배경(--p-bg)을 상/하단에서 그라디언트로 깔아, 인접 섹션과 만나는
+ * 경계를 부드럽게 페이드. 콘텐츠(.inner)보다 뒤(z-index 음수)에 둔다.
+ */
+.section::before,
+.section::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: clamp(2.5rem, 5vw, 4.5rem);
+  z-index: -1;
+  pointer-events: none;
+}
+.section::before {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--p-bg) 0%,
+    color-mix(in srgb, var(--p-bg) 0%, transparent) 100%
+  );
+}
+.section::after {
+  bottom: 0;
+  background: linear-gradient(
+    to top,
+    var(--p-bg) 0%,
+    color-mix(in srgb, var(--p-bg) 0%, transparent) 100%
+  );
+}
+
 /* ── 실사 히어로 배경 — 각 서비스 홈의 실제 사진 ── */
 .heroBg {
   position: absolute;

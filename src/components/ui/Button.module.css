@@ -10,6 +10,9 @@
  */
 .base {
   --btn-fg: var(--ais-text);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -69,6 +72,25 @@
     var(--ais-glow-gold),
     0 0 0 1px rgba(249, 217, 73, 0.35) inset;
 }
+/* 주 CTA 광택 스윕 — 호버 시 골드빛 띠가 1회 가로지른다(장식). */
+.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    105deg,
+    transparent 35%,
+    rgba(249, 217, 73, 0.35) 50%,
+    transparent 65%
+  );
+  transform: translateX(-130%);
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+.primary:hover::after {
+  transform: translateX(130%);
+}
 .primary:active {
   /* 말랑 푸시: 꾹 눌리는 젤리 피드백 */
   transform: translateY(1px) scale(0.95);
@@ -116,5 +138,11 @@
   .base:hover,
   .base:active {
     transform: none;
+  }
+  /* 광택 스윕 정지 */
+  .primary::after,
+  .primary:hover::after {
+    transition: none;
+    transform: translateX(-130%);
   }
 }
