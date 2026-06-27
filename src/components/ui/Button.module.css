@@ -40,6 +40,7 @@
 .base:focus-visible {
   outline: 2px solid var(--ais-gold);
   outline-offset: 3px;
+  box-shadow: var(--ais-glow-gold);
 }
 
 /* 아이콘/이모지 슬롯 */
@@ -69,7 +70,9 @@
     0 0 0 1px rgba(249, 217, 73, 0.35) inset;
 }
 .primary:active {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(0.99);
+  border-color: var(--ais-gold);
+  box-shadow: 0 0 0 1px rgba(249, 217, 73, 0.35) inset;
 }
 
 /* ── outline: 네이비 보더 + 네이비 텍스트, hover 시 골드로 점화 ── */
@@ -88,7 +91,10 @@
   box-shadow: var(--ais-glow-gold);
 }
 .outline:active {
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(0.99);
+  border-color: var(--ais-gold);
+  color: var(--ais-navy);
+  background: rgba(249, 217, 73, 0.16);
 }
 
 /* ── ghost: 가장 약한 위계, 텍스트 위주 ── */

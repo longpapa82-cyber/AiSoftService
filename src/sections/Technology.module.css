@@ -136,6 +136,8 @@
   align-items: center;
   justify-content: space-between;
   align-self: stretch;
+  gap: 0.5rem;
+  min-width: 0;
   margin-bottom: 0.75rem;
 }
 
@@ -143,9 +145,11 @@
 .iconWrap {
   display: inline-grid;
   place-items: center;
+  flex: 0 0 auto;
   width: 52px;
   height: 52px;
   border-radius: 16px;
+  /* 골드 칩 위 아이콘은 항상 네이비 — 대비 보존 */
   color: var(--ais-navy);
   background: var(--ais-brand-grad);
   box-shadow: 0 8px 22px rgba(249, 217, 73, 0.35);
@@ -167,6 +171,11 @@
   border-radius: var(--ais-radius-pill);
   background: rgba(249, 217, 73, 0.06);
   white-space: nowrap;
+  /* 좁은 화면에서 아이콘과 충돌 시 칩이 줄어들되 잘리지 않도록 */
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── 카운터 메트릭 ── */
@@ -182,10 +191,17 @@
   font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.4rem);
   line-height: 1;
   letter-spacing: -0.03em;
-  background: var(--ais-brand-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  /* 큰 수치 가독성 — background-clip 미지원 시 골드로 폴백(투명 잔존 방지) */
+  color: var(--ais-gold);
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .metricValue {
+    background: var(--ais-brand-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 .metricUnit {
@@ -201,8 +217,11 @@
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.12em;
-  color: rgba(247, 249, 251, 0.6);
+  /* 네이비 잉크 위 모노 소문자 가독성 — AA 확보(0.78 알파) */
+  color: rgba(247, 249, 251, 0.82);
   text-transform: uppercase;
+  /* 모바일에서 넓은 자간으로 인한 잘림 방지 */
+  overflow-wrap: anywhere;
 }
 
 /* ── 본문 (네이비 잉크 위 라이트 텍스트) ── */
@@ -218,7 +237,9 @@
   margin: 0.4rem 0 0;
   font-size: 0.95rem;
   line-height: 1.6;
-  color: rgba(247, 249, 251, 0.74);
+  /* 네이비 잉크 위 본문 — AA 가독성(0.85+ 알파) */
+  color: rgba(247, 249, 251, 0.86);
+  overflow-wrap: anywhere;
 }
 
 @media (prefers-reduced-motion: reduce) {

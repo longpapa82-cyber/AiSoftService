@@ -17,6 +17,7 @@
   align-items: center;
   gap: 0.65rem;
   min-width: 9.5rem;
+  max-width: 100%;
   padding: 0.6rem 1rem;
   border: 1px solid var(--bdg-border);
   border-radius: 14px;
@@ -36,10 +37,16 @@
   --bdg-bg: rgba(255, 255, 255, 0.06);
   --bdg-border: rgba(255, 255, 255, 0.18);
   --bdg-fg: #f3f6fc;
-  --bdg-sub: rgba(243, 246, 252, 0.66);
+  --bdg-sub: rgba(243, 246, 252, 0.82);
 }
 .dark.badge:hover {
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+  border-color: var(--ais-gold);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.28),
+    var(--ais-glow-gold);
+}
+.dark.badge:focus-visible {
+  outline-color: var(--ais-gold);
 }
 
 /* 명(밝은 카드) 위: 어두운 잉크 글자 (기본/주 사용) */
@@ -51,12 +58,12 @@
 }
 
 .badge:hover {
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.015);
   border-color: var(--ais-brand);
   box-shadow: var(--ais-shadow-lift);
 }
 .badge:active {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
 }
 .badge:focus-visible {
   outline: 2px solid var(--ais-brand);
@@ -73,6 +80,7 @@
 .text {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   line-height: 1.15;
   text-align: left;
 }
@@ -83,6 +91,7 @@
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--bdg-sub);
+  white-space: nowrap;
 }
 
 .label {
@@ -91,6 +100,14 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--bdg-fg);
+  white-space: nowrap;
+}
+
+@media (max-width: 380px) {
+  .badge {
+    min-width: 0;
+    flex: 1 1 100%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

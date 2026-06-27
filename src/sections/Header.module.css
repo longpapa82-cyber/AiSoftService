@@ -150,12 +150,21 @@
   transform-origin: left;
   transition: transform var(--ais-dur) var(--ais-ease-expo);
 }
-.navLink:hover {
+.navLink:hover,
+.navLink:focus-visible {
   color: var(--ais-text);
+}
+.navLink:focus-visible {
+  outline: 2px solid var(--ais-gold);
+  outline-offset: 4px;
+  border-radius: 3px;
 }
 .navLink:hover::after,
 .navLink:focus-visible::after {
   transform: scaleX(1);
+}
+.navLink:active {
+  color: var(--ais-text);
 }
 
 .navCta {
@@ -195,6 +204,14 @@
   background: var(--ais-navy-2);
   box-shadow: var(--ais-shadow-card), var(--ais-glow-gold);
 }
+.navCta:focus-visible {
+  outline: 2px solid var(--ais-gold);
+  outline-offset: 3px;
+}
+.navCta:active {
+  transform: translateY(0);
+  box-shadow: var(--ais-shadow-card);
+}
 
 /* ── 모바일 토글 버튼 ── */
 .menuBtn {
@@ -210,12 +227,20 @@
   -webkit-backdrop-filter: blur(12px);
   cursor: pointer;
   transition: border-color var(--ais-dur-fast) var(--ais-ease-expo),
-    box-shadow var(--ais-dur-fast) var(--ais-ease-expo);
+    box-shadow var(--ais-dur-fast) var(--ais-ease-expo),
+    transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
 .menuBtn:hover,
 .menuBtn:focus-visible {
   border-color: var(--ais-gold);
   box-shadow: var(--ais-glow-gold);
+}
+.menuBtn:focus-visible {
+  outline: 2px solid var(--ais-gold);
+  outline-offset: 2px;
+}
+.menuBtn:active {
+  transform: scale(0.94);
 }
 
 .menuIcon,
@@ -295,10 +320,21 @@
   background: var(--ais-brand-grad);
   transition: transform var(--ais-dur-fast) var(--ais-ease-expo);
 }
+.mobileList > li:last-child .mobileLink {
+  border-bottom: none;
+}
 .mobileLink:hover,
 .mobileLink:focus-visible {
   color: var(--ais-text);
   padding-left: 1.05rem;
+}
+.mobileLink:focus-visible {
+  outline: 2px solid var(--ais-gold);
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+.mobileLink:active {
+  color: var(--ais-text);
 }
 .mobileLink:hover::before,
 .mobileLink:focus-visible::before {
@@ -316,5 +352,19 @@
   /* 열렸을 때(hidden 속성 제거 시)만 표시. hidden 속성을 존중한다. */
   .mobilePanel:not([hidden]) {
     display: block;
+  }
+}
+
+/* ── reduced-motion 가드: 모션 최소화 시 transform/translate 무효화 ── */
+@media (prefers-reduced-motion: reduce) {
+  .logo:hover .logoMark,
+  .navCta:hover,
+  .navCta:active,
+  .menuBtn:active {
+    transform: none;
+  }
+  .mobileLink:hover,
+  .mobileLink:focus-visible {
+    padding-left: 0.85rem;
   }
 }

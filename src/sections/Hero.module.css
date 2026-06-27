@@ -260,6 +260,8 @@
   display: flex;
   flex-direction: column;
   line-height: 1.15;
+  /* flex 자식 축소 허용 — 좁은 화면에서 이름/모노 라벨이 잘리지 않고 줄바꿈되도록 */
+  min-width: 0;
 }
 .chipName {
   font-family: var(--ais-font-display);
@@ -274,6 +276,8 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ais-text-soft);
+  /* 모노 라벨이 좁은 폭에서 넘치지 않도록 줄바꿈 허용 */
+  overflow-wrap: anywhere;
 }
 
 @keyframes chipFloat {
@@ -357,6 +361,11 @@
 @media (max-width: 560px) {
   .headline {
     letter-spacing: -0.02em;
+    /* 긴 슬로건 단어가 좁은 폭을 넘지 않도록 — 단어 내 줄바꿈 허용 */
+    overflow-wrap: anywhere;
+  }
+  .word {
+    overflow-wrap: anywhere;
   }
   .sub {
     font-size: 1.02rem;
@@ -370,6 +379,17 @@
   }
   .chip {
     flex: 1 1 100%;
+  }
+}
+
+/* 초협소 폭(320~400): 칩 간격·여백을 좁혀 가로 오버플로우 방지 */
+@media (max-width: 400px) {
+  .chips {
+    gap: 0.65rem;
+  }
+  .chip {
+    gap: 0.55rem;
+    padding: 0.55rem 0.85rem 0.55rem 0.55rem;
   }
 }
 

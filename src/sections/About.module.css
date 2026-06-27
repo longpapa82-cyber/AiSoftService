@@ -83,7 +83,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   color: var(--ais-gold);
-  opacity: 0.85;
+  opacity: 0.92;
   user-select: none;
 }
 
@@ -103,7 +103,8 @@
 .body {
   font-size: var(--ais-text-body);
   line-height: 1.75;
-  color: rgba(255, 255, 255, 0.82);
+  /* 네이비 패널 위 본문: AA 대비 위해 0.88 알파 */
+  color: rgba(255, 255, 255, 0.88);
   max-width: 48ch;
 }
 
@@ -160,18 +161,21 @@
   transition: transform var(--ais-dur-fast) var(--ais-ease-expo);
 }
 
-.row:hover {
+.row:hover,
+.row:focus-within {
   transform: translateY(-4px);
   border-color: var(--ais-gold);
   box-shadow: var(--ais-shadow-lift), var(--ais-glow-gold);
 }
 
-.row:hover::before {
+.row:hover::before,
+.row:focus-within::before {
   transform: scaleY(1);
 }
 
 .term {
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
   font-family: var(--ais-font-mono);
@@ -281,6 +285,14 @@
   }
 }
 
+/* 모바일: 모노 레지스터 칩이 term 라벨을 밀어내 잘리지 않도록
+   margin-left:auto 해제 → 자연 줄바꿈 정렬 */
+@media (max-width: 420px) {
+  .reg {
+    margin-left: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .row,
   .row::before,
@@ -289,7 +301,8 @@
     transition: none;
   }
 
-  .row:hover {
+  .row:hover,
+  .row:focus-within {
     transform: none;
   }
 

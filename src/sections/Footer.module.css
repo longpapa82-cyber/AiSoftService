@@ -73,7 +73,9 @@
 }
 
 .logo:focus-visible {
-  box-shadow: 0 0 0 3px var(--ais-glow-gold);
+  box-shadow:
+    0 0 0 2px var(--ais-gold),
+    0 0 0 6px var(--ais-glow-gold);
 }
 
 .logoMark {
@@ -101,7 +103,7 @@
 
 .slogan {
   margin: 0;
-  color: rgba(255, 255, 255, 0.66);
+  color: rgba(255, 255, 255, 0.85);
   font-size: var(--ais-text-body);
   line-height: 1.55;
 }
@@ -135,13 +137,13 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(249, 217, 73, 0.7);
+  color: rgba(249, 217, 73, 0.92);
 }
 
 .companyDesc {
   margin: 0;
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.86);
   line-height: 1.45;
 }
 
@@ -195,7 +197,7 @@
   align-items: center;
   gap: 0.55rem;
   width: fit-content;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.82);
   text-decoration: none;
   font-size: 0.98rem;
   border-radius: 6px;
@@ -264,11 +266,13 @@
   font-family: var(--ais-font-mono);
   font-size: 0.78rem;
   letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.78);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .copyRights {
-  color: rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 /* 시스템 상태 인디케이터 */
@@ -324,9 +328,16 @@
     grid-template-columns: 1fr;
     gap: 2.25rem;
   }
+  .companyRow {
+    grid-template-columns: 1fr;
+    gap: 0.2rem;
+  }
   .bottom {
     flex-direction: column;
     align-items: flex-start;
+  }
+  .copyright {
+    width: 100%;
   }
 }
 

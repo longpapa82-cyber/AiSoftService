@@ -32,6 +32,12 @@
     var(--ais-glow-gold);
 }
 
+/* 키보드 포커스 명확화 — 카드 내부 링크 진입 시 골드 윤곽 */
+.card:focus-within {
+  outline: 2px solid var(--ais-gold);
+  outline-offset: 3px;
+}
+
 /* ── 상단 무드 스테이지(작품 액자) ── */
 .stage {
   position: relative;
@@ -164,9 +170,10 @@
 
 .metaRow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.5rem 0.75rem;
 }
 
 .mood {
@@ -175,7 +182,9 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--svc-primary);
+  white-space: nowrap;
+  /* 가독성: 옅은 칩 위에서도 AA 확보를 위해 톤다운된 서비스색 */
+  color: color-mix(in srgb, var(--svc-primary) 82%, var(--svc-ink));
   padding: 0.32rem 0.7rem;
   border-radius: var(--ais-radius-pill);
   background: color-mix(in srgb, var(--svc-primary) 12%, transparent);
@@ -327,7 +336,8 @@
   font-size: 2rem;
   font-weight: 300;
   line-height: 1;
-  color: var(--ais-bg);
+  /* 골드 위 글리프는 항상 네이비 — 대비 보존(near-white 금지) */
+  color: var(--ais-navy);
   background: var(--ais-brand-grad);
   box-shadow: 0 0 28px var(--ais-glow);
   transition: transform var(--ais-dur) var(--ais-ease-spring);
@@ -349,6 +359,21 @@
   margin: 0;
   font-size: 0.9rem;
   color: var(--ais-text-soft);
+}
+
+/* ── 모바일 정밀화: 스테이지/통계 잘림·과대 여백 방지 ── */
+@media (max-width: 420px) {
+  .stage {
+    min-height: 148px;
+  }
+  .featured .stage {
+    min-height: 208px;
+  }
+  /* 좁은 폭에서 통계 칩이 가로 꽉 채우며 잘림 없이 정렬 */
+  .stat {
+    flex: 1 1 calc(50% - 0.75rem);
+    min-width: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
