@@ -172,27 +172,61 @@
   font-weight: 800;
 }
 
+/* STAT_BOARD 바 — Hero XP 바와 동일한 "RPG 게이지" 패턴(두께+세그먼트+리딩엣지) */
 .boardBar {
   position: relative;
   flex: 1 1 200px;
   min-width: 140px;
-  height: 10px;
+  height: 18px;
   border-radius: var(--ais-radius-pill);
   overflow: hidden;
-  background: rgba(247, 249, 251, 0.1);
-  box-shadow: inset 0 0 0 1px rgba(247, 249, 251, 0.08);
+  background:
+    linear-gradient(180deg, rgba(8, 18, 36, 0.7) 0%, rgba(10, 25, 47, 0.4) 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(247, 249, 251, 0.1);
 }
 
 .boardFill {
   position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--gauge, 0%);
+  inset: 2px auto 2px 2px;
+  width: calc(var(--gauge, 0%) - 4px);
+  min-width: 4px;
   border-radius: var(--ais-radius-pill);
   background: var(--ais-xp-bar);
-  box-shadow: 0 0 14px rgba(249, 217, 73, 0.55);
+  box-shadow:
+    0 0 14px rgba(249, 217, 73, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transform-origin: left;
   /* 컴포지터 친화 채움 애니메이션 */
   animation: ais-fill-in var(--ais-dur-slow) var(--ais-ease-expo) both;
+}
+/* 채움 끝 리딩 엣지(밝은 캡) */
+.boardFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: 3px;
+  background: #fffbe6;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+}
+/* 세그먼트 눈금(다크 트랙 위 밝은 분절) */
+.boardBar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(5% - 1px),
+    rgba(247, 249, 251, 0.12) calc(5% - 1px),
+    rgba(247, 249, 251, 0.12) 5%
+  );
 }
 
 .boardPct {
@@ -653,26 +687,60 @@
   max-width: 7.5rem;
 }
 
+/* 카드 게이지 — Hero XP 바와 동일 패턴(두께+세그먼트+리딩엣지). 좁은 폭이라 세그먼트 간격 넓게 */
 .gaugeTrack {
   position: relative;
   flex: 1 1 auto;
   min-width: 32px;
-  height: 7px;
+  height: 14px;
   border-radius: var(--ais-radius-pill);
   overflow: hidden;
-  background: rgba(247, 249, 251, 0.1);
-  box-shadow: inset 0 0 0 1px rgba(247, 249, 251, 0.07);
+  background:
+    linear-gradient(180deg, rgba(8, 18, 36, 0.7) 0%, rgba(10, 25, 47, 0.4) 100%);
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.35),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(247, 249, 251, 0.09);
+}
+/* 세그먼트 눈금(좁은 폭 → 12.5% 간격) */
+.gaugeTrack::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc(12.5% - 1px),
+    rgba(247, 249, 251, 0.13) calc(12.5% - 1px),
+    rgba(247, 249, 251, 0.13) 12.5%
+  );
 }
 
 .gaugeFill {
   position: absolute;
-  inset: 0 auto 0 0;
-  width: var(--gauge, 0%);
+  inset: 2px auto 2px 2px;
+  width: calc(var(--gauge, 0%) - 4px);
+  min-width: 4px;
   border-radius: var(--ais-radius-pill);
   background: var(--ais-xp-bar);
-  box-shadow: 0 0 10px rgba(249, 217, 73, 0.5);
+  box-shadow:
+    0 0 10px rgba(249, 217, 73, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
   transform-origin: left;
   animation: ais-fill-in var(--ais-dur-slow) var(--ais-ease-expo) both;
+}
+/* 채움 끝 리딩 엣지 */
+.gaugeFill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 2.5px;
+  border-radius: 3px;
+  background: #fffbe6;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.85);
 }
 
 .gaugeLabel {
