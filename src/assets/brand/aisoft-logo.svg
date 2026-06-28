@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="AI Soft">
+  <defs>
+    <!-- 헤더 CSS 로고와 동일: 금색 그라데이션 135deg (#f9d949 → #f1c40f) -->
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f9d949"/>
+      <stop offset="100%" stop-color="#f1c40f"/>
+    </linearGradient>
+    <!-- 좌상단 흰 하이라이트(::after radial-gradient 재현) -->
+    <radialGradient id="topHighlight" cx="0%" cy="0%" r="120%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="55%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- 둥근 사각형 골드 배경 (radius ≈ 32%) -->
+  <rect x="24" y="24" width="464" height="464" rx="165" fill="url(#brandGrad)"/>
+  <rect x="24" y="24" width="464" height="464" rx="165" fill="url(#topHighlight)"/>
+  <!-- 가운데 네이비 점 (지름 ≈ 32% of box) -->
+  <circle cx="256" cy="256" r="83" fill="#0a192f"/>
+</svg>
