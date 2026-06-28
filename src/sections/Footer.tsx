@@ -45,7 +45,7 @@ export function Footer() {
 
           <dl className={styles.company}>
             <div className={styles.companyRow}>
-              <dt className={styles.companyTerm}>대표</dt>
+              <dt className={styles.companyTerm}>조직 대표</dt>
               <dd className={styles.companyDesc}>{COMPANY.ceo}</dd>
             </div>
             <div className={styles.companyRow}>

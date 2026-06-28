@@ -20,7 +20,7 @@ interface HeaderProps {
 const NAV_ITEMS: NavItem[] = [
   { href: '#promo-mytravel', label: '서비스' },
   { href: '#technology', label: '기술' },
-  { href: '#about', label: '회사소개' },
+  { href: '#about', label: '조직소개' },
 ];
 
 const SCROLL_THRESHOLD = 24;

@@ -16,7 +16,7 @@ type InfoRow = {
 };
 
 const INFO_ROWS: readonly InfoRow[] = [
-  { key: 'ceo', label: '대표이사', icon: '👤', reg: 'CEO' },
+  { key: 'ceo', label: '조직 대표', icon: '👤', reg: 'CEO' },
   { key: 'email', label: '이메일', icon: '✉️', reg: 'CONTACT' },
 ] as const;
 
@@ -49,7 +49,7 @@ export function About() {
           <TechBadge variant="gold" dot>
             COMPANY
           </TechBadge>
-          <SectionHeader title="회사 소개" id="about-title" />
+          <SectionHeader title="조직 소개" id="about-title" />
         </div>
 
         <div ref={ref} className={`${styles.grid} reveal`}>
