@@ -47,7 +47,7 @@ export function About() {
       <div className="ais-container">
         <div className={styles.heading}>
           <TechBadge variant="gold" dot>
-            COMPANY
+            ORGANIZATION
           </TechBadge>
           <SectionHeader title="조직 소개" id="about-title" />
         </div>
