@@ -54,19 +54,39 @@
 }
 
 .logoMark {
-  display: block;
+  position: relative;
+  display: grid;
+  place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 9px;
-  object-fit: cover;
-  /* 흰 배경 원본을 카드에 자연스럽게 — 살짝 띄우는 그림자 */
-  box-shadow: 0 4px 14px var(--ais-glow);
+  border-radius: 11px;
+  background: var(--ais-brand-grad);
+  box-shadow: 0 6px 18px var(--ais-glow);
+  overflow: hidden;
   transition: box-shadow var(--ais-dur) var(--ais-ease-expo),
     transform var(--ais-dur-fast) var(--ais-ease-spring);
+}
+.logoMark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 120% at 0% 0%,
+    rgba(255, 255, 255, 0.5),
+    transparent 55%
+  );
 }
 .logo:hover .logoMark {
   transform: translateY(-1px);
   box-shadow: 0 6px 18px var(--ais-glow), var(--ais-glow-gold);
+}
+.logoDot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--ais-navy);
+  position: relative;
+  z-index: 1;
 }
 
 .logoText {

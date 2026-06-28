@@ -2,7 +2,6 @@ import { useReveal } from '../hooks/useReveal';
 import { SERVICES_SORTED } from '../data/services';
 import { COMPANY } from '../data/company';
 import { TechBadge } from '../components/ui/TechBadge';
-import logoMark from '../assets/brand/aisoft-logo.png';
 import styles from './Footer.module.css';
 
 /** 서비스 대표 링크: 웹사이트가 있으면 웹, 없으면 iOS, 없으면 Android 순. */
@@ -31,14 +30,9 @@ export function Footer() {
             System Online
           </TechBadge>
           <a href="#top" className={styles.logo} aria-label={`${COMPANY.name} 홈으로`}>
-            <img
-              className={styles.logoMark}
-              src={logoMark}
-              alt=""
-              width={40}
-              height={40}
-              aria-hidden="true"
-            />
+            <span className={styles.logoMark} aria-hidden="true">
+              AI
+            </span>
             <span className={styles.logoText}>{COMPANY.name}</span>
           </a>
           <p className={styles.slogan}>{COMPANY.slogan}</p>

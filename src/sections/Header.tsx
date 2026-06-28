@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { COMPANY } from '../data/company';
 import { useScrollProgress } from '../hooks/useScrollProgress';
-import logoMark from '../assets/brand/aisoft-logo.png';
 import styles from './Header.module.css';
 
 interface NavItem {
@@ -52,14 +51,9 @@ export function Header({ collected, total }: HeaderProps) {
     <header className={headerClass}>
       <div className={`ais-container ${styles.inner}`}>
         <a href="#top" className={styles.logo} aria-label={`${COMPANY.name} 홈`}>
-          <img
-            className={styles.logoMark}
-            src={logoMark}
-            alt=""
-            width={34}
-            height={34}
-            aria-hidden="true"
-          />
+          <span className={styles.logoMark} aria-hidden="true">
+            <span className={styles.logoDot} />
+          </span>
           <span className={styles.logoText}>AI&nbsp;Soft</span>
           <span className={styles.logoTag} aria-hidden="true">
             AI&nbsp;APP&nbsp;STUDIO
