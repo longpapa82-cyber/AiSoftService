@@ -151,6 +151,12 @@ export function PromoSection({
               />
               <span className={styles.brand}>{service.name}</span>
               <span className={styles.kicker}>{promo.kicker}</span>
+              {service.status === 'coming_soon' && (
+                <span className={styles.comingSoon}>
+                  <span className={styles.comingSoonDot} aria-hidden="true" />
+                  COMING SOON
+                </span>
+              )}
             </div>
 
             <h2 id={`promo-${service.id}-title`} className={styles.headline}>

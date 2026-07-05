@@ -240,6 +240,46 @@
   border: 1px solid color-mix(in srgb, var(--p-primary) 24%, transparent);
 }
 
+/* 미출시 배지 — accent(포인트색) 기반 알약. status='coming_soon' 서비스에만. */
+.comingSoon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--ais-font-mono);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--p-accent) 82%, var(--p-ink));
+  padding: 0.28rem 0.68rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--p-accent) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--p-accent) 40%, transparent);
+}
+.comingSoonDot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--p-accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--p-accent) 70%, transparent);
+  animation: promo-cs-pulse 1.8s var(--ais-ease-expo) infinite;
+}
+@keyframes promo-cs-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--p-accent) 60%, transparent);
+  }
+  70% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--p-accent) 0%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--p-accent) 0%, transparent);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .comingSoonDot {
+    animation: none;
+  }
+}
+
 .headline {
   margin: 0.2rem 0 0;
   font-family: var(--p-font-display);

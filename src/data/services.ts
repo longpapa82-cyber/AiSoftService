@@ -6,6 +6,7 @@
 import mytravelIcon from '../assets/services/mytravel-icon.png';
 import mypetIcon from '../assets/services/mypet-icon.png';
 import mybabyIcon from '../assets/services/mybaby-icon.png';
+import mytodayIcon from '../assets/services/mytoday-icon.png';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -379,6 +380,86 @@ export const SERVICES: AppService[] = [
         '공개된 뉴스·언론 기사를 AI가 정리해 보여주는 서비스로, 소속사·아티스트의 공식 정보가 아닙니다. 표시된 이름·소속은 각 권리자에게 귀속됩니다.',
     },
     order: 3,
+  },
+  {
+    id: 'mytoday',
+    name: 'myToday',
+    tagline: '오늘도 새싹처럼 한 뼘씩',
+    description:
+      '매일의 기분을 기록하고 하고 싶은 일을 새싹처럼 키워보세요. 작은 습관이 모여 한 뼘씩 자라나는 나를 만나는 마음 습관 다이어리.',
+    status: 'coming_soon',
+    moodLabel: 'Fresh Sprout',
+    emoji: '🌱',
+    iconUrl: mytodayIcon,
+    // 미출시 — 스토어 링크 없음. 출시 시 ios/android만 추가하면 status:'live'로 전환.
+    links: {
+      web: 'https://longpapa82-cyber.github.io/mytoday-legal/',
+    },
+    theme: {
+      surface: '#fcfdf8',
+      ink: '#1a1c15',
+      inkSoft: '#5b6350',
+      primary: '#37811c',
+      accent: '#f5a623',
+      gradient: 'linear-gradient(135deg, #e8f6d4 0%, #f4faec 55%, #fef3dd 100%)',
+      font: "'Gowun Dodum', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'mood', title: '오늘의 기분 체크', desc: '5단계 기분으로 하루 감정을 간단히 기록' },
+      { icon: 'eco', title: '오늘의 할 일', desc: '할 일을 완료하면 나의 새싹이 한 뼘씩 성장' },
+      { icon: 'local_florist', title: '성장하는 정원', desc: '스트릭·레벨로 꾸준함이 눈에 보이는 성장' },
+    ],
+    stats: [{ label: '기분 단계', value: '5단계' }],
+    promo: {
+      kicker: '마음 습관 다이어리',
+      headline: '오늘도 새싹처럼\n한 뼘씩 ',
+      headlineAccent: '자라나요',
+      subcopy:
+        '매일의 기분을 기록하고 하고 싶은 일을 새싹처럼 키워보세요. 작은 습관이 모여 한 뼘씩 자라나는 나를 만나는 마음 습관 다이어리.',
+      // myToday web: 연두→살구 그라디언트, 잎 그린 #37811c + 햇살 노랑 #f5a623, 몽글 자연톤
+      palette: {
+        bg: '#f4faec',
+        heroGradient:
+          'linear-gradient(150deg, #d6efb4 0%, #eef8dd 50%, #ffe9c4 100%)',
+        surface: '#fcfdf8',
+        primary: '#37811c',
+        accent: '#f5a623',
+        ink: '#1a1c15',
+        inkSoft: '#5b6350',
+        onPrimary: '#ffffff',
+      },
+      fontDisplay: "'Jua', system-ui, sans-serif",
+      fontBody: "'Gowun Dodum', system-ui, sans-serif",
+      radius: 24,
+      motif: 'none',
+      highlights: [
+        { value: '5단계', label: '기분 기록' },
+        { value: '9가지', label: '할 일 카테고리' },
+        { value: '7종', label: '식물 도감' },
+      ],
+      // 우측 비주얼: 실제 랜딩 "이렇게 시작해요" 3단계 (가입 → 기록 → 성장)
+      steps: [
+        {
+          no: '1',
+          title: '가입하기',
+          desc: '이메일 또는 구글·카카오·애플 계정으로 간편하게 시작해요.',
+        },
+        {
+          no: '2',
+          title: '기분·할 일 기록',
+          desc: '오늘의 기분을 5단계로 체크하고, 하고 싶은 일을 등록해요.',
+        },
+        {
+          no: '3',
+          title: '새싹처럼 성장',
+          desc: '할 일을 완료할수록 나의 새싹이 자라고 정원이 채워져요.',
+        },
+      ],
+      disclaimer:
+        '기분·감정 기록은 자기 관리와 습관 형성을 돕기 위한 것으로, 의학적·심리 상담을 대체하지 않습니다. App Store·Google Play 출시 준비 중입니다.',
+    },
+    order: 4,
   },
 ];
 
