@@ -135,9 +135,9 @@ export interface ServicePromo {
   mascot?: string;
   /**
    * 기분/감정 단계 칩 (myToday: 5단계 기분).
-   * 각 단계의 이모지 + 라벨 + 컬러로 원형 칩 표현.
+   * 각 단계의 앱 브랜드 아이콘(score) + 라벨 + 컬러로 원형 칩 표현.
    */
-  moods?: { emoji: string; label: string; color: string }[];
+  moods?: { score: 1 | 2 | 3 | 4 | 5; label: string; color: string }[];
 }
 
 export interface AppService {
@@ -451,13 +451,13 @@ export const SERVICES: AppService[] = [
       motif: 'leaf',
       // 실제 랜딩 히어로의 새싹 마스코트 — 우측 비주얼 상단 원형 프레임.
       mascot: mytodayMascot,
-      // 실제 앱 기분 5단계(우울·지침·평온·행복·신남) — 새싹 서사 보강.
+      // 실제 앱 기분 5단계(우울·지침·평온·행복·신남) — 앱 자체 새싹 얼굴 아이콘(MoodIcon).
       moods: [
-        { emoji: '😔', label: '우울', color: '#f6c9a8' },
-        { emoji: '😮‍💨', label: '지침', color: '#f7d9a0' },
-        { emoji: '🙂', label: '평온', color: '#cfe8a8' },
-        { emoji: '😊', label: '행복', color: '#a8dd8a' },
-        { emoji: '🤩', label: '신남', color: '#8fd06a' },
+        { score: 1, label: '우울', color: '#f6c9a8' },
+        { score: 2, label: '지침', color: '#f7d9a0' },
+        { score: 3, label: '평온', color: '#cfe8a8' },
+        { score: 4, label: '행복', color: '#a8dd8a' },
+        { score: 5, label: '신남', color: '#8fd06a' },
       ],
       highlights: [
         { value: '5단계', label: '기분 기록' },

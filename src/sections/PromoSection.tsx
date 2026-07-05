@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
+import { MoodIcon } from '../components/ui/MoodIcon';
 import { useReveal } from '../hooks/useReveal';
 import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
@@ -238,7 +239,7 @@ export function PromoSection({
                           style={{ background: m.color }}
                           aria-hidden="true"
                         >
-                          {m.emoji}
+                          <MoodIcon score={m.score} />
                         </span>
                         <span className={styles.moodLabel}>{m.label}</span>
                       </li>
