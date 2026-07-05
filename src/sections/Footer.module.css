@@ -95,10 +95,13 @@
 }
 
 .logoText {
-  font-family: var(--ais-font-display);
-  font-weight: 800;
+  /* Outfit(디스플레이)은 라틴 전용 — 한글 "에이아이소프트"는 이미 로드된
+     Noto Sans KR로 명시적 폴백 (system-ui 폴백은 OS마다 들쭉날쭉함) */
+  font-family: 'Outfit', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  font-weight: 800; /* Noto Sans KR은 700까지 로드 → 브라우저가 700 매칭 */
   font-size: 1.5rem;
-  letter-spacing: -0.02em;
+  /* 한글 자모 밀집 방지: -0.02em → -0.01em 완화 */
+  letter-spacing: -0.01em;
   color: #ffffff;
 }
 

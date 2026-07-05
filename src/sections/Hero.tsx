@@ -127,7 +127,7 @@ export function Hero() {
           </div>
 
           {/* 미니 스탯 칩 — services.ts 도출 값(근거 있는 수치만) */}
-          <ul className={styles.statChips} aria-label="AI Soft 현황">
+          <ul className={styles.statChips} aria-label="에이아이소프트 현황">
             <li className={styles.statChip}>
               <span className={styles.statChipIcon} aria-hidden="true">
                 ◈
@@ -212,7 +212,7 @@ export function Hero() {
           </div>
 
           {/* 언락된 캐릭터 슬롯 — 레어도 테두리 + 미니 스탯 */}
-          <ul className={styles.chips} aria-label="언락된 AI Soft 서비스">
+          <ul className={styles.chips} aria-label="언락된 에이아이소프트 서비스">
             {SERVICES_SORTED.map((service, i) => (
               <li
                 key={service.id}

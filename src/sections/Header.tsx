@@ -25,7 +25,7 @@ const NAV_ITEMS: NavItem[] = [
 const SCROLL_THRESHOLD = 24;
 
 /**
- * 상단 고정 헤더. 로고(AI Soft) + 앵커 메뉴.
+ * 상단 고정 헤더. 로고(에이아이소프트) + 앵커 메뉴.
  * 스크롤 시 배경 블러/보더가 강해지는 상태 전환(opacity/backdrop만 변경).
  * 모바일에서는 메뉴를 펼치는 토글 패널 제공.
  */
@@ -54,7 +54,7 @@ export function Header({ collected, total }: HeaderProps) {
           <span className={styles.logoMark} aria-hidden="true">
             <span className={styles.logoDot} />
           </span>
-          <span className={styles.logoText}>AI&nbsp;Soft</span>
+          <span className={styles.logoText}>에이아이소프트</span>
           <span className={styles.logoTag} aria-hidden="true">
             AI&nbsp;APP&nbsp;STUDIO
           </span>

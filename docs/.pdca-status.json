@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-07-05T07:02:32.041Z",
+  "lastUpdated": "2026-07-05T11:24:44.140Z",
   "activeFeatures": [
     "AiSoftService",
     "data",
@@ -32,7 +32,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T03:56:49.438Z",
-        "lastUpdated": "2026-06-28T07:38:21.585Z"
+        "lastUpdated": "2026-07-05T11:24:40.863Z"
       },
       "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/data/services.ts"
     },
@@ -45,9 +45,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T03:59:52.011Z",
-        "lastUpdated": "2026-07-05T07:02:32.041Z"
+        "lastUpdated": "2026-07-05T09:42:32.907Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/components/ui/StoreBadges.tsx"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/components/ui/MoodIcon.tsx"
     },
     "sections": {
       "phase": "do",
@@ -58,9 +58,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-06-27T04:01:50.258Z",
-        "lastUpdated": "2026-07-03T11:22:59.909Z"
+        "lastUpdated": "2026-07-05T11:24:44.140Z"
       },
-      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/About.tsx"
+      "lastFile": "/Users/hoonjaepark/projects/AiSoftService/src/sections/Footer.tsx"
     },
     "tmp": {
       "phase": "do",
@@ -84,7 +84,7 @@
   "session": {
     "startedAt": "2026-06-27T02:53:55.923Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-07-05T07:02:32.041Z"
+    "lastActivity": "2026-07-05T11:24:44.140Z"
   },
   "history": [
     {
@@ -1218,6 +1218,222 @@
     {
       "timestamp": "2026-07-05T07:02:32.041Z",
       "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:29:29.095Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:29:59.726Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:30:43.033Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:44:46.247Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:44:54.539Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:45:11.409Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:45:43.813Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:46:11.524Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:53:01.109Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:53:12.326Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:53:22.778Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:53:40.264Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T07:54:07.370Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T08:05:01.185Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T08:24:02.376Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T08:24:11.319Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T08:24:43.582Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:41:27.155Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:41:39.477Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:41:46.760Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:41:59.933Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:42:08.783Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:42:22.835Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T09:42:32.907Z",
+      "feature": "ui",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:29.461Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:30.416Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:31.962Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:34.244Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:35.294Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:36.640Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:37.569Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:38.003Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:39.198Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:39.411Z",
+      "feature": "sections",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:40.863Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-07-05T11:24:44.140Z",
+      "feature": "sections",
       "phase": "do",
       "action": "updated"
     }

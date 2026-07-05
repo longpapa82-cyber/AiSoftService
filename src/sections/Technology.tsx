@@ -18,7 +18,7 @@ function assignRef<T>(ref: RefObject<T> | MutableRefObject<T | null>, node: T | 
 
 /**
  * Technology 섹션.
- * AI Soft의 핵심 기술 역량을 카드로 전시한다.
+ * 에이아이소프트의 핵심 기술 역량을 카드로 전시한다.
  * 강조 수치는 services.ts 데이터에서 도출하여 과장/허위를 배제한다.
  */
 
@@ -299,7 +299,7 @@ export function Technology() {
 
         <SectionHeader
           eyebrow="TECHNOLOGY"
-          title="AI Soft의 기술력"
+          title="에이아이소프트의 기술력"
           desc={`${SERVICE_COUNT}개의 서비스를 관통하는 AI·위치·다국어·크로스플랫폼 역량으로 일상의 문제를 단순하게 풉니다.`}
           id="technology-heading"
         />
@@ -309,7 +309,7 @@ export function Technology() {
           <img
             className={styles.bannerImg}
             src={trustTeam}
-            alt="AI Soft 팀이 협업하며 서비스를 설계하는 모습"
+            alt="에이아이소프트 팀이 협업하며 서비스를 설계하는 모습"
             width={1100}
             height={733}
             loading="lazy"

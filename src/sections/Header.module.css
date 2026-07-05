@@ -92,7 +92,8 @@
 .logoText {
   font-size: 1.18rem;
   font-weight: 800;
-  letter-spacing: -0.03em;
+  /* 한글 로고 자간 — 라틴용(-0.03em)보다 완만하게 */
+  letter-spacing: -0.01em;
   color: var(--ais-text);
 }
 /* 모노스페이스 테크 태그라인(브랜드 옆 작은 시스템 라벨) */

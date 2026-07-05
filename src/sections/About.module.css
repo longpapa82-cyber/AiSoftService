@@ -109,14 +109,22 @@
   max-width: 60ch;
 }
 
-/* 거대 워드마크 — depth/위계용 배경 타이포 (네이비 위 골드 스트로크) */
+/* 거대 워드마크 — depth/위계용 배경 타이포 (네이비 위 골드 스트로크)
+   "에이아이소프트" 한글 7자(≈7em 폭) 기준으로 크기 산정:
+   가용폭 = 뷰포트 − 컨테이너 거터×2 − intro 패딩×2
+   (320px: ≈205px → 7자 최대 ≈29px, 1440px: ≈1024px → cap 92px 여유) */
 .wordmark {
   margin-top: auto;
-  font-family: var(--ais-font-display);
-  font-size: clamp(3rem, 1rem + 9vw, 7rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1;
+  /* Outfit은 라틴 전용 → 한글은 로드된 Noto Sans KR로 명시 폴백 */
+  font-family: 'Outfit', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
+  font-size: clamp(1.7rem, 8.8vw - 0.25rem, 5.75rem);
+  font-weight: 800; /* Noto Sans KR은 700 매칭 */
+  /* 한글은 라틴 대비 자간 축소 여지가 적음 → -0.01em */
+  letter-spacing: -0.01em;
+  /* 한글 음절 중간 줄바꿈(어색한 랩) 방지 — 위 clamp가 넘침을 보장 차단 */
+  white-space: nowrap;
+  /* 한글 글리프 상하 여유 (line-height 1은 스트로크가 빡빡함) */
+  line-height: 1.1;
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(249, 217, 73, 0.5);
   user-select: none;
