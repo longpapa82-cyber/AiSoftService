@@ -134,6 +134,11 @@ export function PromoSection({
       <div className={styles.decor} aria-hidden="true">
         <span className={styles.blobA} />
         <span className={styles.blobB} />
+        {/* 잎사귀 모티프(myToday): 섹션 곳곳에 떠다니는 개별 나뭇잎 */}
+        {promo.motif === 'leaf' &&
+          Array.from({ length: 6 }).map((_, i) => (
+            <span key={i} className={`${styles.leaf} ${styles[`leaf${i}`]}`} />
+          ))}
       </div>
 
       <div className="ais-container">
