@@ -78,6 +78,51 @@
 }
 /* primary(골드)는 다크/라이트 동일 — 그 위 잉크는 항상 네이비라 대비 충분 */
 
+/* ── 미출시(준비 중): 비활성 배지 — 낮은 대비·호버 없음·클릭 불가 ── */
+.pending {
+  border: 1px dashed var(--ais-border-strong);
+  background: color-mix(in srgb, var(--ais-text) 5%, transparent);
+  color: var(--bdg-fg);
+  cursor: default;
+  opacity: 0.72;
+}
+.pending .logo,
+.pending .label {
+  color: var(--bdg-sub);
+}
+.pending:hover {
+  transform: none;
+  box-shadow: none;
+}
+.pending:hover .logoWrap {
+  transform: none;
+}
+.dark.pending {
+  --bdg-fg: #f3f6fc;
+  --bdg-sub: rgba(243, 246, 252, 0.6);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+}
+/* "준비 중" 상태 핀 — FREE 핀 자리에 중립 톤으로 */
+.soonPin {
+  margin-left: auto;
+  flex: 0 0 auto;
+  align-self: flex-start;
+  padding: 0.12rem 0.42rem;
+  border-radius: 999px;
+  font-family: var(--ais-font-mono);
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  background: color-mix(in srgb, var(--ais-text) 12%, transparent);
+  color: var(--bdg-sub);
+}
+.dark .soonPin {
+  background: rgba(255, 255, 255, 0.14);
+  color: rgba(243, 246, 252, 0.82);
+}
+
 .badge:active {
   transform: translateY(-1px) scale(0.99);
 }

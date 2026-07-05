@@ -14,6 +14,8 @@ import mytodayIcon from '../assets/services/mytoday-icon.png';
 // myBaby: 현재 디자인이 "화이트 카드 뉴스피드" UI라 실사 배경 미사용 → 카드 목업으로 표현.
 import mypetHero from '../assets/promo/mypet/hero-puppy.webp';
 import mypetShot from '../assets/promo/mypet/shot-home.webp';
+// myToday: 새싹 마스코트(투명 배경) — 우측 히어로 일러스트.
+import mytodayMascot from '../assets/promo/mytoday/mascot.webp';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -89,8 +91,8 @@ export interface ServicePromo {
   fontBody: string;
   /** 카드/표면 라운드 (px). myPet=28 claymorphism 등 */
   radius: number;
-  /** 시그니처 장식 패턴: 발자국/별/도트 등 */
-  motif: 'paw' | 'sky' | 'feed' | 'none';
+  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀 등 */
+  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'none';
   /** 미니 홍보용 통계 칩 (실제 수치) */
   highlights: { value: string; label: string }[];
   /**
@@ -125,6 +127,16 @@ export interface ServicePromo {
    * 인물 실사 대신 원형 컬러 아바타 + 이름으로 표현(초상권 안전).
    */
   stars?: { name: string; tag: string; color: string }[];
+  /**
+   * 히어로 마스코트 캐릭터 이미지(투명 배경 PNG/WebP).
+   * 있으면 상단/배경에 원형 프레임으로 큰 일러스트 배치(myToday 새싹).
+   */
+  mascot?: string;
+  /**
+   * 기분/감정 단계 칩 (myToday: 5단계 기분).
+   * 각 단계의 이모지 + 라벨 + 컬러로 원형 칩 표현.
+   */
+  moods?: { emoji: string; label: string; color: string }[];
 }
 
 export interface AppService {
@@ -432,7 +444,17 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Jua', system-ui, sans-serif",
       fontBody: "'Gowun Dodum', system-ui, sans-serif",
       radius: 24,
-      motif: 'none',
+      motif: 'leaf',
+      // 실제 랜딩 히어로의 새싹 마스코트 — 우측 비주얼 상단 원형 프레임.
+      mascot: mytodayMascot,
+      // 실제 앱 기분 5단계(우울·지침·평온·행복·신남) — 새싹 서사 보강.
+      moods: [
+        { emoji: '😔', label: '우울', color: '#f6c9a8' },
+        { emoji: '😮‍💨', label: '지침', color: '#f7d9a0' },
+        { emoji: '🙂', label: '평온', color: '#cfe8a8' },
+        { emoji: '😊', label: '행복', color: '#a8dd8a' },
+        { emoji: '🤩', label: '신남', color: '#8fd06a' },
+      ],
       highlights: [
         { value: '5단계', label: '기분 기록' },
         { value: '9가지', label: '할 일 카테고리' },

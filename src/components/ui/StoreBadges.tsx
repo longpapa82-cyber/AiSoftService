@@ -9,6 +9,12 @@ export interface StoreBadgesProps {
   web?: string;
   /** 배지가 놓일 카드 톤. 'dark'=어두운 표면, 'light'=밝은 표면 */
   tone?: StoreTone;
+  /**
+   * 미출시 모드. true면 ios/android 링크 유무와 무관하게
+   * App Store·Google Play를 "준비 중" 비활성 배지로 표기(링크 아님).
+   * web 링크는 정상 노출. 주 CTA(골드)는 web으로.
+   */
+  comingSoon?: boolean;
   className?: string;
 }
 
@@ -53,60 +59,96 @@ const GlobeLogo = (
 );
 
 interface BadgeDef {
-  href: string;
+  /** 링크 URL. 미출시(준비 중) 배지는 undefined → <span>으로 렌더. */
+  href?: string;
   kicker: string;
   label: string;
   logo: ReactNode;
   ariaLabel: string;
   /** 골드 채움+글로우로 강조되는 주 CTA 여부 */
   primary: boolean;
+  /** 미출시(준비 중) — 비활성 배지로 렌더 */
+  pending?: boolean;
 }
 
 /** 게임 CTA 톤 kicker — 다운로드를 "획득 액션"처럼. */
 const INSTALL_KICKER = '▶ INSTALL';
 const OPEN_KICKER = '▶ OPEN';
+const SOON_KICKER = '▶ SOON';
 
 export function StoreBadges({
   ios,
   android,
   web,
   tone = 'light',
+  comingSoon = false,
   className,
 }: StoreBadgesProps) {
   const badges: BadgeDef[] = [];
 
-  // 주 CTA(골드 강조)는 웹사이트 → 앱보다 "바로 써보기"를 유도. 웹이 없으면 App Store로 폴백.
+  // 미출시면 App Store·Google Play를 "준비 중" 비활성 배지로 표기(링크 유무 무관).
+  // 주 CTA(골드 강조)는 web(있으면). 출시 상태면 web > App Store > Google Play 순.
   const primaryLabel = web ? '웹사이트' : ios ? 'App Store' : 'Google Play';
 
-  if (ios) {
+  if (comingSoon) {
+    // App Store·Google Play는 항상 "준비 중"으로 자리 표시(기대감 유발), web은 정상 링크.
     badges.push({
-      href: ios,
-      kicker: INSTALL_KICKER,
+      kicker: SOON_KICKER,
       label: 'App Store',
       logo: AppleLogo,
-      ariaLabel: 'App Store에서 다운로드',
-      primary: 'App Store' === primaryLabel,
+      ariaLabel: 'App Store 출시 준비 중',
+      primary: false,
+      pending: true,
     });
-  }
-  if (android) {
     badges.push({
-      href: android,
-      kicker: INSTALL_KICKER,
+      kicker: SOON_KICKER,
       label: 'Google Play',
       logo: PlayLogo,
-      ariaLabel: 'Google Play에서 다운로드',
-      primary: 'Google Play' === primaryLabel,
+      ariaLabel: 'Google Play 출시 준비 중',
+      primary: false,
+      pending: true,
     });
-  }
-  if (web) {
-    badges.push({
-      href: web,
-      kicker: OPEN_KICKER,
-      label: '웹사이트',
-      logo: GlobeLogo,
-      ariaLabel: '웹사이트 바로가기',
-      primary: '웹사이트' === primaryLabel,
-    });
+    if (web) {
+      badges.push({
+        href: web,
+        kicker: OPEN_KICKER,
+        label: '웹사이트',
+        logo: GlobeLogo,
+        ariaLabel: '웹사이트 바로가기',
+        primary: true,
+      });
+    }
+  } else {
+    if (ios) {
+      badges.push({
+        href: ios,
+        kicker: INSTALL_KICKER,
+        label: 'App Store',
+        logo: AppleLogo,
+        ariaLabel: 'App Store에서 다운로드',
+        primary: 'App Store' === primaryLabel,
+      });
+    }
+    if (android) {
+      badges.push({
+        href: android,
+        kicker: INSTALL_KICKER,
+        label: 'Google Play',
+        logo: PlayLogo,
+        ariaLabel: 'Google Play에서 다운로드',
+        primary: 'Google Play' === primaryLabel,
+      });
+    }
+    if (web) {
+      badges.push({
+        href: web,
+        kicker: OPEN_KICKER,
+        label: '웹사이트',
+        logo: GlobeLogo,
+        ariaLabel: '웹사이트 바로가기',
+        primary: '웹사이트' === primaryLabel,
+      });
+    }
   }
 
   if (badges.length === 0) return null;
@@ -123,17 +165,13 @@ export function StoreBadges({
           styles.badge,
           styles[tone],
           isPrimary ? styles.primary : styles.secondary,
-        ].join(' ');
-        return (
-          <a
-            key={badge.label}
-            href={badge.href}
-            className={badgeClass}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={badge.ariaLabel}
-            style={{ '--bdg-i': i } as CSSProperties}
-          >
+          badge.pending ? styles.pending : '',
+        ]
+          .filter(Boolean)
+          .join(' ');
+
+        const inner = (
+          <>
             {/* 뷰포트 진입 시 1회 가로지르는 광택 (장식) */}
             <span className={styles.sheen} aria-hidden="true" />
             <span className={styles.logoWrap} aria-hidden="true">
@@ -149,10 +187,47 @@ export function StoreBadges({
                 FREE
               </span>
             )}
+            {/* 미출시 — "준비 중" 상태 핀 */}
+            {badge.pending && (
+              <span className={styles.soonPin} aria-hidden="true">
+                준비 중
+              </span>
+            )}
             {/* 호버 시 떠오르는 XP 마이크로 피드백 (장식) */}
-            <span className={styles.xpPop} aria-hidden="true">
-              +10&nbsp;XP
+            {!badge.pending && (
+              <span className={styles.xpPop} aria-hidden="true">
+                +10&nbsp;XP
+              </span>
+            )}
+          </>
+        );
+
+        // 미출시(준비 중) 배지는 링크가 아니므로 <span aria-disabled>로 렌더.
+        if (badge.pending) {
+          return (
+            <span
+              key={badge.label}
+              className={badgeClass}
+              aria-disabled="true"
+              aria-label={badge.ariaLabel}
+              style={{ '--bdg-i': i } as CSSProperties}
+            >
+              {inner}
             </span>
+          );
+        }
+
+        return (
+          <a
+            key={badge.label}
+            href={badge.href}
+            className={badgeClass}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={badge.ariaLabel}
+            style={{ '--bdg-i': i } as CSSProperties}
+          >
+            {inner}
           </a>
         );
       })}

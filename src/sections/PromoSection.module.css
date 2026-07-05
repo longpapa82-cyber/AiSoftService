@@ -178,6 +178,19 @@
   mask-image: linear-gradient(180deg, transparent, #000 18%, #000 82%, transparent);
 }
 
+/* myToday: 잎사귀 — 흩날리는 나뭇잎 패턴(새싹 성장 무드) */
+.motif_leaf::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%2337811c' fill-opacity='0.09'%3E%3Cpath d='M30 20c14 2 22 12 20 28-16-2-22-14-20-28z'/%3E%3Cpath d='M92 66c-13 3-21 13-17 28 15-4 20-16 17-28z'/%3E%3Cpath d='M64 92c9 1 15 8 13 19-11-2-15-10-13-19z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 150px 150px;
+  mask-image: linear-gradient(180deg, transparent, #000 16%, #000 84%, transparent);
+}
+
 /* ── 레이아웃 ── */
 .inner {
   display: grid;
@@ -496,6 +509,111 @@
   font-size: 0.74rem;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.85);
+}
+
+/* ── 성장 카드 (myToday: 마스코트 히어로 + 기분 칩 + 스텝) ── */
+.growCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.4rem;
+  width: 100%;
+  max-width: 460px;
+}
+
+/* 마스코트 무대 — 원형 화이트 프레임 + 부드러운 글로우(실제 랜딩 히어로) */
+.mascotStage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(62%, 240px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 38%,
+    #ffffff 0%,
+    color-mix(in srgb, var(--p-surface) 88%, #ffffff) 62%,
+    color-mix(in srgb, var(--p-primary) 10%, var(--p-surface)) 100%
+  );
+  box-shadow:
+    0 24px 50px -8px color-mix(in srgb, var(--p-primary) 30%, transparent),
+    0 8px 20px color-mix(in srgb, var(--p-primary) 16%, transparent),
+    inset 0 2px 8px rgba(255, 255, 255, 0.7);
+}
+.mascotGlow {
+  position: absolute;
+  inset: -12%;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--p-accent) 30%, transparent) 0%,
+    transparent 68%
+  );
+  filter: blur(6px);
+}
+.mascotImg {
+  position: relative;
+  z-index: 1;
+  width: 78%;
+  height: auto;
+  /* 둥실 떠오르는 부유 모션(새싹이 살아있는 느낌) */
+  animation: promo-mascot-bob 4s var(--ais-ease-expo) infinite;
+  filter: drop-shadow(0 10px 14px color-mix(in srgb, var(--p-primary) 28%, transparent));
+}
+@keyframes promo-mascot-bob {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-9px) rotate(1deg); }
+}
+
+/* 기분 5단계 칩 — 원형 이모지 + 라벨(실제 앱 우울·지침·평온·행복·신남) */
+.moods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.moodChip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.32rem;
+}
+.moodEmoji {
+  display: grid;
+  place-items: center;
+  width: 2.7rem;
+  height: 2.7rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  box-shadow:
+    0 6px 14px color-mix(in srgb, var(--p-primary) 20%, transparent),
+    inset 0 2px 5px rgba(255, 255, 255, 0.55);
+  transition: transform var(--ais-dur-fast) var(--ais-ease-bounce);
+  will-change: transform;
+}
+.moodChip:hover .moodEmoji {
+  transform: translateY(-3px) scale(1.12);
+}
+.moodLabel {
+  font-family: var(--p-font-body);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--p-ink-soft);
+}
+
+/* 성장 스텝 — 기존 .step 재사용, 컨테이너만 별도(마스코트 아래 정렬) */
+.growSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 /* ── 번호 스텝 흐름 (myTravel: 3단계로 완성하는 여행 계획) ── */
@@ -918,9 +1036,14 @@
   .step,
   .step:hover,
   .starChip,
-  .starChip:hover {
+  .starChip:hover,
+  .moodChip:hover .moodEmoji {
     transform: none;
     transition: none;
+  }
+  /* 마스코트 부유 정지 */
+  .mascotImg {
+    animation: none;
   }
   /* 토스트: 슬라이드/바운스 없이 페이드만(가시성은 유지) */
   .unlockToast {

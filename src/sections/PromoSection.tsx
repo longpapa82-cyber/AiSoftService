@@ -187,6 +187,7 @@ export function PromoSection({
               android={service.links.android}
               web={service.links.web}
               tone={promo.dark ? 'dark' : 'light'}
+              comingSoon={service.status === 'coming_soon'}
               className={styles.badges}
             />
 
@@ -207,6 +208,54 @@ export function PromoSection({
                   alt={`${service.name} 앱 화면`}
                   loading="lazy"
                 />
+              </div>
+            ) : promo.mascot ? (
+              /* 마스코트 히어로 + 기분 칩 + 스텝 (myToday: 새싹 성장 서사) */
+              <div className={styles.growCard}>
+                <div className={styles.mascotStage}>
+                  <span className={styles.mascotGlow} aria-hidden="true" />
+                  <img
+                    className={styles.mascotImg}
+                    src={promo.mascot}
+                    alt={`${service.name} 마스코트`}
+                    width={200}
+                    height={200}
+                    loading="lazy"
+                  />
+                </div>
+
+                {promo.moods && (
+                  <ul className={styles.moods} aria-label="기분 단계">
+                    {promo.moods.map((m) => (
+                      <li key={m.label} className={styles.moodChip}>
+                        <span
+                          className={styles.moodEmoji}
+                          style={{ background: m.color }}
+                          aria-hidden="true"
+                        >
+                          {m.emoji}
+                        </span>
+                        <span className={styles.moodLabel}>{m.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {promo.steps && (
+                  <ol className={styles.growSteps}>
+                    {promo.steps.map((s) => (
+                      <li key={s.no} className={styles.step}>
+                        <span className={styles.stepNo} aria-hidden="true">
+                          {s.no}
+                        </span>
+                        <span className={styles.stepBody}>
+                          <strong className={styles.stepTitle}>{s.title}</strong>
+                          <span className={styles.stepDesc}>{s.desc}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
               </div>
             ) : promo.steps ? (
               /* 번호 매긴 스텝 흐름 (myTravel: 3단계로 완성하는 여행 계획) */
