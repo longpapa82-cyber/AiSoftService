@@ -11,9 +11,10 @@ import mytodayIcon from '../assets/services/mytoday-icon.png';
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
 // myTravel: 실사를 원격 Unsplash URL로 로드 — 원본 앱과 동일 여행지 사진.
-// myBaby: 현재 디자인이 "화이트 카드 뉴스피드" UI라 실사 배경 미사용 → 카드 목업으로 표현.
+// myBaby: 실제 랜딩 히어로(K-pop 스타 4인 실사, hero-kpop4) 배경 — 다크 스크림으로 가독성 확보.
 import mypetHero from '../assets/promo/mypet/hero-puppy.webp';
 import mypetShot from '../assets/promo/mypet/shot-home.webp';
+import mybabyHero from '../assets/promo/mybaby/hero-stars.webp';
 // myToday: 새싹 마스코트(투명 배경) — 우측 히어로 일러스트.
 import mytodayMascot from '../assets/promo/mytoday/mascot.webp';
 
@@ -372,6 +373,9 @@ export const SERVICES: AppService[] = [
       fontBody: "'Plus Jakarta Sans', system-ui, sans-serif",
       radius: 22,
       motif: 'none',
+      // 실제 랜딩 상단 히어로(K-pop 스타 4인 실사) — 다크 스크림 위에 골드 카피가 얹힌다.
+      heroImage: mybabyHero,
+      heroFocus: 'center 22%',
       highlights: [
         { value: '10,000+', label: '지원 셀럽' },
         { value: '37개국', label: '글로벌 라인업' },

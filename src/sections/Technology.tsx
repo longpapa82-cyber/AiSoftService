@@ -113,14 +113,15 @@ const CAPABILITIES: TechCapability[] = [
     code: 'CROSS_PLATFORM',
     achievement: 'OMNI DEPLOY',
     title: '크로스플랫폼',
-    desc: 'iOS·Android·Web 어디서나 끊김 없는 경험으로 서비스를 이용할 수 있습니다.',
+    desc: `iOS·Android·Web 어디서나 끊김 없는 경험으로 ${SERVICE_COUNT}개 서비스를 이용할 수 있습니다.`,
+    // 서비스가 늘면 자동 반영되는 "서비스 수"를 대표 수치로 — 정체된 '3개 플랫폼' 느낌 제거.
     metric: {
-      value: String(PLATFORMS.length),
-      unit: '개 플랫폼',
+      value: String(SERVICE_COUNT),
+      unit: '개 서비스',
       label: PLATFORMS.join(' · '),
     },
     gauge: 100,
-    gaugeLabel: `${PLATFORMS.length}/${PLATFORMS.length}`,
+    gaugeLabel: `${PLATFORMS.length} PLATFORMS`,
     rarity: 'gold',
   },
 ];
