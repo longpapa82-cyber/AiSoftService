@@ -183,6 +183,10 @@ export function PromoSection({
               tone={promo.dark ? 'dark' : 'light'}
               className={styles.badges}
             />
+
+            {promo.disclaimer && (
+              <p className={styles.disclaimer}>{promo.disclaimer}</p>
+            )}
           </div>
 
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}

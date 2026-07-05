@@ -54,6 +54,12 @@ export interface ServicePromo {
   kicker: string;
   /** 미니 홍보 헤드라인 (실제 서비스 카피) */
   headline: string;
+  /**
+   * 법적/사실 고지 문구(선택). AI 상담의 비진단성, 공개정보 기반 등
+   * 오인 방지용 중요정보를 주장 카피와 같은 화면에 근접 배치한다.
+   * (표시광고법: 중요정보 동일 화면·근접 표시 원칙)
+   */
+  disclaimer?: string;
   /** 헤드라인에서 브랜드 강조될 부분(있으면 그라디언트/포인트 처리) */
   headlineAccent?: string;
   /** 서브 카피 (실제 서비스 설명 문구) */
@@ -295,6 +301,8 @@ export const SERVICES: AppService[] = [
       heroImage: mypetHero,
       heroFocus: 'center 35%',
       shot: mypetShot,
+      disclaimer:
+        'AI 건강·법률 상담은 일반 정보 제공과 참고용이며, 수의학적 진단이나 법률 자문을 대체하지 않습니다. 시설 정보는 변동될 수 있습니다.',
     },
     order: 2,
   },
@@ -367,6 +375,8 @@ export const SERVICES: AppService[] = [
         { name: 'TWICE', tag: 'K-pop', color: '#ff9e57' },
         { name: '손흥민', tag: '스포츠', color: '#54c98a' },
       ],
+      disclaimer:
+        '공개된 뉴스·언론 기사를 AI가 정리해 보여주는 서비스로, 소속사·아티스트의 공식 정보가 아닙니다. 표시된 이름·소속은 각 권리자에게 귀속됩니다.',
     },
     order: 3,
   },

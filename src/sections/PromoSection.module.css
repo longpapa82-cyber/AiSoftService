@@ -320,6 +320,18 @@
   margin-top: 0.5rem;
 }
 
+/* 법적/사실 고지 — 절제된 톤(작고 흐리게)이되 가독성 확보. 주장 카피와 같은 화면 근접 배치. */
+.disclaimer {
+  margin-top: 1.25rem;
+  max-width: 52ch;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  /* 본문 잉크의 저대비 버전 — 테마(라이트/다크) 모두에서 보조 텍스트로 읽힌다. */
+  color: color-mix(in srgb, var(--p-ink-soft) 88%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--p-ink-soft) 22%, transparent);
+  padding-top: 0.7rem;
+}
+
 /* ── 우: 앱 비주얼 카드 ── */
 .visual {
   display: flex;

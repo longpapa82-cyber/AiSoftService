@@ -39,7 +39,7 @@ export function Footer() {
 
           <dl className={styles.company}>
             <div className={styles.companyRow}>
-              <dt className={styles.companyTerm}>조직 대표</dt>
+              <dt className={styles.companyTerm}>조직대표</dt>
               <dd className={styles.companyDesc}>{COMPANY.ceo}</dd>
             </div>
             <div className={styles.companyRow}>
@@ -66,8 +66,15 @@ export function Footer() {
                     target={href ? '_blank' : undefined}
                     rel={href ? 'noopener noreferrer' : undefined}
                   >
-                    <span className={styles.serviceEmoji} aria-hidden="true">
-                      {service.emoji}
+                    <span className={styles.serviceIcon} aria-hidden="true">
+                      <img
+                        className={styles.serviceIconImg}
+                        src={service.iconUrl}
+                        alt=""
+                        width={26}
+                        height={26}
+                        loading="lazy"
+                      />
                     </span>
                     <span>{service.name}</span>
                   </a>

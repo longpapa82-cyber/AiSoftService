@@ -218,13 +218,13 @@
   color: #fff;
 }
 
-.serviceEmoji {
+.serviceIcon {
   display: inline-grid;
   place-items: center;
   width: 1.6rem;
   height: 1.6rem;
   border-radius: 8px;
-  font-size: 0.95rem;
+  overflow: hidden;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(6px);
@@ -235,9 +235,15 @@
     background var(--ais-dur-fast) var(--ais-ease-expo);
 }
 
-.serviceLink:hover .serviceEmoji {
+.serviceIconImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.serviceLink:hover .serviceIcon {
   border-color: rgba(249, 217, 73, 0.55);
-  background: rgba(249, 217, 73, 0.1);
   box-shadow: 0 0 16px var(--ais-glow-gold);
 }
 
