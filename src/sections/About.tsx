@@ -27,7 +27,7 @@ export function About() {
         <div ref={ref} className={`${styles.grid} reveal`}>
           <div className={styles.intro}>
             <span className={styles.introTag} aria-hidden="true">
-              // about_aisoft
+              // about_us
             </span>
             <p className={styles.slogan}>{COMPANY.slogan}</p>
             <p className={styles.body}>{COMPANY.intro}</p>

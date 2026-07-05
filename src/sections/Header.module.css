@@ -95,6 +95,8 @@
   /* 한글 로고 자간 — 라틴용(-0.03em)보다 완만하게 */
   letter-spacing: -0.01em;
   color: var(--ais-text);
+  /* 공간 부족 시에도 로고가 두 줄로 꺾이지 않도록 고정 */
+  white-space: nowrap;
 }
 /* 모노스페이스 테크 태그라인(브랜드 옆 작은 시스템 라벨) */
 .logoTag {
@@ -136,6 +138,7 @@
   font-weight: 600;
   color: var(--ais-text-mid);
   padding: 0.35rem 0;
+  white-space: nowrap;
   transition:
     color var(--ais-dur-fast) var(--ais-ease-expo),
     transform var(--ais-dur-fast) var(--ais-ease-spring);
@@ -200,6 +203,7 @@
   text-transform: uppercase;
   color: var(--ais-gold);
   padding: 0.55rem 1.1rem;
+  white-space: nowrap;
   border-radius: var(--ais-radius-pill);
   border: 1px solid var(--ais-navy);
   background: var(--ais-navy);
@@ -375,7 +379,9 @@
 }
 
 /* ── 반응형 ── */
-@media (max-width: 760px) {
+/* 한글 로고(에이아이소프트)로 데스크톱 헤더 최소 폭이 ~820px가 되어
+   모바일 전환점을 760px→840px로 상향(768px 태블릿 세로 줄바꿈 방지). */
+@media (max-width: 840px) {
   .nav {
     display: none;
   }
