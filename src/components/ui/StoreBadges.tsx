@@ -58,6 +58,8 @@ interface BadgeDef {
   label: string;
   logo: ReactNode;
   ariaLabel: string;
+  /** 골드 채움+글로우로 강조되는 주 CTA 여부 */
+  primary: boolean;
 }
 
 /** 게임 CTA 톤 kicker — 다운로드를 "획득 액션"처럼. */
@@ -73,6 +75,9 @@ export function StoreBadges({
 }: StoreBadgesProps) {
   const badges: BadgeDef[] = [];
 
+  // 주 CTA(골드 강조)는 웹사이트 → 앱보다 "바로 써보기"를 유도. 웹이 없으면 App Store로 폴백.
+  const primaryLabel = web ? '웹사이트' : ios ? 'App Store' : 'Google Play';
+
   if (ios) {
     badges.push({
       href: ios,
@@ -80,6 +85,7 @@ export function StoreBadges({
       label: 'App Store',
       logo: AppleLogo,
       ariaLabel: 'App Store에서 다운로드',
+      primary: 'App Store' === primaryLabel,
     });
   }
   if (android) {
@@ -89,6 +95,7 @@ export function StoreBadges({
       label: 'Google Play',
       logo: PlayLogo,
       ariaLabel: 'Google Play에서 다운로드',
+      primary: 'Google Play' === primaryLabel,
     });
   }
   if (web) {
@@ -98,6 +105,7 @@ export function StoreBadges({
       label: '웹사이트',
       logo: GlobeLogo,
       ariaLabel: '웹사이트 바로가기',
+      primary: '웹사이트' === primaryLabel,
     });
   }
 
@@ -108,8 +116,8 @@ export function StoreBadges({
   return (
     <div className={listClass}>
       {badges.map((badge, i) => {
-        // 첫 배지 = 주 플랫폼 → 골드 채움+글로우로 강조. 나머지는 글래스 아웃라인.
-        const isPrimary = i === 0;
+        // 주 CTA(badge.primary) = 웹사이트 → 골드 채움+글로우로 강조. 나머지는 글래스 아웃라인.
+        const isPrimary = badge.primary;
         const isInstall = badge.kicker === INSTALL_KICKER;
         const badgeClass = [
           styles.badge,

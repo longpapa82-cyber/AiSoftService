@@ -1,6 +1,6 @@
 /*
  * StoreBadges: App Store / Google Play / 웹사이트 "획득(LOOT)" 버튼.
- * - 위계: 첫 배지(.primary)=골드 채움+글로우, 나머지(.secondary)=글래스 아웃라인.
+ * - 위계: 주 CTA 배지(.primary, 웹사이트)=골드 채움+글로우, 나머지(.secondary)=글래스 아웃라인.
  * - 게임 톤: FREE 칩, 호버 젤리 바운스 + 로고 팝, 진입 시 1회 광택 스윕, +XP 마이크로 피드백.
  * - tone(dark/light)에 따라 명/암 표면 모두에서 읽히도록 색 대비를 토큰화한다.
  * - 모션은 transform/opacity만(컴포지터 친화), reduced-motion에서 전부 정지.
