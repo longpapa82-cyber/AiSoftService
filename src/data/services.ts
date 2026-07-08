@@ -158,6 +158,11 @@ export interface AppService {
     web?: string;
     ios?: string;
     android?: string;
+    /**
+     * web이 홍보 랜딩이 아니라 법적 고지(개인정보/약관) 페이지인 경우 true.
+     * true면 스토어 배지에서 App Store(또는 Play)를 주 CTA로 승격한다(설치 우선).
+     */
+    webIsLegal?: boolean;
   };
   theme: ServiceTheme;
   features: ServiceFeature[];
@@ -403,13 +408,16 @@ export const SERVICES: AppService[] = [
     tagline: '오늘도 새싹처럼 한 뼘씩',
     description:
       '매일의 기분을 기록하고 하고 싶은 일을 새싹처럼 키워보세요. 작은 습관이 모여 한 뼘씩 자라나는 나를 만나는 마음 습관 다이어리.',
-    status: 'coming_soon',
+    status: 'live',
     moodLabel: 'Fresh Sprout',
     emoji: '🌱',
     iconUrl: mytodayIcon,
-    // 미출시 — 스토어 링크 없음. 출시 시 ios/android만 추가하면 status:'live'로 전환.
+    // iOS 출시 완료(Apple ID 6785864596). Android 출시 시 android 링크만 추가하면 자동 반영.
+    // web은 법적 고지(개인정보/약관) 페이지라 주 CTA로 부적합 → App Store를 primary로.
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6785864596',
       web: 'https://longpapa82-cyber.github.io/mytoday-legal/',
+      webIsLegal: true,
     },
     theme: {
       surface: '#fcfdf8',
@@ -483,7 +491,7 @@ export const SERVICES: AppService[] = [
         },
       ],
       disclaimer:
-        '기분·감정 기록은 자기 관리와 습관 형성을 돕기 위한 것으로, 의학적·심리 상담을 대체하지 않습니다. App Store·Google Play 출시 준비 중입니다.',
+        '기분·감정 기록은 자기 관리와 습관 형성을 돕기 위한 것으로, 의학적·심리 상담을 대체하지 않습니다.',
     },
     order: 4,
   },

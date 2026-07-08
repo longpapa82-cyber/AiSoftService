@@ -15,6 +15,12 @@ export interface StoreBadgesProps {
    * web 링크는 정상 노출. 주 CTA(골드)는 web으로.
    */
   comingSoon?: boolean;
+  /**
+   * true면 web 링크가 있어도 App Store(ios)를 주 CTA(골드 강조)로 승격.
+   * web이 홍보 랜딩이 아니라 법적 고지 페이지인 앱(myToday)에서 설치를 우선할 때 사용.
+   * comingSoon일 때는 무시된다(준비 중 배지엔 주 CTA 개념이 web뿐).
+   */
+  primaryStore?: boolean;
   className?: string;
 }
 
@@ -82,13 +88,26 @@ export function StoreBadges({
   web,
   tone = 'light',
   comingSoon = false,
+  primaryStore = false,
   className,
 }: StoreBadgesProps) {
   const badges: BadgeDef[] = [];
 
   // 미출시면 App Store·Google Play를 "준비 중" 비활성 배지로 표기(링크 유무 무관).
-  // 주 CTA(골드 강조)는 web(있으면). 출시 상태면 web > App Store > Google Play 순.
-  const primaryLabel = web ? '웹사이트' : ios ? 'App Store' : 'Google Play';
+  // 주 CTA(골드 강조) 우선순위:
+  //   - primaryStore(설치 우선): App Store > Google Play > 웹사이트
+  //   - 기본: 웹사이트 > App Store > Google Play
+  const primaryLabel = primaryStore
+    ? ios
+      ? 'App Store'
+      : android
+        ? 'Google Play'
+        : '웹사이트'
+    : web
+      ? '웹사이트'
+      : ios
+        ? 'App Store'
+        : 'Google Play';
 
   if (comingSoon) {
     // App Store·Google Play는 항상 "준비 중"으로 자리 표시(기대감 유발), web은 정상 링크.

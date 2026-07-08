@@ -194,6 +194,7 @@ export function PromoSection({
               web={service.links.web}
               tone={promo.dark ? 'dark' : 'light'}
               comingSoon={service.status === 'coming_soon'}
+              primaryStore={service.links.webIsLegal}
               className={styles.badges}
             />
 
