@@ -270,7 +270,7 @@ export const SERVICES: AppService[] = [
     emoji: '🐾',
     iconUrl: mypetIcon,
     links: {
-      web: 'https://longpapa82-cyber.github.io/mypet-promo/',
+      web: 'https://with-my-pet.com/',
       ios: 'https://apps.apple.com/kr/app/id6780117383',
       android: 'https://play.google.com/store/apps/details?id=com.longpapa82.mypet',
     },
@@ -413,10 +413,10 @@ export const SERVICES: AppService[] = [
     emoji: '🌱',
     iconUrl: mytodayIcon,
     // iOS 출시 완료(Apple ID 6785864596). Android 출시 시 android 링크만 추가하면 자동 반영.
-    // web은 법적 고지(개인정보/약관) 페이지라 주 CTA로 부적합 → App Store를 primary로.
+    // web은 별도 홍보 사이트(my-today.net)지만 앱 설치 유도가 우선이라 App Store를 primary로.
     links: {
       ios: 'https://apps.apple.com/kr/app/id6785864596',
-      web: 'https://longpapa82-cyber.github.io/mytoday-legal/',
+      web: 'https://my-today.net/',
       webIsLegal: true,
     },
     theme: {
