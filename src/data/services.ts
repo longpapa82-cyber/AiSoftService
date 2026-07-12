@@ -7,6 +7,7 @@ import mytravelIcon from '../assets/services/mytravel-icon.png';
 import mypetIcon from '../assets/services/mypet-icon.png';
 import mybabyIcon from '../assets/services/mybaby-icon.png';
 import mytodayIcon from '../assets/services/mytoday-icon.png';
+import aimusicIcon from '../assets/services/aimusic-icon.png';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -17,6 +18,9 @@ import mypetShot from '../assets/promo/mypet/shot-home.webp';
 import mybabyHero from '../assets/promo/mybaby/hero-stars.webp';
 // myToday: 새싹 마스코트(투명 배경) — 우측 히어로 일러스트.
 import mytodayMascot from '../assets/promo/mytoday/mascot.webp';
+// AI Music Studio: welcome 히어로 배경 + 실제 앱 홈(3단계) 스크린샷.
+import aimusicShot from '../assets/promo/aimusic/shot-home.webp';
+import aimusicHero from '../assets/promo/aimusic/hero-welcome.webp';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -494,6 +498,90 @@ export const SERVICES: AppService[] = [
         '기분·감정 기록은 자기 관리와 습관 형성을 돕기 위한 것으로, 의학적·심리 상담을 대체하지 않습니다.',
     },
     order: 4,
+  },
+  {
+    id: 'aimusic',
+    name: 'AI Music Studio',
+    tagline: '누구나 만드는 나만의 음악',
+    description:
+      '원하는 곡 내용을 입력하면 AI가 자동으로 음악을 만들어 주는 앱. 가수 보이스 유형을 골라 나만의 곡을 완성하고, 소장하거나 공유할 수 있어요. 트로트·팝·발라드부터 K-Pop·시티팝·재즈까지 8가지 장르, 30·60·180초 길이를 지원합니다.',
+    // Android MVP 준비 중(스토어 미출시), iOS는 이후. web은 웨이팅 홍보 랜딩이라 webIsLegal 미설정.
+    status: 'coming_soon',
+    moodLabel: 'Dark Luxury Studio',
+    emoji: '🎵',
+    iconUrl: aimusicIcon,
+    links: {
+      web: 'https://longpapa82-cyber.github.io/aimusicstudio-web/',
+    },
+    theme: {
+      surface: '#1d2022',
+      ink: '#e0e3e5',
+      inkSoft: '#cfc2d6',
+      primary: '#b76dff',
+      accent: '#ffc640',
+      gradient: 'linear-gradient(135deg, #490080 0%, #2c0051 55%, #101415 100%)',
+      font: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'music_note', title: '원하는 곡 입력', desc: '만들고 싶은 곡의 내용을 적으면 AI가 그 이야기를 노래로 담아냅니다.' },
+      { icon: 'mic', title: '보이스 선택', desc: '원하는 가수 보이스 유형을 골라 곡의 분위기를 나에게 맞춰요.' },
+      { icon: 'library_music', title: '소장과 공유', desc: '완성된 곡을 소장하고 공유하세요. 공유곡 재생은 앱을 통해 즐길 수 있어요.' },
+    ],
+    promo: {
+      kicker: 'AI 음악 생성 스튜디오',
+      headline: '떠오른 가사 한 줄이\n',
+      headlineAccent: '한 곡이 되는 순간',
+      subcopy:
+        '원하는 곡의 내용을 적고 보이스를 고르면, AI가 그 이야기를 노래로 만들어 줍니다. 트로트·팝·발라드부터 K-Pop·시티팝·재즈까지 8가지 장르, 30·60·180초 길이로 나만의 곡을 완성하고 소장·공유해 보세요.',
+      // AI Music Studio: 다크 럭셔리 뮤직 테마 — 딥 퍼플 #490080 → 베이스 #101415, 라일락 primary + 골드 accent.
+      dark: true,
+      palette: {
+        bg: '#101415',
+        heroGradient:
+          'linear-gradient(135deg, #490080 0%, #2c0051 55%, #101415 100%)',
+        surface: '#1d2022',
+        primary: '#ddb7ff',
+        accent: '#ffc640',
+        ink: '#e0e3e5',
+        inkSoft: '#cfc2d6',
+        onPrimary: '#2c0051',
+      },
+      fontDisplay: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
+      fontBody: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
+      radius: 22,
+      motif: 'none',
+      // 실제 앱 welcome 히어로(로고 중앙) 배경 + 실제 앱 홈(입력→보이스→생성) 스크린샷.
+      heroImage: aimusicHero,
+      heroFocus: 'center 30%',
+      shot: aimusicShot,
+      highlights: [
+        { value: '8가지', label: '음악 장르' },
+        { value: '30·60·180초', label: '곡 길이 선택' },
+        { value: '3단계', label: '입력·보이스·생성' },
+      ],
+      // 좌측 내러티브: 실제 앱 3단계 흐름(입력 → 보이스 → 생성). 우측 비주얼은 shot(폰 목업)이 우선.
+      steps: [
+        {
+          no: '1',
+          title: '원하는 곡 입력',
+          desc: '만들고 싶은 곡의 내용을 자유롭게 적어 주세요. 짧은 한 줄이면 충분해요.',
+        },
+        {
+          no: '2',
+          title: '보이스 선택',
+          desc: '곡을 불러 줄 가수 보이스 유형을 골라 나만의 색을 입혀요.',
+        },
+        {
+          no: '3',
+          title: 'AI가 생성',
+          desc: 'AI가 입력한 내용을 노래로 완성해 줘요. 마음에 들면 바로 소장·공유하세요.',
+        },
+      ],
+      disclaimer:
+        '생성 결과물은 AI가 만든 음악으로, 입력 내용과 선택한 옵션에 따라 결과가 달라질 수 있습니다. 실제 아티스트·기존 곡과의 유사성을 보장하거나 의도하지 않으며, 저작권 및 이용 범위는 앱 내 안내를 따릅니다. 공유된 곡의 재생은 앱을 통해서만 가능하며, 현재 정식 출시 전(준비 중) 단계입니다.',
+    },
+    order: 5,
   },
 ];
 
