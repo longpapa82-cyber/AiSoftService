@@ -127,6 +127,15 @@
   overflow-wrap: anywhere;
 }
 
+/* 건강 관련 성능 문구 근접 고지 — 작고 절제된 톤(가독성 확보, 장식 아님) */
+.bannerNote {
+  margin-top: 0.5rem;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: rgba(247, 249, 251, 0.66);
+  overflow-wrap: anywhere;
+}
+
 /* ── 스탯 보드 요약 HUD (총 퀘스트 진척 게이지) ── */
 .board {
   display: flex;

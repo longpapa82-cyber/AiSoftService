@@ -77,7 +77,7 @@ const CAPABILITIES: TechCapability[] = [
     code: 'CORE_AI',
     achievement: 'AI ARCHITECT',
     title: '생성형 AI 설계',
-    desc: '목적지·증상만 입력하면 AI가 여행 일정과 건강 가이드를 자동으로 설계합니다.',
+    desc: '목적지나 증상을 입력하면 AI가 여행 일정을 짜고 건강 관련 참고 정보를 제안합니다.',
     metric: { value: '3', unit: '단계', label: 'AI 자동 완성' },
     gauge: 100,
     gaugeLabel: 'MAX',
@@ -309,7 +309,7 @@ export function Technology() {
           <img
             className={styles.bannerImg}
             src={trustTeam}
-            alt="에이아이소프트 팀이 협업하며 서비스를 설계하는 모습"
+            alt="사람과 AI의 협업을 표현한 연출 이미지"
             width={1100}
             height={733}
             loading="lazy"
@@ -319,13 +319,16 @@ export function Technology() {
           <figcaption className={styles.bannerCaption}>
             <span className={styles.bannerCode}>// HUMAN_x_MACHINE</span>
             <p className={styles.bannerText}>
-              사람의 통찰과 AI 엔진이 만나는 곳. 기획부터 출시까지 한 팀이
-              설계합니다.
+              사람의 통찰과 AI 엔진으로, 기획부터 출시까지 이어갑니다.
             </p>
             <span className={styles.bannerStats}>
               {`${LANGUAGE_COUNT ?? '다국어'}${
                 LANGUAGE_COUNT !== null ? '개 언어' : ''
               } · ${SERVICE_COUNT}개 서비스 · ${PLATFORMS.join(' / ')}`}
+            </span>
+            {/* 건강 관련 성능 문구 근접 고지 (표시광고법 중요정보 근접표시 원칙) */}
+            <span className={styles.bannerNote}>
+              AI 건강 가이드는 참고용이며 수의학적 진단을 대체하지 않습니다.
             </span>
           </figcaption>
         </figure>

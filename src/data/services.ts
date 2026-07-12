@@ -176,6 +176,8 @@ export interface AppService {
   order: number;
 }
 
+// ⚠️ 드리프트 주의: 각 서비스의 name/tagline/description은 index.html의 noscript 블록에
+// 수동 복제되어 있다(SEO 폴백). 이 값을 수정하면 index.html noscript도 함께 갱신할 것.
 export const SERVICES: AppService[] = [
   {
     id: 'mytravel',
@@ -215,7 +217,7 @@ export const SERVICES: AppService[] = [
       headline: 'AI가 만드는\n',
       headlineAccent: '나만의 여행 일정',
       subcopy:
-        '목적지와 날짜만 입력하세요. AI가 명소·맛집·날씨·이동 동선까지 꼼꼼하게 계획합니다. 17개 언어 지원.',
+        '목적지와 날짜만 입력하세요. AI가 명소·맛집·날씨·이동 동선까지 꼼꼼하게 계획합니다.',
       // 내새끼와 대비되는 딥 네이비 테크 럭셔리 (실제 랜딩 톤). 시안→블루 그라디언트 헤드라인.
       dark: true,
       palette: {
@@ -298,7 +300,7 @@ export const SERVICES: AppService[] = [
       headline: '반려생활 필수 정보를\n한 곳에서, ',
       headlineAccent: 'MyPet',
       subcopy:
-        '내 주변 펫 시설을 거리순으로 찾고, AI에게 반려동물 건강·법률을 바로 물어보세요. 등록된 3만여 곳의 병원·미용실·호텔·용품점까지 한 번에.',
+        '내 주변 펫 시설을 거리순으로 찾고, AI에게 반려동물 건강·법률을 바로 물어보세요. 병원·미용실·호텔·용품점까지 한 곳에서.',
       // myPet web: 샴페인골드 #c19a5b + 코랄 #ff6b5c + 크림 아이보리, claymorphism
       palette: {
         bg: '#f3f4f2',
@@ -364,7 +366,7 @@ export const SERVICES: AppService[] = [
       headline: '내가 애정하는\n스타의 모든 ',
       headlineAccent: '소식',
       subcopy:
-        'K-pop·할리우드·라틴·유럽·스포츠까지, 전 세계 37개국 10,000명+ 셀럽의 공개 소식을 AI가 핵심만 골라 매일 요약해 드립니다.',
+        'K-pop·할리우드·라틴·유럽·스포츠까지, 전 세계 셀럽의 공개 소식을 AI가 핵심만 골라 요약해 드립니다.',
       // 내새끼 랜딩: 다크 네이비 럭셔리 + 골드 넘버링 (실제 랜딩 톤)
       dark: true,
       palette: {
@@ -402,7 +404,7 @@ export const SERVICES: AppService[] = [
         { name: '손흥민', tag: '스포츠', color: '#54c98a' },
       ],
       disclaimer:
-        '공개된 뉴스·언론 기사를 AI가 정리해 보여주는 서비스로, 소속사·아티스트의 공식 정보가 아닙니다. 표시된 이름·소속은 각 권리자에게 귀속됩니다.',
+        '공개된 뉴스·언론 기사를 AI가 정리해 보여주는 서비스로, 소속사·아티스트의 공식 정보가 아닙니다. 본 서비스는 표시된 아티스트·소속사와 제휴하거나 후원받지 않으며, 표시된 이름·소속은 각 권리자에게 귀속됩니다.',
     },
     order: 3,
   },
@@ -443,8 +445,9 @@ export const SERVICES: AppService[] = [
       kicker: '마음 습관 다이어리',
       headline: '오늘도 새싹처럼\n한 뼘씩 ',
       headlineAccent: '자라나요',
+      // description(카드·noscript용 정의형)과 구분되는 히어로 행동유도형 카피(중복 방지).
       subcopy:
-        '매일의 기분을 기록하고 하고 싶은 일을 새싹처럼 키워보세요. 작은 습관이 모여 한 뼘씩 자라나는 나를 만나는 마음 습관 다이어리.',
+        '오늘의 기분을 5단계로 남기고, 하고 싶은 일을 완료할수록 나의 새싹이 한 뼘씩 자라요. 작은 습관이 쌓이는 과정을 눈으로 확인해 보세요.',
       // myToday web: 연두→살구 그라디언트, 잎 그린 #37811c + 햇살 노랑 #f5a623, 몽글 자연톤
       palette: {
         bg: '#f4faec',
@@ -533,7 +536,7 @@ export const SERVICES: AppService[] = [
       headline: '떠오른 가사 한 줄이\n',
       headlineAccent: '한 곡이 되는 순간',
       subcopy:
-        '원하는 곡의 내용을 적고 보이스를 고르면, AI가 그 이야기를 노래로 만들어 줍니다. 트로트·팝·발라드부터 K-Pop·시티팝·재즈까지 8가지 장르, 30·60·180초 길이로 나만의 곡을 완성하고 소장·공유해 보세요.',
+        '원하는 곡의 내용을 적고 보이스를 고르면, AI가 그 이야기를 노래로 만들어 줍니다. 나만의 곡을 완성하고 소장·공유해 보세요.',
       // AI Music Studio: 다크 럭셔리 뮤직 테마 — 딥 퍼플 #490080 → 베이스 #101415, 라일락 primary + 골드 accent.
       dark: true,
       palette: {
