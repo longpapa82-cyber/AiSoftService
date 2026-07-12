@@ -16,6 +16,13 @@ export interface StoreBadgesProps {
    */
   comingSoon?: boolean;
   /**
+   * Android만 준비 중(스토어 미출시)일 때 true.
+   * comingSoon(전체 미출시)과 달리, iOS·web은 정상 링크로 두고
+   * Google Play만 "준비 중" 비활성 배지로 표기한다(iOS 출시 + Android 준비 중 혼합 상태).
+   * comingSoon이 true면 무시된다(그때는 두 스토어 모두 준비 중).
+   */
+  androidPending?: boolean;
+  /**
    * true면 web 링크가 있어도 App Store(ios)를 주 CTA(골드 강조)로 승격.
    * web이 홍보 랜딩이 아니라 법적 고지 페이지인 앱(myToday)에서 설치를 우선할 때 사용.
    * comingSoon일 때는 무시된다(준비 중 배지엔 주 CTA 개념이 web뿐).
@@ -88,6 +95,7 @@ export function StoreBadges({
   web,
   tone = 'light',
   comingSoon = false,
+  androidPending = false,
   primaryStore = false,
   className,
 }: StoreBadgesProps) {
@@ -156,6 +164,16 @@ export function StoreBadges({
         logo: PlayLogo,
         ariaLabel: 'Google Play에서 다운로드',
         primary: 'Google Play' === primaryLabel,
+      });
+    } else if (androidPending) {
+      // Android만 준비 중 — Google Play를 "준비 중" 비활성 배지로(iOS·web은 정상 링크).
+      badges.push({
+        kicker: SOON_KICKER,
+        label: 'Google Play',
+        logo: PlayLogo,
+        ariaLabel: 'Google Play 출시 준비 중',
+        primary: false,
+        pending: true,
       });
     }
     if (web) {

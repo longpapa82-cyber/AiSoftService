@@ -163,6 +163,13 @@ export interface AppService {
     ios?: string;
     android?: string;
     /**
+     * Android 앱이 아직 스토어 미출시(준비 중)인 경우 true.
+     * android 링크가 없어도 Google Play를 "준비 중" 비활성 배지로 표기해 기대감을 유발한다.
+     * (iOS는 출시됐지만 Android는 준비 중인 혼합 상태 — 예: myToday)
+     * status='coming_soon'(전체 미출시)과 달리 서비스별 스토어 단위로 동작한다.
+     */
+    androidPending?: boolean;
+    /**
      * web이 홍보 랜딩이 아니라 법적 고지(개인정보/약관) 페이지인 경우 true.
      * true면 스토어 배지에서 App Store(또는 Play)를 주 CTA로 승격한다(설치 우선).
      */
@@ -418,11 +425,13 @@ export const SERVICES: AppService[] = [
     moodLabel: 'Fresh Sprout',
     emoji: '🌱',
     iconUrl: mytodayIcon,
-    // iOS 출시 완료(Apple ID 6785864596). Android 출시 시 android 링크만 추가하면 자동 반영.
+    // iOS 출시 완료(Apple ID 6785864596). Android는 준비 중(스토어 미출시) → androidPending으로 "준비 중" 배지 표기.
+    // Android 출시 시 androidPending 제거하고 android 링크만 추가하면 자동 반영.
     // web은 별도 홍보 사이트(my-today.net)지만 앱 설치 유도가 우선이라 App Store를 primary로.
     links: {
       ios: 'https://apps.apple.com/kr/app/id6785864596',
       web: 'https://my-today.net/',
+      androidPending: true,
       webIsLegal: true,
     },
     theme: {
