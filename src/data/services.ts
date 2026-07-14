@@ -517,13 +517,18 @@ export const SERVICES: AppService[] = [
     tagline: '누구나 만드는 나만의 음악',
     description:
       '원하는 곡 내용을 입력하면 AI가 자동으로 음악을 만들어 주는 앱. 가수 보이스 유형을 골라 나만의 곡을 완성하고, 소장하거나 공유할 수 있어요. 트로트·팝·발라드부터 K-Pop·시티팝·재즈까지 8가지 장르, 30·60·180초 길이를 지원합니다.',
-    // Android MVP 준비 중(스토어 미출시), iOS는 이후. web은 웨이팅 홍보 랜딩이라 webIsLegal 미설정.
-    status: 'coming_soon',
+    // iOS 출시 완료(Apple ID 6789540285). Android는 준비 중(스토어 미출시) → androidPending으로 "준비 중" 배지 표기.
+    // Android 출시 시 androidPending 제거하고 android 링크만 추가하면 자동 반영.
+    // web은 웨이팅 홍보 랜딩이지만 iOS 출시로 앱 설치 유도가 우선이라 App Store를 primary로(webIsLegal).
+    status: 'live',
     moodLabel: 'Dark Luxury Studio',
     emoji: '🎵',
     iconUrl: aimusicIcon,
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6789540285',
       web: 'https://longpapa82-cyber.github.io/aimusicstudio-web/',
+      androidPending: true,
+      webIsLegal: true,
     },
     theme: {
       surface: '#1d2022',
@@ -591,7 +596,7 @@ export const SERVICES: AppService[] = [
         },
       ],
       disclaimer:
-        '생성 결과물은 AI가 만든 음악으로, 입력 내용과 선택한 옵션에 따라 결과가 달라질 수 있습니다. 실제 아티스트·기존 곡과의 유사성을 보장하거나 의도하지 않으며, 저작권 및 이용 범위는 앱 내 안내를 따릅니다. 공유된 곡의 재생은 앱을 통해서만 가능하며, 현재 정식 출시 전(준비 중) 단계입니다.',
+        '생성 결과물은 AI가 만든 음악으로, 입력 내용과 선택한 옵션에 따라 결과가 달라질 수 있습니다. 실제 아티스트·기존 곡과의 유사성을 보장하거나 의도하지 않으며, 저작권 및 이용 범위는 앱 내 안내를 따릅니다. 공유된 곡의 재생은 앱을 통해서만 가능합니다.',
     },
     order: 5,
   },
