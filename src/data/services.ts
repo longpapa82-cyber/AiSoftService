@@ -8,6 +8,7 @@ import mypetIcon from '../assets/services/mypet-icon.png';
 import mybabyIcon from '../assets/services/mybaby-icon.png';
 import mytodayIcon from '../assets/services/mytoday-icon.png';
 import aimusicIcon from '../assets/services/aimusic-icon.png';
+import lawpicIcon from '../assets/services/lawpic-icon.png';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -21,6 +22,8 @@ import mytodayMascot from '../assets/promo/mytoday/mascot.webp';
 // AI Music Studio: welcome 히어로 배경 + 실제 앱 홈(3단계) 스크린샷.
 import aimusicShot from '../assets/promo/aimusic/shot-home.webp';
 import aimusicHero from '../assets/promo/aimusic/hero-welcome.webp';
+// 로픽: 부엉이 마스코트(투명 배경) — 우측 히어로 일러스트(myToday 새싹과 동일 취급).
+import lawpicMascot from '../assets/promo/lawpic/mascot.webp';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -599,6 +602,93 @@ export const SERVICES: AppService[] = [
         '생성 결과물은 AI가 만든 음악으로, 입력 내용과 선택한 옵션에 따라 결과가 달라질 수 있습니다. 실제 아티스트·기존 곡과의 유사성을 보장하거나 의도하지 않으며, 저작권 및 이용 범위는 앱 내 안내를 따릅니다. 공유된 곡의 재생은 앱을 통해서만 가능합니다.',
     },
     order: 5,
+  },
+  {
+    id: 'lawpic',
+    name: '로픽',
+    tagline: '계약서, 사진 한 장이면 됩니다',
+    description:
+      '계약서·협약서를 사진으로 찍으면 로픽 AI가 어려운 법률 내용을 쉽게 풀어주고, 놓치기 쉬운 조항과 꼭 확인해야 할 부분을 짚어드립니다. 궁금한 점은 AI 법률 챗봇에게 바로 물어보세요.',
+    // 스토어 미출시(준비 중) — iOS/Android 모두 심사 전. Android 우선 출시 목표.
+    // status='coming_soon' → 두 스토어 모두 "준비 중" 배지. ios/android 링크 미설정으로
+    // PLATFORM_COUNT(Hero)·PLATFORMS(Technology) 집계에서 제외 → 허위 "출시 플랫폼" 방지.
+    // web은 라이브 홍보 랜딩(lawpic-promo.vercel.app, HTTP 200 검증) → 웹 CTA 활성.
+    // 출시 시 status를 'live'로, links에 ios/android(또는 androidPending) 추가하면 자동 전환.
+    status: 'coming_soon',
+    moodLabel: 'Ethereal Sky Trust',
+    emoji: '⚖️',
+    iconUrl: lawpicIcon,
+    links: {
+      web: 'https://lawpic-promo.vercel.app/',
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#0f172a',
+      inkSoft: '#475569',
+      // 스카이 블루 #0284c7(sky-600): 흰 글씨 대비 4.55:1 WCAG AA 충족.
+      // 밝은 원색 #38bdf8은 대비 미달이라 accent(틴트/포인트)로만 사용.
+      primary: '#0284c7',
+      accent: '#38bdf8',
+      gradient: 'linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 55%, #f8fafc 100%)',
+      font: "'Quicksand', 'Noto Sans KR', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'photo_camera', title: '사진으로 계약서 분석', desc: '계약서·협약서를 찍으면 AI가 쉬운 말로 풀어 설명' },
+      { icon: 'gavel', title: '핵심 조항 체크', desc: '놓치기 쉬운 조항과 꼭 확인할 부분을 짚어줌' },
+      { icon: 'forum', title: 'AI 법률 챗봇', desc: '궁금한 법률 질문을 실시간으로 물어보기' },
+    ],
+    promo: {
+      kicker: 'AI 법률 도우미',
+      headline: '어려운 계약서,\n',
+      headlineAccent: '사진 한 장이면 됩니다',
+      subcopy:
+        '계약서·협약서를 사진으로 찍기만 하면, 로픽 AI가 어려운 법률 내용을 쉽게 풀어주고 놓치기 쉬운 조항을 짚어드려요. 궁금한 점은 AI 법률 챗봇에게 바로 물어보세요.',
+      // 로픽 web: ethereal 스카이 블루(글래스모피즘) 라이트 럭셔리 — 신뢰감 있는 법률 무드. dark 미설정.
+      palette: {
+        bg: '#f0f9ff',
+        heroGradient:
+          'linear-gradient(150deg, #7dd3fc 0%, #38bdf8 45%, #0284c7 100%)',
+        surface: '#ffffff',
+        primary: '#0284c7',
+        accent: '#38bdf8',
+        ink: '#0f172a',
+        inkSoft: '#475569',
+        onPrimary: '#ffffff',
+      },
+      fontDisplay: "'Jua', 'Quicksand', 'Noto Sans KR', system-ui, sans-serif",
+      fontBody: "'Quicksand', 'Noto Sans KR', system-ui, sans-serif",
+      radius: 28,
+      motif: 'none',
+      // 실제 홍보 랜딩의 부엉이 마스코트(투명 배경) — 우측 비주얼 상단 원형 프레임.
+      mascot: lawpicMascot,
+      highlights: [
+        { value: '사진 한 장', label: '계약서 분석' },
+        { value: 'AI 챗봇', label: '법률 질문' },
+        { value: '3일', label: '무료 체험' },
+      ],
+      // 우측 비주얼: 실제 서비스 흐름 3단계 (촬영 → AI 분석 → 궁금증 해결).
+      steps: [
+        {
+          no: '1',
+          title: '계약서 촬영',
+          desc: '계약서나 협약서를 사진으로 찍어 올려주세요. 여러 장도 한 번에 가능해요.',
+        },
+        {
+          no: '2',
+          title: 'AI 분석',
+          desc: '로픽 AI가 어려운 법률 내용을 쉬운 말로 풀어주고, 꼭 확인할 조항을 짚어줘요.',
+        },
+        {
+          no: '3',
+          title: '궁금증 해결',
+          desc: '추가로 궁금한 점은 AI 법률 챗봇에게 실시간으로 물어보세요.',
+        },
+      ],
+      disclaimer:
+        '로픽의 AI 설명·분석은 일반적인 정보 제공과 참고를 위한 것으로, 변호사의 법률 자문이나 법률 판단을 대체하지 않습니다. 중요한 법적 결정은 반드시 전문가와 상담하세요.',
+    },
+    order: 6,
   },
 ];
 

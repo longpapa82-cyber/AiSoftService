@@ -16,6 +16,9 @@ const ICON_MAP: Record<string, string> = {
   music_note: '🎵',
   mic: '🎤',
   library_music: '🎼',
+  photo_camera: '📷',
+  gavel: '⚖️',
+  forum: '💬',
 };
 
 export function iconFor(name: string): string {
