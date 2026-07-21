@@ -145,6 +145,26 @@ export interface ServicePromo {
    * 각 단계의 앱 브랜드 아이콘(score) + 라벨 + 컬러로 원형 칩 표현.
    */
   moods?: { score: 1 | 2 | 3 | 4 | 5; label: string; color: string }[];
+  /**
+   * 로픽 전용: 조항 분석 결과 글래스 카드 목업(홍보 사이트의 시그니처 비주얼).
+   * 문서 라벨 + 안심도 점수 + 주의(노랑)/안전(초록) 조항 리스트로,
+   * "사진 → AI가 위험/안전 조항 구분" 서사를 우측 비주얼로 재현한다.
+   * 있으면 shot/mascot/steps보다 우선해 렌더된다.
+   */
+  analysisCard?: {
+    /** 분석 대상 문서 라벨 (예: "근로계약서.pdf · 조항 12개 검토 완료") */
+    docLabel: string;
+    /** 안심도 점수 (0~100). 링/바 게이지로 표시 */
+    safetyScore: number;
+    /** 조항 리스트 — kind로 노랑(주의)/초록(안전) 좌측 컬러바 구분 */
+    clauses: { kind: 'caution' | 'safe'; tag: string; text: string }[];
+  };
+  /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
+  accentSafe?: string;
+  /** 멀티 액센트 — 주의(노랑) 조항용. analysisCard와 함께 사용(로픽). */
+  accentCaution?: string;
+  /** 무료체험 강조 배지(로픽: "3일 무료체험"). 있으면 히어로 kicker 옆 pill로 표기. */
+  trialBadge?: string;
 }
 
 export interface AppService {
@@ -428,13 +448,12 @@ export const SERVICES: AppService[] = [
     moodLabel: 'Fresh Sprout',
     emoji: '🌱',
     iconUrl: mytodayIcon,
-    // iOS 출시 완료(Apple ID 6785864596). Android는 준비 중(스토어 미출시) → androidPending으로 "준비 중" 배지 표기.
-    // Android 출시 시 androidPending 제거하고 android 링크만 추가하면 자동 반영.
-    // web은 별도 홍보 사이트(my-today.net)지만 앱 설치 유도가 우선이라 App Store를 primary로.
+    // iOS(Apple ID 6785864596)·Android(com.joyfulday.mytoday) 모두 출시 완료.
+    // web은 별도 홍보 사이트(my-today.net)지만 앱 설치 유도가 우선이라 App Store를 primary로(webIsLegal).
     links: {
       ios: 'https://apps.apple.com/kr/app/id6785864596',
+      android: 'https://play.google.com/store/apps/details?id=com.joyfulday.mytoday',
       web: 'https://my-today.net/',
-      androidPending: true,
       webIsLegal: true,
     },
     theme: {
@@ -660,12 +679,33 @@ export const SERVICES: AppService[] = [
       fontBody: "'Quicksand', 'Noto Sans KR', system-ui, sans-serif",
       radius: 28,
       motif: 'none',
-      // 실제 홍보 랜딩의 부엉이 마스코트(투명 배경) — 우측 비주얼 상단 원형 프레임.
+      // 실제 홍보 랜딩의 부엉이 마스코트(투명 배경) — 분석 결과 카드 상단 배지.
       mascot: lawpicMascot,
+      // 홍보 사이트 최신 시그니처 비주얼: 글래스 "분석 결과" 카드(안심도 + 주의/안전 조항).
+      // 멀티 액센트(초록=안전/노랑=주의)로 "AI가 위험·안전 조항을 구분" 서사를 재현.
+      accentSafe: '#10b981', // 사이트 --color-green (안전 조항)
+      accentCaution: '#eab308', // 사이트 --color-amber (주의 조항)
+      trialBadge: '3일 무료체험',
+      analysisCard: {
+        docLabel: '근로계약서.pdf · 조항 12개 검토 완료',
+        safetyScore: 78,
+        clauses: [
+          {
+            kind: 'caution',
+            tag: '제8조 · 경업 금지',
+            text: '퇴사 후 24개월 — 통상 기준보다 다소 길어요. 조정을 요청해 볼 수 있어요.',
+          },
+          {
+            kind: 'safe',
+            tag: '제5조 · 급여 지급',
+            text: '지급일과 산정 방식이 명확하게 기재돼 있어요.',
+          },
+        ],
+      },
       highlights: [
         { value: '사진 한 장', label: '계약서 분석' },
-        { value: 'AI 챗봇', label: '법률 질문' },
-        { value: '3일', label: '무료 체험' },
+        { value: '여러 장', label: '한 번에 분석' },
+        { value: '3일', label: '무료체험' },
       ],
       // 우측 비주얼: 실제 서비스 흐름 3단계 (촬영 → AI 분석 → 궁금증 해결).
       steps: [

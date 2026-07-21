@@ -305,6 +305,25 @@
   }
 }
 
+/* 무료체험 강조 pill (로픽: "3일 무료체험") — primary 채움으로 CTA 톤 */
+.trialBadge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--p-font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--p-on-primary);
+  padding: 0.3rem 0.72rem;
+  border-radius: 999px;
+  background: linear-gradient(
+    120deg,
+    var(--p-primary) 0%,
+    color-mix(in srgb, var(--p-accent) 55%, var(--p-primary)) 100%
+  );
+  box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--p-primary) 45%, transparent);
+}
+
 .headline {
   margin: 0.2rem 0 0;
   font-family: var(--p-font-display);
@@ -619,6 +638,169 @@
 
 /* 성장 스텝 — 기존 .step 재사용, 컨테이너만 별도(마스코트 아래 정렬) */
 .growSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ── 로픽: 부엉이 마스코트 + 글래스 "분석 결과" 카드 ── */
+.analysisWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+  width: 100%;
+  max-width: 460px;
+}
+
+/* 카드 위에 살짝 겹치는 작은 부엉이 마스코트 */
+.analysisMascot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(38%, 140px);
+  aspect-ratio: 1;
+  /* 카드 상단에 겹쳐 앉은 느낌 */
+  margin-bottom: -1.6rem;
+  z-index: 2;
+}
+.analysisMascotImg {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: auto;
+  animation: promo-mascot-bob 4s var(--ais-ease-expo) infinite;
+  filter: drop-shadow(0 10px 14px color-mix(in srgb, var(--p-primary) 30%, transparent));
+}
+
+/* 글래스모피즘 분석 카드 (홍보 사이트 --glass-* 토큰 이식) */
+.analysisCard {
+  position: relative;
+  width: 100%;
+  padding: 1.7rem 1.3rem 1.35rem;
+  border-radius: var(--p-radius);
+  /* 사이트 --glass-bg: hsla(0,0%,100%,.7), --glass-border, --glass-blur: blur(12px) */
+  background: hsla(0, 0%, 100%, 0.72);
+  border: 1px solid hsla(0, 0%, 100%, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  /* 사이트 --shadow-puffy 계열 */
+  box-shadow:
+    0 26px 60px -16px color-mix(in srgb, var(--p-accent) 30%, transparent),
+    0 6px 18px -10px rgba(15, 23, 42, 0.16);
+}
+
+.analysisHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-bottom: 0.9rem;
+  margin-bottom: 0.9rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--p-ink) 10%, transparent);
+}
+.analysisDoc {
+  font-family: var(--p-font-body);
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--p-ink);
+}
+
+/* 안심도 점수 — 원형 컨빅 게이지(conic-gradient로 --score% 채움) */
+.analysisScore {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--safe) calc(var(--score) * 1%),
+    color-mix(in srgb, var(--p-ink) 12%, transparent) 0
+  );
+}
+/* 도넛 구멍 */
+.analysisScore::before {
+  content: '';
+  position: absolute;
+  inset: 0.34rem;
+  border-radius: 50%;
+  background: #ffffff;
+}
+.analysisScoreNum {
+  position: relative;
+  font-family: var(--p-font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1;
+  color: color-mix(in srgb, var(--safe) 70%, var(--p-ink));
+}
+.analysisScoreLabel {
+  position: relative;
+  font-family: var(--p-font-body);
+  font-size: 0.56rem;
+  font-weight: 700;
+  color: var(--p-ink-soft);
+}
+
+.clauseList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* 조항 항목 — 좌측 컬러바(--clause-color)로 주의/안전 구분 */
+.clauseItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  padding: 0.72rem 0.85rem;
+  border-radius: calc(var(--p-radius) * 0.55);
+  border: 1px solid color-mix(in srgb, var(--clause-color) 32%, transparent);
+  background: color-mix(in srgb, var(--clause-color) 9%, #ffffff);
+  border-left: 4px solid var(--clause-color);
+}
+.clauseKind {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.16rem 0.44rem;
+  border-radius: 999px;
+  font-family: var(--p-font-body);
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: var(--clause-color);
+}
+.clauseBody {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+.clauseTag {
+  font-family: var(--p-font-body);
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: var(--p-ink);
+}
+.clauseText {
+  font-family: var(--p-font-body);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--p-ink-soft);
+}
+
+/* 카드 아래 촬영→분석→확인 스텝 (기존 .step 재사용) */
+.analysisSteps {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
@@ -1055,6 +1237,7 @@
   }
   /* 마스코트·잎사귀 부유 정지 */
   .mascotImg,
+  .analysisMascotImg,
   .leaf {
     animation: none;
   }

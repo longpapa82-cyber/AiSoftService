@@ -163,6 +163,9 @@ export function PromoSection({
                   COMING SOON
                 </span>
               )}
+              {promo.trialBadge && (
+                <span className={styles.trialBadge}>{promo.trialBadge}</span>
+              )}
             </div>
 
             <h2 id={`promo-${service.id}-title`} className={styles.headline}>
@@ -206,7 +209,89 @@ export function PromoSection({
 
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
-            {promo.shot ? (
+            {promo.analysisCard ? (
+              /* 로픽: 부엉이 마스코트 + 글래스 "분석 결과" 카드 (안심도 + 주의/안전 조항) */
+              <div className={styles.analysisWrap}>
+                {promo.mascot && (
+                  <div className={styles.analysisMascot}>
+                    <span className={styles.mascotGlow} aria-hidden="true" />
+                    <img
+                      className={styles.analysisMascotImg}
+                      src={promo.mascot}
+                      alt={`${service.name} 마스코트`}
+                      width={120}
+                      height={120}
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+                <div className={styles.analysisCard}>
+                  <div className={styles.analysisHead}>
+                    <span className={styles.analysisDoc}>
+                      {promo.analysisCard.docLabel}
+                    </span>
+                    <span
+                      className={styles.analysisScore}
+                      style={
+                        {
+                          '--score': promo.analysisCard.safetyScore,
+                          '--safe': promo.accentSafe ?? promo.palette.primary,
+                        } as CSSProperties
+                      }
+                    >
+                      <strong className={styles.analysisScoreNum}>
+                        {promo.analysisCard.safetyScore}
+                      </strong>
+                      <span className={styles.analysisScoreLabel}>안심도</span>
+                    </span>
+                  </div>
+                  <ul className={styles.clauseList} aria-label="분석된 조항">
+                    {promo.analysisCard.clauses.map((c) => (
+                      <li
+                        key={c.tag}
+                        className={`${styles.clauseItem} ${
+                          c.kind === 'caution'
+                            ? styles.clauseCaution
+                            : styles.clauseSafe
+                        }`}
+                        style={
+                          {
+                            '--clause-color':
+                              c.kind === 'caution'
+                                ? (promo.accentCaution ?? '#eab308')
+                                : (promo.accentSafe ?? '#10b981'),
+                          } as CSSProperties
+                        }
+                      >
+                        <span className={styles.clauseKind} aria-hidden="true">
+                          {c.kind === 'caution' ? '주의' : '안전'}
+                        </span>
+                        <span className={styles.clauseBody}>
+                          <strong className={styles.clauseTag}>{c.tag}</strong>
+                          <span className={styles.clauseText}>{c.text}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {promo.steps && (
+                  <ol className={styles.analysisSteps}>
+                    {promo.steps.map((s) => (
+                      <li key={s.no} className={styles.step}>
+                        <span className={styles.stepNo} aria-hidden="true">
+                          {s.no}
+                        </span>
+                        <span className={styles.stepBody}>
+                          <strong className={styles.stepTitle}>{s.title}</strong>
+                          <span className={styles.stepDesc}>{s.desc}</span>
+                        </span>
+                      </li>
+                    ))}
+                  </ol>
+                )}
+              </div>
+            ) : promo.shot ? (
               /* 실제 앱 홈 화면 스크린샷 → 폰 프레임 목업 (myPet) */
               <div className={styles.phone}>
                 <span className={styles.phoneNotch} aria-hidden="true" />
