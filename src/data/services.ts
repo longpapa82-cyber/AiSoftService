@@ -449,12 +449,12 @@ export const SERVICES: AppService[] = [
     emoji: '🌱',
     iconUrl: mytodayIcon,
     // iOS(Apple ID 6785864596)·Android(com.joyfulday.mytoday) 모두 출시 완료.
-    // web은 별도 홍보 사이트(my-today.net)지만 앱 설치 유도가 우선이라 App Store를 primary로(webIsLegal).
+    // 주 CTA(포인트 컬러/골드) = 웹사이트(my-today.net 홍보 랜딩). webIsLegal 미설정 →
+    // 기본 우선순위(웹사이트 > App Store > Google Play)로 웹사이트가 골드 강조.
     links: {
       ios: 'https://apps.apple.com/kr/app/id6785864596',
       android: 'https://play.google.com/store/apps/details?id=com.joyfulday.mytoday',
       web: 'https://my-today.net/',
-      webIsLegal: true,
     },
     theme: {
       surface: '#fcfdf8',
