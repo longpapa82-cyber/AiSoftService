@@ -156,8 +156,24 @@ export interface ServicePromo {
     docLabel: string;
     /** 안심도 점수 (0~100). 링/바 게이지로 표시 */
     safetyScore: number;
-    /** 조항 리스트 — kind로 노랑(주의)/초록(안전) 좌측 컬러바 구분 */
-    clauses: { kind: 'caution' | 'safe'; tag: string; text: string }[];
+    /**
+     * 위험/안전 조항 집계 — 카드 우상단 "위험 N · 안전 M" 요약 pill.
+     * 홍보 사이트 시그니처: 스캔 결과를 한눈에 정량화한다. clauses는 대표 예시만 보여주므로
+     * 실제 검토 총계(riskCount/safeCount)를 별도로 표기한다.
+     */
+    tally?: { risk: number; safe: number };
+    /**
+     * 조항 리스트 — kind로 노랑(주의)/초록(안전) 좌측 컬러바 구분.
+     * emphasis: text 안에서 강조할 핵심 문구(예: "24개월") — 볼드+컬러 하이라이트.
+     * ownerNote: 부엉이가 풀어주는 "쉽게 말하면…" 설명 버블(주의 조항의 쉬운 해설).
+     */
+    clauses: {
+      kind: 'caution' | 'safe';
+      tag: string;
+      text: string;
+      emphasis?: string;
+      ownerNote?: string;
+    }[];
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -689,11 +705,16 @@ export const SERVICES: AppService[] = [
       analysisCard: {
         docLabel: '근로계약서.pdf · 조항 12개 검토 완료',
         safetyScore: 78,
+        // 홍보 사이트와 동일: 스캔 결과를 "위험 1 · 안전 6"으로 한눈에 요약.
+        tally: { risk: 1, safe: 6 },
         clauses: [
           {
             kind: 'caution',
             tag: '제8조 · 경업 금지',
-            text: '퇴사 후 24개월 — 통상 기준보다 다소 길어요. 조정을 요청해 볼 수 있어요.',
+            text: '퇴사 후 24개월 — 통상 기준(12개월)보다 길어요.',
+            emphasis: '24개월',
+            // 부엉이가 풀어주는 쉬운 해설 — "AI가 어려운 말을 쉽게 풀어준다"는 핵심 가치의 시각화.
+            ownerNote: '쉽게 말하면, 2년간 같은 업종 이직이 제한될 수 있다는 뜻이에요. 조정을 요청해보는 걸 추천해요!',
           },
           {
             kind: 'safe',

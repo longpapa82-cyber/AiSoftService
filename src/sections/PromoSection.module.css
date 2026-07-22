@@ -703,12 +703,67 @@
   margin-bottom: 0.9rem;
   border-bottom: 1px solid color-mix(in srgb, var(--p-ink) 10%, transparent);
 }
+/* 문서 라벨 + 파일 아이콘 묶음 */
+.analysisDocGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.analysisDocIcon {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 0.6rem;
+  font-size: 0.95rem;
+  background: color-mix(in srgb, var(--p-primary) 12%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--p-primary) 20%, transparent);
+}
 .analysisDoc {
   font-family: var(--p-font-body);
   font-size: 0.78rem;
   font-weight: 700;
   line-height: 1.4;
   color: var(--p-ink);
+}
+
+/* 위험/안전 집계 pill — 스캔 결과 정량 요약 (홍보 사이트 "위험 1 · 안전 6") */
+.tally {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  align-self: flex-start;
+  padding: 0.34rem 0.7rem;
+  margin-bottom: 0.9rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--p-ink) 4%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--p-ink) 10%, transparent);
+}
+.tallyRisk,
+.tallySafe {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: var(--p-font-body);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: color-mix(in srgb, var(--clause-color) 55%, var(--p-ink));
+}
+/* 색점 — 위험/안전 컬러 도트 */
+.tallyRisk::before,
+.tallySafe::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--clause-color);
+}
+.tallyDivider {
+  width: 1px;
+  height: 0.85rem;
+  background: color-mix(in srgb, var(--p-ink) 16%, transparent);
 }
 
 /* 안심도 점수 — 원형 컨빅 게이지(conic-gradient로 --score% 채움) */
@@ -797,6 +852,42 @@
   font-size: 0.72rem;
   line-height: 1.5;
   color: var(--p-ink-soft);
+}
+/* 조항 내 핵심 문구 강조 — 볼드 + 컬러 하이라이트 밑줄(예: "24개월") */
+.clauseEmph {
+  font-weight: 800;
+  color: color-mix(in srgb, var(--clause-color) 62%, var(--p-ink));
+  background: linear-gradient(
+    transparent 62%,
+    color-mix(in srgb, var(--clause-color) 30%, transparent) 0
+  );
+  padding: 0 0.1em;
+  border-radius: 0.2em;
+}
+
+/* 부엉이 "쉽게 말하면…" 설명 버블 — 조항 아래 부드러운 말풍선 */
+.ownerNote {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.55rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.9rem;
+  /* 말풍선 좌상단 꼭지 느낌: 좌상 모서리만 각지게 */
+  border-top-left-radius: 0.25rem;
+  background: color-mix(in srgb, var(--p-primary) 8%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--p-primary) 16%, transparent);
+}
+.ownerNoteIcon {
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+.ownerNoteText {
+  font-family: var(--p-font-body);
+  font-size: 0.7rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--p-primary) 40%, var(--p-ink));
 }
 
 /* 카드 아래 촬영→분석→확인 스텝 (기존 .step 재사용) */

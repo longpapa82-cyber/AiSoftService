@@ -11,6 +11,26 @@ import styles from './PromoSection.module.css';
 const TOAST_MS = 2600;
 
 /**
+ * 조항 텍스트 안에서 핵심 문구(emphasis)만 볼드+컬러 하이라이트로 감싼다.
+ * XSS 안전: HTML 주입 없이 문자열 split → React 노드 배열로 반환.
+ * emphasis가 없거나 매칭 안 되면 원문 그대로.
+ */
+function renderEmphasis(text: string, emphasis: string | undefined, cls: string) {
+  if (!emphasis || !text.includes(emphasis)) return text;
+  const parts = text.split(emphasis);
+  return parts.flatMap((part, i) =>
+    i === 0
+      ? [part]
+      : [
+          <strong key={i} className={cls}>
+            {emphasis}
+          </strong>,
+          part,
+        ],
+  );
+}
+
+/**
  * 서비스별 "미니 홍보 사이트" 섹션.
  * 각 서비스의 실제 웹/앱 디자인(시그니처 컬러·폰트·라운드·모티프)을 그대로 재현해
  * 해당 서비스만의 풀 테마로 잠깐 전환된다. promo 데이터가 있는 서비스에만 렌더된다.
@@ -227,8 +247,13 @@ export function PromoSection({
                 )}
                 <div className={styles.analysisCard}>
                   <div className={styles.analysisHead}>
-                    <span className={styles.analysisDoc}>
-                      {promo.analysisCard.docLabel}
+                    <span className={styles.analysisDocGroup}>
+                      <span className={styles.analysisDocIcon} aria-hidden="true">
+                        📄
+                      </span>
+                      <span className={styles.analysisDoc}>
+                        {promo.analysisCard.docLabel}
+                      </span>
                     </span>
                     <span
                       className={styles.analysisScore}
@@ -245,6 +270,34 @@ export function PromoSection({
                       <span className={styles.analysisScoreLabel}>안심도</span>
                     </span>
                   </div>
+
+                  {/* 위험/안전 집계 pill — 스캔 결과를 한눈에 정량 요약 (홍보 사이트 시그니처) */}
+                  {promo.analysisCard.tally && (
+                    <div className={styles.tally} aria-label="조항 검토 요약">
+                      <span
+                        className={styles.tallyRisk}
+                        style={
+                          {
+                            '--clause-color': promo.accentCaution ?? '#eab308',
+                          } as CSSProperties
+                        }
+                      >
+                        위험 {promo.analysisCard.tally.risk}
+                      </span>
+                      <span className={styles.tallyDivider} aria-hidden="true" />
+                      <span
+                        className={styles.tallySafe}
+                        style={
+                          {
+                            '--clause-color': promo.accentSafe ?? '#10b981',
+                          } as CSSProperties
+                        }
+                      >
+                        안전 {promo.analysisCard.tally.safe}
+                      </span>
+                    </div>
+                  )}
+
                   <ul className={styles.clauseList} aria-label="분석된 조항">
                     {promo.analysisCard.clauses.map((c) => (
                       <li
@@ -268,7 +321,23 @@ export function PromoSection({
                         </span>
                         <span className={styles.clauseBody}>
                           <strong className={styles.clauseTag}>{c.tag}</strong>
-                          <span className={styles.clauseText}>{c.text}</span>
+                          <span className={styles.clauseText}>
+                            {renderEmphasis(c.text, c.emphasis, styles.clauseEmph)}
+                          </span>
+                          {/* 부엉이가 풀어주는 "쉽게 말하면…" 설명 버블 (주의 조항의 쉬운 해설) */}
+                          {c.ownerNote && (
+                            <span className={styles.ownerNote}>
+                              <span
+                                className={styles.ownerNoteIcon}
+                                aria-hidden="true"
+                              >
+                                🦉
+                              </span>
+                              <span className={styles.ownerNoteText}>
+                                {c.ownerNote}
+                              </span>
+                            </span>
+                          )}
                         </span>
                       </li>
                     ))}
