@@ -703,7 +703,7 @@ export const SERVICES: AppService[] = [
       accentCaution: '#eab308', // 사이트 --color-amber (주의 조항)
       trialBadge: '3일 무료체험',
       analysisCard: {
-        docLabel: '근로계약서.pdf · 조항 12개 검토 완료',
+        docLabel: '근로계약서.pdf · 3장 · 조항 12개 검토 완료',
         safetyScore: 78,
         // 홍보 사이트와 동일: 스캔 결과를 "위험 1 · 안전 6"으로 한눈에 요약.
         tally: { risk: 1, safe: 6 },
@@ -719,7 +719,7 @@ export const SERVICES: AppService[] = [
           {
             kind: 'safe',
             tag: '제5조 · 급여 지급',
-            text: '지급일과 산정 방식이 명확하게 기재돼 있어요.',
+            text: '급여·수습 조건이 표준 범위 안에 있고, 지급일과 산정 방식도 명확해요.',
           },
         ],
       },
