@@ -644,17 +644,21 @@ export const SERVICES: AppService[] = [
     tagline: '계약서, 사진 한 장이면 됩니다',
     description:
       '계약서·협약서를 사진으로 찍으면 로픽 AI가 어려운 법률 내용을 쉽게 풀어주고, 놓치기 쉬운 조항과 꼭 확인해야 할 부분을 짚어드립니다. 궁금한 점은 AI 법률 챗봇에게 바로 물어보세요.',
-    // 스토어 미출시(준비 중) — iOS/Android 모두 심사 전. Android 우선 출시 목표.
-    // status='coming_soon' → 두 스토어 모두 "준비 중" 배지. ios/android 링크 미설정으로
-    // PLATFORM_COUNT(Hero)·PLATFORMS(Technology) 집계에서 제외 → 허위 "출시 플랫폼" 방지.
-    // web은 라이브 홍보 랜딩(lawpic-promo.vercel.app, HTTP 200 검증) → 웹 CTA 활성.
-    // 출시 시 status를 'live'로, links에 ios/android(또는 androidPending) 추가하면 자동 전환.
-    status: 'coming_soon',
+    // iOS 출시 완료(Apple ID 6792434731, 개발자 HOONJAE PARK). Android는 준비 중(스토어 미출시)
+    // → androidPending으로 "준비 중" 배지 표기. Android 출시 시 androidPending 제거하고
+    // android 링크만 추가하면 자동 반영.
+    // web은 라이브 홍보 랜딩(lawpic-promo.vercel.app)이지만 iOS 출시로 앱 설치 유도가
+    // 우선이라 App Store를 primary로(webIsLegal). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)에
+    // iOS는 다른 앱으로 이미 집계돼 총 플랫폼 수 불변, androidPending은 미집계 → 허위 출시 방지.
+    status: 'live',
     moodLabel: 'Ethereal Sky Trust',
     emoji: '⚖️',
     iconUrl: lawpicIcon,
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6792434731',
       web: 'https://lawpic-promo.vercel.app/',
+      androidPending: true,
+      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
