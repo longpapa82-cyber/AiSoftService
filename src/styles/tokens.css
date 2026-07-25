@@ -36,8 +36,9 @@
   --ais-dark-surface: #1a1a1a;
   --ais-dark-text: #ffffff;
   --ais-dark-text-soft: #b8b8b8;
-  --ais-dark-accent: #00d9ff;        /* 시안 — 다크 배경서 극강렬(수치·강조 소량) */
-  --ais-dark-accent-soft: rgba(0, 217, 255, 0.1);
+  /* 적재적소: 형광 시안(#00d9ff)이 게임·네온틱 → 차분한 스카이로 톤다운(다크 수치용). */
+  --ais-dark-accent: #56b6e8;        /* 차분한 스카이 — 다크 배경 수치 포인트(형광 제거) */
+  --ais-dark-accent-soft: rgba(86, 182, 232, 0.1);
 
   /* 글래스 표면 */
   --ais-glass-bg: rgba(255, 255, 255, 0.7);

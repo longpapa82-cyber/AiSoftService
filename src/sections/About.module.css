@@ -100,15 +100,16 @@
   text-wrap: balance;
 }
 
-/* 도메인 나열 구절 강조 — accent 감사: 블루 잉크/밑줄 제거 → near-black bold + 뉴트럴 밑줄 swatch. */
+/* 도메인 나열 구절 강조 — 적재적소: 화이트 섹션 의미 강조엔 블루 포인트 복원.
+   블루 잉크(near-black보다 무게 있는 강조) + 옅은 블루 워시 밑줄. */
 .leadHighlight {
   font-style: normal;
-  color: var(--ais-text);
+  color: var(--ais-accent-primary-ink);
   font-weight: 800;
   background: linear-gradient(
     to top,
-    var(--ais-cream-3) 0%,
-    var(--ais-cream-3) 32%,
+    var(--ais-accent-primary-soft) 0%,
+    var(--ais-accent-primary-soft) 32%,
     transparent 32%
   );
   padding-inline: 0.1em;

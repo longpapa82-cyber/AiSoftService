@@ -86,7 +86,8 @@
   width: 11px;
   height: 11px;
   border-radius: 50%;
-  background: var(--ais-navy);
+  /* 파란 박스 위 심볼: 검정→흰색(대비 명확, Vercel/Linear식 로고 마크). */
+  background: #ffffff;
   position: relative;
   z-index: 1;
 }

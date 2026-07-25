@@ -37,6 +37,21 @@
     var(--p-bg) 0%,
     color-mix(in srgb, var(--p-bg) 0%, transparent) 100%
   );
+  /* 섹션 전환 강화 — 상단 진입 시 자기 배경면이 페이드인되며 이전 섹션 위로
+     덮인다(무대 조명 교체 느낌, 칼선 없음). opacity만 애니(컴포지터).
+     미지원 브라우저는 정적 feather로 폴백 = 경계 완화 유지(접근성 손실 0). */
+  animation: promoEdgeFade linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 40%;
+}
+
+@keyframes promoEdgeFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .section::after {
   bottom: 0;
@@ -422,6 +437,34 @@
   justify-content: center;
 }
 
+/* ══════════════════════════════════════════════════════════════
+ * 제품 깊이 패럴랙스 — 섹션이 뷰포트를 통과하는 동안 제품이 스크롤과
+ * 다른 속도로 미세 세로 드리프트(±10px) → 배경 blob/motif와 분리된 깊이감.
+ * CSS-native animation-timeline: view() (About .wordmark에서 프로덕션 검증됨, JS 0).
+ * `translate` 프로퍼티 사용 → hover의 transform(rotate/scale)과 축 분리 → 비충돌.
+ * 미지원 브라우저(Safari<26 등)는 animation 무시 = 정적(무해, 폴백 불필요).
+ * linear timing으로 스크롤에 정직 연동(ease 주면 튐). 진폭 ±10px 상한(억제).
+ * ────────────────────────────────────────────────────────────── */
+.phone,
+.analysisWrap,
+.mascotStage,
+.growCard,
+.appCard,
+.gallery {
+  animation: promoProductDrift linear both;
+  animation-timeline: view();
+  animation-range: entry 12% exit 88%;
+}
+
+@keyframes promoProductDrift {
+  from {
+    translate: 0 10px;
+  }
+  to {
+    translate: 0 -10px;
+  }
+}
+
 /* ── 폰 목업 — 실제 앱 홈 스크린샷을 디바이스 프레임에 (v5 Apple식 대형화) ── */
 .phone {
   position: relative;
@@ -437,7 +480,8 @@
     0 16px 40px -12px rgba(0, 0, 0, 0.18),
     inset 0 0 0 2px rgba(255, 255, 255, 0.08);
   transform: rotate(-2deg);
-  transition: transform var(--ais-dur) var(--ais-ease-expo);
+  /* Apple식 float — 감속 곡선 유지, duration을 늘려 무게감 있는 부양 */
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
   will-change: transform;
 }
 
@@ -492,7 +536,7 @@
   border-radius: var(--p-radius);
   min-height: 130px;
   box-shadow: 0 14px 30px color-mix(in srgb, var(--p-primary) 18%, transparent);
-  transition: transform var(--ais-dur) var(--ais-ease-expo);
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
   will-change: transform;
 }
 
@@ -1059,7 +1103,7 @@
     0 6px 16px color-mix(in srgb, var(--p-ink) 8%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.9);
   transform: translateZ(0);
-  transition: transform var(--ais-dur) var(--ais-ease-expo);
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
   will-change: transform;
 }
 
@@ -1192,18 +1236,94 @@
   box-shadow: 0 6px 18px color-mix(in srgb, var(--p-primary) 35%, transparent);
 }
 
-/* ── reveal 진입 ── */
+/* ══════════════════════════════════════════════════════════════
+ * 몰입형 리빌 — "제품이 무대에 오르는" 서사 (Apple 제품페이지식)
+ * .inner(.reveal) 컨테이너는 은은히 페이드만, 자식(copy/visual)을 분리 리빌해
+ * 카피가 먼저 뜨고 제품(visual)이 0.12s 늦게 부양하며 오른다.
+ * IO(useReveal)가 붙이는 .is-visible을 그대로 게이팅 → JS 순증 0.
+ * 모든 프로퍼티 transform/opacity만(컴포지터). ease는 오버슈트 없는 expo 감속 고정.
+ * ────────────────────────────────────────────────────────────── */
+
+/* 컨테이너: 통째 이동 대신 은은한 페이드만(자식이 실제 부양을 담당) */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity var(--ais-dur-slow) var(--ais-ease-expo),
-    transform var(--ais-dur-slow) var(--ais-ease-expo);
+  transition: opacity var(--ais-dur-slow) var(--ais-ease-expo);
 }
 
 .reveal:global(.is-visible) {
   opacity: 1;
+}
+
+/* 카피 블록 자식 스태거 — 미니헤더→헤드라인→서브카피→칩→배지 순차 부양 */
+.reveal .copy > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo),
+    transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+.reveal:global(.is-visible) .copy > * {
+  opacity: 1;
   transform: none;
+}
+.reveal:global(.is-visible) .copy > *:nth-child(1) {
+  transition-delay: 0ms;
+}
+.reveal:global(.is-visible) .copy > *:nth-child(2) {
+  transition-delay: 60ms;
+}
+.reveal:global(.is-visible) .copy > *:nth-child(3) {
+  transition-delay: 120ms;
+}
+.reveal:global(.is-visible) .copy > *:nth-child(4) {
+  transition-delay: 180ms;
+}
+.reveal:global(.is-visible) .copy > *:nth-child(5) {
+  transition-delay: 240ms;
+}
+.reveal:global(.is-visible) .copy > *:nth-child(n + 6) {
+  transition-delay: 300ms;
+}
+
+/* 제품 비주얼 — 아래→위 부양 + 살짝 스케일(0.94→1.0), 카피보다 0.12s 늦게 등장 */
+.reveal .visual {
+  opacity: 0;
+  transform: translateY(28px) scale(0.94);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo),
+    transform var(--ais-dur-slow) var(--ais-ease-expo);
+  transition-delay: 0.12s;
+}
+.reveal:global(.is-visible) .visual {
+  opacity: 1;
+  transform: none;
+}
+
+/* 분석 카드 조항 — 위→아래 순차 리빌("스캔이 진행되며 항목이 채워지는" 서사) */
+.reveal .clauseItem {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity var(--ais-dur) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-expo);
+}
+.reveal:global(.is-visible) .clauseItem {
+  opacity: 1;
+  transform: none;
+  /* visual 부양(0.12s) 이후 항목이 순차로 채워지도록 기준 지연 + nth 가산 */
+  transition-delay: calc(0.28s + var(--clause-stagger, 0ms));
+}
+.reveal:global(.is-visible) .clauseItem:nth-child(1) {
+  --clause-stagger: 0ms;
+}
+.reveal:global(.is-visible) .clauseItem:nth-child(2) {
+  --clause-stagger: 80ms;
+}
+.reveal:global(.is-visible) .clauseItem:nth-child(3) {
+  --clause-stagger: 160ms;
+}
+.reveal:global(.is-visible) .clauseItem:nth-child(n + 4) {
+  --clause-stagger: 240ms;
 }
 
 /* ── 반응형 ── */
@@ -1283,9 +1403,37 @@
   .phone {
     transform: rotate(-2deg);
   }
-  .reveal {
+
+  /* ── 신규 몰입형 모션 전면 정지 — 최종 상태 즉시 표시(콘텐츠 은닉 0) ── */
+
+  /* 제품 드리프트 패럴랙스 + 섹션 전환 크로스페이드 정지 */
+  .phone,
+  .analysisWrap,
+  .mascotStage,
+  .growCard,
+  .appCard,
+  .gallery,
+  .section::before {
+    animation: none;
+    translate: none;
+  }
+
+  /* 분리 리빌·스태거 정지 → 카피/제품/조항 모두 최종 상태로 즉시 노출 */
+  .reveal,
+  .reveal:global(.is-visible) {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .reveal .copy > *,
+  .reveal:global(.is-visible) .copy > *,
+  .reveal .visual,
+  .reveal:global(.is-visible) .visual,
+  .reveal .clauseItem,
+  .reveal:global(.is-visible) .clauseItem {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    transition-delay: 0ms;
   }
 }
