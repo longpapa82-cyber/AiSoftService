@@ -85,8 +85,7 @@
     0 1px 3px rgba(0, 0, 0, 0.05);
   --ais-shadow-lift: 0 18px 44px -4px rgba(0, 0, 0, 0.13),
     0 6px 16px rgba(0, 0, 0, 0.08);
-  /* v4: 블루 hover 글로우 (골드 폐기) */
-  --ais-glow-gold: 0 0 20px rgba(37, 99, 235, 0.18);
+  /* (v6 청소: --ais-glow-gold 데드 토큰 제거 — 참조 0, --ais-glow-warm으로 대체됨) */
 
   /* v4: 중성 그레이 교차 틴트 (웜 크림 폐기). */
   --ais-section-tint: #f5f5f5;
@@ -127,7 +126,7 @@
   --ais-accent-primary: #2563eb;
   --ais-accent-primary-soft: #eff4ff;    /* 옅은 블루 워시 (pill/카드 배경) */
   --ais-accent-primary-ink: #1d4ed8;     /* 화이트 위 블루 텍스트 (AA 통과) */
-  --ais-accent-primary-border: rgba(37, 99, 235, 0.35);
+  /* (v6 청소: --ais-accent-primary-border 데드 토큰 제거 — 참조 0) */
 
   /* [2] Secondary — 절제: 뉴트럴 그레이(3색 남용 방지, 글로벌 기업 색 절제).
    *     기존 세이지 참조처가 그레이로 자동 전환돼 단일 액센트 원칙 유지. */
@@ -142,8 +141,7 @@
   --ais-accent-highlight-ink: #1d4ed8;
   --ais-accent-highlight-border: rgba(59, 130, 246, 0.35);
 
-  /* ── v4: 블루 그라디언트 (골드 그라디언트 폐기) ── */
-  --ais-accent-grad: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  /* (v6 청소: --ais-accent-grad 데드 토큰 제거 — Hero "AI" 클립 전용 --ais-ai-grad로 대체됨) */
 
   /* ★ v6 accent 감사: 보조 장식 뉴트럴화 후 유지되는 "포인트 자격" 4곳 전용 토큰.
      Hero "AI" 그라데이션 클립(.wordAI) 전용 accent — 공유 --ais-accent-grad를
