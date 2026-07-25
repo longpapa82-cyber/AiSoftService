@@ -17,6 +17,25 @@
   padding-bottom: clamp(3rem, 6vh, 5rem);
 }
 
+/* 하단 전환 존 — 밝은 Hero(크림)에서 다음 서비스 섹션으로 눈이 부드럽게
+   넘어가도록, 섹션 최하단을 웜 그레이로 살짝 가라앉힌다. 배경 레이어(z-index -1)
+   라 콘텐츠에 영향 없음. 밝음→다크 칼선 완충. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(4rem, 10vh, 8rem);
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    color-mix(in srgb, var(--ais-cream-3) 60%, transparent) 100%
+  );
+}
+
 /* ── 배경 레이어: 웜크림 + 대각 골드 그라데이션 ── */
 .heroGradient {
   position: absolute;
