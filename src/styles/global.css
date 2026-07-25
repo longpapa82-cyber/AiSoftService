@@ -44,29 +44,20 @@ body {
   overflow-x: clip;
 }
 
-/* 라이트 럭셔리 베이스: 웜 크림 + 절제된 웜 글로우(과채도 제거, 무게 축소) */
+/* v4 글로벌 테크 베이스: 순수 화이트 + 상단 아주 미묘한 블루 글로우 1겹만.
+   (웜 골드/브라운 글로우 폐기 — Apple/Linear식 순수 화이트) */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(60% 40% at 50% -10%, rgba(224, 168, 61, 0.05), transparent 70%),
-    radial-gradient(50% 40% at 100% 0%, rgba(74, 56, 32, 0.03), transparent 72%),
-    var(--ais-cream);
+    radial-gradient(60% 40% at 50% -8%, rgba(37, 99, 235, 0.04), transparent 68%),
+    var(--ais-bg);
 }
 
-/* 회로 도트 패턴 — 반도체 PCB 질감(웜 브라운·더 옅게, 하이테크 질감만 잔존) */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: radial-gradient(rgba(74, 56, 32, 0.9) 0.5px, transparent 0.5px);
-  background-size: 24px 24px;
-}
+/* v4: 회로 도트 패턴 제거 — 순수 화이트가 글로벌 테크 전문성.
+   (하이테크 도트 질감은 게임/템플릿 잔재라 폐기) */
 
 h1,
 h2,
