@@ -1,0 +1,20 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="에이아이소프트">
+  <!-- 브랜드 마크: 파란 라운드 사각형 + 중앙 흰 원 (헤더/푸터 로고와 동일) -->
+  <defs>
+    <linearGradient id="ais-brand" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <!-- 좌상단 화이트 하이라이트(로고 .logoMark::after 재현) -->
+    <radialGradient id="ais-sheen" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(0 0) scale(410)">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- 라운드 사각형: border-radius 32% ≈ 164px -->
+  <rect width="512" height="512" rx="164" fill="url(#ais-brand)"/>
+  <rect width="512" height="512" rx="164" fill="url(#ais-sheen)"/>
+  <!-- 중앙 흰 원: 지름 32% ≈ 164px → 반지름 82 -->
+  <circle cx="256" cy="256" r="82" fill="#ffffff"/>
+</svg>
