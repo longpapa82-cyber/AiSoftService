@@ -144,6 +144,12 @@
   /* ── v4: 블루 그라디언트 (골드 그라디언트 폐기) ── */
   --ais-accent-grad: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
 
+  /* ★ v6 accent 감사: 보조 장식 뉴트럴화 후 유지되는 "포인트 자격" 4곳 전용 토큰.
+     Hero "AI" 그라데이션 클립(.wordAI) 전용 accent — 공유 --ais-accent-grad를
+     장식(Footer 라인·Header progressFill·Hero gradGlow 등)에서 뉴트럴로 뺄 때
+     이 토큰만 컬러로 남겨 AI 시그니처를 보존한다(토큰 분리 = keeps 격리). */
+  --ais-ai-grad: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+
   /* ═══ [B] 깊이 — 다층 확산 그림자 (v4: 뉴트럴 그레이스케일, 웜 브라운 폐기) ═══ */
   --ais-shadow-hairline: 0 1px 0 rgba(0, 0, 0, 0.04),
     0 1px 2px rgba(0, 0, 0, 0.04);                      /* 경계선급 elevation 0.5 */

@@ -13,7 +13,7 @@
     linear-gradient(180deg, var(--ais-cream) 0%, var(--ais-cream-2) 100%);
 }
 
-/* 상단 시그니처 헤어라인 — 블루 액센트 base에 하이라이트를 미세 믹스한 About의 서명(레버2). */
+/* 상단 시그니처 헤어라인 — accent 감사: 블루 그라데이션 제거 → 뉴트럴 near-black hairline. */
 .section::before {
   content: '';
   position: absolute;
@@ -21,9 +21,10 @@
   height: 3px;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--ais-accent-primary) 88%, var(--ais-accent-highlight)) 0%,
-    var(--ais-accent-primary) 55%,
-    color-mix(in srgb, var(--ais-accent-primary) 82%, var(--ais-accent-highlight)) 100%
+    transparent 0%,
+    var(--ais-warm-border-strong) 30%,
+    var(--ais-warm-border-strong) 70%,
+    transparent 100%
   );
   opacity: 0.85;
 }
@@ -48,7 +49,7 @@
     ),
     radial-gradient(
       34% 34% at 92% 88%,
-      rgba(37, 99, 235, 0.1),
+      rgba(0, 0, 0, 0.05),
       transparent 68%
     ),
     radial-gradient(
@@ -99,14 +100,15 @@
   text-wrap: balance;
 }
 
-/* 도메인 나열 구절 강조 — 웜 골드 ink + 밑줄 swatch(밝은 배경 위 AA) */
+/* 도메인 나열 구절 강조 — accent 감사: 블루 잉크/밑줄 제거 → near-black bold + 뉴트럴 밑줄 swatch. */
 .leadHighlight {
   font-style: normal;
-  color: var(--ais-accent-primary-ink);
+  color: var(--ais-text);
+  font-weight: 800;
   background: linear-gradient(
     to top,
-    var(--ais-accent-primary-soft) 0%,
-    var(--ais-accent-primary-soft) 32%,
+    var(--ais-cream-3) 0%,
+    var(--ais-cream-3) 32%,
     transparent 32%
   );
   padding-inline: 0.1em;
@@ -164,15 +166,18 @@
   }
 }
 
-/* 레버2 — 카드별 시그니처 accent 로테이션(골드 단독 탈피).
-   기본은 골드. nth-child로 의미 매핑: 2번=로즈(따뜻함), 3번=세이지(성장).
-   각 카드는 --card-* 로컬 변수를 참조 → 헤어라인·아이콘·hover 보더가 함께 바뀐다. */
+/* accent 감사: 3계층 컬러 accent 로테이션(블루/블루/그레이) → 전 카드 단일 뉴트럴 그레이.
+   헤어라인·아이콘·hover 보더가 모두 중립 그레이로 통일된다(포인트 컬러 자격 박탈). */
 .valueCard {
-  /* [1] 일상 밀착 = 골드(신뢰·주) */
-  --card-accent-grad: var(--ais-accent-grad);
-  --card-ink: var(--ais-accent-primary-ink);
-  --card-soft: var(--ais-accent-primary-soft);
-  --card-border: var(--ais-accent-primary-border);
+  /* 전 카드 공통 뉴트럴 그레이(단일) */
+  --card-accent-grad: linear-gradient(
+    135deg,
+    var(--ais-text-mid) 0%,
+    var(--ais-text) 130%
+  );
+  --card-ink: var(--ais-text-mid);
+  --card-soft: var(--ais-cream-3);
+  --card-border: var(--ais-warm-border-strong);
 
   position: relative;
   isolation: isolate;
@@ -192,31 +197,10 @@
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
 
-/* [2] 따뜻한 기술 = 더스티 로즈(온도감 의미 정합) */
-.valueCard:nth-child(2) {
-  --card-accent-grad: linear-gradient(
-    135deg,
-    var(--ais-accent-highlight) 0%,
-    var(--ais-accent-highlight-ink) 130%
-  );
-  --card-ink: var(--ais-accent-highlight-ink);
-  --card-soft: var(--ais-accent-highlight-soft);
-  --card-border: var(--ais-accent-highlight-border);
-}
+/* accent 감사: 카드별 컬러 로테이션(2번 로즈·3번 세이지) 제거 →
+   전 카드가 위 .valueCard의 단일 뉴트럴 그레이 --card-* 를 그대로 상속한다. */
 
-/* [3] 확장하는 생태계 = 세이지 그린(자연 성장 의미 정합) */
-.valueCard:nth-child(3) {
-  --card-accent-grad: linear-gradient(
-    135deg,
-    var(--ais-accent-secondary) 0%,
-    var(--ais-accent-secondary-ink) 130%
-  );
-  --card-ink: var(--ais-accent-secondary-ink);
-  --card-soft: var(--ais-accent-secondary-soft);
-  --card-border: var(--ais-accent-secondary-border);
-}
-
-/* 상단 컬러 헤어라인 — 카드별 accent(hover 시 확장) */
+/* 상단 뉴트럴 헤어라인 — 전 카드 동일 그레이(hover 시 확장) */
 .valueCard::before {
   content: '';
   position: absolute;
@@ -233,7 +217,8 @@
 .valueCard:focus-within {
   transform: translateY(-6px);
   border-color: var(--card-border);
-  box-shadow: var(--ais-shadow-lift-warm), var(--ais-glow-warm);
+  /* accent 감사: 블루 hover 글로우 제거 → 뉴트럴 리프트 그림자만. */
+  box-shadow: var(--ais-shadow-lift-warm);
 }
 
 .valueCard:hover::before,
@@ -261,7 +246,8 @@
 .valueCard:hover .valueIcon,
 .valueCard:focus-within .valueIcon {
   transform: translateY(-2px) scale(1.06) rotate(-3deg);
-  box-shadow: var(--ais-glow-warm);
+  /* accent 감사: 블루 글로우 제거 → 뉴트럴 소형 그림자만. */
+  box-shadow: var(--ais-shadow-sm);
 }
 
 .valueIcon svg {
@@ -298,13 +284,13 @@
   box-shadow: var(--ais-shadow-ambient);
 }
 
-/* 지표 패널 상단 블루 헤어라인 — 가치 카드와 동일 위계 시그니처 */
+/* accent 감사: 지표 패널 상단 블루 헤어라인 → 뉴트럴 near-black hairline. */
 .trust::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: var(--ais-accent-grad);
+  background: var(--ais-warm-border-strong);
   opacity: 0.85;
 }
 
@@ -322,7 +308,8 @@
   font-size: var(--ais-text-eyebrow);
   font-weight: 700;
   letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-accent-primary-ink);
+  /* accent 감사: 블루 잉크 → 뉴트럴 그레이 이브로우. */
+  color: var(--ais-text-mid);
   text-transform: uppercase;
 }
 
@@ -370,8 +357,8 @@
   height: 8px;
   margin-top: 0.5em;
   border-radius: var(--ais-radius-pill);
-  background: var(--ais-accent-grad);
-  box-shadow: var(--ais-glow-warm);
+  /* accent 감사: 블루 색점+글로우 → 뉴트럴 near-black 점(장식 중립). */
+  background: var(--ais-text);
 }
 
 /* 거대 워드마크 — depth/위계용 배경 타이포(밝은 배경용으로 재처리:
@@ -392,7 +379,8 @@
   line-height: 1.1;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(37, 99, 235, 0.32);
+  /* accent 감사: 블루 워드마크 아웃라인 → 뉴트럴 near-black 저대비 스트로크. */
+  -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.14);
   opacity: 0.9;
   pointer-events: none;
   user-select: none;

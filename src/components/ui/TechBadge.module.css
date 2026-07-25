@@ -13,10 +13,12 @@
   white-space: nowrap;
 }
 
+/* accent 감사: gold 변형 → 뉴트럴 navy/아웃라인 톤(블루 채움·보더 제거).
+   near-black 텍스트 + 극저 alpha 뉴트럴 배경 + 뉴트럴 보더. */
 .gold {
-  color: var(--ais-gold-deep);
-  background: color-mix(in srgb, var(--ais-gold) 16%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ais-gold) 40%, transparent);
+  color: var(--ais-navy);
+  background: color-mix(in srgb, var(--ais-navy) 6%, transparent);
+  border: 1px solid var(--ais-border-strong);
 }
 
 .navy {
@@ -31,12 +33,13 @@
   border: 1px solid var(--ais-border-strong);
 }
 
+/* accent 감사: 도트 펄스 블루 → 뉴트럴 그레이(near-black). */
 .dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--ais-gold);
-  box-shadow: 0 0 0 0 var(--ais-gold);
+  background: var(--ais-text-mid);
+  box-shadow: 0 0 0 0 var(--ais-text-mid);
   animation: techPulse 2s var(--ais-ease-expo) infinite;
 }
 
@@ -47,7 +50,7 @@
 
 @keyframes techPulse {
   0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-gold) 70%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-text-mid) 55%, transparent);
   }
   70% {
     box-shadow: 0 0 0 6px transparent;

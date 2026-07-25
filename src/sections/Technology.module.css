@@ -73,10 +73,10 @@
       rgba(255, 255, 255, 0.028) calc(25% - 1px),
       rgba(255, 255, 255, 0.028) 25%
     ),
-    /* 시안 앰비언트 오브 — near-black 위 극저 alpha 분위기(장식, 텍스트 아님). */
+    /* accent 감사: 시안 앰비언트 오브 → 뉴트럴 near-white 극저 alpha(장식). */
     radial-gradient(
       42% 38% at 88% 8%,
-      rgba(0, 217, 255, 0.06),
+      rgba(255, 255, 255, 0.04),
       transparent 70%
     ),
     radial-gradient(
@@ -139,10 +139,10 @@
       rgba(10, 10, 10, 0.38) 78%,
       rgba(10, 10, 10, 0.16) 100%
     ),
-    /* 좌하단 시안 워시 — 극저 alpha 포인트(장식). */
+    /* accent 감사: 좌하단 시안 워시 → 뉴트럴 near-white 저 alpha(장식). */
     radial-gradient(
       120% 90% at 0% 100%,
-      rgba(0, 217, 255, 0.14),
+      rgba(255, 255, 255, 0.06),
       transparent 60%
     );
   pointer-events: none;
@@ -185,7 +185,8 @@
   letter-spacing: 0.06em;
   color: var(--tech-cyan);
   padding: 0.3rem 0.7rem;
-  border: 1px solid rgba(0, 217, 255, 0.3);
+  /* accent 감사: 시안 보더 → 뉴트럴 near-white 저 alpha. */
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: var(--ais-radius-pill);
   background: var(--tech-cyan-soft);
 }
@@ -328,13 +329,12 @@
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  /* 시안 포인트 헤어라인 — hover 시 scaleX 확장(카드당 3px 소량). */
+  /* accent 감사: 헤어라인은 near-white(--tech-cyan 이미 뉴트럴), 시안 글로우 제거. */
   background: var(--tech-cyan);
   opacity: 0.9;
   transform: scaleX(0.4);
   transform-origin: left;
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
-  box-shadow: 0 0 12px rgba(0, 217, 255, 0.45);
 }
 
 /* 호버 시 카드 부양 + 포인터 추종 3D 틸트(절제된 마이크로 인터랙션) */
@@ -342,9 +342,9 @@
 .card:focus-within {
   transform: translateY(-8px) scale(1.04)
     rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
-  /* hover 시에만 시안 보더+글로우 발현(상시 아님, 인터랙션 포인트). */
-  border-color: rgba(0, 217, 255, 0.55);
-  box-shadow: var(--ais-shadow-lift-warm), 0 0 28px rgba(0, 217, 255, 0.22);
+  /* accent 감사: hover 시안 보더+글로우 → 뉴트럴 near-white 보더 + 리프트 그림자. */
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow: var(--ais-shadow-lift-warm), 0 0 28px rgba(255, 255, 255, 0.08);
 }
 /* 포인터 이동 중엔 틸트가 즉각 따라오도록 transition을 짧게(rAF 갱신과 호흡) */
 .card:hover {
@@ -370,9 +370,10 @@
   z-index: -1;
   inset: auto -30% -50% -30%;
   height: 70%;
+  /* accent 감사: 시안 hover 글로우 → 뉴트럴 near-white 저 alpha. */
   background: radial-gradient(
     60% 80% at 50% 100%,
-    rgba(0, 217, 255, 0.22),
+    rgba(255, 255, 255, 0.08),
     transparent 70%
   );
   opacity: 0;
@@ -473,10 +474,10 @@
 .card:hover .iconWrap,
 .card:focus-within .iconWrap {
   transform: translateY(-2px) scale(1.06) rotate(-3deg);
-  /* hover 시에만 아이콘이 시안으로 점화(상시 아님 → 소량 포인트). */
+  /* accent 감사: 아이콘 hover 시안 점화 → near-white(--tech-cyan 뉴트럴), 시안 글로우 제거. */
   color: var(--tech-cyan);
   box-shadow:
-    0 12px 30px rgba(0, 217, 255, 0.28),
+    0 12px 30px rgba(0, 0, 0, 0.4),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -504,9 +505,9 @@
   bottom: -0.28rem;
   height: 2px;
   border-radius: 2px;
-  /* 큰 수치 아래 시안 밑줄 — 카운트업과 함께 그어지는 핵심 포인트. */
+  /* accent 감사: 큰 수치 아래 밑줄은 near-white(--tech-cyan 뉴트럴), 시안 글로우 제거.
+     시안은 오직 수치 본체(metricValue)에만 유지. */
   background: var(--tech-cyan);
-  box-shadow: 0 0 10px rgba(0, 217, 255, 0.45);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);

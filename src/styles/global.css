@@ -44,15 +44,15 @@ body {
   overflow-x: clip;
 }
 
-/* v4 글로벌 테크 베이스: 순수 화이트 + 상단 아주 미묘한 블루 글로우 1겹만.
-   (웜 골드/브라운 글로우 폐기 — Apple/Linear식 순수 화이트) */
+/* accent 감사: 글로벌 베이스 상단 블루 글로우 → 뉴트럴 near-black 극저 alpha(장식).
+   순수 화이트 + 아주 미묘한 중성 톤 1겹(Apple/Linear식). */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
   background:
-    radial-gradient(60% 40% at 50% -8%, rgba(37, 99, 235, 0.04), transparent 68%),
+    radial-gradient(60% 40% at 50% -8%, rgba(0, 0, 0, 0.02), transparent 68%),
     var(--ais-bg);
 }
 

@@ -21,7 +21,7 @@
   border-bottom-color: var(--ais-glass-border);
   box-shadow: 0 12px 40px rgba(10, 25, 47, 0.1);
 }
-/* 스크롤 시 하단에 미세한 골드 시그널 라인(하이테크 디테일) */
+/* accent 감사: 스크롤 하단 블루 시그널 라인 → 뉴트럴 near-black hairline. */
 .scrolled::after {
   content: '';
   position: absolute;
@@ -32,7 +32,7 @@
   background: linear-gradient(
     90deg,
     transparent,
-    var(--ais-glow),
+    var(--ais-border-strong),
     transparent
   );
   opacity: 0.6;
@@ -60,8 +60,9 @@
   width: 34px;
   height: 34px;
   border-radius: 11px;
+  /* 심볼 채움(--ais-brand-grad)은 keep(브랜드 마크). accent 감사: 주변 블루 글로우 → 뉴트럴 그림자. */
   background: var(--ais-brand-grad);
-  box-shadow: 0 6px 18px var(--ais-glow);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
   overflow: hidden;
   transition: box-shadow var(--ais-dur) var(--ais-ease-expo),
     transform var(--ais-dur-fast) var(--ais-ease-spring);
@@ -78,7 +79,8 @@
 }
 .logo:hover .logoMark {
   transform: translateY(-1px);
-  box-shadow: 0 6px 18px var(--ais-glow), var(--ais-glow-gold);
+  /* accent 감사: 심볼 채움(--ais-brand-grad)은 keep, 주변 블루 글로우만 제거 → 뉴트럴 그림자. */
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
 }
 .logoDot {
   width: 11px;
@@ -154,7 +156,8 @@
   width: 100%;
   height: 2px;
   border-radius: 2px;
-  background: var(--ais-brand-grad);
+  /* accent 감사: 블루 언더라인 → 뉴트럴 near-black. */
+  background: var(--ais-text);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--ais-dur) var(--ais-ease-expo);
@@ -164,7 +167,8 @@
   color: var(--ais-text);
 }
 .navLink:focus-visible {
-  outline: 2px solid var(--ais-gold);
+  /* accent 감사: 블루 포커스 아웃라인 → 뉴트럴 near-black. */
+  outline: 2px solid var(--ais-text);
   outline-offset: 4px;
   border-radius: 3px;
 }
@@ -185,7 +189,8 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ais-gold);
+  /* accent 감사: near-black 배경 위 블루 텍스트 → 흰 글씨(뉴트럴, 대비 확보). */
+  color: #ffffff;
   padding: 0.55rem 1.1rem;
   white-space: nowrap;
   border-radius: var(--ais-radius-pill);
@@ -201,12 +206,13 @@
 }
 .navCta:hover {
   transform: translateY(-2px);
-  border-color: var(--ais-gold);
+  /* accent 감사: 블루 보더/글로우 제거 → 뉴트럴 그림자만. */
+  border-color: var(--ais-navy-2);
   background: var(--ais-navy-2);
-  box-shadow: var(--ais-shadow-card), var(--ais-glow-gold);
+  box-shadow: var(--ais-shadow-lift);
 }
 .navCta:focus-visible {
-  outline: 2px solid var(--ais-gold);
+  outline: 2px solid var(--ais-text);
   outline-offset: 3px;
 }
 .navCta:active {
@@ -233,11 +239,12 @@
 }
 .menuBtn:hover,
 .menuBtn:focus-visible {
-  border-color: var(--ais-gold);
-  box-shadow: var(--ais-glow-gold);
+  /* accent 감사: 블루 보더/글로우 → 뉴트럴 near-black 보더 + 카드 그림자. */
+  border-color: var(--ais-text);
+  box-shadow: var(--ais-shadow-card);
 }
 .menuBtn:focus-visible {
-  outline: 2px solid var(--ais-gold);
+  outline: 2px solid var(--ais-text);
   outline-offset: 2px;
 }
 .menuBtn:active {
@@ -318,7 +325,8 @@
   width: 3px;
   height: 1.1rem;
   border-radius: 3px;
-  background: var(--ais-brand-grad);
+  /* accent 감사: 블루 pip → 뉴트럴 near-black. */
+  background: var(--ais-text);
   transition: transform var(--ais-dur-fast) var(--ais-ease-expo);
 }
 .mobileList > li:last-child .mobileLink {
@@ -330,7 +338,7 @@
   padding-left: 1.05rem;
 }
 .mobileLink:focus-visible {
-  outline: 2px solid var(--ais-gold);
+  outline: 2px solid var(--ais-text);
   outline-offset: -2px;
   border-radius: 6px;
 }
@@ -358,7 +366,7 @@
   }
 }
 
-/* ── 스크롤 진행 인디케이터 (절제된 블루 라인) ── */
+/* ── 스크롤 진행 인디케이터 (accent 감사: 절제된 near-black 라인) ── */
 .progress {
   position: absolute;
   left: 0;
@@ -374,8 +382,8 @@
   width: 100%;
   transform-origin: left center;
   transform: scaleX(var(--scroll, 0));
-  background: var(--ais-accent-grad);
-  box-shadow: 0 0 10px rgba(37, 99, 235, 0.28);
+  /* accent 감사: 블루 그라데이션+글로우 → 뉴트럴 near-black. */
+  background: var(--ais-text);
   /* --scroll은 rAF로 매 프레임 갱신되므로 transition 없이 즉시 반영 */
 }
 

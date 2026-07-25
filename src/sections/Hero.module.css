@@ -46,7 +46,7 @@
   overflow: hidden;
 }
 
-/* 우상단으로 흐르는 블루 그라데이션 글로우(--ais-accent-grad) — 크게 blur/scale해 화면을 은은히 물들인다. */
+/* 우상단 앰비언트 글로우 — accent 감사: 블루 그라데이션 → 뉴트럴 그레이 라디얼(장식 분위기만). */
 .gradGlow {
   position: absolute;
   top: -30%;
@@ -56,8 +56,8 @@
   max-width: 1100px;
   max-height: 1100px;
   border-radius: 50%;
-  background: var(--ais-accent-grad);
-  opacity: 0.08;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.06) 0%, transparent 70%);
+  opacity: 0.8;
   filter: blur(90px);
   transform: translate3d(0, 0, 0) scale(1);
   animation: heroDrift 24s ease-in-out infinite alternate;
@@ -119,7 +119,7 @@
   text-align: left;
 }
 
-/* 아이브로 — 작은 대문자 골드잉크(게임 LV.∞ 배지 대체) */
+/* 아이브로 — 작은 대문자 뉴트럴 그레이(accent 감사: 블루 제거 → 보조 라벨은 중립). */
 .eyebrow {
   margin: 0 0 var(--ais-space-md);
   font-family: var(--ais-font-mono);
@@ -127,7 +127,7 @@
   font-weight: 700;
   letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
-  color: var(--ais-accent-primary-ink);
+  color: var(--ais-text-mid);
 }
 
 /* 헤드라인 — 초대형 디스플레이. v4: weight 800 강렬화(글로벌 테크 헤드라인). */
@@ -162,10 +162,11 @@
   transition-delay: calc(var(--word-i, 0) * 55ms + 90ms);
 }
 
-/* "AI" 두 글자만 그라데이션 텍스트 클립 — 화려함 표현. 나머지는 솔리드 잉크로 AA 확보. */
+/* "AI" 두 글자만 그라데이션 텍스트 클립 — 화려함 표현. 나머지는 솔리드 잉크로 AA 확보.
+   ★ accent 감사 keep: 전용 --ais-ai-grad(블루) 사용 → 장식 뉴트럴화와 무관하게 유지. */
 .wordAI {
   display: inline-block;
-  background: var(--ais-accent-grad);
+  background: var(--ais-ai-grad);
   background-size: 140% 140%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -248,13 +249,13 @@
   color: var(--ais-text-soft);
 }
 
-/* 항목 사이 얇은 세로 divider — 상단에 옅은 골드 페이드(위계 시그니처) */
+/* 항목 사이 얇은 세로 divider — accent 감사: 상단 블루 페이드 제거 → 뉴트럴 보더 그라데이션. */
 .trustDivider {
   align-self: stretch;
   width: 1px;
   background: linear-gradient(
     to bottom,
-    var(--ais-accent-primary-border) 0%,
+    var(--ais-warm-border-strong) 0%,
     var(--ais-warm-border-strong) 45%,
     var(--ais-warm-border-strong) 100%
   );
@@ -327,7 +328,8 @@
   font-weight: 700;
   letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
-  color: var(--ais-accent-primary-ink);
+  /* accent 감사: 블루 잉크 키커 → 뉴트럴 그레이(보조 라벨 중립). */
+  color: var(--ais-text-mid);
 }
 
 .previewTagline {
@@ -349,7 +351,9 @@
 }
 
 .previewCard {
-  --card-accent: var(--ais-accent-primary);
+  /* accent 감사: 폴백 기본은 뉴트럴(실제 값은 Hero.tsx가 service.theme.primary=--p-* 브랜드로
+     인라인 오버라이드 → hover 링크 보더 틴트만 서비스 브랜드, 이는 keep). */
+  --card-accent: var(--ais-text);
   min-width: 0;
   /* 카드별 stagger 리빌 — reveal 컨테이너(.copy와 별개) 진입 시 순차 등장.
      transform/opacity만, --card-i 인덱스로 계단식 지연. */
@@ -391,7 +395,8 @@
 }
 
 .previewLink:focus-visible {
-  outline: 2px solid var(--ais-accent-primary);
+  /* accent 감사: 블루 포커스 아웃라인 → 뉴트럴 near-black. */
+  outline: 2px solid var(--ais-text);
   outline-offset: 3px;
 }
 
@@ -415,7 +420,8 @@
   transform: scale(1.08) rotate(-2deg);
 }
 
-/* 서비스 시그니처 색점 — 정체성 미니 표식 */
+/* 미니 표식 점 — accent 감사: 서비스 브랜드색 색점 → 뉴트럴 near-black(장식 중립).
+   호버 시 링크 보더의 서비스 틴트는 유지(--card-accent), 상시 노출되는 이 점만 중립화. */
 .previewDot {
   position: absolute;
   bottom: -3px;
@@ -423,7 +429,7 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--card-accent);
+  background: var(--ais-text);
   border: 2px solid var(--ais-warm-surface);
   box-shadow: var(--ais-shadow-hairline);
 }
@@ -480,7 +486,8 @@
   width: 3px;
   height: 7px;
   border-radius: 2px;
-  background: var(--ais-accent-primary);
+  /* accent 감사: 블루 스크롤 썸 → 뉴트럴 near-black. */
+  background: var(--ais-text);
   transform: translateX(-50%);
   animation: scrollDrop 1.8s var(--ais-ease-expo) infinite;
 }

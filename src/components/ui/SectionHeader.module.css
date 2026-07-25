@@ -20,7 +20,8 @@
   margin-inline: auto;
 }
 
-/* 모노스페이스 테크 라벨 — 회로/시스템 마커 톤. 밝은 베이스 위 가독을 위해 골드-딥 잉크. */
+/* 모노스페이스 테크 라벨 — accent 감사: 골드/블루 잉크 → 뉴트럴 그레이 이브로우.
+   공유 컴포넌트: 화이트 섹션=그레이, Technology(다크)=--ais-text-mid 지역 리맵으로 near-white. */
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -30,28 +31,27 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ais-gold-deep);
+  color: var(--ais-text-mid);
 }
 
-/* eyebrow 앞 골드 시그널 도트 */
+/* eyebrow 앞 시그널 도트 — accent 감사: 골드 → 뉴트럴(글로우 제거). */
 .eyebrow::before {
   content: '';
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--ais-gold);
-  box-shadow: 0 0 8px var(--ais-glow);
+  background: var(--ais-text-soft);
 }
 
-/* v4: 모노 챕터 카운터 — title 위 테크 마커("02 / TECHNOLOGY" 식). serif italic 폐기.
-   aria-hidden 장식, 블루 액센트로 밝은/다크 섹션 양쪽 무난. */
+/* v4: 모노 챕터 카운터 — title 위 테크 마커("02 / TECHNOLOGY" 식). aria-hidden 장식.
+   accent 감사: 블루 액센트 → 뉴트럴 그레이(--ais-text-soft, Technology서 지역 리맵으로 near-white). */
 .chapter {
   font-family: var(--ais-font-mono);
   font-style: normal;
   font-size: clamp(0.8rem, 0.75rem + 0.25vw, 0.9375rem);
   font-weight: 600;
   letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-accent-primary);
+  color: var(--ais-text-soft);
   opacity: 0.85;
 }
 

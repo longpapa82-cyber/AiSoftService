@@ -4,22 +4,22 @@
   margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
   padding-block: clamp(3.5rem, 2.5rem + 4vw, 5.5rem) 1.75rem;
   background: var(--ais-navy);
-  /* v4: 다크 앵커 섹션 — 시안 포인트(골드 폐기, Technology와 톤 일치) */
-  border-top: 1px solid rgba(0, 217, 255, 0.18);
+  /* accent 감사: 시안 상단 보더 → 뉴트럴 near-white 저알파(다크 위 hairline). */
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
   border-start-start-radius: clamp(1.75rem, 1rem + 3vw, 3rem);
   border-start-end-radius: clamp(1.75rem, 1rem + 3vw, 3rem);
   overflow: hidden;
   isolation: isolate;
 }
 
-/* 회로 도트 질감: near-black 잉크 위에 미세한 시안 격자 */
+/* 회로 도트 질감: accent 감사 — 시안 격자 → 뉴트럴 near-white 저알파 격자. */
 .footer::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   background-image: radial-gradient(
-    rgba(0, 217, 255, 0.06) 1px,
+    rgba(255, 255, 255, 0.05) 1px,
     transparent 1px
   );
   background-size: 22px 22px;
@@ -29,16 +29,15 @@
   pointer-events: none;
 }
 
-/* 상단 가장자리 골드 시그널 라인 + 글로우 */
+/* accent 감사: 상단 시그널 라인+글로우 → 뉴트럴 near-white hairline(글로우 제거). */
 .footer::after {
   content: '';
   position: absolute;
   inset-inline: 0;
   top: 0;
   height: 1px;
-  background: var(--ais-accent-grad);
+  background: rgba(255, 255, 255, 0.16);
   opacity: 0.7;
-  box-shadow: var(--ais-glow-warm);
   pointer-events: none;
 }
 
@@ -76,9 +75,10 @@
 }
 
 .logo:focus-visible {
+  /* accent 감사: 시안 포커스 링 → 뉴트럴 near-white 링(다크 위 가시성 유지). */
   box-shadow:
-    0 0 0 2px var(--ais-accent-primary),
-    0 0 0 6px rgba(0, 217, 255, 0.25);
+    0 0 0 2px rgba(255, 255, 255, 0.9),
+    0 0 0 6px rgba(255, 255, 255, 0.2);
 }
 
 .logoMark {
@@ -92,9 +92,10 @@
   font-size: 1.05rem;
   letter-spacing: -0.03em;
   color: var(--ais-navy);
-  /* 브랜드 심볼 채움은 헤더 로고(--ais-brand-grad)와 톤 일치 위해 유지 */
+  /* 브랜드 심볼 채움은 헤더 로고(--ais-brand-grad)와 톤 일치 위해 유지(심볼 = keep).
+     accent 감사: 심볼 주변 블루 글로우만 제거 → 뉴트럴 그림자(심볼 채움은 유지). */
   background: var(--ais-brand-grad);
-  box-shadow: var(--ais-glow-warm);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
 }
 
 .logoText {
@@ -144,7 +145,8 @@
   font-weight: 600;
   letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
-  color: rgba(0, 217, 255, 0.92);
+  /* accent 감사: 시안 라벨 → 뉴트럴 near-white(다크 위 그레이톤). */
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .companyDesc {
@@ -154,22 +156,23 @@
   line-height: 1.45;
 }
 
+/* accent 감사: 이메일 링크 블루 → near-white(다크 위 AA). 밑줄로 링크 어포던스 유지. */
 .link {
-  color: var(--ais-accent-primary);
-  text-decoration: none;
+  color: rgba(255, 255, 255, 0.86);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 3px;
   border-radius: 4px;
   transition: color var(--ais-dur-fast) var(--ais-ease-expo);
 }
 
 .link:hover {
   color: #fff;
-  text-decoration: underline;
-  text-decoration-color: var(--ais-accent-primary);
-  text-underline-offset: 3px;
+  text-decoration-color: rgba(255, 255, 255, 0.9);
 }
 
 .link:focus-visible {
-  outline: 2px solid var(--ais-accent-primary);
+  outline: 2px solid rgba(255, 255, 255, 0.9);
   outline-offset: 3px;
 }
 
@@ -188,7 +191,8 @@
   /* wide(0.08em)의 2배 — 컬럼 타이틀 의도적 넓은 자간 유지 */
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(0, 217, 255, 0.85);
+  /* accent 감사: 시안 컬럼 타이틀 → 뉴트럴 near-white. */
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .navList {
@@ -220,7 +224,8 @@
 }
 
 .serviceLink:focus-visible {
-  outline: 2px solid var(--ais-accent-primary);
+  /* accent 감사: 블루 포커스 아웃라인 → 뉴트럴 near-white. */
+  outline: 2px solid rgba(255, 255, 255, 0.9);
   outline-offset: 4px;
   color: #fff;
 }
@@ -250,8 +255,9 @@
 }
 
 .serviceLink:hover .serviceIcon {
-  border-color: rgba(0, 217, 255, 0.55);
-  box-shadow: var(--ais-glow-warm);
+  /* accent 감사: 시안 보더+블루 글로우 → 뉴트럴 near-white 보더(글로우 제거). */
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
 }
 
 /* ── 하단 카피라이트 ── */
