@@ -62,6 +62,24 @@
 .section > .ais-container {
   position: relative;
   z-index: 1;
+  /* v6 M5 — 섹션 전환 강화: 다크(Technology)→밝음(About) 경계 진입 시 콘텐츠가
+     미세 스케일업(0.985→1)하며 "다음 챕터로 넘어가는" 전환감(칼선 녹임).
+     transform(scale)만(컴포지터). view() 순수 CSS(JS 0). 미지원 시 정적 폴백.
+     linear 고정·진폭 1.5% 억제(팝업 톤 방지). Technology와 동일 호흡. */
+  animation: aboutSectionRise linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 45%;
+  transform-origin: center top;
+}
+@keyframes aboutSectionRise {
+  from {
+    scale: 0.985;
+    opacity: 0.82;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
 }
 
 /* ── 머리글: 테크 배지 + 타이틀 ── */
@@ -362,6 +380,43 @@
   background: var(--ais-text);
 }
 
+/* v6 M3 — 신뢰 지표 수치 강조 배지.
+   문장에 박혀 있던 6·3 수치를 대형 카운트업 수치로 승격(정량 각인).
+   accent 감사 준수: 새 포인트컬러 도입 0 — 뉴트럴 near-black 잉크 + 뉴트럴 밑줄.
+   밑줄은 Technology metric::after 패턴 이식(transform: scaleX만, 컴포지터). */
+.signalNum {
+  position: relative;
+  display: inline-block;
+  font-family: var(--ais-font-display);
+  font-size: 1.28em;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: var(--ais-tracking-tight);
+  color: var(--ais-text);
+  /* 숫자 폭 흔들림 방지(카운트업 중 자릿수 변동 시 정렬 유지) */
+  font-variant-numeric: tabular-nums;
+  padding-inline: 0.06em;
+}
+.signalNum::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.12em;
+  height: 2px;
+  border-radius: 2px;
+  /* 뉴트럴 near-black 밑줄(포인트컬러 아님). reveal 진입 시 좌→우로 그어짐. */
+  background: var(--ais-warm-border-strong);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+  /* 카운트업(1.1s)과 호흡: reveal 지연 후 그어지도록 살짝 늦춘다 */
+  transition-delay: 300ms;
+}
+.trust:global(.is-visible) .signalNum::after {
+  transform: scaleX(1);
+}
+
 /* 거대 워드마크 — depth/위계용 배경 타이포(밝은 배경용으로 재처리:
    v4 블루 액센트 아웃라인, 저대비 장식이라 aria-hidden).
    레버3 — 흐름 배치 → 콘텐츠 뒤 절대 배치 오버랩(에디토리얼 depth).
@@ -418,5 +473,17 @@
   .wordmark {
     animation: none !important;
     transform: none;
+  }
+  /* v6 M5 섹션 전환 스케일업 정지 — 최종 상태 즉시 표시(콘텐츠 은닉 0). */
+  .section > .ais-container {
+    animation: none;
+    scale: none;
+    opacity: 1;
+  }
+  /* v6 M3 수치 밑줄 정지 — 최종 상태(그어진 밑줄) 즉시 표시.
+     카운트업 수치 자체는 useCountUp이 reduced-motion 시 즉시 target 표시(회귀 0). */
+  .signalNum::after {
+    transition: none;
+    transform: scaleX(1);
   }
 }

@@ -60,6 +60,13 @@
     var(--p-bg) 0%,
     color-mix(in srgb, var(--p-bg) 0%, transparent) 100%
   );
+  /* v6 M5 — 하단 페더도 대칭 크로스페이드(상단 ::before와 짝).
+     섹션이 뷰포트 하단에서 빠져나갈 때 자기 배경면이 페이드인되며 다음 섹션 위로
+     덮인다 → "무대 조명이 위·아래 양쪽에서 교체되는" 완결된 전환(칼선 녹임).
+     opacity만 애니(컴포지터). 미지원 브라우저는 정적 feather 폴백(경계 완화 유지). */
+  animation: promoEdgeFade linear both;
+  animation-timeline: view();
+  animation-range: exit 60% exit 100%;
 }
 
 /* ── 실사 히어로 배경 — 각 서비스 홈의 실제 사진 ── */
@@ -463,6 +470,74 @@
   to {
     translate: 0 -10px;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════
+ * v6 M2 — 제품 스크롤 회전·확대(Apple 제품샷 서사).
+ * 섹션이 뷰포트를 통과하는 동안 "무대 위 제품이 스크롤과 함께 살짝 돌며 다가온다".
+ * 축 분리 원칙: 위 promoProductDrift는 `translate` 개별 프로퍼티만 점유하므로,
+ *   여기서는 `rotate`·`scale` 개별 CSS 프로퍼티를 각각 점유 → 3축 완전 분리로
+ *   상호 override 없음(같은 요소에 translate/rotate/scale 3 animation 동시 진행).
+ * 대상은 이미지/카드 "제품 비주얼"만 — 내부 텍스트(clauseText/steps 등)엔 미적용.
+ * animation-timeline: view() 순수 CSS(JS 0). 미지원 브라우저는 animation 무시 =
+ *   정적 폴백(무해, 드리프트와 동일 전략). linear 고정(ease 주면 스크롤 튐).
+ * 절제: 회전 ±3deg 상한, scale 진폭 5.5% 이하(1.05 초과 금지 — 팝업 광고 톤 방지).
+ * ────────────────────────────────────────────────────────────── */
+.phone,
+.mascotStage,
+.gallery,
+.appCard {
+  animation:
+    promoProductDrift linear both,
+    promoProductTurn linear both,
+    promoProductZoom linear both;
+  animation-timeline: view(), view(), view();
+  animation-range: entry 12% exit 88%;
+}
+
+@keyframes promoProductTurn {
+  from {
+    rotate: 3deg;
+  }
+  to {
+    rotate: -3deg;
+  }
+}
+@keyframes promoProductZoom {
+  from {
+    scale: 0.965;
+  }
+  to {
+    scale: 1.02;
+  }
+}
+
+/* phone은 기존 정지각 transform: rotate(-2deg)·호버 transform이 있으므로,
+   스크롤 rotate는 원각 근방 ±1.5deg 미세 오프셋으로 더 억제(쓰러지는 인상 금지).
+   transform은 초기각·호버 전담, rotate 개별 프로퍼티는 스크롤 전담 → 비충돌. */
+.phone {
+  animation:
+    promoProductDrift linear both,
+    promoPhoneTurn linear both,
+    promoProductZoom linear both;
+  animation-timeline: view(), view(), view();
+  animation-range: entry 12% exit 88%;
+}
+@keyframes promoPhoneTurn {
+  from {
+    rotate: 1.5deg;
+  }
+  to {
+    rotate: -1.5deg;
+  }
+}
+
+/* analysisCard(글래스·backdrop-filter)는 blur 리샘플 비용 최소화를 위해
+   scale 없이 rotate만, 진폭도 ±1.5deg로 억제(리페인트 억제 + 조항 텍스트 가독성). */
+.analysisCard {
+  animation: promoPhoneTurn linear both;
+  animation-timeline: view();
+  animation-range: entry 12% exit 88%;
 }
 
 /* ── 폰 목업 — 실제 앱 홈 스크린샷을 디바이스 프레임에 (v5 Apple식 대형화) ── */
@@ -1406,17 +1481,23 @@
 
   /* ── 신규 몰입형 모션 전면 정지 — 최종 상태 즉시 표시(콘텐츠 은닉 0) ── */
 
-  /* 제품 드리프트 패럴랙스 + 섹션 전환 크로스페이드 정지 */
+  /* 제품 드리프트 패럴랙스 + M2 스크롤 회전·확대 + 섹션 전환 크로스페이드 정지.
+     신규 rotate/scale 개별 프로퍼티도 반드시 리셋(잔여 변형 방지). */
   .phone,
   .analysisWrap,
+  .analysisCard,
   .mascotStage,
   .growCard,
   .appCard,
   .gallery,
-  .section::before {
+  .section::before,
+  .section::after {
     animation: none;
     translate: none;
+    rotate: none;
+    scale: none;
   }
+  /* phone 정지각(-2deg)은 위 .phone { transform: rotate(-2deg) } 규칙으로 유지됨. */
 
   /* 분리 리빌·스태거 정지 → 카피/제품/조항 모두 최종 상태로 즉시 노출 */
   .reveal,

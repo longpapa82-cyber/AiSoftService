@@ -86,6 +86,28 @@
     );
 }
 
+/* v6 M5 — 섹션 전환 강화: 밝음(Hero/About)↔다크(Technology) 경계 진입 시
+   콘텐츠 컨테이너가 미세 스케일업(0.985→1)하며 "다음 챕터로 넘어가는" 전환감.
+   대비가 큰 경계일수록 스케일이 칼선을 녹인다. transform(scale)만(컴포지터).
+   animation-timeline: view() 순수 CSS(JS 0). 미지원 시 정적 폴백(무해).
+   linear 고정(스크롤 정직 연동). 진폭 1.5%로 억제(팝업 톤 방지). */
+.section > .ais-container {
+  animation: techSectionRise linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 45%;
+  transform-origin: center top;
+}
+@keyframes techSectionRise {
+  from {
+    scale: 0.985;
+    opacity: 0.82;
+  }
+  to {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
 /* ── 섹션 eyebrow 배지 행 ── */
 .badgeRow {
   display: flex;
@@ -601,5 +623,11 @@
   .metric::after {
     transition: none;
     transform: scaleX(1);
+  }
+  /* v6 M5 섹션 전환 스케일업 정지 — 최종 상태 즉시 표시(콘텐츠 은닉 0). */
+  .section > .ais-container {
+    animation: none;
+    scale: none;
+    opacity: 1;
   }
 }

@@ -3,6 +3,8 @@ import { COMPANY } from '../data/company';
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { TechBadge } from '../components/ui/TechBadge';
 import { useReveal } from '../hooks/useReveal';
+import { useCountUp } from '../hooks/useCountUp';
+import { SERVICES } from '../data/services';
 import styles from './About.module.css';
 
 /**
@@ -48,12 +50,53 @@ const VALUES: AboutValue[] = [
   },
 ];
 
-// 신뢰 지표 — 실제 서비스 수·플랫폼·도메인·대표 정보에서 파생(허위 확장 없음).
-const TRUST_SIGNALS: readonly string[] = [
-  '일상 곳곳을 잇는 6개의 AI 앱 서비스',
-  'iOS·Android·Web 3개 플랫폼 지원',
-  '여행·반려·일상·음악·법률까지 넓어지는 서비스 영역',
-  `대표 ${COMPANY.ceo} · 문의 ${COMPANY.email}`,
+// ── SoT 파생 정수(허위/과장 없음) — Technology와 동일 집계 규칙 ──
+const SERVICE_COUNT = SERVICES.length;
+const PLATFORM_COUNT = (() => {
+  const set = new Set<string>();
+  for (const svc of SERVICES) {
+    if (svc.links.ios) set.add('iOS');
+    if (svc.links.android) set.add('Android');
+    if (svc.links.web) set.add('Web');
+  }
+  return set.size;
+})();
+
+/**
+ * 신뢰 지표 항목.
+ * count가 있으면 useCountUp으로 롤업(0→count)하고 prefix/suffix로 문장을 감싼다.
+ * count가 없으면 text를 그대로 정적 렌더한다(대표/영역 항목).
+ * 문구 원문(SoT 파생)은 보존 — 숫자만 span으로 분리해 시맨틱·SEO 텍스트 불변.
+ */
+interface TrustSignal {
+  key: string;
+  count?: number;
+  prefix?: string;
+  suffix?: string;
+  text?: string;
+}
+
+const TRUST_SIGNALS: readonly TrustSignal[] = [
+  {
+    key: 'services',
+    count: SERVICE_COUNT,
+    prefix: '일상 곳곳을 잇는 ',
+    suffix: '개의 AI 앱 서비스',
+  },
+  {
+    key: 'platforms',
+    count: PLATFORM_COUNT,
+    prefix: 'iOS·Android·Web ',
+    suffix: '개 플랫폼 지원',
+  },
+  {
+    key: 'domains',
+    text: '여행·반려·일상·음악·법률까지 넓어지는 서비스 영역',
+  },
+  {
+    key: 'ceo',
+    text: `대표 ${COMPANY.ceo} · 문의 ${COMPANY.email}`,
+  },
 ];
 
 // Material Symbols 대응 인라인 SVG(이모지 대신 정통 라인 아이콘 — Technology와 동일 패턴).
@@ -101,6 +144,37 @@ function renderLead(): JSX.Element[] {
     </em>,
     <span key="lead-b">{parts[1]}</span>,
   ];
+}
+
+/**
+ * 신뢰 지표 한 줄.
+ * 수치 항목은 useCountUp으로 0→count 롤업(Technology 카드와 동일 호흡:
+ * durationMs 1100, delay index*120) 후 prefix/suffix로 감싼다. 밑줄 강조는
+ * Technology metric::after 패턴을 About 지역 클래스로 이식(transform: scaleX만).
+ * 비수치 항목은 정적 text 렌더(회귀 0).
+ */
+function SignalItem({ signal, index }: { signal: TrustSignal; index: number }) {
+  const [countRef, counted] = useCountUp<HTMLSpanElement>(signal.count ?? 0, {
+    durationMs: 1100,
+    delayMs: index * 120,
+  });
+
+  return (
+    <li className={styles.signalItem}>
+      <span className={styles.signalDot} aria-hidden="true" />
+      {signal.count !== undefined ? (
+        <span>
+          {signal.prefix}
+          <span className={styles.signalNum}>
+            <span ref={countRef}>{counted}</span>
+          </span>
+          {signal.suffix}
+        </span>
+      ) : (
+        <span>{signal.text}</span>
+      )}
+    </li>
+  );
 }
 
 function ValueCard({ value, index }: { value: AboutValue; index: number }) {
@@ -164,11 +238,8 @@ export function About() {
             <p className={styles.trustLead}>{COMPANY.slogan}</p>
           </div>
           <ul className={styles.signalList}>
-            {TRUST_SIGNALS.map((signal) => (
-              <li key={signal} className={styles.signalItem}>
-                <span className={styles.signalDot} aria-hidden="true" />
-                <span>{signal}</span>
-              </li>
+            {TRUST_SIGNALS.map((signal, i) => (
+              <SignalItem key={signal.key} signal={signal} index={i} />
             ))}
           </ul>
           <span className={styles.wordmark} aria-hidden="true">
