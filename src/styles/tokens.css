@@ -92,6 +92,90 @@
   --ais-dur: 0.4s;
   --ais-dur-slow: 0.6s;
   --ais-stagger: 70ms;
+
+  /* ══════════════════════════════════════════════════════════════
+   * 라이트 럭셔리 리디자인 토큰 (Phase 1 · 추가 전용)
+   * 기존 --ais-* 토큰은 어느 것도 삭제/변경하지 않는다. 아래는 "추가"만 한다.
+   * 방향: Linear/Stripe/Apple 제품페이지풍 — 웜 뉴트럴 베이스 + 절제된 accent
+   *        + 거의 안 보이는 다층 그림자 + 규칙적 여백 리듬.
+   * 세 렌즈 통합: [A] 팔레트  [B] 깊이(그림자)  [C] 리듬(간격/타이포/라운드)
+   * 접근성: accent 원색은 밝은 배경 위 텍스트로 쓰면 AA 미달 → 텍스트엔 *-ink 사용.
+   * ────────────────────────────────────────────────────────────── */
+
+  /* ═══ [A] 팔레트 ═══════════════════════════════════════════════ */
+
+  /* ── 크림 / 오프화이트 웜 뉴트럴 베이스 (기존 쿨 --ais-bg와 공존) ── */
+  --ais-cream: #faf7f2;          /* 페이지 베이스: 살짝 웜한 종이 오프화이트 */
+  --ais-cream-2: #f3ede3;        /* 섹션 교차 틴트 (한 단계 깊은 웜) */
+  --ais-cream-3: #ece3d5;        /* 더 깊은 웜 서페이스 / 구분 블록 */
+  --ais-warm-surface: #fffdfa;   /* 카드 표면: 거의 화이트 + 웜 기미 */
+  --ais-warm-border: rgba(74, 56, 32, 0.1);    /* 웜톤 경계선(navy 대신 브라운기) */
+  --ais-warm-border-strong: rgba(74, 56, 32, 0.18);
+
+  /* ── 색상 위계 3계층 (각 계층: 원색 채움 / 옅은 워시 / 텍스트용 ink / 보더) ── */
+  /* [1] Primary — 웜 골드: CTA·포인트 채움. CTA 계약 = 골드 채움 + navy 라벨
+   *     (navy 대비 8.25:1 AA통과 / 흰 라벨은 2.13 미달이라 금지). 텍스트엔 -ink 사용. */
+  --ais-accent-primary: #e0a83d;
+  --ais-accent-primary-soft: #f6e9cf;    /* 옅은 골드 워시 (pill/카드 배경) */
+  --ais-accent-primary-ink: #8a5a12;     /* 크림 위 골드 텍스트용 딥 톤 (AA ≈5.5:1) */
+  --ais-accent-primary-border: rgba(224, 168, 61, 0.4);
+
+  /* [2] Secondary — 세이지 그린: 골드를 받치는 저채도 자연 보조. 넓은 틴트도 안전.
+   *     -soft 는 향후 하드코딩 #10b981(안전 조항 류) 대체 semantic 앵커. */
+  --ais-accent-secondary: #7f9b7a;
+  --ais-accent-secondary-soft: #e6ece2;
+  --ais-accent-secondary-ink: #46603f;   /* 크림 위 세이지 텍스트용 (AA ≈6.5:1) */
+  --ais-accent-secondary-border: rgba(127, 155, 122, 0.38);
+
+  /* [3] Highlight — 더스티 로즈: 가장 절제된 희소 하이라이트(뱃지·hover 온도감).
+   *     회색기 섞어 값싸 보임 방지. -ink 는 cream/cream-2 위 소형 텍스트까지 AA. */
+  --ais-accent-highlight: #d9a5a0;
+  --ais-accent-highlight-soft: #f4e6e4;
+  --ais-accent-highlight-ink: #9a5750;   /* 크림 위 로즈 텍스트용 (AA ≈5.1:1) */
+  --ais-accent-highlight-border: rgba(217, 165, 160, 0.42);
+
+  /* ── 웜 럭셔리 그라디언트 (기존 채도 높은 --ais-brand-grad 와 별개로 공존) ── */
+  --ais-accent-grad: linear-gradient(135deg, #e8b955 0%, #d99a2e 100%);
+
+  /* ═══ [B] 깊이 — 다층 확산 그림자 elevation 스케일 (웜 브라운 톤 통일) ═══ */
+  /* "거의 안 보이는" 저채도 다층 그림자로 표면을 배경에서 살짝 띄운다. */
+  --ais-shadow-hairline: 0 1px 0 rgba(74, 56, 32, 0.05),
+    0 1px 2px rgba(74, 56, 32, 0.04);                   /* 경계선급 elevation 0.5 */
+  --ais-shadow-sm: 0 2px 6px -1px rgba(74, 56, 32, 0.07),
+    0 1px 2px rgba(74, 56, 32, 0.05);                   /* 작은 요소 elevation 1 */
+  --ais-shadow-ambient: 0 12px 32px -8px rgba(74, 56, 32, 0.12),
+    0 3px 10px rgba(74, 56, 32, 0.06);                  /* 카드 기본 elevation 2 */
+  --ais-shadow-lift-warm: 0 24px 56px -12px rgba(74, 56, 32, 0.18),
+    0 8px 20px rgba(74, 56, 32, 0.08);                  /* hover 부양 elevation 3 */
+  /* 절제된 웜 골드 hover 글로우 (기존 --ais-glow-gold 보다 alpha 낮춤) */
+  --ais-glow-warm: 0 0 24px rgba(224, 168, 61, 0.22);
+
+  /* ═══ [C] 리듬 — 간격 / 타이포 / 라운드 ══════════════════════════ */
+
+  /* ── 간격: 4pt 기반 마이크로 스케일 (매크로 --ais-section/--ais-gutter 와 역할 분리) ── */
+  --ais-space-3xs: 0.25rem;   /* 4px  */
+  --ais-space-2xs: 0.5rem;    /* 8px  */
+  --ais-space-xs: 0.75rem;    /* 12px */
+  --ais-space-sm: 1rem;       /* 16px */
+  --ais-space-md: 1.5rem;     /* 24px */
+  --ais-space-lg: 2.5rem;     /* 40px */
+  --ais-space-xl: 4rem;       /* 64px */
+  --ais-space-2xl: 6rem;      /* 96px */
+  --ais-space-3xl: 8rem;      /* 128px */
+
+  /* ── 타이포: 보조 스케일 + line-height / letter-spacing 리듬 ── */
+  --ais-text-eyebrow: clamp(0.75rem, 0.72rem + 0.15vw, 0.8125rem); /* 아이브로/키커 */
+  --ais-text-caption: clamp(0.8125rem, 0.78rem + 0.2vw, 0.875rem); /* 캡션/보조 */
+  --ais-leading-tight: 1.1;     /* 디스플레이 헤드라인 */
+  --ais-leading-snug: 1.35;     /* 서브헤드 */
+  --ais-leading-relaxed: 1.7;   /* 본문 가독 */
+  --ais-tracking-tight: -0.02em; /* 큰 럭셔리 디스플레이는 살짝 조임 */
+  --ais-tracking-normal: 0em;
+  --ais-tracking-wide: 0.08em;   /* 아이브로/모노 배지 대문자 자간 */
+
+  /* ── 라운드: 기존 chip(12)/soft(14)/card(24) 사이 빈 구간 보강 ── */
+  --ais-radius-xs: 8px;      /* 아주 작은 배지/인풋 */
+  --ais-radius-sm: 10px;     /* 소형 버튼/태그 */
 }
 
 /* ── 말랑·통통 키프레임 (transform/opacity만 → 컴포지터 친화) ── */
