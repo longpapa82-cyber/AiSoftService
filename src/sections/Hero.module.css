@@ -57,7 +57,7 @@
   max-height: 1100px;
   border-radius: 50%;
   background: var(--ais-accent-grad);
-  opacity: 0.16;
+  opacity: 0.08;
   filter: blur(90px);
   transform: translate3d(0, 0, 0) scale(1);
   animation: heroDrift 24s ease-in-out infinite alternate;
@@ -208,7 +208,7 @@
   display: inline-block;
 }
 
-/* 카운트업 언더라인 — 신뢰지표 숫자 롤업과 함께 그어지는 골드 밑줄(절제된 폭).
+/* v5 색 뺄셈: 통계 언더라인을 블루→near-black 뉴트럴로(블루는 "AI" 시그니처에만 집중).
    Hero 카피(.copy) 가시화 시 좌→우로 scaleX(컴포지터 친화). */
 .trustValueWrap::after {
   content: '';
@@ -218,7 +218,7 @@
   width: 100%;
   height: 2px;
   border-radius: 2px;
-  background: var(--ais-accent-grad);
+  background: var(--ais-text);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);

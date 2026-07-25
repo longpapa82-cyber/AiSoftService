@@ -9,10 +9,10 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-block: clamp(3.5rem, 2rem + 6vw, 6.5rem);
+  /* v5 Apple식: 제품 주변 극도의 여백 — 섹션 상하 호흡 대폭 확대 */
+  padding-block: clamp(5rem, 3rem + 9vw, 9.5rem);
   background: var(--p-bg);
-  /* 위아래 경계를 부드럽게 — 통합 사이트 흐름에 자연스럽게 녹아듦 */
-  border-block: 1px solid color-mix(in srgb, var(--p-primary) 10%, transparent);
+  /* v5: 컬러 경계선 제거 — 면(background)만으로 섹션 구분(순수함). */
 }
 
 /*
@@ -203,16 +203,16 @@
   50% { translate: 0 -14px; }
 }
 
-/* ── 레이아웃 ── */
+/* ── 레이아웃 (v5 Apple식: 비주얼 컬럼 우세 — 제품이 주인공) ── */
 .inner {
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 0.92fr 1.08fr;
   align-items: center;
-  gap: clamp(2rem, 1rem + 4vw, 4.5rem);
+  gap: clamp(2.5rem, 1.5rem + 5vw, 6rem);
 }
 
 .flip .inner {
-  grid-template-columns: 0.95fr 1.05fr;
+  grid-template-columns: 1.08fr 0.92fr;
 }
 
 .flip .copy {
@@ -422,18 +422,19 @@
   justify-content: center;
 }
 
-/* ── 폰 목업 — 실제 앱 홈 스크린샷을 디바이스 프레임에 (myPet) ── */
+/* ── 폰 목업 — 실제 앱 홈 스크린샷을 디바이스 프레임에 (v5 Apple식 대형화) ── */
 .phone {
   position: relative;
-  width: min(74%, 280px);
+  /* v5: 280px → 400px+ 대폭 확대(제품이 주인공). 비주얼 컬럼 폭 대부분 차지 */
+  width: min(88%, 400px);
   aspect-ratio: 9 / 19;
-  padding: 9px;
-  border-radius: 38px;
-  /* 다크 베젤 + 입체 그림자(실물 폰 느낌) */
+  padding: 10px;
+  border-radius: 44px;
+  /* 다크 베젤 + Apple식 다층 뉴트럴 그림자(제품 반사광 느낌, 컬러 제거) */
   background: linear-gradient(150deg, #1f2630, #11151c);
   box-shadow:
-    0 30px 60px color-mix(in srgb, var(--p-primary) 24%, transparent),
-    0 12px 24px rgba(10, 20, 35, 0.22),
+    0 40px 80px -20px rgba(0, 0, 0, 0.28),
+    0 16px 40px -12px rgba(0, 0, 0, 0.18),
     inset 0 0 0 2px rgba(255, 255, 255, 0.08);
   transform: rotate(-2deg);
   transition: transform var(--ais-dur) var(--ais-ease-expo);
@@ -549,15 +550,15 @@
   align-items: center;
   gap: 1.4rem;
   width: 100%;
-  max-width: 460px;
+  max-width: 520px;
 }
 
-/* 마스코트 무대 — 원형 화이트 프레임 + 부드러운 글로우(실제 랜딩 히어로) */
+/* 마스코트 무대 — 원형 화이트 프레임 + 부드러운 글로우(v5 Apple식 대형화) */
 .mascotStage {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(62%, 240px);
+  width: min(82%, 380px);
   aspect-ratio: 1;
   border-radius: 50%;
   background: radial-gradient(
@@ -654,7 +655,7 @@
   align-items: center;
   gap: 1.1rem;
   width: 100%;
-  max-width: 460px;
+  max-width: 540px;
 }
 
 /* 카드 위에 살짝 겹치는 작은 부엉이 마스코트 */
@@ -662,7 +663,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  width: min(38%, 140px);
+  width: min(42%, 180px);
   aspect-ratio: 1;
   /* 카드 상단에 겹쳐 앉은 느낌 */
   margin-bottom: -1.6rem;
