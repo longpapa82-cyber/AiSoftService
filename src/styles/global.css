@@ -38,6 +38,10 @@ body {
   background: var(--ais-cream);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* 장식(aurora blob·sheen 등 aria-hidden)이 뷰포트를 넘어도 가로 스크롤이
+     생기지 않도록 body 레벨에서 클립. clip은 hidden과 달리 스크롤 컨테이너를
+     만들지 않아 sticky/스크롤 앵커링을 깨지 않는다. */
+  overflow-x: clip;
 }
 
 /* 라이트 럭셔리 베이스: 웜 크림 + 절제된 웜 글로우(과채도 제거, 무게 축소) */

@@ -1,135 +1,301 @@
 /*
- * About 섹션.
- * 밝은 갤러리 위에 회사 정보를 신뢰감 있는 2열 레이아웃으로 전시.
- * 좌: 소개 본문 + 거대 워드마크. 우: 대표/이메일/주소 정보 카드.
+ * About 섹션 — 밝은 에디토리얼 회사 소개.
+ * 리듬: Technology(다크 네이비) 다음 About(밝은 크림)로 밝음↔다크 교차 완성.
+ * 다크 잉크 패널을 걷어내고 웜 크림 서페이스 위에 리드 스테이트먼트 → 가치 카드
+ * 그리드 → 신뢰 지표/대표 정보 순으로 정통 기업 톤의 위계를 세운다.
+ * 라이트 럭셔리 토큰(--ais-accent-* / --ais-space-* / --ais-shadow-ambient 등) 사용.
  */
 .section {
-  /* 상단은 섹션 리듬 유지, 하단은 축소 — 주소 카드 제거 후 하단 흰 여백 과다 방지 */
-  padding-top: var(--ais-section);
-  padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+  padding-block: var(--ais-section);
   position: relative;
-  /* 섹션 리듬: 연회색 틴트 (Technology 흰색 다음에 교차) */
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    var(--ais-section-tint) 14%,
-    var(--ais-section-tint) 100%
+  /* 웜 크림 베이스 — 다크 Technology 뒤에서 톤을 밝게 전환 */
+  background:
+    linear-gradient(180deg, var(--ais-cream) 0%, var(--ais-cream-2) 100%);
+}
+
+/* 상단 웜 골드 헤어라인 — 다크→밝음 경계에 시그니처 라인 */
+.section::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--ais-accent-grad);
+  opacity: 0.85;
+}
+
+/* 아주 은은한 웜 글로우 — 밝은 배경 위 깊이감(장식, 콘텐츠 아님) */
+.section::after {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  inset: auto -10% -20% auto;
+  width: 40%;
+  aspect-ratio: 1;
+  background: radial-gradient(
+    circle,
+    rgba(224, 168, 61, 0.1) 0%,
+    transparent 68%
   );
+  pointer-events: none;
+}
+
+.section > .ais-container {
+  position: relative;
+  z-index: 1;
 }
 
 /* ── 머리글: 테크 배지 + 타이틀 ── */
 .heading {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: var(--ais-space-xs);
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  margin-top: clamp(var(--ais-space-md), 1rem + 3vw, var(--ais-space-lg));
+/* ══ 리드 스테이트먼트 — 회사 철학을 큰 타이포로 ══ */
+.lead {
+  margin-top: clamp(var(--ais-space-lg), 1.5rem + 3vw, var(--ais-space-2xl));
+  max-width: 40ch;
 }
 
-/* ── 소개 ── 네이비 잉크 패널 + 골드 글로우 (풀폭·대형) */
-.intro {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: clamp(var(--ais-space-md), 0.75rem + 1.5vw, var(--ais-space-lg));
-  padding: clamp(2.5rem, 1.5rem + 4vw, 5rem);
-  min-height: clamp(24rem, 18rem + 18vw, 34rem);
-  border: 1px solid var(--ais-navy-2);
-  border-radius: var(--ais-radius-lg);
-  background: linear-gradient(
-    155deg,
-    var(--ais-navy) 0%,
-    var(--ais-navy-2) 100%
-  );
-  box-shadow: var(--ais-shadow-lift);
-  overflow: hidden;
-  isolation: isolate;
-}
-
-/* 회로 도트 질감 — 네이비 패널 위 미세 그리드 */
-.intro::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: 0;
-  background-image: radial-gradient(
-    rgba(224, 168, 61, 0.1) 1px,
-    transparent 1.4px
-  );
-  background-size: 22px 22px;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-/* 은은한 웜 골드 글로우 (절제된 accent) */
-.intro::before {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: auto -30% -40% auto;
-  width: 60%;
-  aspect-ratio: 1;
-  background: radial-gradient(
-    circle,
-    rgba(224, 168, 61, 0.28) 0%,
-    transparent 68%
-  );
-  opacity: 0.55;
-}
-
-/* 모노스페이스 주석 태그 — 회로/코드 질감 */
-.introTag {
-  font-family: var(--ais-font-mono);
-  font-size: var(--ais-text-eyebrow);
-  font-weight: 600;
-  letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-accent-primary);
-  opacity: 0.92;
-  user-select: none;
-}
-
-.slogan {
+.leadText {
+  margin: 0;
   font-family: var(--ais-font-display);
-  font-size: clamp(var(--ais-text-h3), 1.5rem + 2.5vw, var(--ais-text-h2));
-  font-weight: 800;
-  line-height: 1.3;
+  font-size: clamp(1.5rem, 1rem + 2.6vw, 2.5rem);
+  font-weight: 700;
+  line-height: var(--ais-leading-snug);
+  letter-spacing: var(--ais-tracking-tight);
   color: var(--ais-text);
-  background: var(--ais-accent-grad);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   text-wrap: balance;
 }
 
-.body {
-  font-size: clamp(var(--ais-text-body), 0.9rem + 0.5vw, 1.35rem);
-  line-height: var(--ais-leading-relaxed);
-  /* 네이비 패널 위 본문: AA 대비 위해 0.88 알파 */
-  color: rgba(255, 255, 255, 0.88);
-  max-width: 60ch;
+/* 도메인 나열 구절 강조 — 웜 골드 ink + 밑줄 swatch(밝은 배경 위 AA) */
+.leadHighlight {
+  font-style: normal;
+  color: var(--ais-accent-primary-ink);
+  background: linear-gradient(
+    to top,
+    var(--ais-accent-primary-soft) 0%,
+    var(--ais-accent-primary-soft) 32%,
+    transparent 32%
+  );
+  padding-inline: 0.1em;
+  border-radius: 3px;
 }
 
-/* 거대 워드마크 — depth/위계용 배경 타이포 (네이비 위 골드 스트로크)
-   "에이아이소프트" 한글 7자(≈7em 폭) 기준으로 크기 산정:
-   가용폭 = 뷰포트 − 컨테이너 거터×2 − intro 패딩×2
-   (320px: ≈205px → 7자 최대 ≈29px, 1440px: ≈1024px → cap 92px 여유) */
+/* ══ 가치 카드 그리드 ══ */
+.values {
+  list-style: none;
+  margin: clamp(var(--ais-space-lg), 1.5rem + 3vw, var(--ais-space-2xl)) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(var(--ais-space-sm), 0.75rem + 1vw, var(--ais-space-md));
+}
+
+@media (min-width: 620px) {
+  .values {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1000px) {
+  .values {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.valueCard {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ais-space-2xs);
+  padding: clamp(var(--ais-space-md), 1rem + 1vw, var(--ais-space-lg));
+  border-radius: var(--ais-radius-card);
+  background: var(--ais-warm-surface);
+  border: 1px solid var(--ais-warm-border);
+  box-shadow: var(--ais-shadow-ambient);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-expo),
+    border-color var(--ais-dur) var(--ais-ease-expo),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+}
+
+/* 상단 골드 헤어라인 — 카드 위계 시그니처(hover 시 확장) */
+.valueCard::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--ais-accent-grad);
+  opacity: 0.9;
+  transform: scaleX(0.35);
+  transform-origin: left;
+  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
+}
+
+.valueCard:hover,
+.valueCard:focus-within {
+  transform: translateY(-6px);
+  border-color: var(--ais-accent-primary-border);
+  box-shadow: var(--ais-shadow-lift-warm), var(--ais-glow-warm);
+}
+
+.valueCard:hover::before,
+.valueCard:focus-within::before {
+  transform: scaleX(1);
+}
+
+/* 아이콘 슬롯 — 옅은 골드 워시 위 웜 골드 라인 아이콘 */
+.valueIcon {
+  display: inline-grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--ais-space-2xs);
+  border-radius: var(--ais-radius-soft);
+  color: var(--ais-accent-primary-ink);
+  background: var(--ais-accent-primary-soft);
+  border: 1px solid var(--ais-accent-primary-border);
+  box-shadow: var(--ais-shadow-sm);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-bounce),
+    box-shadow var(--ais-dur) var(--ais-ease-expo);
+}
+
+.valueCard:hover .valueIcon,
+.valueCard:focus-within .valueIcon {
+  transform: translateY(-2px) scale(1.06) rotate(-3deg);
+  box-shadow: var(--ais-glow-warm);
+}
+
+.valueIcon svg {
+  display: block;
+}
+
+.valueTitle {
+  margin: 0;
+  font-family: var(--ais-font-display);
+  font-size: var(--ais-text-h3);
+  font-weight: 800;
+  color: var(--ais-text);
+}
+
+.valueDesc {
+  margin: 0;
+  font-size: var(--ais-text-caption);
+  line-height: var(--ais-leading-relaxed);
+  color: var(--ais-text-mid);
+  overflow-wrap: anywhere;
+}
+
+/* ══ 신뢰 지표 + 대표 정보 패널 ══ */
+.trust {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: clamp(var(--ais-space-lg), 1.5rem + 3vw, var(--ais-space-2xl));
+  padding: clamp(var(--ais-space-lg), 1.5rem + 2vw, var(--ais-space-xl));
+  border-radius: var(--ais-radius-lg);
+  /* 한 단계 더 깊은 웜 서페이스로 지표 블록을 살짝 구분 */
+  background: var(--ais-cream-3);
+  border: 1px solid var(--ais-warm-border);
+  box-shadow: var(--ais-shadow-ambient);
+}
+
+.trustHead {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ais-space-2xs);
+  margin-bottom: clamp(var(--ais-space-md), 1rem + 1vw, var(--ais-space-lg));
+}
+
+.trustEyebrow {
+  font-family: var(--ais-font-body);
+  font-size: var(--ais-text-eyebrow);
+  font-weight: 700;
+  letter-spacing: var(--ais-tracking-wide);
+  color: var(--ais-accent-primary-ink);
+  text-transform: uppercase;
+}
+
+.trustLead {
+  margin: 0;
+  font-family: var(--ais-font-display);
+  font-size: clamp(1.25rem, 1rem + 1.4vw, 1.75rem);
+  font-weight: 800;
+  line-height: var(--ais-leading-snug);
+  letter-spacing: var(--ais-tracking-tight);
+  color: var(--ais-text);
+  text-wrap: balance;
+}
+
+.signalList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ais-space-sm);
+}
+
+@media (min-width: 720px) {
+  .signalList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.signalItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--ais-space-xs);
+  font-size: var(--ais-text-body);
+  line-height: var(--ais-leading-snug);
+  color: var(--ais-text);
+  overflow-wrap: anywhere;
+}
+
+.signalDot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  margin-top: 0.5em;
+  border-radius: var(--ais-radius-pill);
+  background: var(--ais-accent-grad);
+  box-shadow: var(--ais-glow-warm);
+}
+
+/* 거대 워드마크 — depth/위계용 배경 타이포(밝은 배경용으로 재처리:
+   네이비 골드 스트로크 → 웜 골드 아웃라인, 저대비 장식이라 aria-hidden). */
 .wordmark {
-  margin-top: auto;
+  display: block;
+  margin-top: clamp(var(--ais-space-md), 1rem + 1vw, var(--ais-space-lg));
   /* Outfit은 라틴 전용 → 한글은 로드된 Noto Sans KR로 명시 폴백 */
   font-family: 'Outfit', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
-  font-size: clamp(1.7rem, 8.8vw - 0.25rem, 5.75rem);
-  font-weight: 800; /* Noto Sans KR은 700 매칭 */
-  /* 한글은 라틴 대비 자간 축소 여지가 적음 → -0.01em */
-  letter-spacing: -0.01em;
-  /* 한글 음절 중간 줄바꿈(어색한 랩) 방지 — 위 clamp가 넘침을 보장 차단 */
-  white-space: nowrap;
-  /* 한글 글리프 상하 여유 (line-height 1은 스트로크가 빡빡함) */
+  font-size: clamp(1.7rem, 8.8vw - 0.25rem, 5.25rem);
+  font-weight: 800;
+  letter-spacing: var(--ais-tracking-tight);
   line-height: 1.1;
+  white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(224, 168, 61, 0.5);
+  -webkit-text-stroke: 1.5px rgba(224, 168, 61, 0.55);
   user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .valueCard,
+  .valueCard::before,
+  .valueIcon {
+    transition: none;
+  }
+  .valueCard:hover,
+  .valueCard:focus-within {
+    transform: none;
+  }
+  .valueCard:hover .valueIcon,
+  .valueCard:focus-within .valueIcon {
+    transform: none;
+  }
 }
