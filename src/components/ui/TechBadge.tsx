@@ -11,8 +11,8 @@ interface TechBadgeProps {
 }
 
 /**
- * 모노스페이스 대문자 테크 배지 — 하이테크 시그니처.
- * "SYSTEM ONLINE", "NEURAL ENGINE" 류 라벨에 사용.
+ * 대문자 이브로우 배지 — 섹션 카테고리 라벨.
+ * "ORGANIZATION", "핵심 역량" 류 정통 이브로우에 사용.
  */
 export function TechBadge({
   children,

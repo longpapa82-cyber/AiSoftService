@@ -34,24 +34,8 @@
   --ais-glass-nav: rgba(255, 255, 255, 0.85);
   --ais-glass-border: rgba(10, 25, 47, 0.08);
 
-  /* ── 게이미피케이션 HUD ── */
-  --ais-xp-bar: linear-gradient(90deg, #f9d949 0%, #ffe89a 50%, #f1c40f 100%);
-  --ais-rare: #5ea0ff;
-  --ais-epic: #b06cff;
-  --ais-legend: #ff8a3d;
-  --ais-hp: #3ddc84;
-  /* 라이트 럭셔리 세련화: 게임화 구조·컨셉·텍스트는 유지, 골드 글로우 채도·무게만 절제.
-     기존 alpha 0.25/0.5 → 0.16/0.3 로 낮춰 크림 위에서 과포화되지 않게. */
+  /* 절제된 웜 골드 글로우 — StoreBadges 등 hover 강조에 사용(게임 잔재 아님). */
   --ais-neon-gold: 0 0 0 2px rgba(224, 168, 61, 0.18), 0 0 20px rgba(224, 168, 61, 0.3);
-
-  /* ── 아기자기·도감 파스텔 보조 (캐주얼게임 톤) ── */
-  --ais-pastel-pink: #ffd9e8;
-  --ais-pastel-sky: #d6ecff;
-  --ais-pastel-mint: #d4f5e4;
-  --ais-pastel-cream: #fff3d6;
-  --ais-pastel-lilac: #ece4ff;
-  /* 칩/배지 "스티커" 감성: 둥근 외곽 + 부드러운 컬러 그림자 */
-  --ais-sticker-shadow: 0 3px 0 rgba(10, 25, 47, 0.08), 0 6px 14px rgba(10, 25, 47, 0.1);
 
   /* ── 타이포 ── */
   --ais-font-display: 'Outfit', system-ui, -apple-system, sans-serif;
