@@ -41,9 +41,8 @@
 }
 
 .base:focus-visible {
-  outline: 2px solid var(--ais-gold);
+  outline: 2px solid var(--ais-text);
   outline-offset: 3px;
-  box-shadow: var(--ais-glow-gold);
 }
 
 /* 아이콘/이모지 슬롯 */
@@ -53,49 +52,20 @@
   line-height: 1;
 }
 
-/* ── primary: 네이비 잉크 배경 + 골드 텍스트. hover 시 떠오르며 골드 글로우 ── */
+/* ── primary (v5 Apple식): near-black 배경 + 흰 글씨. 색 안 씀(뺄셈). ── */
 .primary {
-  --btn-fg: var(--ais-gold);
+  --btn-fg: #ffffff;
   background-color: var(--ais-navy);
-  background-image: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.06),
-    rgba(10, 25, 47, 0)
-  );
-  border-color: rgba(10, 25, 47, 0.9);
+  border-color: var(--ais-navy);
   box-shadow: var(--ais-shadow-card);
 }
 .primary:hover {
-  transform: translateY(-4px);
-  border-color: var(--ais-gold);
-  box-shadow:
-    var(--ais-glow-gold),
-    0 0 0 1px rgba(249, 217, 73, 0.35) inset;
-}
-/* 주 CTA 광택 스윕 — 호버 시 골드빛 띠가 1회 가로지른다(장식). */
-.primary::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 35%,
-    rgba(249, 217, 73, 0.35) 50%,
-    transparent 65%
-  );
-  transform: translateX(-130%);
-  transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
-}
-.primary:hover::after {
-  transform: translateX(130%);
+  transform: translateY(-3px);
+  background-color: #000000;
+  box-shadow: var(--ais-shadow-lift);
 }
 .primary:active {
-  /* 말랑 푸시: 꾹 눌리는 젤리 피드백 */
-  transform: translateY(1px) scale(0.95);
-  border-color: var(--ais-gold);
-  box-shadow: 0 0 0 1px rgba(249, 217, 73, 0.35) inset;
+  transform: translateY(0) scale(0.98);
 }
 
 /* ── outline: 네이비 보더 + 네이비 텍스트, hover 시 골드로 점화 ── */
@@ -107,18 +77,15 @@
   -webkit-backdrop-filter: blur(12px);
 }
 .outline:hover {
-  transform: translateY(-4px);
-  border-color: var(--ais-gold);
-  color: var(--ais-navy);
-  background: rgba(249, 217, 73, 0.1);
-  box-shadow: var(--ais-glow-gold);
+  transform: translateY(-3px);
+  border-color: var(--ais-text);
+  color: var(--ais-text);
+  background: var(--ais-surface);
+  box-shadow: var(--ais-shadow-card);
 }
 .outline:active {
-  /* 말랑 푸시: 꾹 눌리는 젤리 피드백 */
-  transform: translateY(1px) scale(0.95);
-  border-color: var(--ais-gold);
-  color: var(--ais-navy);
-  background: rgba(249, 217, 73, 0.16);
+  transform: translateY(0) scale(0.98);
+  border-color: var(--ais-text);
 }
 
 /* ── ghost: 가장 약한 위계, 텍스트 위주 ── */
