@@ -27,7 +27,7 @@
 .grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  margin-top: clamp(2rem, 1rem + 3vw, 3.5rem);
+  margin-top: clamp(var(--ais-space-md), 1rem + 3vw, var(--ais-space-lg));
 }
 
 /* ── 소개 ── 네이비 잉크 패널 + 골드 글로우 (풀폭·대형) */
@@ -35,7 +35,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: clamp(1.25rem, 0.75rem + 1.5vw, 2rem);
+  gap: clamp(var(--ais-space-md), 0.75rem + 1.5vw, var(--ais-space-lg));
   padding: clamp(2.5rem, 1.5rem + 4vw, 5rem);
   min-height: clamp(24rem, 18rem + 18vw, 34rem);
   border: 1px solid var(--ais-navy-2);
@@ -57,7 +57,7 @@
   z-index: -1;
   inset: 0;
   background-image: radial-gradient(
-    rgba(249, 217, 73, 0.1) 1px,
+    rgba(224, 168, 61, 0.1) 1px,
     transparent 1.4px
   );
   background-size: 22px 22px;
@@ -65,7 +65,7 @@
   pointer-events: none;
 }
 
-/* 은은한 골드 글로우 */
+/* 은은한 웜 골드 글로우 (절제된 accent) */
 .intro::before {
   content: '';
   position: absolute;
@@ -73,17 +73,21 @@
   inset: auto -30% -40% auto;
   width: 60%;
   aspect-ratio: 1;
-  background: radial-gradient(circle, var(--ais-glow) 0%, transparent 68%);
-  opacity: 0.7;
+  background: radial-gradient(
+    circle,
+    rgba(224, 168, 61, 0.28) 0%,
+    transparent 68%
+  );
+  opacity: 0.55;
 }
 
 /* 모노스페이스 주석 태그 — 회로/코드 질감 */
 .introTag {
   font-family: var(--ais-font-mono);
-  font-size: 0.72rem;
+  font-size: var(--ais-text-eyebrow);
   font-weight: 600;
-  letter-spacing: 0.08em;
-  color: var(--ais-gold);
+  letter-spacing: var(--ais-tracking-wide);
+  color: var(--ais-accent-primary);
   opacity: 0.92;
   user-select: none;
 }
@@ -94,7 +98,7 @@
   font-weight: 800;
   line-height: 1.3;
   color: var(--ais-text);
-  background: var(--ais-brand-grad);
+  background: var(--ais-accent-grad);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -103,7 +107,7 @@
 
 .body {
   font-size: clamp(var(--ais-text-body), 0.9rem + 0.5vw, 1.35rem);
-  line-height: 1.8;
+  line-height: var(--ais-leading-relaxed);
   /* 네이비 패널 위 본문: AA 대비 위해 0.88 알파 */
   color: rgba(255, 255, 255, 0.88);
   max-width: 60ch;
@@ -126,6 +130,6 @@
   /* 한글 글리프 상하 여유 (line-height 1은 스트로크가 빡빡함) */
   line-height: 1.1;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(249, 217, 73, 0.5);
+  -webkit-text-stroke: 1.5px rgba(224, 168, 61, 0.5);
   user-select: none;
 }
