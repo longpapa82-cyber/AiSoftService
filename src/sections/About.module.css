@@ -13,13 +13,18 @@
     linear-gradient(180deg, var(--ais-cream) 0%, var(--ais-cream-2) 100%);
 }
 
-/* 상단 웜 골드 헤어라인 — 다크→밝음 경계에 시그니처 라인 */
+/* 상단 시그니처 헤어라인 — 골드 base에 로즈를 미세 믹스해 About의 온도 서명(레버2). */
 .section::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: var(--ais-accent-grad);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ais-accent-primary) 88%, var(--ais-accent-highlight)) 0%,
+    var(--ais-accent-primary) 55%,
+    color-mix(in srgb, var(--ais-accent-primary) 82%, var(--ais-accent-highlight)) 100%
+  );
   opacity: 0.85;
 }
 
@@ -31,7 +36,16 @@
   z-index: 0;
   inset: 0;
   pointer-events: none;
+  /* 웜/세이지 글로우 2겹 + 레버4 Swiss 세로 가이드라인(정적 구조 마커, 극저 alpha).
+     세로선은 직접 alpha를 0.035로 낮춰 은은히 — 모션 아님, reduced-motion 무관. */
   background:
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(25% - 1px),
+      rgba(74, 56, 32, 0.035) calc(25% - 1px),
+      rgba(74, 56, 32, 0.035) 25%
+    ),
     radial-gradient(
       34% 34% at 92% 88%,
       rgba(224, 168, 61, 0.1),
@@ -56,17 +70,28 @@
   gap: var(--ais-space-xs);
 }
 
-/* ══ 리드 스테이트먼트 — 회사 철학을 큰 타이포로 ══ */
+/* ══ 리드 스테이트먼트 — 회사 철학을 큰 serif 타이포로 ══ */
 .lead {
   margin-top: clamp(var(--ais-space-lg), 1.5rem + 3vw, var(--ais-space-2xl));
   max-width: 40ch;
 }
 
+/* 레버3 — 편집형 비대칭: 넓은 뷰포트에서 리드를 우측으로 부분 인덴트(균등 중앙정렬 탈피). */
+@media (min-width: 1000px) {
+  .lead {
+    margin-left: auto;
+    margin-right: clamp(0px, 6vw - 3rem, 8rem);
+    max-width: 46ch;
+  }
+}
+
+/* 레버1 — 리드 스테이트먼트를 serif로 전환(에세이 톤 최적 지점).
+   긴 리드 문장에서 serif 개성이 가장 빛난다. weight는 serif 특성상 600. */
 .leadText {
   margin: 0;
-  font-family: var(--ais-font-display);
+  font-family: var(--ais-font-serif);
   font-size: clamp(1.5rem, 1rem + 2.6vw, 2.5rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--ais-leading-snug);
   letter-spacing: var(--ais-tracking-tight);
   color: var(--ais-text);
@@ -103,13 +128,51 @@
   }
 }
 
+/* 레버3 — 균등 4열 탈피, 편집형 bento(1 대형 히어로 카드 + 1 와이드 + 2 정방).
+   1000px 이상에서만 적용, 그 이하는 위 1→2열 폴백 유지(모바일 회귀 0). */
 @media (min-width: 1000px) {
   .values {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 1.4fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: var(--ais-space-md);
+  }
+  /* [1] 대표 가치 = 세로로 큰 히어로 카드(2행 span) */
+  .valueCard:nth-child(1) {
+    grid-column: 1;
+    grid-row: span 2;
+    justify-content: flex-start;
+  }
+  /* [2] 가로 wide 카드 */
+  .valueCard:nth-child(2) {
+    grid-column: 2 / 4;
+  }
+  /* [3][4] 정방 카드 */
+  .valueCard:nth-child(3) {
+    grid-column: 2;
+  }
+  .valueCard:nth-child(4) {
+    grid-column: 3;
+  }
+  /* 대형 히어로 카드는 본문 타이포를 살짝 키워 위계 차등 */
+  .valueCard:nth-child(1) .valueDesc {
+    font-size: var(--ais-text-body);
+    line-height: var(--ais-leading-relaxed);
+  }
+  .valueCard:nth-child(1) .valueTitle {
+    font-size: clamp(1.4rem, 1.1rem + 0.9vw, 1.85rem);
   }
 }
 
+/* 레버2 — 카드별 시그니처 accent 로테이션(골드 단독 탈피).
+   기본은 골드. nth-child로 의미 매핑: 2번=로즈(따뜻함), 3번=세이지(성장).
+   각 카드는 --card-* 로컬 변수를 참조 → 헤어라인·아이콘·hover 보더가 함께 바뀐다. */
 .valueCard {
+  /* [1] 일상 밀착 = 골드(신뢰·주) */
+  --card-accent-grad: var(--ais-accent-grad);
+  --card-ink: var(--ais-accent-primary-ink);
+  --card-soft: var(--ais-accent-primary-soft);
+  --card-border: var(--ais-accent-primary-border);
+
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -128,13 +191,37 @@
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
 
-/* 상단 골드 헤어라인 — 카드 위계 시그니처(hover 시 확장) */
+/* [2] 따뜻한 기술 = 더스티 로즈(온도감 의미 정합) */
+.valueCard:nth-child(2) {
+  --card-accent-grad: linear-gradient(
+    135deg,
+    var(--ais-accent-highlight) 0%,
+    var(--ais-accent-highlight-ink) 130%
+  );
+  --card-ink: var(--ais-accent-highlight-ink);
+  --card-soft: var(--ais-accent-highlight-soft);
+  --card-border: var(--ais-accent-highlight-border);
+}
+
+/* [3] 확장하는 생태계 = 세이지 그린(자연 성장 의미 정합) */
+.valueCard:nth-child(3) {
+  --card-accent-grad: linear-gradient(
+    135deg,
+    var(--ais-accent-secondary) 0%,
+    var(--ais-accent-secondary-ink) 130%
+  );
+  --card-ink: var(--ais-accent-secondary-ink);
+  --card-soft: var(--ais-accent-secondary-soft);
+  --card-border: var(--ais-accent-secondary-border);
+}
+
+/* 상단 컬러 헤어라인 — 카드별 accent(hover 시 확장) */
 .valueCard::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
-  background: var(--ais-accent-grad);
+  background: var(--card-accent-grad);
   opacity: 0.9;
   transform: scaleX(0.35);
   transform-origin: left;
@@ -144,7 +231,7 @@
 .valueCard:hover,
 .valueCard:focus-within {
   transform: translateY(-6px);
-  border-color: var(--ais-accent-primary-border);
+  border-color: var(--card-border);
   box-shadow: var(--ais-shadow-lift-warm), var(--ais-glow-warm);
 }
 
@@ -153,7 +240,7 @@
   transform: scaleX(1);
 }
 
-/* 아이콘 슬롯 — 옅은 골드 워시 위 웜 골드 라인 아이콘 */
+/* 아이콘 슬롯 — 카드별 옅은 워시 위 카드별 ink 라인 아이콘 */
 .valueIcon {
   display: inline-grid;
   place-items: center;
@@ -161,9 +248,9 @@
   height: 52px;
   margin-bottom: var(--ais-space-2xs);
   border-radius: var(--ais-radius-soft);
-  color: var(--ais-accent-primary-ink);
-  background: var(--ais-accent-primary-soft);
-  border: 1px solid var(--ais-accent-primary-border);
+  color: var(--card-ink);
+  background: var(--card-soft);
+  border: 1px solid var(--card-border);
   box-shadow: var(--ais-shadow-sm);
   transition:
     transform var(--ais-dur) var(--ais-ease-bounce),
@@ -221,6 +308,8 @@
 }
 
 .trustHead {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--ais-space-2xs);
@@ -248,6 +337,8 @@
 }
 
 .signalList {
+  position: relative;
+  z-index: 1;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -283,10 +374,15 @@
 }
 
 /* 거대 워드마크 — depth/위계용 배경 타이포(밝은 배경용으로 재처리:
-   네이비 골드 스트로크 → 웜 골드 아웃라인, 저대비 장식이라 aria-hidden). */
+   네이비 골드 스트로크 → 웜 골드 아웃라인, 저대비 장식이라 aria-hidden).
+   레버3 — 흐름 배치 → 콘텐츠 뒤 절대 배치 오버랩(에디토리얼 depth).
+   신호 리스트(z-index:1)는 signalList에서 상위 레이어로 올려 가독성 보존. */
 .wordmark {
   display: block;
-  margin-top: clamp(var(--ais-space-md), 1rem + 1vw, var(--ais-space-lg));
+  position: absolute;
+  right: clamp(1rem, 2vw, 2.5rem);
+  bottom: clamp(0.5rem, 1.5vw, 1.5rem);
+  z-index: 0;
   /* Outfit은 라틴 전용 → 한글은 로드된 Noto Sans KR로 명시 폴백 */
   font-family: 'Outfit', 'Noto Sans KR', system-ui, -apple-system, sans-serif;
   font-size: clamp(1.7rem, 8.8vw - 0.25rem, 5.25rem);
@@ -295,8 +391,23 @@
   line-height: 1.1;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(224, 168, 61, 0.55);
+  -webkit-text-stroke: 1.5px rgba(224, 168, 61, 0.4);
+  opacity: 0.9;
+  pointer-events: none;
   user-select: none;
+  /* 레버4 — 스크롤 연동 미세 패럴랙스(transform만). 미지원 브라우저는 정적(무해). */
+  animation: aboutWordmarkDrift linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 100%;
+}
+
+@keyframes aboutWordmarkDrift {
+  from {
+    transform: translateY(18px);
+  }
+  to {
+    transform: translateY(-18px);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -311,6 +422,11 @@
   }
   .valueCard:hover .valueIcon,
   .valueCard:focus-within .valueIcon {
+    transform: none;
+  }
+  /* 스크롤 패럴랙스 정지 — 중립 위치 고정 */
+  .wordmark {
+    animation: none !important;
     transform: none;
   }
 }

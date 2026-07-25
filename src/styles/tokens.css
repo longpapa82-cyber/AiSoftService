@@ -41,10 +41,18 @@
   --ais-font-display: 'Outfit', system-ui, -apple-system, sans-serif;
   --ais-font-body: 'Inter', system-ui, -apple-system, sans-serif;
   --ais-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  /* 에디토리얼 대비용 serif — 리드 문장·강조 어절·챕터 카운터에 국소 사용(전면 아님).
+     한글 본문 질감은 Noto Serif KR, 라틴 폴백은 Playfair Display→Georgia. */
+  --ais-font-serif: 'Noto Serif KR', 'Playfair Display', Georgia, 'Times New Roman', serif;
 
   --ais-text-hero: clamp(2.25rem, 1rem + 6.5vw, 5rem);
   /* 기업 히어로용 초대형 디스플레이 스케일 — 화면 지배(정통 프리미엄 헤드라인). */
   --ais-text-hero-xl: clamp(2.75rem, 1rem + 7vw, 5.5rem);
+  /* 레버1 — 화면 지배력 승격: Hero 전용 초대형 디스플레이(상한 6.75rem). */
+  --ais-text-display: clamp(2.75rem, 1rem + 8.4vw, 6.75rem);
+  /* SectionHeader h2 승격용 디스플레이(상한 3.5rem) — h2 위계를 hero 다음 급으로. */
+  --ais-text-display-h2: clamp(2rem, 1.2rem + 3.2vw, 3.5rem);
+  --ais-tracking-display: -0.03em; /* 초대형 디스플레이 자간(기존 -0.02보다 더 조임) */
   --ais-text-h2: clamp(1.6rem, 1rem + 2.4vw, 2.25rem);
   --ais-text-h3: clamp(1.2rem, 1rem + 0.9vw, 1.5rem);
   --ais-text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);

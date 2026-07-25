@@ -12,15 +12,20 @@
   overflow: hidden;
 }
 
-/* 상단 골드 헤어라인 — 밝은 PromoSection → 다크 Technology 경계 시그니처.
-   About 상단 라인과 동일 위계 언어로 섹션 전환을 매끄럽게 잇는다. */
+/* 상단 시그니처 헤어라인 — 골드 base에 세이지를 미세 믹스해 Technology의 서명(레버2).
+   About(로즈 틴트)과 미세 차등해 섹션 리듬에 색 서명을 남긴다. */
 .section::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
   z-index: 2;
-  background: var(--ais-accent-grad);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--ais-accent-primary) 86%, var(--ais-accent-secondary)) 0%,
+    var(--ais-accent-primary) 55%,
+    color-mix(in srgb, var(--ais-accent-primary) 80%, var(--ais-accent-secondary)) 100%
+  );
   opacity: 0.75;
 }
 
@@ -32,7 +37,16 @@
   z-index: -1;
   inset: 0;
   pointer-events: none;
+  /* 웜/세이지 오브 2겹 + 레버4 Swiss 세로 가이드라인(다크 위 라이트 극저 alpha).
+     정적 구조 마커 — 모션 아님, reduced-motion 무관. */
   background:
+    repeating-linear-gradient(
+      to right,
+      transparent 0,
+      transparent calc(25% - 1px),
+      rgba(247, 249, 251, 0.03) calc(25% - 1px),
+      rgba(247, 249, 251, 0.03) 25%
+    ),
     radial-gradient(
       42% 38% at 88% 8%,
       rgba(224, 168, 61, 0.1),
@@ -203,16 +217,40 @@
   }
 }
 
+/* 레버3 — 균등 4열 탈피, 편집형 크기 차등: 첫 카드(핵심 역량)를 2배폭.
+   1000px 이상만 적용, 이하 1→2열 폴백 유지(모바일 회귀 0). */
 @media (min-width: 1000px) {
   .grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: auto auto;
+  }
+  /* 첫 카드 = 주역: 2열폭 + 2행 span으로 편집형 앵커 */
+  .card:nth-child(1) {
+    grid-column: 1;
+    grid-row: span 2;
+  }
+  /* 나머지 3장은 우측 2열에 배치 */
+  .card:nth-child(2) {
+    grid-column: 2 / 4;
+  }
+  .card:nth-child(3) {
+    grid-column: 2;
+  }
+  .card:nth-child(4) {
+    grid-column: 3;
+  }
+  /* 주역 카드 metricValue 상향 — "대표 수치" 강조 */
+  .card:nth-child(1) .metricValue {
+    font-size: clamp(3rem, 2rem + 3.4vw, 4.6rem);
   }
 }
 
-/* ── 카드 — 단일 프리미엄 룩(레어도 4톤 제거, 웜 골드 accent 통일) ── */
+/* ── 카드 — 다크 위 골드 발광은 유지하되, 카테고리 색점만 3계층으로 식별성 부여 ── */
 .card {
   --tilt-x: 0deg;
   --tilt-y: 0deg;
+  /* 레버2 — 카드별 카테고리 색점(다크 네이비 위 멀티 accent 절제 도입). 기본 골드. */
+  --dot: var(--ais-accent-primary);
   position: relative;
   isolation: isolate;
   overflow: hidden;
@@ -323,8 +361,19 @@
   margin-bottom: 1rem;
 }
 
-/* 정통 카테고리 라벨 — 모노 SCREAMING_SNAKE 코드 제거 */
+/* 카드별 카테고리 색점 로테이션 — 세이지/로즈로 다크 위 accent 식별성(2·3번 카드). */
+.card:nth-child(2) {
+  --dot: var(--ais-accent-secondary);
+}
+.card:nth-child(3) {
+  --dot: var(--ais-accent-highlight);
+}
+
+/* 정통 카테고리 라벨 — 모노 SCREAMING_SNAKE 코드 제거. 앞에 accent 색점. */
 .category {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   min-width: 0;
   font-family: var(--ais-font-body);
   font-size: 0.78rem;
@@ -334,6 +383,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* accent 색점 — 카드 식별 미니 표식(다크 위 은은한 발광) */
+.category::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--dot);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--dot) 60%, transparent);
 }
 
 /* ── 아이콘 슬롯 — 전 카드 공통 웜 골드 accent로 통일(레어도 색 제거) ── */

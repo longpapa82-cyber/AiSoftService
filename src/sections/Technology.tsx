@@ -213,6 +213,7 @@ export function Technology() {
         </div>
 
         <SectionHeader
+          chapter="기술 역량 / 02"
           eyebrow="TECHNOLOGY"
           title="에이아이소프트의 기술력"
           desc={`${SERVICE_COUNT}개의 서비스를 관통하는 AI·위치·다국어·크로스플랫폼 역량으로 일상의 문제를 단순하게 풉니다.`}

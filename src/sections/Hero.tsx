@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import type { CSSProperties, JSX } from 'react';
 import { COMPANY } from '../data/company';
 import { SERVICES_SORTED } from '../data/services';
 import { Button } from '../components/ui/Button';
@@ -29,30 +29,52 @@ function splitWords(text: string): string[] {
 }
 
 /**
- * 슬로건 안의 "AI" 토큰만 그라데이션 텍스트 클립으로 강조하기 위해,
- * 단어를 "AI"와 그 외로 나눠 각각 별도 span 처리한다. (매칭 없으면 원문 솔리드)
+ * 슬로건 안에서 serif italic 대비로 강조할 감성 어절(핵심 명사 1개).
+ * "AI"(골드 그라데이션 클립)와 공존해 이중 시그니처를 만든다. 매칭 없으면 무시.
+ */
+const SERIF_ACCENT = '일상';
+
+/** 어절 안에서 serif 강조어를 분리해 <em> serif italic 노드로 감싼다(HTML 주입 없음). */
+function renderSerifSplit(word: string): (string | JSX.Element)[] {
+  if (!word.includes(SERIF_ACCENT)) return [word];
+  const parts = word.split(SERIF_ACCENT);
+  return parts.flatMap((part, p) =>
+    p === 0
+      ? [part]
+      : [
+          <em key={`s${p}`} className={styles.serifAccent}>
+            {SERIF_ACCENT}
+          </em>,
+          part,
+        ],
+  );
+}
+
+/**
+ * 슬로건 안의 "AI" 토큰은 그라데이션 텍스트 클립으로, 감성 어절("일상")은 serif italic으로
+ * 강조하기 위해 단어를 나눠 각각 별도 span 처리한다. (매칭 없으면 원문 솔리드)
  */
 function renderWord(word: string, i: number) {
   const style = { '--word-i': i } as CSSProperties;
   if (!word.includes('AI')) {
     return (
       <span key={i} className={styles.word} style={style}>
-        {word}
+        {renderSerifSplit(word)}
       </span>
     );
   }
-  // "AI"만 그라데이션 클립, 앞뒤 잔여 문자는 솔리드 잉크로.
+  // "AI"만 그라데이션 클립, 앞뒤 잔여 문자는 (serif 강조 처리 후) 솔리드 잉크로.
   const parts = word.split('AI');
   return (
     <span key={i} className={styles.word} style={style}>
       {parts.flatMap((part, p) =>
         p === 0
-          ? [part]
+          ? renderSerifSplit(part)
           : [
               <span key={p} className={styles.wordAI}>
                 AI
               </span>,
-              part,
+              ...renderSerifSplit(part),
             ],
       )}
     </span>

@@ -129,16 +129,27 @@
   color: var(--ais-accent-primary-ink);
 }
 
-/* 헤드라인 — 초대형 디스플레이. 화면 지배. */
+/* 헤드라인 — 초대형 디스플레이. 화면 지배(레버1: hero-xl → display, 자간 더 조임). */
 .headline {
   margin: 0;
   font-family: var(--ais-font-display);
-  font-size: var(--ais-text-hero-xl);
+  font-size: var(--ais-text-display);
   font-weight: 700;
-  letter-spacing: var(--ais-tracking-tight);
+  letter-spacing: var(--ais-tracking-display);
   line-height: 1.02;
   color: var(--ais-text);
   text-wrap: balance;
+}
+
+/* 감성 어절 serif italic 대비 — "AI" 골드 클립과 공존하는 이중 시그니처.
+   에디토리얼 개성 부여(전면 serif 아님, 핵심 명사 1개만). */
+.serifAccent {
+  font-family: var(--ais-font-serif);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  /* 큰 디스플레이 sans 옆 serif가 살짝 작아 보이는 착시 보정 */
+  font-size: 1.02em;
 }
 
 /* 슬로건 단어별 진입 리빌(transform/opacity만). reveal 컨테이너 가시화 후 stagger. */

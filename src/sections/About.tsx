@@ -137,7 +137,12 @@ export function About() {
           <TechBadge variant="gold" dot>
             ORGANIZATION
           </TechBadge>
-          <SectionHeader eyebrow="회사 소개" title="에이아이소프트" id="about-title" />
+          <SectionHeader
+            chapter="회사 소개 / 03"
+            eyebrow="회사 소개"
+            title="에이아이소프트"
+            id="about-title"
+          />
         </div>
 
         {/* ── 리드 스테이트먼트 — 회사 철학을 큰 타이포로 ── */}

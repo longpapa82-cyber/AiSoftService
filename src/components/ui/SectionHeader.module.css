@@ -43,11 +43,43 @@
   box-shadow: 0 0 8px var(--ais-glow);
 }
 
+/* serif 챕터 카운터 — title 위 옅은 에디토리얼 마커(자간·italic). 저대비 장식.
+   aria-hidden 장식이라 밝은/다크 섹션 양쪽에서 무난한 웜 골드(--ais-accent-primary)를 쓴다. */
+.chapter {
+  font-family: var(--ais-font-serif);
+  font-style: italic;
+  font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--ais-accent-primary);
+  opacity: 0.82;
+}
+
+/* 레버1 — h2 위계 승격: h2 → display-h2(상한 3.5rem). Hero(6.75) 다음 급. */
 .title {
-  font-size: var(--ais-text-h2);
+  font-size: var(--ais-text-display-h2);
   font-weight: 800;
+  letter-spacing: var(--ais-tracking-tight);
+  line-height: 1.06;
   color: var(--ais-text);
   text-wrap: balance;
+}
+
+/* 레버4 — 제목 단어별 stagger 리빌(Hero .word 패턴 이식, JS 추가 훅 없음).
+   .reveal(useReveal)이 붙어 .is-visible 토글되면 단어들이 순차 등장한다. */
+.titleWord {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--ais-dur) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-expo);
+  transition-delay: calc(var(--w-i, 0) * 45ms + 60ms);
+}
+
+.header:global(.is-visible) .titleWord {
+  opacity: 1;
+  transform: none;
 }
 
 .desc {
@@ -55,4 +87,12 @@
   line-height: 1.65;
   color: var(--ais-text-mid);
   max-width: 52ch;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .titleWord {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
