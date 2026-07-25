@@ -18,7 +18,9 @@ function assignRef<T>(ref: RefObject<T> | MutableRefObject<T | null>, node: T | 
 
 /**
  * Technology 섹션.
- * 에이아이소프트의 핵심 기술 역량을 카드로 전시한다.
+ * 밝은 Hero/About 사이에 놓이는 유일한 다크 앵커 — 다크 네이비 프리미엄 역량 섹션.
+ * 게임 스탯보드(게이지/링/레어도)를 걷어내고, '이미 서비스에 반영된 검증된 역량을
+ * 큰 수치 하나로 자신 있게 제시'하는 정통 신뢰 연출로 구성한다.
  * 강조 수치는 services.ts 데이터에서 도출하여 과장/허위를 배제한다.
  */
 
@@ -56,62 +58,41 @@ interface TechMetric {
 interface TechCapability {
   /** 인라인 SVG 키 */
   icon: 'ai' | 'location' | 'globe' | 'devices';
-  /** 모노스페이스 코드 라벨 — 기술 도메인 시그니처 */
-  code: string;
-  /** 역량 카테고리 라벨 (기업 톤) */
+  /** 역량 카테고리 라벨 (정통 기업 톤) */
   category: string;
   title: string;
   desc: string;
   metric: TechMetric;
-  /** 진척 게이지 채움 비율(0~100) — 역량 성숙도 표시 */
-  gauge: number;
-  /** 게이지 우측 모노 라벨 (상태 요약) */
-  gaugeLabel: string;
-  /** 카드 강조 톤 (시각적 위계용 — 색상 계층) */
-  tone: 'sky' | 'lilac' | 'amber' | 'gold';
 }
 
 const CAPABILITIES: TechCapability[] = [
   {
     icon: 'ai',
-    code: 'CORE_AI',
-    category: 'AI ENGINE',
+    category: 'AI 엔진',
     title: '생성형 AI 설계',
     desc: '목적지나 증상을 입력하면 AI가 여행 일정을 짜고 건강 관련 참고 정보를 제안합니다.',
     metric: { value: '3', unit: '단계', label: 'AI 자동 완성' },
-    gauge: 100,
-    gaugeLabel: 'CORE',
-    tone: 'amber',
   },
   {
     icon: 'location',
-    code: 'GEO_ENGINE',
-    category: 'LOCATION',
+    category: '위치 기반',
     title: '위치 기반 추천',
     desc: '실시간 위치를 기반으로 주변 펫 시설과 여행 동선을 똑똑하게 추천합니다.',
     metric: { value: '실시간', label: '주변 탐색·동선' },
-    gauge: 100,
-    gaugeLabel: 'LIVE',
-    tone: 'lilac',
   },
   {
     icon: 'globe',
-    code: 'MULTI_LANG',
-    category: 'GLOBAL',
+    category: '글로벌',
     title: '다국어 지원',
     desc: '글로벌 사용자를 위해 다양한 언어로 동일한 경험을 제공합니다.',
     metric:
       LANGUAGE_COUNT !== null
         ? { value: String(LANGUAGE_COUNT), unit: '개 언어', label: 'myTravel 기준' }
         : { value: '다국어', label: '글로벌 대응' },
-    gauge: 100,
-    gaugeLabel: LANGUAGE_COUNT !== null ? `${LANGUAGE_COUNT} LANGS` : 'MULTI',
-    tone: 'sky',
   },
   {
     icon: 'devices',
-    code: 'CROSS_PLATFORM',
-    category: 'PLATFORM',
+    category: '플랫폼',
     title: '크로스플랫폼',
     desc: `iOS·Android·Web 어디서나 끊김 없는 경험으로 ${SERVICE_COUNT}개 서비스를 이용할 수 있습니다.`,
     // 서비스가 늘면 자동 반영되는 "서비스 수"를 대표 수치로 — 정체된 '3개 플랫폼' 느낌 제거.
@@ -120,18 +101,8 @@ const CAPABILITIES: TechCapability[] = [
       unit: '개 서비스',
       label: PLATFORMS.join(' · '),
     },
-    gauge: 100,
-    gaugeLabel: `${PLATFORMS.length} PLATFORMS`,
-    tone: 'gold',
   },
 ];
-
-// ── 역량 보드 상단 요약 (제공 중인 핵심 역량 수) ──
-const TOTAL_CAPABILITIES = CAPABILITIES.length;
-const LIVE_CAPABILITIES = CAPABILITIES.length; // 모든 핵심 역량이 서비스에 반영됨
-const COMPLETION_PCT = Math.round(
-  (LIVE_CAPABILITIES / TOTAL_CAPABILITIES) * 100,
-);
 
 const ICONS: Record<TechCapability['icon'], JSX.Element> = {
   ai: (
@@ -160,99 +131,65 @@ const ICONS: Record<TechCapability['icon'], JSX.Element> = {
   ),
 };
 
-// 진척 링 둘레 — stroke-dasharray 계산용 (r=20)
-const RING_RADIUS = 20;
-const RING_CIRC = 2 * Math.PI * RING_RADIUS;
-
+/**
+ * 정통 역량 카드.
+ * 큰 수치(metric)를 카드의 주역으로 삼는 신뢰 연출.
+ * 수치가 정수형이면 useCountUp으로 '실적을 세는' 정통 카운터를 붙이고,
+ * '실시간'처럼 비수치 값은 롤업 없이 정적 렌더한다.
+ */
 function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) {
   const revealRef = useReveal<HTMLLIElement>();
   const tiltRef = useTilt<HTMLLIElement>(6);
-  // 게이지 0→목표 롤업. 카드마다 살짝 시차를 둬 "스탯이 채워지는" 연출.
-  const [gaugeRef, g] = useCountUp<HTMLLIElement>(cap.gauge, {
+
+  // metric.value가 순수 정수면 카운트업 대상. 아니면 롤업 없이 정적 표시.
+  const numericTarget = /^\d+$/.test(cap.metric.value)
+    ? parseInt(cap.metric.value, 10)
+    : null;
+  // 카운터는 metric 정수값(3/6/17…)에 연결 — 게이지가 아니라 '실적을 세는' 카운터.
+  const [countRef, counted] = useCountUp<HTMLSpanElement>(numericTarget ?? 0, {
     durationMs: 1100,
     delayMs: 200 + index * 120,
   });
-  // 세 훅의 ref를 한 요소에 병합(reveal 클래스 토글 + 틸트 리스너 + 카운트업 관찰).
-  // 각 훅의 ref는 런타임상 가변(useRef)이라 .current 할당이 안전하다.
+  const displayValue = numericTarget !== null ? String(counted) : cap.metric.value;
+
+  // reveal 클래스 토글 + 틸트 리스너를 카드 요소에 병합.
   const setRefs = (node: HTMLLIElement | null) => {
     assignRef(revealRef, node);
     assignRef(tiltRef, node);
-    assignRef(gaugeRef, node);
   };
-  const dashOffset = RING_CIRC * (1 - g / 100);
+
   return (
     <li
       ref={setRefs}
-      className={`${styles.card} ${styles[`r_${cap.tone}`]} reveal`}
+      className={`${styles.card} reveal`}
       style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}
     >
-      {/* ── 헤더: 역량 카테고리 + 상태 칩 ── */}
-      <div className={styles.hudRow}>
-        <span className={styles.achievement}>{cap.category}</span>
-        <span className={styles.rarityChip}>
-          <span className={styles.rarityDot} aria-hidden="true" />
-          LIVE
-        </span>
-      </div>
-
+      {/* ── 헤더: 아이콘 슬롯 + 카테고리 이브로우 ── */}
       <div className={styles.cardTop}>
         <span className={styles.iconWrap} aria-hidden="true">
           <svg viewBox="0 0 24 24" width="26" height="26" role="img">
             {ICONS[cap.icon]}
           </svg>
         </span>
-
-        {/* ── 진척 링 (게임 스탯 게이지) ── */}
-        <span
-          className={styles.ring}
-          role="img"
-          aria-label={`달성률 ${cap.gauge}%`}
-        >{/* aria는 최종값으로 고정(스크린리더에 롤업 노이즈 방지) */}
-          <svg viewBox="0 0 48 48" width="48" height="48">
-            <circle
-              className={styles.ringTrack}
-              cx="24"
-              cy="24"
-              r={RING_RADIUS}
-              fill="none"
-            />
-            <circle
-              className={styles.ringFill}
-              cx="24"
-              cy="24"
-              r={RING_RADIUS}
-              fill="none"
-              strokeDasharray={RING_CIRC}
-              strokeDashoffset={dashOffset}
-              strokeLinecap="round"
-            />
-          </svg>
-          <span className={styles.ringValue}>{g}%</span>
-        </span>
+        <span className={styles.category}>{cap.category}</span>
       </div>
 
+      {/* ── 큰 수치 — 카드의 주역 ── */}
       <div className={styles.metric}>
-        <span className={styles.metricValue}>{cap.metric.value}</span>
+        <span ref={countRef} className={styles.metricValue}>
+          {displayValue}
+        </span>
         {cap.metric.unit && (
           <span className={styles.metricUnit}>{cap.metric.unit}</span>
         )}
       </div>
       <span className={styles.metricLabel}>{cap.metric.label}</span>
 
+      {/* 게이지가 아닌 순수 구획선(hairline divider) */}
+      <span className={styles.divider} aria-hidden="true" />
+
       <h3 className={styles.cardTitle}>{cap.title}</h3>
       <p className={styles.cardDesc}>{cap.desc}</p>
-
-      {/* ── 하단 역량 성숙도 게이지 바 ── */}
-      <div className={styles.statBar}>
-        <span className={styles.statCode}>{cap.code}</span>
-        <span className={styles.gaugeTrack} aria-hidden="true">
-          <span
-            className={styles.gaugeFill}
-            style={{ '--gauge': `${g}%` } as React.CSSProperties}
-          />
-        </span>
-        <span className={styles.gaugeLabel}>{cap.gaugeLabel}</span>
-      </div>
 
       <span className={styles.cardGlow} aria-hidden="true" />
     </li>
@@ -261,20 +198,6 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
 
 export function Technology() {
   const bannerRef = useReveal<HTMLElement>();
-  const boardReveal = useReveal<HTMLDivElement>();
-  // 보드 진척 게이지·퀘스트 카운터 롤업
-  const [boardPctRef, boardPct] = useCountUp<HTMLDivElement>(COMPLETION_PCT, {
-    durationMs: 1100,
-    delayMs: 200,
-  });
-  const [liveRef, live] = useCountUp<HTMLElement>(LIVE_CAPABILITIES, {
-    durationMs: 900,
-    delayMs: 200,
-  });
-  const setBoardRefs = (node: HTMLDivElement | null) => {
-    assignRef(boardReveal, node);
-    assignRef(boardPctRef, node);
-  };
   return (
     <section
       id="technology"
@@ -284,9 +207,9 @@ export function Technology() {
       <div className="ais-container">
         <div className={styles.badgeRow}>
           <TechBadge variant="navy" dot>
-            NEURAL ENGINE
+            핵심 역량
           </TechBadge>
-          <TechBadge variant="outline">{`${SERVICE_COUNT} SERVICES // ${PLATFORMS.length} PLATFORMS`}</TechBadge>
+          <TechBadge variant="outline">{`${SERVICE_COUNT}개 서비스 · ${PLATFORMS.length}개 플랫폼`}</TechBadge>
         </div>
 
         <SectionHeader
@@ -309,7 +232,7 @@ export function Technology() {
           />
           <div className={styles.bannerOverlay} aria-hidden="true" />
           <figcaption className={styles.bannerCaption}>
-            <span className={styles.bannerCode}>// HUMAN_x_MACHINE</span>
+            <span className={styles.bannerCode}>사람 × AI</span>
             <p className={styles.bannerText}>
               사람의 통찰과 AI 엔진으로, 기획부터 출시까지 이어갑니다.
             </p>
@@ -325,22 +248,11 @@ export function Technology() {
           </figcaption>
         </figure>
 
-        {/* ── 역량 요약 보드: 제공 중인 핵심 역량 진척 게이지 ── */}
-        <div className={`${styles.board} reveal`} ref={setBoardRefs}>
-          <div className={styles.boardHead}>
-            <span className={styles.boardLabel}>// CAPABILITIES</span>
-            <span ref={liveRef} className={styles.boardQuests}>
-              <strong>{live}</strong>/{TOTAL_CAPABILITIES} 핵심 역량 제공 중
-            </span>
-          </div>
-          <div className={styles.boardBar} aria-hidden="true">
-            <span
-              className={styles.boardFill}
-              style={{ '--gauge': `${boardPct}%` } as React.CSSProperties}
-            />
-          </div>
-          <span className={styles.boardPct}>{boardPct}%</span>
-        </div>
+        {/* 정통 요약 라인 — 게이지/퍼센트 없이 라인 디바이더 역할만 */}
+        <p className={styles.summaryLine}>
+          AI · 위치 · 다국어 · 크로스플랫폼 — {SERVICE_COUNT}개 서비스 전반에
+          적용
+        </p>
 
         <ul className={styles.grid}>
           {CAPABILITIES.map((cap, i) => (
