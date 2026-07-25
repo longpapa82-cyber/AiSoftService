@@ -15,9 +15,10 @@
   color: var(--ais-dark-text);
   /* 다크 위 hairline: 화이트 극저 alpha로 재정의(전역 --ais-glass-border는 화이트 배경용 검정 alpha라 다크서 안 보임). */
   --tech-hairline: rgba(255, 255, 255, 0.08);
-  /* 시안 포인트는 이 지역 변수로만 절제 참조(카드 큰 수치·카테고리 색점 등 소량). */
-  --tech-cyan: var(--ais-dark-accent);
-  --tech-cyan-soft: var(--ais-dark-accent-soft);
+  /* v5 색 뺄셈: --tech-cyan을 near-white로 재정의 → 라인·색점·배너·아이콘 등
+     대부분이 뉴트럴로 자동 전환. 시안 원색은 큰 수치(metricValue) 한 곳만 직접 명시. */
+  --tech-cyan: rgba(255, 255, 255, 0.72);
+  --tech-cyan-soft: rgba(255, 255, 255, 0.08);
 
   /* ── 다크 섹션 지역 토큰 재정의 ──
      SectionHeader/TechBadge는 화이트 배경용 토큰(--ais-text/-mid/-border/-navy 등, 전부 어두운 잉크)을
@@ -29,12 +30,12 @@
   --ais-border: rgba(255, 255, 255, 0.14);       /* navy 배지 보더 */
   --ais-border-strong: rgba(255, 255, 255, 0.2); /* outline 배지 보더 */
   --ais-navy: var(--ais-dark-text);              /* navy 배지 텍스트/배경 믹스 → 화이트 기반 */
-  /* eyebrow/키커(작은 라벨)만 시안 포인트로. gold-deep는 chapter 라벨용. */
-  --ais-accent-primary: var(--ais-dark-accent);
-  --ais-gold-deep: var(--ais-dark-accent);
-  /* chapter/배지의 작은 상태 도트도 시안 포인트로 통일(7px 극소량). */
-  --ais-gold: var(--ais-dark-accent);
-  --ais-glow: rgba(0, 217, 255, 0.35);
+  /* v5 색 뺄셈: eyebrow/키커/챕터/배지 도트를 시안→near-white/그레이로.
+     OpenAI 다크섹션식 "거의 흑백". 시안은 큰 수치(metricValue) 한 곳에만 명시 유지. */
+  --ais-accent-primary: rgba(255, 255, 255, 0.85);
+  --ais-gold-deep: rgba(255, 255, 255, 0.55);
+  --ais-gold: rgba(255, 255, 255, 0.7);
+  --ais-glow: rgba(255, 255, 255, 0.12);
 }
 
 /* 상단 시그니처 헤어라인 — 다크 위 화이트 hairline + 중앙 시안 포인트로 Technology의 서명(레버2). */
@@ -44,14 +45,14 @@
   inset: 0 0 auto 0;
   height: 3px;
   z-index: 2;
-  /* 다크 상단 시그니처: 대부분 화이트 hairline에 중앙만 시안 포인트(3px, 극소량). */
+  /* v5: 상단 라인도 뉴트럴 화이트 hairline만(시안 제거 — 산만함 해소). */
   background: linear-gradient(
     90deg,
-    rgba(255, 255, 255, 0.14) 0%,
-    var(--tech-cyan) 50%,
-    rgba(255, 255, 255, 0.14) 100%
+    transparent 0%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 100%
   );
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 /* 배경 웜/세이지 오브 2겹 — 다크 네이비 잉크 위 은은한 깊이(장식, 콘텐츠 아님).
@@ -523,10 +524,10 @@
   font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.4rem);
   line-height: 1;
   letter-spacing: -0.03em;
-  /* ★ 시안 강조의 핵심 지점 — 카드의 큰 대표 수치. near-black 위 #00d9ff는 대비 충분(AA).
-     그라디언트 클립 대신 솔리드 시안으로 강렬하게 못 박는다. */
-  color: var(--tech-cyan);
-  text-shadow: 0 0 22px rgba(0, 217, 255, 0.28);
+  /* ★ v5: 시안은 오직 여기 — 카드 큰 수치 한 곳만(다크섹션 유일 포인트).
+     나머지는 전부 near-white/그레이(OpenAI 다크섹션식 거의 흑백). */
+  color: var(--ais-dark-accent);
+  text-shadow: 0 0 22px rgba(0, 217, 255, 0.22);
 }
 
 .metricUnit {
