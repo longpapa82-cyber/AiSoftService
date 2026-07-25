@@ -47,7 +47,7 @@
   max-height: 640px;
   top: -8%;
   left: -6%;
-  background: radial-gradient(circle at 50% 50%, rgba(249, 217, 73, 0.22), transparent 68%);
+  background: radial-gradient(circle at 50% 50%, rgba(224, 168, 61, 0.2), transparent 68%);
   animation: floatA 22s var(--ais-ease-expo) infinite alternate;
 }
 
@@ -70,7 +70,7 @@
   max-height: 480px;
   bottom: -12%;
   left: 28%;
-  background: radial-gradient(circle at 50% 50%, rgba(249, 217, 73, 0.14), transparent 70%);
+  background: radial-gradient(circle at 50% 50%, rgba(224, 168, 61, 0.13), transparent 70%);
   opacity: 0.55;
   animation: floatC 30s var(--ais-ease-expo) infinite alternate;
 }
@@ -157,7 +157,7 @@
     var(--ais-gold) 45%,
     transparent 72%
   );
-  box-shadow: 0 0 12px var(--ais-glow);
+  box-shadow: var(--ais-glow-warm);
 }
 .orbPastel {
   background: radial-gradient(
@@ -222,8 +222,8 @@
   height: clamp(28px, 4vw, 48px);
   pointer-events: none;
   opacity: 0.45;
-  /* 골드 ㄱ자 브래킷 — border 2변만 */
-  border-color: var(--ais-gold-deep);
+  /* 골드 ㄱ자 브래킷 — border 2변만 (웜 accent ink 로 채도 절제) */
+  border-color: var(--ais-accent-primary-ink);
   border-style: solid;
   border-width: 0;
 }
@@ -279,40 +279,34 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 0.7rem;
+  gap: var(--ais-space-xs);
 }
 
 .levelBadge {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--ais-space-2xs);
   padding: 0.46rem 0.95rem;
   border-radius: var(--ais-radius-pill);
-  border: 1px solid color-mix(in srgb, var(--ais-gold) 60%, transparent);
-  /* 입체: 골드 워시 + 상단 하이라이트(베벨) + 하단 그림자 */
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--ais-gold) 20%, var(--ais-glass-bg)) 0%,
-      color-mix(in srgb, var(--ais-gold) 8%, var(--ais-glass-bg)) 100%
-    );
+  border: 1px solid var(--ais-accent-primary-border);
+  /* 라이트 럭셔리: 옅은 골드 워시 평탄화 + 상단 하이라이트(베벨) */
+  background: var(--ais-accent-primary-soft);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow:
-    var(--ais-neon-gold),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    inset 0 -1px 0 rgba(201, 168, 0, 0.18);
+    var(--ais-shadow-sm),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition:
     transform var(--ais-dur-fast) var(--ais-ease-bounce),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
-/* 호버 시 살짝 들리며 광택(HUD 인터랙션) */
+/* 호버 시 살짝 들리며 절제된 웜 글로우(HUD 인터랙션) */
 .levelBadge:hover {
   transform: translateY(-2px);
   box-shadow:
-    var(--ais-neon-gold),
-    0 8px 20px var(--ais-glow),
+    var(--ais-shadow-sm),
+    var(--ais-glow-warm),
     inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .levelLv {
@@ -320,7 +314,7 @@
   font-size: 0.84rem;
   font-weight: 800;
   letter-spacing: 0.04em;
-  color: var(--ais-gold-deep);
+  color: var(--ais-accent-primary-ink);
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .levelDiv {
@@ -333,7 +327,7 @@
   font-family: var(--ais-font-mono);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
   color: var(--ais-text-mid);
 }
@@ -341,12 +335,12 @@
 /* ── 미니 스탯 칩 (근거 있는 도출 값) ── */
 .statChips {
   list-style: none;
-  margin: 0.7rem 0 0;
+  margin: var(--ais-space-xs) 0 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--ais-space-2xs);
 }
 .statChip {
   display: inline-flex;
@@ -354,22 +348,22 @@
   gap: 0.35rem;
   padding: 0.3rem 0.7rem;
   border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-glass-border);
-  background: var(--ais-glass-bg);
+  border: 1px solid var(--ais-warm-border);
+  background: var(--ais-warm-surface);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  box-shadow: var(--ais-shadow-card);
+  box-shadow: var(--ais-shadow-hairline);
   transition:
     transform var(--ais-dur-fast) var(--ais-ease-bounce),
     border-color var(--ais-dur-fast) var(--ais-ease-expo);
 }
 .statChip:hover {
   transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--ais-gold) 50%, transparent);
+  border-color: var(--ais-accent-primary-border);
 }
 .statChipIcon {
   font-size: 0.72rem;
-  color: var(--ais-gold-deep);
+  color: var(--ais-accent-primary-ink);
   line-height: 1;
 }
 .statChipNum {
@@ -383,18 +377,18 @@
   font-family: var(--ais-font-mono);
   font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: var(--ais-tracking-wide);
   color: var(--ais-text-soft);
 }
 
 .statusChip {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: var(--ais-space-2xs);
   font-family: var(--ais-font-mono);
   font-size: 0.62rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: var(--ais-tracking-wide);
   color: var(--ais-text-soft);
 }
 .statusDot {
@@ -404,7 +398,7 @@
   border-radius: 50%;
   background: var(--ais-hp);
   box-shadow:
-    0 0 8px color-mix(in srgb, var(--ais-hp) 70%, transparent),
+    0 0 8px color-mix(in srgb, var(--ais-hp) 55%, transparent),
     inset 0 0 0 1.5px rgba(255, 255, 255, 0.6);
 }
 /* 2겹 펄스 — 더 살아있는 LIVE 느낌(::before 안쪽, ::after 바깥) */
@@ -435,10 +429,10 @@
 /* ── XP 진척 게이지 (RPG 경험치 바) ── */
 .xpRow {
   --xp-pct: 0%;
-  margin-top: 1.15rem;
+  margin-top: var(--ais-space-sm);
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--ais-space-3xs);
   width: 100%;
   max-width: 460px;
 }
@@ -447,7 +441,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.5rem;
+  gap: var(--ais-space-2xs);
 }
 .xpBadge {
   display: inline-flex;
@@ -455,13 +449,14 @@
   gap: 0.3rem;
   padding: 0.16rem 0.5rem;
   border-radius: var(--ais-radius-pill);
-  background: var(--ais-brand-grad);
+  /* CTA 계약 유지: 골드 채움 + navy 라벨(대비 확보), 원색 대신 웜 럭셔리 그라디언트로 절제 */
+  background: var(--ais-accent-grad);
   color: var(--ais-navy);
   font-family: var(--ais-font-mono);
   font-size: 0.66rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
-  box-shadow: 0 2px 8px var(--ais-glow);
+  letter-spacing: var(--ais-tracking-wide);
+  box-shadow: var(--ais-shadow-sm);
 }
 .xpBadgeIcon {
   font-size: 0.7rem;
@@ -471,11 +466,11 @@
   font-family: var(--ais-font-mono);
   font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ais-tracking-wide);
   color: var(--ais-text-soft);
 }
 .xpNow {
-  color: var(--ais-gold-deep);
+  color: var(--ais-accent-primary-ink);
   font-weight: 800;
 }
 .xpSep {
@@ -495,9 +490,9 @@
       color-mix(in srgb, var(--ais-navy) 14%, var(--ais-surface-2)) 0%,
       color-mix(in srgb, var(--ais-navy) 6%, var(--ais-surface)) 100%
     );
-  border: 1px solid var(--ais-border-strong);
+  border: 1px solid var(--ais-warm-border-strong);
   box-shadow:
-    inset 0 2px 4px rgba(10, 25, 47, 0.16),
+    inset 0 2px 4px rgba(74, 56, 32, 0.14),
     inset 0 -1px 0 rgba(255, 255, 255, 0.5);
   overflow: hidden;
 }
@@ -508,8 +503,9 @@
   width: calc(var(--xp-pct, 0%) - 0px);
   border-radius: var(--ais-radius-pill);
   background: var(--ais-xp-bar);
+  /* 네온글로우 12px → 절제된 웜 글로우로 발광 완화(라이트톤) */
   box-shadow:
-    0 0 12px var(--ais-glow),
+    var(--ais-glow-warm),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   transition: width 0.18s linear; /* 카운트업 매 프레임 갱신 → 부드럽게 추종 */
   overflow: hidden;
@@ -522,7 +518,7 @@
   background: linear-gradient(
     100deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.45) 50%,
     transparent 70%
   );
   transform: translateX(-120%);
@@ -537,9 +533,10 @@
   width: 3px;
   border-radius: 3px;
   background: #fffbe6;
+  /* 리딩 엣지 발광 절제 — 라이트톤에서 과포화 방지 */
   box-shadow:
-    0 0 8px rgba(255, 255, 255, 0.9),
-    0 0 16px var(--ais-glow);
+    0 0 6px rgba(255, 255, 255, 0.75),
+    var(--ais-glow-warm);
 }
 /* 세그먼트 눈금 — 경험치 칸(RPG 게이지 분절). 채움 위에 오버레이 */
 .xpSegments {
@@ -578,7 +575,7 @@
   font-family: var(--ais-font-mono);
   font-size: 0.6rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: var(--ais-tracking-wide);
   opacity: 0.85;
   animation: startBlink 1.6s steps(1, end) infinite;
 }
@@ -595,7 +592,7 @@
 
 .headline {
   /* XP 바를 헤드라인에서 살짝 떼어 위로 보이게 — 간격 약간 확대 */
-  margin-top: 2.1rem;
+  margin-top: var(--ais-space-lg);
   /* 몽글몽글: 둥근 한글 디스플레이 폰트(Jua) */
   font-family: 'Jua', var(--ais-font-display);
   font-size: var(--ais-text-hero);
@@ -669,21 +666,21 @@
 }
 
 .sub {
-  margin-top: 1.4rem;
+  margin-top: var(--ais-space-md);
   max-width: 60ch;
   font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
-  line-height: 1.65;
+  line-height: var(--ais-leading-relaxed);
   color: var(--ais-text-mid);
   /* 가운데 정렬 시 폭 제한이 중앙에 오도록 */
   margin-inline: auto;
 }
 
 .actions {
-  margin-top: 2.2rem;
+  margin-top: var(--ais-space-lg);
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.85rem;
+  gap: var(--ais-space-xs);
 }
 
 /* ── 언락된 캐릭터 슬롯 (게임 인벤토리 감성) ── */
@@ -694,7 +691,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.9rem;
+  gap: var(--ais-space-sm);
 }
 
 .chip {
@@ -702,15 +699,15 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: var(--ais-space-xs);
   padding: 0.65rem 1.15rem 0.65rem 0.65rem;
   border-radius: var(--ais-radius-card);
-  border: 1px solid color-mix(in srgb, var(--rare) 38%, var(--ais-glass-border));
-  background: var(--ais-glass-bg);
+  border: 1px solid color-mix(in srgb, var(--rare) 38%, var(--ais-warm-border));
+  background: var(--ais-warm-surface);
   backdrop-filter: blur(14px) saturate(1.1);
   -webkit-backdrop-filter: blur(14px) saturate(1.1);
   box-shadow:
-    var(--ais-shadow-card),
+    var(--ais-shadow-ambient),
     inset 0 0 0 1px color-mix(in srgb, var(--rare) 12%, transparent);
   transition:
     transform var(--ais-dur) var(--ais-ease-spring),
@@ -735,23 +732,23 @@
 .chip:hover {
   transform: translateY(-6px) rotate(-1.2deg) scale(1.03);
   border-color: var(--rare);
+  /* 네온 26px → 절제된 웜 리프트 + 옅은 레어도 링(레어도 컨셉 보존) */
   box-shadow:
-    var(--ais-shadow-lift),
-    0 0 26px color-mix(in srgb, var(--rare) 45%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--rare) 55%, transparent);
+    var(--ais-shadow-lift-warm),
+    var(--ais-glow-warm),
+    0 0 0 1px color-mix(in srgb, var(--rare) 45%, transparent);
 }
-/* hover: 레어도 테두리를 따라 도는 빛(conic) — "장비 강화" 톤. 장식, 클릭 통과. */
+/* hover: 레어도 테두리 정적 페이드 — 회전 대신 은은한 레어도 강조(절제). 장식, 클릭 통과. */
 .chip::before {
   content: '';
   position: absolute;
   inset: -1px;
   border-radius: inherit;
   padding: 1px;
-  background: conic-gradient(
-    from 0deg,
-    transparent 0%,
-    var(--rare) 18%,
-    transparent 38%,
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--rare) 55%, transparent) 0%,
+    color-mix(in srgb, var(--rare) 18%, transparent) 60%,
     transparent 100%
   );
   -webkit-mask:
@@ -765,12 +762,6 @@
 }
 .chip:hover::before {
   opacity: 1;
-  animation: chipBorderSpin 2.4s linear infinite;
-}
-@keyframes chipBorderSpin {
-  to {
-    transform: rotate(1turn);
-  }
 }
 
 .chipIconWrap {
@@ -843,7 +834,7 @@
   font-family: var(--ais-font-mono);
   font-size: 0.66rem;
   font-weight: 500;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
   color: var(--ais-text-soft);
   /* 모노 라벨이 좁은 폭에서 넘치지 않도록 줄바꿈 허용 */
@@ -869,9 +860,10 @@
   inset: 0;
   width: var(--stat, 70%);
   border-radius: inherit;
+  /* 원색 골드 앵커 → 웜 accent 로 채도 절제(레어도 --rare 색상 정체성은 유지) */
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--rare) 60%, var(--ais-gold)),
+    color-mix(in srgb, var(--rare) 60%, var(--ais-accent-primary)),
     var(--rare)
   );
 }
@@ -880,7 +872,7 @@
   font-size: 0.56rem;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--ais-gold-deep);
+  color: var(--ais-accent-primary-ink);
 }
 
 @keyframes chipFloat {
@@ -902,7 +894,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.65rem;
+  gap: var(--ais-space-2xs);
   color: var(--ais-text-soft);
   transition: color var(--ais-dur-fast) var(--ais-ease-expo);
 }
@@ -924,8 +916,8 @@
   width: 22px;
   height: 36px;
   border-radius: var(--ais-radius-pill);
-  border: 1.5px solid var(--ais-border-strong);
-  background: var(--ais-glass-bg);
+  border: 1.5px solid var(--ais-warm-border-strong);
+  background: var(--ais-warm-surface);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   overflow: hidden;
@@ -937,7 +929,7 @@
   width: 4px;
   height: 8px;
   border-radius: 2px;
-  background: var(--ais-brand-grad);
+  background: var(--ais-accent-grad);
   transform: translateX(-50%);
   animation: scrollDrop 1.8s var(--ais-ease-expo) infinite;
 }
