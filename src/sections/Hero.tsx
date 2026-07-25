@@ -150,8 +150,13 @@ export function Hero() {
             className={styles.servicePreview}
             aria-label="에이아이소프트 서비스"
           >
-            <ul className={styles.previewGrid}>
-              {SERVICES_SORTED.map((service, i) => (
+            <div className={styles.previewPanel}>
+              <div className={styles.previewCaption}>
+                <span className={styles.previewKicker}>SERVICES</span>
+                <span className={styles.previewTagline}>일상을 잇는 AI 앱</span>
+              </div>
+              <ul className={styles.previewGrid}>
+                {SERVICES_SORTED.map((service, i) => (
                 <li
                   key={service.id}
                   className={styles.previewCard}
@@ -185,8 +190,9 @@ export function Hero() {
                     <span className={styles.previewName}>{service.name}</span>
                   </a>
                 </li>
-              ))}
-            </ul>
+                ))}
+              </ul>
+            </div>
           </aside>
         </div>
       </div>

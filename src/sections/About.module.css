@@ -23,20 +23,25 @@
   opacity: 0.85;
 }
 
-/* 아주 은은한 웜 글로우 — 밝은 배경 위 깊이감(장식, 콘텐츠 아님) */
+/* 아주 은은한 웜/세이지 글로우 2겹 — 밝은 배경 위 깊이감(장식, 콘텐츠 아님).
+   우하단 웜 골드 + 좌상단 세이지 그린으로 평면감을 덜어낸다(멀티 액센트 절제). */
 .section::after {
   content: '';
   position: absolute;
   z-index: 0;
-  inset: auto -10% -20% auto;
-  width: 40%;
-  aspect-ratio: 1;
-  background: radial-gradient(
-    circle,
-    rgba(224, 168, 61, 0.1) 0%,
-    transparent 68%
-  );
+  inset: 0;
   pointer-events: none;
+  background:
+    radial-gradient(
+      34% 34% at 92% 88%,
+      rgba(224, 168, 61, 0.1),
+      transparent 68%
+    ),
+    radial-gradient(
+      30% 30% at 4% 10%,
+      rgba(127, 155, 122, 0.09),
+      transparent 70%
+    );
 }
 
 .section > .ais-container {
@@ -203,6 +208,16 @@
   background: var(--ais-cream-3);
   border: 1px solid var(--ais-warm-border);
   box-shadow: var(--ais-shadow-ambient);
+}
+
+/* 지표 패널 상단 골드 헤어라인 — 가치 카드와 동일 위계 시그니처 */
+.trust::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  background: var(--ais-accent-grad);
+  opacity: 0.85;
 }
 
 .trustHead {
