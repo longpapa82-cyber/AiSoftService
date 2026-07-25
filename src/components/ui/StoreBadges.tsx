@@ -230,12 +230,6 @@ export function StoreBadges({
                 준비 중
               </span>
             )}
-            {/* 호버 시 떠오르는 XP 마이크로 피드백 (장식) */}
-            {!badge.pending && (
-              <span className={styles.xpPop} aria-hidden="true">
-                +10&nbsp;XP
-              </span>
-            )}
           </>
         );
 

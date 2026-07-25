@@ -32,7 +32,7 @@
   color: var(--btn-fg);
   background: transparent;
   transition:
-    transform var(--ais-dur-fast) var(--ais-ease-bounce),
+    transform var(--ais-dur-fast) var(--ais-ease-spring),
     box-shadow var(--ais-dur) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo),

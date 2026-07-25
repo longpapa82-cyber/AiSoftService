@@ -13,7 +13,7 @@
     linear-gradient(180deg, var(--ais-cream) 0%, var(--ais-cream-2) 100%);
 }
 
-/* 상단 시그니처 헤어라인 — 골드 base에 로즈를 미세 믹스해 About의 온도 서명(레버2). */
+/* 상단 시그니처 헤어라인 — 블루 액센트 base에 하이라이트를 미세 믹스한 About의 서명(레버2). */
 .section::before {
   content: '';
   position: absolute;
@@ -28,32 +28,32 @@
   opacity: 0.85;
 }
 
-/* 아주 은은한 웜/세이지 글로우 2겹 — 밝은 배경 위 깊이감(장식, 콘텐츠 아님).
-   우하단 웜 골드 + 좌상단 세이지 그린으로 평면감을 덜어낸다(멀티 액센트 절제). */
+/* 아주 은은한 블루/뉴트럴 글로우 2겹 — 밝은 배경 위 깊이감(장식, 콘텐츠 아님).
+   v4: 웜 골드/세이지 폐기 → 블루 액센트 + 뉴트럴 그레이로 평면감을 덜어낸다. */
 .section::after {
   content: '';
   position: absolute;
   z-index: 0;
   inset: 0;
   pointer-events: none;
-  /* 웜/세이지 글로우 2겹 + 레버4 Swiss 세로 가이드라인(정적 구조 마커, 극저 alpha).
-     세로선은 직접 alpha를 0.035로 낮춰 은은히 — 모션 아님, reduced-motion 무관. */
+  /* 블루/뉴트럴 글로우 2겹 + 레버4 Swiss 세로 가이드라인(정적 구조 마커, 극저 alpha).
+     세로선은 뉴트럴 블랙 alpha 0.035로 은은히 — 모션 아님, reduced-motion 무관. */
   background:
     repeating-linear-gradient(
       to right,
       transparent 0,
       transparent calc(25% - 1px),
-      rgba(74, 56, 32, 0.035) calc(25% - 1px),
-      rgba(74, 56, 32, 0.035) 25%
+      rgba(0, 0, 0, 0.035) calc(25% - 1px),
+      rgba(0, 0, 0, 0.035) 25%
     ),
     radial-gradient(
       34% 34% at 92% 88%,
-      rgba(224, 168, 61, 0.1),
+      rgba(37, 99, 235, 0.1),
       transparent 68%
     ),
     radial-gradient(
       30% 30% at 4% 10%,
-      rgba(127, 155, 122, 0.09),
+      rgba(0, 0, 0, 0.05),
       transparent 70%
     );
 }
@@ -254,7 +254,7 @@
   border: 1px solid var(--card-border);
   box-shadow: var(--ais-shadow-sm);
   transition:
-    transform var(--ais-dur) var(--ais-ease-bounce),
+    transform var(--ais-dur) var(--ais-ease-spring),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
 
@@ -298,7 +298,7 @@
   box-shadow: var(--ais-shadow-ambient);
 }
 
-/* 지표 패널 상단 골드 헤어라인 — 가치 카드와 동일 위계 시그니처 */
+/* 지표 패널 상단 블루 헤어라인 — 가치 카드와 동일 위계 시그니처 */
 .trust::before {
   content: '';
   position: absolute;
@@ -375,7 +375,7 @@
 }
 
 /* 거대 워드마크 — depth/위계용 배경 타이포(밝은 배경용으로 재처리:
-   네이비 골드 스트로크 → 웜 골드 아웃라인, 저대비 장식이라 aria-hidden).
+   v4 블루 액센트 아웃라인, 저대비 장식이라 aria-hidden).
    레버3 — 흐름 배치 → 콘텐츠 뒤 절대 배치 오버랩(에디토리얼 depth).
    신호 리스트(z-index:1)는 signalList에서 상위 레이어로 올려 가독성 보존. */
 .wordmark {
@@ -392,7 +392,7 @@
   line-height: 1.1;
   white-space: nowrap;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(224, 168, 61, 0.4);
+  -webkit-text-stroke: 1.5px rgba(37, 99, 235, 0.32);
   opacity: 0.9;
   pointer-events: none;
   user-select: none;

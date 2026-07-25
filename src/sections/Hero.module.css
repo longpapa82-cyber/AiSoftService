@@ -17,9 +17,10 @@
   padding-bottom: clamp(3rem, 6vh, 5rem);
 }
 
-/* 하단 전환 존 — 밝은 Hero(크림)에서 다음 서비스 섹션으로 눈이 부드럽게
-   넘어가도록, 섹션 최하단을 웜 그레이로 살짝 가라앉힌다. 배경 레이어(z-index -1)
-   라 콘텐츠에 영향 없음. 밝음→다크 칼선 완충. */
+/* 하단 전환 존 — 화이트 Hero에서 다음 서비스 섹션으로 눈이 부드럽게
+   넘어가도록, 섹션 최하단을 뉴트럴 그레이(cream-3)로 살짝 가라앉힌다.
+   배경 레이어(z-index -1)라 콘텐츠에 영향 없음 + 첫 서비스 PromoSection의
+   ::before 페더(--p-bg 기반)와 이중으로 경계를 녹인다. */
 .hero::after {
   content: '';
   position: absolute;
@@ -36,7 +37,7 @@
   );
 }
 
-/* ── 배경 레이어: 웜크림 + 대각 골드 그라데이션 ── */
+/* ── 배경 레이어: 화이트 + 대각 블루 그라데이션 ── */
 .heroGradient {
   position: absolute;
   inset: 0;
@@ -45,7 +46,7 @@
   overflow: hidden;
 }
 
-/* 우상단으로 흐르는 골드 그라데이션 글로우 — 크게 blur/scale해 화면을 은은히 물들인다. */
+/* 우상단으로 흐르는 블루 그라데이션 글로우(--ais-accent-grad) — 크게 blur/scale해 화면을 은은히 물들인다. */
 .gradGlow {
   position: absolute;
   top: -30%;
@@ -299,7 +300,7 @@
   inset: 0;
   border-radius: inherit;
   background-image: radial-gradient(
-    rgba(74, 56, 32, 0.5) 0.5px,
+    rgba(0, 0, 0, 0.5) 0.5px,
     transparent 0.5px
   );
   background-size: 16px 16px;
@@ -405,9 +406,9 @@
   height: 40px;
   border-radius: 11px;
   object-fit: cover;
-  box-shadow: inset 0 0 0 1px rgba(74, 56, 32, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
   /* 호버 마이크로 인터랙션 — 아이콘만 미세 팝(컴포지터 친화) */
-  transition: transform var(--ais-dur) var(--ais-ease-bounce);
+  transition: transform var(--ais-dur) var(--ais-ease-spring);
 }
 
 .previewLink:hover .previewIcon {

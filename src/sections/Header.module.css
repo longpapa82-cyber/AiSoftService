@@ -358,7 +358,7 @@
   }
 }
 
-/* ── 스크롤 진행 인디케이터 (절제된 골드 라인) ── */
+/* ── 스크롤 진행 인디케이터 (절제된 블루 라인) ── */
 .progress {
   position: absolute;
   left: 0;
@@ -375,7 +375,7 @@
   transform-origin: left center;
   transform: scaleX(var(--scroll, 0));
   background: var(--ais-accent-grad);
-  box-shadow: 0 0 10px rgba(224, 168, 61, 0.28);
+  box-shadow: 0 0 10px rgba(37, 99, 235, 0.28);
   /* --scroll은 rAF로 매 프레임 갱신되므로 transition 없이 즉시 반영 */
 }
 

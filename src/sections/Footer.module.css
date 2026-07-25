@@ -4,21 +4,22 @@
   margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
   padding-block: clamp(3.5rem, 2.5rem + 4vw, 5.5rem) 1.75rem;
   background: var(--ais-navy);
-  border-top: 1px solid rgba(224, 168, 61, 0.18);
+  /* v4: 다크 앵커 섹션 — 시안 포인트(골드 폐기, Technology와 톤 일치) */
+  border-top: 1px solid rgba(0, 217, 255, 0.18);
   border-start-start-radius: clamp(1.75rem, 1rem + 3vw, 3rem);
   border-start-end-radius: clamp(1.75rem, 1rem + 3vw, 3rem);
   overflow: hidden;
   isolation: isolate;
 }
 
-/* 회로 도트 질감: 네이비 잉크 위에 미세한 골드 격자 */
+/* 회로 도트 질감: near-black 잉크 위에 미세한 시안 격자 */
 .footer::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: -1;
   background-image: radial-gradient(
-    rgba(224, 168, 61, 0.07) 1px,
+    rgba(0, 217, 255, 0.06) 1px,
     transparent 1px
   );
   background-size: 22px 22px;
@@ -77,7 +78,7 @@
 .logo:focus-visible {
   box-shadow:
     0 0 0 2px var(--ais-accent-primary),
-    0 0 0 6px rgba(224, 168, 61, 0.25);
+    0 0 0 6px rgba(0, 217, 255, 0.25);
 }
 
 .logoMark {
@@ -143,7 +144,7 @@
   font-weight: 600;
   letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
-  color: rgba(224, 168, 61, 0.92);
+  color: rgba(0, 217, 255, 0.92);
 }
 
 .companyDesc {
@@ -187,7 +188,7 @@
   /* wide(0.08em)의 2배 — 컬럼 타이틀 의도적 넓은 자간 유지 */
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(224, 168, 61, 0.85);
+  color: rgba(0, 217, 255, 0.85);
 }
 
 .navList {
@@ -249,7 +250,7 @@
 }
 
 .serviceLink:hover .serviceIcon {
-  border-color: rgba(224, 168, 61, 0.55);
+  border-color: rgba(0, 217, 255, 0.55);
   box-shadow: var(--ais-glow-warm);
 }
 
