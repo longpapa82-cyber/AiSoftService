@@ -1,891 +1,306 @@
 /*
- * Hero — "AI App Studio" 하이테크 진입 화면.
- * 밝은 회백색 베이스 위 골드/네이비 aurora(blur + slow float, transform/opacity만 애니메이션),
- * 회로 도트 질감 + 거대 슬로건 + 글래스 서비스 칩.
+ * Hero — 정통 프리미엄 기업 히어로 (Stripe/Linear 풍).
+ * 웜크림 베이스 + 우상단으로 흐르는 대각 골드 그라데이션(느린 드리프트).
+ * 좌 대형 슬로건 카피 + 신뢰지표 통계 행, 우 6서비스 절제 로고 프리뷰.
+ * 게임 HUD(LV/XP/PRESS START/UNLOCKED/부유 오브/코너 브래킷/스캔라인)는 전면 제거.
+ * 화려함 = 큰 타이포 + "AI" 그라데이션 클립. 모션은 transform/opacity만.
  */
 .hero {
   position: relative;
   isolation: isolate;
-  /* 풀스크린 느낌은 유지하되, 콘텐츠 대비 과한 하단 공백을 막기 위해 상한을 낮춘다.
-     콘텐츠 실제 높이에 더 가깝게(760px) 잡아 큰 화면에서 하단 여백이 뜨지 않게. */
-  min-height: min(100svh, 760px);
+  min-height: min(100svh, 780px);
   display: flex;
   align-items: center;
   overflow: hidden;
-  padding-top: clamp(5.5rem, 10vh, 8rem);
-  padding-bottom: clamp(2.5rem, 5vh, 4rem);
+  background: var(--ais-cream);
+  padding-top: clamp(6rem, 11vh, 9rem);
+  padding-bottom: clamp(3rem, 6vh, 5rem);
 }
 
-/* ── 배경 aurora ── */
-.aurora {
+/* ── 배경 레이어: 웜크림 + 대각 골드 그라데이션 ── */
+.heroGradient {
   position: absolute;
-  inset: -8%;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
-  /* 마우스 패럴랙스: 포인터 반대 방향으로 은은하게 이동(--px/--py는 usePointerParallax) */
-  transform: translate3d(
-    calc(var(--px, 0) * -22px),
-    calc(var(--py, 0) * -22px),
-    0
-  );
-  transition: transform 0.3s var(--ais-ease-expo);
+  overflow: hidden;
 }
 
-.blob {
+/* 우상단으로 흐르는 골드 그라데이션 글로우 — 크게 blur/scale해 화면을 은은히 물들인다. */
+.gradGlow {
   position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 85vw;
+  height: 85vw;
+  max-width: 1100px;
+  max-height: 1100px;
   border-radius: 50%;
+  background: var(--ais-accent-grad);
+  opacity: 0.16;
   filter: blur(90px);
-  /* 밝은 배경 위 파스텔 워시 — 은은하게 깔리도록 낮춘 불투명도 */
-  opacity: 0.7;
+  transform: translate3d(0, 0, 0) scale(1);
+  animation: heroDrift 24s ease-in-out infinite alternate;
+  /* 마우스 패럴랙스: 포인터 반대 방향으로 아주 은은하게 */
   will-change: transform;
 }
 
-.blobA {
-  width: 46vw;
-  height: 46vw;
-  max-width: 640px;
-  max-height: 640px;
-  top: -8%;
-  left: -6%;
-  background: radial-gradient(circle at 50% 50%, rgba(224, 168, 61, 0.2), transparent 68%);
-  animation: floatA 22s var(--ais-ease-expo) infinite alternate;
-}
-
-.blobB {
-  width: 40vw;
-  height: 40vw;
-  max-width: 560px;
-  max-height: 560px;
-  top: 6%;
-  right: -8%;
-  background: radial-gradient(circle at 50% 50%, rgba(10, 25, 47, 0.1), transparent 66%);
-  opacity: 0.6;
-  animation: floatB 26s var(--ais-ease-expo) infinite alternate;
-}
-
-.blobC {
-  width: 36vw;
-  height: 36vw;
-  max-width: 480px;
-  max-height: 480px;
-  bottom: -12%;
-  left: 28%;
-  background: radial-gradient(circle at 50% 50%, rgba(224, 168, 61, 0.13), transparent 70%);
-  opacity: 0.55;
-  animation: floatC 30s var(--ais-ease-expo) infinite alternate;
-}
-
-/* 회로 도트 + 미세 격자 — 하이테크 보드 질감 (네이비 잉크) */
-.grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    /* 회로 도트 노드 */
-    radial-gradient(rgba(10, 25, 47, 0.09) 1.3px, transparent 1.6px),
-    /* 골드 신호 도트 (드물게) */
-    radial-gradient(rgba(201, 168, 0, 0.1) 1px, transparent 1.4px),
-    /* 격자 라인 */
-    linear-gradient(rgba(10, 25, 47, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(10, 25, 47, 0.045) 1px, transparent 1px);
-  background-size:
-    32px 32px,
-    96px 96px,
-    64px 64px,
-    64px 64px;
-  background-position:
-    0 0,
-    16px 48px,
-    0 0,
-    0 0;
-  mask-image: radial-gradient(125% 95% at 50% 0%, #000 32%, transparent 82%);
-  -webkit-mask-image: radial-gradient(125% 95% at 50% 0%, #000 32%, transparent 82%);
-}
-
-@keyframes floatA {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(6%, 8%, 0) scale(1.12);
-  }
-}
-@keyframes floatB {
-  from {
-    transform: translate3d(0, 0, 0) scale(1.05);
-  }
-  to {
-    transform: translate3d(-7%, 5%, 0) scale(0.92);
-  }
-}
-@keyframes floatC {
-  from {
-    transform: translate3d(0, 0, 0) scale(0.95);
-  }
-  to {
-    transform: translate3d(5%, -7%, 0) scale(1.1);
-  }
-}
-
-/* ── 부유 XP 오브 (빛 입자) ── */
-.orbs {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  /* 패럴랙스: 포인터 방향으로 살짝(aurora와 반대 깊이) */
-  transform: translate3d(
-    calc(var(--px, 0) * 14px),
-    calc(var(--py, 0) * 14px),
-    0
-  );
-  transition: transform 0.4s var(--ais-ease-expo);
-}
-.orb {
-  position: absolute;
-  width: var(--orb-size, 8px);
-  height: var(--orb-size, 8px);
-  border-radius: 50%;
-  opacity: 0.7;
-  will-change: transform;
-  animation: orbFloat var(--orb-dur, 12s) var(--ais-ease-expo)
-    var(--orb-delay, 0s) infinite alternate;
-}
-.orbGold {
-  background: radial-gradient(
-    circle at 35% 30%,
-    #fff3c4 0%,
-    var(--ais-gold) 45%,
-    transparent 72%
-  );
-  box-shadow: var(--ais-glow-warm);
-}
-.orbPastel {
-  background: radial-gradient(
-    circle at 35% 30%,
-    #ffffff 0%,
-    var(--ais-rare) 50%,
-    transparent 74%
-  );
-  box-shadow: 0 0 10px color-mix(in srgb, var(--ais-rare) 40%, transparent);
-  opacity: 0.5;
-}
-@keyframes orbFloat {
-  from {
-    transform: translateY(0) scale(0.9);
-    opacity: 0.35;
-  }
-  to {
-    transform: translateY(-26px) scale(1.1);
-    opacity: 0.8;
-  }
-}
-
-/* ── 가로 스캔라인 글로우 ── */
-.scanline {
+/* 얇은 hairline 1겹 — 상단 경계에 정통 제품페이지 디테일 */
+.hairline {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-  height: 2px;
+  height: 1px;
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--ais-glow) 30%,
-    rgba(255, 251, 230, 0.9) 50%,
-    var(--ais-glow) 70%,
+    var(--ais-warm-border-strong) 30%,
+    var(--ais-warm-border-strong) 70%,
     transparent 100%
   );
-  opacity: 0.5;
-  filter: blur(0.5px);
-  animation: scanMove 7s var(--ais-ease-tech) infinite;
-}
-@keyframes scanMove {
-  0% {
-    transform: translateY(0);
-    opacity: 0;
-  }
-  10%,
-  85% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(min(72svh, 760px));
-    opacity: 0;
-  }
-}
-
-/* ── 코너 HUD 브래킷 ── */
-.corner {
-  position: absolute;
-  z-index: -1;
-  width: clamp(28px, 4vw, 48px);
-  height: clamp(28px, 4vw, 48px);
-  pointer-events: none;
-  opacity: 0.45;
-  /* 골드 ㄱ자 브래킷 — border 2변만 (웜 accent ink 로 채도 절제) */
-  border-color: var(--ais-accent-primary-ink);
-  border-style: solid;
-  border-width: 0;
-}
-.cornerTL {
-  top: clamp(1.5rem, 4vh, 3rem);
-  left: clamp(1.5rem, 4vw, 3rem);
-  border-top-width: 2px;
-  border-left-width: 2px;
-  border-top-left-radius: 6px;
-}
-.cornerTR {
-  top: clamp(1.5rem, 4vh, 3rem);
-  right: clamp(1.5rem, 4vw, 3rem);
-  border-top-width: 2px;
-  border-right-width: 2px;
-  border-top-right-radius: 6px;
-}
-.cornerBL {
-  bottom: clamp(1.5rem, 4vh, 3rem);
-  left: clamp(1.5rem, 4vw, 3rem);
-  border-bottom-width: 2px;
-  border-left-width: 2px;
-  border-bottom-left-radius: 6px;
-}
-.cornerBR {
-  bottom: clamp(1.5rem, 4vh, 3rem);
-  right: clamp(1.5rem, 4vw, 3rem);
-  border-bottom-width: 2px;
-  border-right-width: 2px;
-  border-bottom-right-radius: 6px;
-}
-
-/* ── 본문 (단일 컬럼 — 우측 실사 비주얼 제거, 카피+HUD 중심·가운데 정렬) ── */
-.inner {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.copy {
-  max-width: 880px;
-  min-width: 0;
-  /* 모든 HUD/카피/CTA를 가운데 정렬 */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* ── 플레이어 레벨 배지 (HUD 진입점) ── */
-.levelBar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--ais-space-xs);
-}
-
-.levelBadge {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ais-space-2xs);
-  padding: 0.46rem 0.95rem;
-  border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-accent-primary-border);
-  /* 라이트 럭셔리: 옅은 골드 워시 평탄화 + 상단 하이라이트(베벨) */
-  background: var(--ais-accent-primary-soft);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow:
-    var(--ais-shadow-sm),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
-  transition:
-    transform var(--ais-dur-fast) var(--ais-ease-bounce),
-    box-shadow var(--ais-dur) var(--ais-ease-expo);
-}
-/* 호버 시 살짝 들리며 절제된 웜 글로우(HUD 인터랙션) */
-.levelBadge:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    var(--ais-shadow-sm),
-    var(--ais-glow-warm),
-    inset 0 1px 0 rgba(255, 255, 255, 0.8);
-}
-.levelLv {
-  font-family: var(--ais-font-mono);
-  font-size: 0.84rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: var(--ais-accent-primary-ink);
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-.levelDiv {
-  font-family: var(--ais-font-mono);
-  font-size: 0.72rem;
-  color: var(--ais-text-soft);
   opacity: 0.7;
 }
-.levelTitle {
-  font-family: var(--ais-font-mono);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: var(--ais-tracking-wide);
-  text-transform: uppercase;
-  color: var(--ais-text-mid);
+
+@keyframes heroDrift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-4%, 5%, 0) scale(1.1);
+  }
 }
 
-/* ── 미니 스탯 칩 (근거 있는 도출 값) ── */
-.statChips {
-  list-style: none;
-  margin: var(--ais-space-xs) 0 0;
-  padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--ais-space-2xs);
+/* ── 레이아웃: 데스크톱 2컬럼(카피 7fr · 프리뷰 5fr) ── */
+.inner {
+  width: 100%;
 }
-.statChip {
-  display: inline-flex;
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: 7fr 5fr;
   align-items: center;
-  gap: 0.35rem;
-  padding: 0.3rem 0.7rem;
-  border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-warm-border);
-  background: var(--ais-warm-surface);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: var(--ais-shadow-hairline);
-  transition:
-    transform var(--ais-dur-fast) var(--ais-ease-bounce),
-    border-color var(--ais-dur-fast) var(--ais-ease-expo);
-}
-.statChip:hover {
-  transform: translateY(-2px);
-  border-color: var(--ais-accent-primary-border);
-}
-.statChipIcon {
-  font-size: 0.72rem;
-  color: var(--ais-accent-primary-ink);
-  line-height: 1;
-}
-.statChipNum {
-  font-family: var(--ais-font-display);
-  font-size: 0.86rem;
-  font-weight: 800;
-  letter-spacing: -0.01em;
-  color: var(--ais-text);
-}
-.statChipLabel {
-  font-family: var(--ais-font-mono);
-  font-size: 0.58rem;
-  font-weight: 700;
-  letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-text-soft);
+  gap: clamp(2.5rem, 5vw, 5rem);
 }
 
-.statusChip {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ais-space-2xs);
-  font-family: var(--ais-font-mono);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-text-soft);
-}
-.statusDot {
-  position: relative;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--ais-hp);
-  box-shadow:
-    0 0 8px color-mix(in srgb, var(--ais-hp) 55%, transparent),
-    inset 0 0 0 1.5px rgba(255, 255, 255, 0.6);
-}
-/* 2겹 펄스 — 더 살아있는 LIVE 느낌(::before 안쪽, ::after 바깥) */
-.statusDot::before,
-.statusDot::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 60%, transparent);
-  animation: hpPulse 2s var(--ais-ease-expo) infinite;
-}
-.statusDot::after {
-  animation-delay: 1s; /* 두 번째 링은 반 박자 뒤 */
-}
-@keyframes hpPulse {
-  0% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--ais-hp) 55%, transparent);
-  }
-  70% {
-    box-shadow: 0 0 0 9px transparent;
-  }
-  100% {
-    box-shadow: 0 0 0 0 transparent;
+@media (max-width: 900px) {
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 3.5rem);
   }
 }
 
-/* ── XP 진척 게이지 (RPG 경험치 바) ── */
-.xpRow {
-  --xp-pct: 0%;
-  margin-top: var(--ais-space-sm);
+/* ── 좌: 카피 ── */
+.copy {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--ais-space-3xs);
-  width: 100%;
-  max-width: 460px;
+  align-items: flex-start;
+  text-align: left;
 }
-/* 바 위 캡션: 좌측 XP 배지 + 우측 현재/다음 수치 */
-.xpMeta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--ais-space-2xs);
-}
-.xpBadge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.3rem;
-  padding: 0.16rem 0.5rem;
-  border-radius: var(--ais-radius-pill);
-  /* CTA 계약 유지: 골드 채움 + navy 라벨(대비 확보), 원색 대신 웜 럭셔리 그라디언트로 절제 */
-  background: var(--ais-accent-grad);
-  color: var(--ais-navy);
+
+/* 아이브로 — 작은 대문자 골드잉크(게임 LV.∞ 배지 대체) */
+.eyebrow {
+  margin: 0 0 var(--ais-space-md);
   font-family: var(--ais-font-mono);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: var(--ais-tracking-wide);
-  box-shadow: var(--ais-shadow-sm);
-}
-.xpBadgeIcon {
-  font-size: 0.7rem;
-  line-height: 1;
-}
-.xpNext {
-  font-family: var(--ais-font-mono);
-  font-size: 0.74rem;
+  font-size: var(--ais-text-eyebrow);
   font-weight: 700;
   letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-text-soft);
-}
-.xpNow {
+  text-transform: uppercase;
   color: var(--ais-accent-primary-ink);
-  font-weight: 800;
-}
-.xpSep {
-  margin: 0 0.25rem;
-  opacity: 0.5;
 }
 
-/* 두꺼운 트랙 — 홈이 파인 입체 게이지 */
-.xpTrack {
-  position: relative;
-  width: 100%;
-  height: clamp(18px, 2.2vw, 26px);
-  border-radius: var(--ais-radius-pill);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--ais-navy) 14%, var(--ais-surface-2)) 0%,
-      color-mix(in srgb, var(--ais-navy) 6%, var(--ais-surface)) 100%
-    );
-  border: 1px solid var(--ais-warm-border-strong);
-  box-shadow:
-    inset 0 2px 4px rgba(74, 56, 32, 0.14),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.5);
-  overflow: hidden;
-}
-/* 채움 — 카운트업 값(--xp-pct)에 동기화. scaleX로 컴포지터 친화 */
-.xpFill {
-  position: absolute;
-  inset: 2px;
-  width: calc(var(--xp-pct, 0%) - 0px);
-  border-radius: var(--ais-radius-pill);
-  background: var(--ais-xp-bar);
-  /* 네온글로우 12px → 절제된 웜 글로우로 발광 완화(라이트톤) */
-  box-shadow:
-    var(--ais-glow-warm),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: width 0.18s linear; /* 카운트업 매 프레임 갱신 → 부드럽게 추종 */
-  overflow: hidden;
-}
-/* 채움 위 시머 — 보상감 */
-.xpFill::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.45) 50%,
-    transparent 70%
-  );
-  transform: translateX(-120%);
-  animation: xpShimmer 2.8s var(--ais-ease-expo) 1.6s infinite;
-}
-/* 채움 끝 리딩 엣지 — 밝은 캡 + 글로우(게이지가 "차오르는 머리") */
-.xpEdge {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 3px;
-  border-radius: 3px;
-  background: #fffbe6;
-  /* 리딩 엣지 발광 절제 — 라이트톤에서 과포화 방지 */
-  box-shadow:
-    0 0 6px rgba(255, 255, 255, 0.75),
-    var(--ais-glow-warm);
-}
-/* 세그먼트 눈금 — 경험치 칸(RPG 게이지 분절). 채움 위에 오버레이 */
-.xpSegments {
-  position: absolute;
-  inset: 2px;
-  border-radius: var(--ais-radius-pill);
-  pointer-events: none;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent calc(10% - 1.5px),
-    color-mix(in srgb, var(--ais-navy) 22%, transparent) calc(10% - 1.5px),
-    color-mix(in srgb, var(--ais-navy) 22%, transparent) 10%
-  );
-  mix-blend-mode: multiply;
-}
-@keyframes xpShimmer {
-  0% {
-    transform: translateX(-120%);
-  }
-  60%,
-  100% {
-    transform: translateX(220%);
-  }
-}
-
-/* ── PRESS START CTA ── */
-.startBtn {
-  position: relative;
-  overflow: hidden;
-}
-.startMono {
-  margin-left: 0.55rem;
-  padding-left: 0.55rem;
-  border-left: 1px solid color-mix(in srgb, currentColor 35%, transparent);
-  font-family: var(--ais-font-mono);
-  font-size: 0.6rem;
-  font-weight: 700;
-  letter-spacing: var(--ais-tracking-wide);
-  opacity: 0.85;
-  animation: startBlink 1.6s steps(1, end) infinite;
-}
-@keyframes startBlink {
-  0%,
-  60% {
-    opacity: 0.85;
-  }
-  61%,
-  100% {
-    opacity: 0.35;
-  }
-}
-
+/* 헤드라인 — 초대형 디스플레이. 화면 지배. */
 .headline {
-  /* XP 바를 헤드라인에서 살짝 떼어 위로 보이게 — 간격 약간 확대 */
-  margin-top: var(--ais-space-lg);
-  /* 몽글몽글: 둥근 한글 디스플레이 폰트(Jua) */
-  font-family: 'Jua', var(--ais-font-display);
-  font-size: var(--ais-text-hero);
-  font-weight: 400;
-  /* 각진 음수 자간 → 살짝 여유로운 자간으로 통통한 인상 */
-  letter-spacing: 0.005em;
-  line-height: 1.08;
+  margin: 0;
+  font-family: var(--ais-font-display);
+  font-size: var(--ais-text-hero-xl);
+  font-weight: 700;
+  letter-spacing: var(--ais-tracking-tight);
+  line-height: 1.02;
   color: var(--ais-text);
   text-wrap: balance;
 }
 
-/* 슬로건 단어별 등장 + 상시 둥실둥실(bob).
- * inline-block은 부모의 background-clip:text를 끊으므로 각 단어가 자기 그라디언트를 클립한다.
- * 2겹 애니메이션: popIn(등장, 1회) + heroBob(둥실, 무한) — 시차로 물결처럼 일렁인다. */
+/* 슬로건 단어별 진입 리빌(transform/opacity만). reveal 컨테이너 가시화 후 stagger. */
 .word {
   display: inline-block;
-  /* 차갑지 않게 — 네이비에서 따뜻한 골드로 부드럽게 흐르는 몽글 그라디언트 */
-  background: linear-gradient(
-    150deg,
-    #1f4f7a 0%,
-    #2f6aa0 38%,
-    var(--ais-gold-deep) 82%,
-    var(--ais-gold-2) 100%
-  );
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--ais-dur) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-expo);
+  transition-delay: calc(var(--word-i, 0) * 55ms + 90ms);
+}
+
+/* "AI" 두 글자만 그라데이션 텍스트 클립 — 화려함 표현. 나머지는 솔리드 잉크로 AA 확보. */
+.wordAI {
+  display: inline-block;
+  background: var(--ais-accent-grad);
+  background-size: 140% 140%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* 통통한 입체감(글자 뒤 부드러운 그림자) */
-  filter: drop-shadow(0 3px 6px rgba(10, 25, 47, 0.12));
-  animation:
-    wordPop 0.7s var(--ais-ease-bounce) both,
-    heroBob 3.2s ease-in-out infinite;
-  /* 등장은 순차, 둥실은 단어마다 위상차를 줘 물결처럼 */
-  animation-delay:
-    calc(var(--word-i, 0) * 90ms + 0.15s),
-    calc(var(--word-i, 0) * 220ms + 0.9s);
-  will-change: transform, opacity;
-  transition: transform var(--ais-dur-fast) var(--ais-ease-bounce);
 }
 
-/* hover 시 글자가 폴짝 — 장난스러운 인터랙션 */
-.word:hover {
-  transform: translateY(-8px) scale(1.12) rotate(-3deg);
-}
-
-/* 등장: 작게 쪼그라들었다 통통 튀어오르며 확대 */
-@keyframes wordPop {
-  0% {
-    opacity: 0;
-    transform: translateY(0.4em) scale(0.5) rotate(-6deg);
-  }
-  70% {
-    opacity: 1;
-    transform: translateY(0) scale(1.12) rotate(2deg);
-  }
-  100% {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-/* 둥실둥실: 위아래로 부드럽게 일렁(살짝 회전 섞어 말랑하게) */
-@keyframes heroBob {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-7px) rotate(-1.2deg);
-  }
+/* reveal 컨테이너(.copy)가 보이면(.is-visible) 단어들 순차 등장 */
+.copy:global(.is-visible) .word {
+  opacity: 1;
+  transform: none;
 }
 
 .sub {
   margin-top: var(--ais-space-md);
-  max-width: 60ch;
+  max-width: 54ch;
+  font-family: var(--ais-font-body);
   font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
   line-height: var(--ais-leading-relaxed);
   color: var(--ais-text-mid);
-  /* 가운데 정렬 시 폭 제한이 중앙에 오도록 */
-  margin-inline: auto;
+}
+
+/* ── 신뢰지표 통계 행 (게임칩 대체) ── */
+.trustRow {
+  margin: var(--ais-space-lg) 0 0;
+  display: flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+  gap: var(--ais-space-md);
+}
+
+.trustItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ais-space-3xs);
+}
+
+.trustValueWrap {
+  margin: 0;
+}
+
+.trustValue {
+  display: inline-block;
+  font-family: var(--ais-font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  color: var(--ais-text);
+}
+
+.trustLabel {
+  margin: 0;
+  font-family: var(--ais-font-mono);
+  font-size: var(--ais-text-eyebrow);
+  font-weight: 600;
+  letter-spacing: var(--ais-tracking-wide);
+  color: var(--ais-text-soft);
+}
+
+/* 항목 사이 얇은 세로 divider */
+.trustDivider {
+  align-self: stretch;
+  width: 1px;
+  background: var(--ais-warm-border-strong);
+  opacity: 0.7;
 }
 
 .actions {
   margin-top: var(--ais-space-lg);
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: var(--ais-space-xs);
 }
 
-/* ── 언락된 캐릭터 슬롯 (게임 인벤토리 감성) ── */
-.chips {
-  margin-top: clamp(2.5rem, 5vw, 3.5rem);
+/* ── 우: 6서비스 절제 로고 프리뷰 (2×3 그리드) ── */
+.servicePreview {
+  min-width: 0;
+  /* 마우스 추종 미세 translate(±6px) — 부유 orb 대체 */
+  transform: translate3d(
+    calc(var(--px, 0) * 6px),
+    calc(var(--py, 0) * 6px),
+    0
+  );
+  transition: transform 0.4s var(--ais-ease-expo);
+}
+
+.previewGrid {
   list-style: none;
+  margin: 0;
   padding: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--ais-space-sm);
 }
 
-.chip {
-  --rare: var(--ais-gold);
-  position: relative;
-  display: inline-flex;
+.previewCard {
+  --card-accent: var(--ais-accent-primary);
+  min-width: 0;
+}
+
+.previewLink {
+  display: flex;
   align-items: center;
   gap: var(--ais-space-xs);
-  padding: 0.65rem 1.15rem 0.65rem 0.65rem;
-  border-radius: var(--ais-radius-card);
-  border: 1px solid color-mix(in srgb, var(--rare) 38%, var(--ais-warm-border));
+  padding: var(--ais-space-sm);
+  border-radius: var(--ais-radius-soft);
+  border: 1px solid var(--ais-warm-border);
   background: var(--ais-warm-surface);
-  backdrop-filter: blur(14px) saturate(1.1);
-  -webkit-backdrop-filter: blur(14px) saturate(1.1);
-  box-shadow:
-    var(--ais-shadow-ambient),
-    inset 0 0 0 1px color-mix(in srgb, var(--rare) 12%, transparent);
+  box-shadow: var(--ais-shadow-hairline);
+  text-decoration: none;
   transition:
-    transform var(--ais-dur) var(--ais-ease-spring),
+    transform var(--ais-dur-fast) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
-  animation: chipFloat 6s ease-in-out infinite;
-  animation-delay: var(--chip-delay, 0s);
-  will-change: transform;
-}
-/* 레어도별 테두리 컬러 */
-.rare0 {
-  --rare: var(--ais-rare);
-}
-.rare1 {
-  --rare: var(--ais-epic);
-}
-.rare2 {
-  --rare: var(--ais-legend);
 }
 
-/* hover: 카드 팝(리프트 + 살짝 회전) + 레어도 네온 글로우 — 보상감 */
-.chip:hover {
-  transform: translateY(-6px) rotate(-1.2deg) scale(1.03);
-  border-color: var(--rare);
-  /* 네온 26px → 절제된 웜 리프트 + 옅은 레어도 링(레어도 컨셉 보존) */
-  box-shadow:
-    var(--ais-shadow-lift-warm),
-    var(--ais-glow-warm),
-    0 0 0 1px color-mix(in srgb, var(--rare) 45%, transparent);
-}
-/* hover: 레어도 테두리 정적 페이드 — 회전 대신 은은한 레어도 강조(절제). 장식, 클릭 통과. */
-.chip::before {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--rare) 55%, transparent) 0%,
-    color-mix(in srgb, var(--rare) 18%, transparent) 60%,
-    transparent 100%
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  opacity: 0;
-  transition: opacity var(--ais-dur) var(--ais-ease-expo);
-  pointer-events: none;
-}
-.chip:hover::before {
-  opacity: 1;
+.previewLink:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--card-accent) 45%, var(--ais-warm-border));
+  box-shadow: var(--ais-shadow-lift-warm);
 }
 
-.chipIconWrap {
+.previewLink:focus-visible {
+  outline: 2px solid var(--ais-accent-primary);
+  outline-offset: 3px;
+}
+
+.previewIconWrap {
   position: relative;
   flex: 0 0 auto;
 }
-.chipIcon {
+
+.previewIcon {
   display: block;
   width: 40px;
   height: 40px;
-  border-radius: 12px;
+  border-radius: 11px;
   object-fit: cover;
-  box-shadow:
-    0 6px 16px rgba(30, 50, 90, 0.18),
-    inset 0 0 0 1px rgba(20, 40, 80, 0.08);
-  transition: transform var(--ais-dur-fast) var(--ais-ease-bounce);
-}
-/* hover 시 아이콘만 통통 팝 — "캐릭터 등장" 강조 */
-.chip:hover .chipIcon {
-  transform: scale(1.12) rotate(-5deg);
-}
-/* 아이콘 위 레벨 핀 — RPG 캐릭터 레벨 */
-.chipLevel {
-  position: absolute;
-  bottom: -6px;
-  right: -7px;
-  padding: 1px 5px;
-  border-radius: var(--ais-radius-pill);
-  font-family: var(--ais-font-mono);
-  font-size: 0.54rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  color: var(--ais-navy);
-  background: var(--rare);
-  box-shadow: 0 2px 8px rgba(10, 25, 47, 0.3);
+  box-shadow: inset 0 0 0 1px rgba(74, 56, 32, 0.08);
 }
 
-.chipBody {
-  display: flex;
-  flex-direction: column;
-  gap: 0.18rem;
-  line-height: 1.15;
-  /* flex 자식 축소 허용 — 좁은 화면에서 이름/모노 라벨이 잘리지 않고 줄바꿈되도록 */
+/* 서비스 시그니처 색점 — 정체성 미니 표식 */
+.previewDot {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--card-accent);
+  border: 2px solid var(--ais-warm-surface);
+  box-shadow: var(--ais-shadow-hairline);
+}
+
+.previewName {
   min-width: 0;
-}
-.chipTop {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
-.chipName {
   font-family: var(--ais-font-display);
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.95rem;
+  font-weight: 600;
   color: var(--ais-text);
-}
-.chipUnlocked {
-  font-family: var(--ais-font-mono);
-  font-size: 0.52rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  padding: 1px 5px;
-  border-radius: 4px;
-  color: color-mix(in srgb, var(--rare) 75%, var(--ais-navy));
-  background: color-mix(in srgb, var(--rare) 16%, transparent);
-  border: 1px solid color-mix(in srgb, var(--rare) 35%, transparent);
-}
-.chipMood {
-  font-family: var(--ais-font-mono);
-  font-size: 0.66rem;
-  font-weight: 500;
-  letter-spacing: var(--ais-tracking-wide);
-  text-transform: uppercase;
-  color: var(--ais-text-soft);
-  /* 모노 라벨이 좁은 폭에서 넘치지 않도록 줄바꿈 허용 */
   overflow-wrap: anywhere;
 }
-/* 미니 스탯 게이지 — 캐릭터 능력치 */
-.chipStat {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.1rem;
-}
-.chipStatBar {
-  position: relative;
-  width: 64px;
-  height: 5px;
-  border-radius: var(--ais-radius-pill);
-  background: color-mix(in srgb, var(--ais-navy) 8%, var(--ais-surface-2));
-  overflow: hidden;
-}
-.chipStatFill {
-  position: absolute;
-  inset: 0;
-  width: var(--stat, 70%);
-  border-radius: inherit;
-  /* 원색 골드 앵커 → 웜 accent 로 채도 절제(레어도 --rare 색상 정체성은 유지) */
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--rare) 60%, var(--ais-accent-primary)),
-    var(--rare)
-  );
-}
-.chipStatVal {
-  font-family: var(--ais-font-mono);
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: var(--ais-accent-primary-ink);
-}
 
-@keyframes chipFloat {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-7px);
-  }
-}
-
-/* ── 스크롤 인디케이터 ── */
+/* ── 스크롤 인디케이터 (절제된 hairline) ── */
 .scrollHint {
   position: absolute;
   left: 50%;
@@ -896,6 +311,7 @@
   align-items: center;
   gap: var(--ais-space-2xs);
   color: var(--ais-text-soft);
+  text-decoration: none;
   transition: color var(--ais-dur-fast) var(--ais-ease-expo);
 }
 .scrollHint:hover {
@@ -913,23 +329,21 @@
 
 .scrollTrack {
   position: relative;
-  width: 22px;
-  height: 36px;
+  width: 20px;
+  height: 32px;
   border-radius: var(--ais-radius-pill);
-  border: 1.5px solid var(--ais-warm-border-strong);
-  background: var(--ais-warm-surface);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--ais-warm-border-strong);
+  background: transparent;
   overflow: hidden;
 }
 .scrollThumb {
   position: absolute;
   left: 50%;
-  top: 7px;
-  width: 4px;
-  height: 8px;
+  top: 6px;
+  width: 3px;
+  height: 7px;
   border-radius: 2px;
-  background: var(--ais-accent-grad);
+  background: var(--ais-accent-primary);
   transform: translateX(-50%);
   animation: scrollDrop 1.8s var(--ais-ease-expo) infinite;
 }
@@ -944,19 +358,24 @@
   }
   70% {
     opacity: 1;
-    transform: translate(-50%, 14px);
+    transform: translate(-50%, 12px);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, 18px);
+    transform: translate(-50%, 16px);
   }
 }
 
 /* ── 반응형 ── */
+@media (max-width: 900px) {
+  /* 프리뷰가 카피 하단으로 스택 — 3×2 → 넓은 폭 활용 위해 2컬럼 유지 */
+  .servicePreview {
+    transform: none;
+  }
+}
+
 @media (max-width: 560px) {
   .headline {
-    letter-spacing: -0.02em;
-    /* 긴 슬로건 단어가 좁은 폭을 넘지 않도록 — 단어 내 줄바꿈 허용 */
     overflow-wrap: anywhere;
   }
   .word {
@@ -972,78 +391,29 @@
     flex: 1 1 auto;
     justify-content: center;
   }
-  .chip {
-    flex: 1 1 100%;
+  .trustRow {
+    gap: var(--ais-space-sm);
   }
 }
 
-/* 초협소 폭(320~400): 칩 간격·여백을 좁혀 가로 오버플로우 방지 */
-@media (max-width: 400px) {
-  .chips {
-    gap: 0.65rem;
-  }
-  .chip {
-    gap: 0.55rem;
-    padding: 0.55rem 0.85rem 0.55rem 0.55rem;
-  }
-}
-
-/* ── reduced-motion: 큰 모션 정지 ── */
+/* ── reduced-motion: 드리프트/패럴랙스/카운트업 정지, 최종 상태만 표시 ── */
 @media (prefers-reduced-motion: reduce) {
-  .blobA,
-  .blobB,
-  .blobC,
-  .chip,
-  .scrollThumb,
-  .word,
-  .statusDot,
-  .xpFill::after,
-  .startMono,
-  .orb,
-  .scanline {
+  .gradGlow {
     animation: none !important;
   }
-  /* 스캔라인은 정지 시 숨김(상단 고정선 잔존 방지) */
-  .scanline {
-    opacity: 0;
-  }
-  /* 오브는 정지된 위치에서 은은하게만 */
-  .orb {
-    opacity: 0.4;
+  .servicePreview {
+    transform: none;
   }
   .word {
     opacity: 1;
     transform: none;
-  }
-  .aurora {
-    transform: none;
-  }
-  /* XP 바는 카운트업 즉시 최종값 → width 전환 없이 바로 채워진 상태 */
-  .xpFill {
     transition: none;
   }
-  .scrollHint:hover {
-    transform: translateX(-50%);
-  }
-  /* hover 팝도 회전/스케일 없이 안정적으로 */
-  .chip:hover,
-  .word:hover,
-  .levelBadge:hover,
-  .statChip:hover {
-    transform: none;
-  }
-  /* 레어도 테두리 흐름 / 아이콘 팝 정지 */
-  .chip::before,
-  .chip:hover::before {
+  .scrollThumb {
     animation: none !important;
-    opacity: 0;
+    opacity: 0.6;
   }
-  .chip:hover .chipIcon {
+  .previewLink:hover {
     transform: none;
-  }
-  /* ONLINE 2겹 펄스 정지 */
-  .statusDot::before,
-  .statusDot::after {
-    animation: none !important;
   }
 }

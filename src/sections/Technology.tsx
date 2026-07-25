@@ -56,48 +56,48 @@ interface TechMetric {
 interface TechCapability {
   /** 인라인 SVG 키 */
   icon: 'ai' | 'location' | 'globe' | 'devices';
-  /** 모노스페이스 코드 라벨 — 하이테크 시그니처 */
+  /** 모노스페이스 코드 라벨 — 기술 도메인 시그니처 */
   code: string;
-  /** 게임 HUD 업적 등급 라벨 (ACHIEVEMENT 타이틀) */
-  achievement: string;
+  /** 역량 카테고리 라벨 (기업 톤) */
+  category: string;
   title: string;
   desc: string;
   metric: TechMetric;
-  /** 진척 게이지 채움 비율(0~100) — 게임 스탯 보드 */
+  /** 진척 게이지 채움 비율(0~100) — 역량 성숙도 표시 */
   gauge: number;
-  /** 게이지 우측 모노 라벨 ("100%" / "MAX" 등) */
+  /** 게이지 우측 모노 라벨 (상태 요약) */
   gaugeLabel: string;
-  /** 레어도 칩 컬러 토큰 (게임 RPG 레어도) */
-  rarity: 'rare' | 'epic' | 'legend' | 'gold';
+  /** 카드 강조 톤 (시각적 위계용 — 색상 계층) */
+  tone: 'sky' | 'lilac' | 'amber' | 'gold';
 }
 
 const CAPABILITIES: TechCapability[] = [
   {
     icon: 'ai',
     code: 'CORE_AI',
-    achievement: 'AI ARCHITECT',
+    category: 'AI ENGINE',
     title: '생성형 AI 설계',
     desc: '목적지나 증상을 입력하면 AI가 여행 일정을 짜고 건강 관련 참고 정보를 제안합니다.',
     metric: { value: '3', unit: '단계', label: 'AI 자동 완성' },
     gauge: 100,
-    gaugeLabel: 'MAX',
-    rarity: 'legend',
+    gaugeLabel: 'CORE',
+    tone: 'amber',
   },
   {
     icon: 'location',
     code: 'GEO_ENGINE',
-    achievement: 'REALTIME SCOUT',
+    category: 'LOCATION',
     title: '위치 기반 추천',
     desc: '실시간 위치를 기반으로 주변 펫 시설과 여행 동선을 똑똑하게 추천합니다.',
     metric: { value: '실시간', label: '주변 탐색·동선' },
     gauge: 100,
     gaugeLabel: 'LIVE',
-    rarity: 'epic',
+    tone: 'lilac',
   },
   {
     icon: 'globe',
     code: 'MULTI_LANG',
-    achievement: 'GLOBAL LINGUIST',
+    category: 'GLOBAL',
     title: '다국어 지원',
     desc: '글로벌 사용자를 위해 다양한 언어로 동일한 경험을 제공합니다.',
     metric:
@@ -106,12 +106,12 @@ const CAPABILITIES: TechCapability[] = [
         : { value: '다국어', label: '글로벌 대응' },
     gauge: 100,
     gaugeLabel: LANGUAGE_COUNT !== null ? `${LANGUAGE_COUNT} LANGS` : 'MULTI',
-    rarity: 'rare',
+    tone: 'sky',
   },
   {
     icon: 'devices',
     code: 'CROSS_PLATFORM',
-    achievement: 'OMNI DEPLOY',
+    category: 'PLATFORM',
     title: '크로스플랫폼',
     desc: `iOS·Android·Web 어디서나 끊김 없는 경험으로 ${SERVICE_COUNT}개 서비스를 이용할 수 있습니다.`,
     // 서비스가 늘면 자동 반영되는 "서비스 수"를 대표 수치로 — 정체된 '3개 플랫폼' 느낌 제거.
@@ -122,14 +122,16 @@ const CAPABILITIES: TechCapability[] = [
     },
     gauge: 100,
     gaugeLabel: `${PLATFORMS.length} PLATFORMS`,
-    rarity: 'gold',
+    tone: 'gold',
   },
 ];
 
-// ── 게임 스탯 보드 상단 요약 (총 진척/언락 카운터) ──
-const TOTAL_QUESTS = CAPABILITIES.length;
-const UNLOCKED_QUESTS = CAPABILITIES.length; // 모든 역량이 LIVE = 언락 완료
-const COMPLETION_PCT = Math.round((UNLOCKED_QUESTS / TOTAL_QUESTS) * 100);
+// ── 역량 보드 상단 요약 (제공 중인 핵심 역량 수) ──
+const TOTAL_CAPABILITIES = CAPABILITIES.length;
+const LIVE_CAPABILITIES = CAPABILITIES.length; // 모든 핵심 역량이 서비스에 반영됨
+const COMPLETION_PCT = Math.round(
+  (LIVE_CAPABILITIES / TOTAL_CAPABILITIES) * 100,
+);
 
 const ICONS: Record<TechCapability['icon'], JSX.Element> = {
   ai: (
@@ -181,25 +183,15 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
   return (
     <li
       ref={setRefs}
-      className={`${styles.card} ${styles[`r_${cap.rarity}`]} reveal`}
+      className={`${styles.card} ${styles[`r_${cap.tone}`]} reveal`}
       style={{ '--reveal-delay': `${index * 90}ms` } as React.CSSProperties}
     >
-      {/* ── HUD 헤더: 업적 등급 + LIVE 언락 칩 ── */}
+      {/* ── 헤더: 역량 카테고리 + 상태 칩 ── */}
       <div className={styles.hudRow}>
-        <span className={styles.achievement}>
-          <span className={styles.achievementStar} aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="11" height="11">
-              <path
-                d="M12 2l2.9 6.26L21.5 9l-5 4.6L18 21l-6-3.4L6 21l1.5-7.4-5-4.6 6.6-.74L12 2z"
-                fill="currentColor"
-              />
-            </svg>
-          </span>
-          {cap.achievement}
-        </span>
+        <span className={styles.achievement}>{cap.category}</span>
         <span className={styles.rarityChip}>
           <span className={styles.rarityDot} aria-hidden="true" />
-          UNLOCKED
+          LIVE
         </span>
       </div>
 
@@ -250,7 +242,7 @@ function CapabilityCard({ cap, index }: { cap: TechCapability; index: number }) 
       <h3 className={styles.cardTitle}>{cap.title}</h3>
       <p className={styles.cardDesc}>{cap.desc}</p>
 
-      {/* ── 하단 스탯 게이지 바 (XP/진척감) ── */}
+      {/* ── 하단 역량 성숙도 게이지 바 ── */}
       <div className={styles.statBar}>
         <span className={styles.statCode}>{cap.code}</span>
         <span className={styles.gaugeTrack} aria-hidden="true">
@@ -275,7 +267,7 @@ export function Technology() {
     durationMs: 1100,
     delayMs: 200,
   });
-  const [questRef, quests] = useCountUp<HTMLElement>(UNLOCKED_QUESTS, {
+  const [liveRef, live] = useCountUp<HTMLElement>(LIVE_CAPABILITIES, {
     durationMs: 900,
     delayMs: 200,
   });
@@ -333,12 +325,12 @@ export function Technology() {
           </figcaption>
         </figure>
 
-        {/* ── 스탯 보드 요약 HUD: 총 퀘스트 진척 게이지 ── */}
+        {/* ── 역량 요약 보드: 제공 중인 핵심 역량 진척 게이지 ── */}
         <div className={`${styles.board} reveal`} ref={setBoardRefs}>
           <div className={styles.boardHead}>
-            <span className={styles.boardLabel}>// STAT_BOARD</span>
-            <span ref={questRef} className={styles.boardQuests}>
-              <strong>{quests}</strong>/{TOTAL_QUESTS} QUESTS UNLOCKED
+            <span className={styles.boardLabel}>// CAPABILITIES</span>
+            <span ref={liveRef} className={styles.boardQuests}>
+              <strong>{live}</strong>/{TOTAL_CAPABILITIES} 핵심 역량 제공 중
             </span>
           </div>
           <div className={styles.boardBar} aria-hidden="true">

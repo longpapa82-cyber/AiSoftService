@@ -143,24 +143,8 @@
     color var(--ais-dur-fast) var(--ais-ease-expo),
     transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
-/* 게임 HUD: 메뉴 항목 좌측 퀘스트 마커(◆) — hover 시 골드로 점등 */
-.navLink::before {
-  content: '◆';
-  margin-right: 0.4rem;
-  font-size: 0.62em;
-  color: var(--ais-text-soft);
-  opacity: 0.55;
-  transition:
-    color var(--ais-dur-fast) var(--ais-ease-expo),
-    opacity var(--ais-dur-fast) var(--ais-ease-expo);
-}
 .navLink:hover {
   transform: translateY(-1px);
-}
-.navLink:hover::before,
-.navLink:focus-visible::before {
-  color: var(--ais-gold-deep);
-  opacity: 1;
 }
 .navLink::after {
   content: '';
@@ -214,26 +198,6 @@
     box-shadow var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo);
   will-change: transform;
-}
-/* 좌측 골드 시그널 도트(라이브 상태 느낌) — PRESS START 점멸 */
-.navCta::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ais-gold);
-  box-shadow: 0 0 8px var(--ais-glow);
-  animation: ctaBlink 1.6s steps(1, end) infinite;
-}
-@keyframes ctaBlink {
-  0%,
-  60% {
-    opacity: 1;
-  }
-  61%,
-  100% {
-    opacity: 0.3;
-  }
 }
 .navCta:hover {
   transform: translateY(-2px);
@@ -394,7 +358,7 @@
   }
 }
 
-/* ── 스크롤 진행 골드바 ── */
+/* ── 스크롤 진행 인디케이터 (절제된 골드 라인) ── */
 .progress {
   position: absolute;
   left: 0;
@@ -410,67 +374,9 @@
   width: 100%;
   transform-origin: left center;
   transform: scaleX(var(--scroll, 0));
-  background: var(--ais-xp-bar);
-  box-shadow: 0 0 10px var(--ais-glow);
+  background: var(--ais-accent-grad);
+  box-shadow: 0 0 10px rgba(224, 168, 61, 0.28);
   /* --scroll은 rAF로 매 프레임 갱신되므로 transition 없이 즉시 반영 */
-}
-
-/* ── 수집 카운터 칩 ── */
-.collect {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-right: auto;
-  margin-left: 0.85rem;
-  padding: 0.32rem 0.7rem;
-  border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-glass-border);
-  background: var(--ais-glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  font-family: var(--ais-font-mono);
-  /* 0 수집 시 살짝 가라앉은 상태 → 수집되면 골드로 점등 */
-  opacity: 0.55;
-  transform: scale(0.96);
-  transition:
-    opacity var(--ais-dur) var(--ais-ease-expo),
-    transform var(--ais-dur) var(--ais-ease-bounce),
-    border-color var(--ais-dur) var(--ais-ease-expo);
-}
-.collectActive {
-  opacity: 1;
-  transform: scale(1);
-  border-color: color-mix(in srgb, var(--ais-gold) 55%, transparent);
-  box-shadow: var(--ais-glow-gold);
-}
-.collectIcon {
-  color: var(--ais-gold-deep);
-  font-size: 0.72rem;
-  line-height: 1;
-}
-.collectNum {
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  color: var(--ais-text);
-}
-.collectLabel {
-  font-size: 0.56rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  color: var(--ais-text-soft);
-}
-
-/* 좁은 화면에선 COLLECTED 라벨 숨겨 공간 절약 */
-@media (max-width: 720px) {
-  .collectLabel {
-    display: none;
-  }
-}
-@media (max-width: 520px) {
-  .collect {
-    display: none; /* 모바일: 네비 토글과 충돌 방지 — 진행바로 대체 */
-  }
 }
 
 /* ── reduced-motion 가드: 모션 최소화 시 transform/translate 무효화 ── */
@@ -482,20 +388,8 @@
   .menuBtn:active {
     transform: none;
   }
-  .navCta::before {
-    animation: none;
-    opacity: 1;
-  }
   .mobileLink:hover,
   .mobileLink:focus-visible {
     padding-left: 0.85rem;
-  }
-  /* 카운터 등장 모션 정지(가시성은 유지). 진행바 채움은 위치정보라 유지. */
-  .collect {
-    transition: opacity var(--ais-dur) linear;
-    transform: none;
-  }
-  .collectActive {
-    transform: none;
   }
 }

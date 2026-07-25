@@ -59,6 +59,8 @@
   --ais-font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
 
   --ais-text-hero: clamp(2.25rem, 1rem + 6.5vw, 5rem);
+  /* 기업 히어로용 초대형 디스플레이 스케일 — 화면 지배(정통 프리미엄 헤드라인). */
+  --ais-text-hero-xl: clamp(2.75rem, 1rem + 7vw, 5.5rem);
   --ais-text-h2: clamp(1.6rem, 1rem + 2.4vw, 2.25rem);
   --ais-text-h3: clamp(1.2rem, 1rem + 0.9vw, 1.5rem);
   --ais-text-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
