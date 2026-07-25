@@ -43,16 +43,16 @@
   box-shadow: 0 0 8px var(--ais-glow);
 }
 
-/* serif 챕터 카운터 — title 위 옅은 에디토리얼 마커(자간·italic). 저대비 장식.
-   aria-hidden 장식이라 밝은/다크 섹션 양쪽에서 무난한 웜 골드(--ais-accent-primary)를 쓴다. */
+/* v4: 모노 챕터 카운터 — title 위 테크 마커("02 / TECHNOLOGY" 식). serif italic 폐기.
+   aria-hidden 장식, 블루 액센트로 밝은/다크 섹션 양쪽 무난. */
 .chapter {
-  font-family: var(--ais-font-serif);
-  font-style: italic;
-  font-size: clamp(0.9rem, 0.85rem + 0.3vw, 1.05rem);
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-family: var(--ais-font-mono);
+  font-style: normal;
+  font-size: clamp(0.8rem, 0.75rem + 0.25vw, 0.9375rem);
+  font-weight: 600;
+  letter-spacing: var(--ais-tracking-wide);
   color: var(--ais-accent-primary);
-  opacity: 0.82;
+  opacity: 0.85;
 }
 
 /* 레버1 — h2 위계 승격: h2 → display-h2(상한 3.5rem). Hero(6.75) 다음 급. */

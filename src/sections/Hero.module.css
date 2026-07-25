@@ -129,27 +129,25 @@
   color: var(--ais-accent-primary-ink);
 }
 
-/* 헤드라인 — 초대형 디스플레이. 화면 지배(레버1: hero-xl → display, 자간 더 조임). */
+/* 헤드라인 — 초대형 디스플레이. v4: weight 800 강렬화(글로벌 테크 헤드라인). */
 .headline {
   margin: 0;
   font-family: var(--ais-font-display);
   font-size: var(--ais-text-display);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: var(--ais-tracking-display);
   line-height: 1.02;
   color: var(--ais-text);
   text-wrap: balance;
 }
 
-/* 감성 어절 serif italic 대비 — "AI" 골드 클립과 공존하는 이중 시그니처.
-   에디토리얼 개성 부여(전면 serif 아님, 핵심 명사 1개만). */
+/* v4: serif italic 대비 폐기(테크 기업 부적합) → 산세리프 유지 + 강조는
+   weight 대비로. "AI" 블루 클립과 함께 near-black 헤드라인의 리듬만 담당. */
 .serifAccent {
-  font-family: var(--ais-font-serif);
-  font-style: italic;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  /* 큰 디스플레이 sans 옆 serif가 살짝 작아 보이는 착시 보정 */
-  font-size: 1.02em;
+  font-family: var(--ais-font-display);
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: var(--ais-tracking-display);
 }
 
 /* 슬로건 단어별 진입 리빌(transform/opacity만). reveal 컨테이너 가시화 후 stagger. */

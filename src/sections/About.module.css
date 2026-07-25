@@ -89,11 +89,12 @@
    긴 리드 문장에서 serif 개성이 가장 빛난다. weight는 serif 특성상 600. */
 .leadText {
   margin: 0;
-  font-family: var(--ais-font-serif);
+  /* v4: serif 리드 → 강렬한 디스플레이 산세리프(글로벌 테크 톤) */
+  font-family: var(--ais-font-display);
   font-size: clamp(1.5rem, 1rem + 2.6vw, 2.5rem);
-  font-weight: 600;
+  font-weight: 700;
   line-height: var(--ais-leading-snug);
-  letter-spacing: var(--ais-tracking-tight);
+  letter-spacing: var(--ais-tracking-display);
   color: var(--ais-text);
   text-wrap: balance;
 }
