@@ -564,7 +564,7 @@ export const SERVICES: AppService[] = [
     iconUrl: aimusicIcon,
     links: {
       ios: 'https://apps.apple.com/kr/app/id6789540285',
-      web: 'https://longpapa82-cyber.github.io/aimusicstudio-web/',
+      web: 'https://ai-music-studio.com/',
       androidPending: true,
       webIsLegal: true,
     },
