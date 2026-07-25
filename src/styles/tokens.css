@@ -40,7 +40,9 @@
   --ais-epic: #b06cff;
   --ais-legend: #ff8a3d;
   --ais-hp: #3ddc84;
-  --ais-neon-gold: 0 0 0 2px rgba(249, 217, 73, 0.25), 0 0 24px rgba(249, 217, 73, 0.5);
+  /* 라이트 럭셔리 세련화: 게임화 구조·컨셉·텍스트는 유지, 골드 글로우 채도·무게만 절제.
+     기존 alpha 0.25/0.5 → 0.16/0.3 로 낮춰 크림 위에서 과포화되지 않게. */
+  --ais-neon-gold: 0 0 0 2px rgba(224, 168, 61, 0.18), 0 0 20px rgba(224, 168, 61, 0.3);
 
   /* ── 아기자기·도감 파스텔 보조 (캐주얼게임 톤) ── */
   --ais-pastel-pink: #ffd9e8;
@@ -73,14 +75,17 @@
   /* 칩·배지·작은 요소용 — 7px 각진 느낌 대신 통통한 라운드 */
   --ais-radius-chip: 12px;
   --ais-radius-soft: 14px;
-  --ais-shadow-card: 0 4px 24px -1px rgba(10, 25, 47, 0.06),
-    0 1px 3px rgba(10, 25, 47, 0.04);
-  --ais-shadow-lift: 0 18px 44px -4px rgba(10, 25, 47, 0.14),
-    0 6px 16px rgba(10, 25, 47, 0.08);
-  /* 골드 hover 글로우 (하이테크 시그니처) */
-  --ais-glow-gold: 0 0 24px rgba(249, 217, 73, 0.28);
+  /* 라이트 럭셔리: 쿨 navy 그림자 → 웜 브라운 다층 확산 그림자(거의 안 보이게).
+     11곳(단독·조합) 자동 이관 — 조합 사용처는 이 웜 base 위에 각 글로우가 얹혀 유효. */
+  --ais-shadow-card: 0 4px 24px -1px rgba(74, 56, 32, 0.07),
+    0 1px 3px rgba(74, 56, 32, 0.05);
+  --ais-shadow-lift: 0 18px 44px -4px rgba(74, 56, 32, 0.15),
+    0 6px 16px rgba(74, 56, 32, 0.09);
+  /* 골드 hover 글로우 (라이트 럭셔리 세련화: 채도·alpha 절제) */
+  --ais-glow-gold: 0 0 20px rgba(224, 168, 61, 0.2);
 
-  --ais-section-tint: #eef2f6;
+  /* 라이트 럭셔리: 쿨 회색 교차 틴트 → 웜 크림 틴트(About .intro 네이비 패널은 불변). */
+  --ais-section-tint: #f3ede3;
 
   /* ── 모션 ── */
   --ais-ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
