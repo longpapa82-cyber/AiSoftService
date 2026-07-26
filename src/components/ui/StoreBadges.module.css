@@ -33,25 +33,38 @@
   will-change: transform;
 }
 
-/* ── 위계 1: 주 플랫폼 — 채움 + 글로우로 시선 집중 ──
-   서비스 섹션 안(--p-primary 정의됨)에서는 그 서비스 브랜드색, 서비스 밖
-   (Footer 등)에서는 전역 액센트로 폴백. 각 서비스 섹션과 포인트 컬러 조화. */
+/* ── 위계 1: 주 플랫폼 — near-black 채움 + 흰 텍스트(Apple/Stripe 주 CTA) ──
+   연한 서비스 브랜드색 채움의 "물 빠진 느낌" 해소. 강한 대비(흰 텍스트 ~18:1).
+   서비스 정체성은 좌측 브랜드색 액센트 바(::before)로 유지. */
 .primary {
+  --bdg-accent: var(--p-primary, var(--ais-brand));
+  position: relative;
   border: 1px solid transparent;
-  background: var(--p-primary, var(--ais-brand));
-  /* 브랜드색 위 텍스트: 서비스가 계산해둔 --p-on-primary, 없으면 흰색 폴백 */
-  color: var(--p-on-primary, #ffffff);
-  --bdg-fg: var(--p-on-primary, #ffffff);
-  --bdg-sub: color-mix(in srgb, var(--p-on-primary, #ffffff) 72%, transparent);
+  background: #0f0f0f;
+  color: #ffffff;
+  --bdg-fg: #ffffff;
+  --bdg-sub: rgba(255, 255, 255, 0.72);
   box-shadow:
-    0 6px 18px -2px color-mix(in srgb, var(--p-primary, var(--ais-brand)) 40%, transparent),
-    0 2px 6px rgba(0, 0, 0, 0.12);
+    0 8px 22px -4px rgba(0, 0, 0, 0.32),
+    0 2px 6px rgba(0, 0, 0, 0.18);
+}
+/* 좌측 서비스 브랜드색 액센트 바 — near-black 위 개성 유지 */
+.primary::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 14%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--bdg-accent);
 }
 .primary:hover {
   transform: translateY(-3px) scale(1.03);
+  background: #000000;
   box-shadow:
-    0 16px 34px -4px color-mix(in srgb, var(--p-primary, var(--ais-brand)) 45%, transparent),
-    0 0 24px color-mix(in srgb, var(--p-primary, var(--ais-brand)) 30%, transparent);
+    0 16px 34px -4px rgba(0, 0, 0, 0.4),
+    0 0 24px color-mix(in srgb, var(--bdg-accent) 24%, transparent);
 }
 
 /* ── 위계 2: 보조 플랫폼 — 글래스 아웃라인(낮은 강조) ── */
@@ -192,11 +205,11 @@
   line-height: 1.4;
   transition: transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
-/* FREE 핀: primary(브랜드색 채움) 위에선 on-primary 잉크 배경 + 브랜드색 글자,
+/* FREE 핀: primary(near-black 채움) 위에선 서비스 브랜드색 채움 + 흰 글자(개성 유지),
    secondary 위에선 서비스 브랜드색 배경. 각 서비스 톤과 조화. */
 .primary .freePin {
-  background: var(--p-on-primary, #ffffff);
-  color: var(--p-primary, var(--ais-brand));
+  background: var(--p-primary, var(--ais-brand));
+  color: #ffffff;
 }
 .secondary .freePin {
   background: var(--p-primary, var(--ais-brand));

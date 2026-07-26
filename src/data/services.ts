@@ -357,7 +357,7 @@ export const SERVICES: AppService[] = [
         accent: '#ff6b5c',
         ink: '#232629',
         inkSoft: '#51555a',
-        onPrimary: '#ffffff',
+        onPrimary: '#2e2109',
       },
       fontDisplay: "'Jua', 'Quicksand', system-ui, sans-serif",
       fontBody: "'Quicksand', system-ui, sans-serif",

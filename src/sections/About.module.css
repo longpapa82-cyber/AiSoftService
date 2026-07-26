@@ -245,7 +245,9 @@
   transform: scaleX(1);
 }
 
-/* 아이콘 슬롯 — 카드별 옅은 워시 위 카드별 ink 라인 아이콘 */
+/* 아이콘 슬롯 — 적재적소 블루 포인트: 아이콘 슬롯 "한 겹"에만 옅은 블루 워시 +
+   블루 잉크 라인 아이콘. 제목/본문/헤어라인/보더/hover는 뉴트럴 유지(과함 방지).
+   블루는 화이트 위 AA 통과 토큰(--ais-accent-primary-ink). */
 .valueIcon {
   display: inline-grid;
   place-items: center;
@@ -253,8 +255,8 @@
   height: 52px;
   margin-bottom: var(--ais-space-2xs);
   border-radius: var(--ais-radius-soft);
-  color: var(--card-ink);
-  background: var(--card-soft);
+  color: var(--ais-accent-primary-ink);
+  background: var(--ais-accent-primary-soft);
   border: 1px solid var(--card-border);
   box-shadow: var(--ais-shadow-sm);
   transition:
@@ -424,7 +426,9 @@
 .wordmark {
   display: block;
   position: absolute;
-  right: clamp(1rem, 2vw, 2.5rem);
+  /* 우측 여백 확대: 모바일에서 1rem은 너무 좁아 글자가 테두리에 붙었다 →
+     최소 오프셋을 1.25rem로 올려 우측 안전 여백 확보(clip+nowrap 유지). */
+  right: clamp(1.25rem, 4vw, 2.5rem);
   bottom: clamp(0.5rem, 1.5vw, 1.5rem);
   z-index: 0;
   /* Outfit은 라틴 전용 → 한글은 로드된 Noto Sans KR로 명시 폴백 */
@@ -452,6 +456,13 @@
   }
   to {
     transform: translateY(-18px);
+  }
+}
+
+/* 모바일: 워드마크 크기를 한 단계 축소해 좁은 폭에서 우측 여백을 더 확보(오버플로우 0). */
+@media (max-width: 620px) {
+  .wordmark {
+    font-size: clamp(1.5rem, 6.5vw, 3rem);
   }
 }
 

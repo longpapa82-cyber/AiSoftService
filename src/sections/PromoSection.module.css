@@ -413,7 +413,10 @@
   font-size: 1.25rem;
   font-weight: 800;
   line-height: 1;
-  color: var(--p-primary);
+  /* 통계 수치 강조: 옅은 하늘색(다크 테마 --p-primary)이 배경 대비 흐릿하지 않도록
+     accent를 소량 섞어 브랜드 정체성은 유지하되 한 단계 진한 "우리 블루"로 굳힌다.
+     텍스트 강조 전용 — 채움/배경 변경 없음. */
+  color: color-mix(in srgb, var(--p-primary) 88%, var(--p-accent));
 }
 
 .highlightLabel {
