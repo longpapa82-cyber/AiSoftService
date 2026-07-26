@@ -375,7 +375,7 @@ export const SERVICES: AppService[] = [
       disclaimer:
         'AI 건강·법률 상담은 일반 정보 제공과 참고용이며, 수의학적 진단이나 법률 자문을 대체하지 않습니다. 시설 정보는 변동될 수 있습니다.',
     },
-    order: 3,
+    order: 2,
   },
   {
     id: 'mybaby',
@@ -452,7 +452,7 @@ export const SERVICES: AppService[] = [
       disclaimer:
         '공개된 뉴스·언론 기사를 AI가 정리해 보여주는 서비스로, 소속사·아티스트의 공식 정보가 아닙니다. 본 서비스는 표시된 아티스트·소속사와 제휴하거나 후원받지 않으며, 표시된 이름·소속은 각 권리자에게 귀속됩니다.',
     },
-    order: 2,
+    order: 3,
   },
   {
     id: 'mytoday',
