@@ -459,10 +459,25 @@
   }
 }
 
-/* 모바일: 워드마크 크기를 한 단계 축소해 좁은 폭에서 우측 여백을 더 확보(오버플로우 0). */
+/* 모바일: 워드마크 축소 + 하단 안전 여백 확보.
+   원인=패럴랙스 translateY(±18px)가 bottom(0.5rem=8px)보다 커서 아래로 밀리면
+   카드 하단 라운드 코너 안에서 6px 잘림(overflow:hidden 클립). 하단 오프셋을
+   진폭(18px)보다 크게(1.5rem=24px) 올려 어떤 스크롤 위치에서도 클립 방지. */
 @media (max-width: 620px) {
   .wordmark {
     font-size: clamp(1.5rem, 6.5vw, 3rem);
+    bottom: 1.5rem;
+    /* 패럴랙스 진폭도 축소(±18px→±9px) — bottom 24px 안에서 여유 확보(이중 안전장치). */
+    animation-name: aboutWordmarkDriftMobile;
+  }
+}
+
+@keyframes aboutWordmarkDriftMobile {
+  from {
+    transform: translateY(9px);
+  }
+  to {
+    transform: translateY(-9px);
   }
 }
 
