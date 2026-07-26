@@ -91,8 +91,8 @@
   font-weight: 800;
   font-size: 1.05rem;
   letter-spacing: -0.03em;
-  /* 파란 박스 위 "AI": 검정→흰색(Header 로고 점과 통일, 대비 명확). */
-  color: #ffffff;
+  /* v8: 노랑 박스 위 "AI" — 흰 글씨는 대비 1.53로 안 보임 → near-black(Header 점과 통일). */
+  color: #1a1200;
   /* 브랜드 심볼 채움은 헤더 로고(--ais-brand-grad)와 톤 일치 위해 유지(심볼 = keep). */
   background: var(--ais-brand-grad);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
