@@ -2,8 +2,8 @@
   <!-- 브라우저 탭 파비콘: 라운드 마크(탭 아이콘은 라운드가 자연스러움) -->
   <defs>
     <linearGradient id="ais-brand" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#2563eb"/>
-      <stop offset="1" stop-color="#1d4ed8"/>
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0284c7"/>
     </linearGradient>
     <radialGradient id="ais-sheen" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(0 0) scale(410)">

@@ -2,8 +2,8 @@
   <!-- 홈화면 아이콘: 꽉 찬 사각(OS가 라운드 마스크를 씌우므로 모서리까지 파랑 채움 → 흰 모서리 방지) -->
   <defs>
     <linearGradient id="ait-brand" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#2563eb"/>
-      <stop offset="1" stop-color="#1d4ed8"/>
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0284c7"/>
     </linearGradient>
     <radialGradient id="ait-sheen" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
       gradientTransform="translate(0 0) scale(410)">
