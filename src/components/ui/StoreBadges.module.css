@@ -37,7 +37,9 @@
    연한 서비스 브랜드색 채움의 "물 빠진 느낌" 해소. 강한 대비(흰 텍스트 ~18:1).
    서비스 정체성은 좌측 브랜드색 액센트 바(::before)로 유지. */
 .primary {
-  --bdg-accent: var(--p-primary, var(--ais-brand));
+  /* v8: 액센트 = 전역 노랑 포인트로 통일(서비스 브랜드색 분기 제거).
+     주 버튼 배경은 near-black 유지, 좌측 바·글로우만 노랑. */
+  --bdg-accent: var(--ais-brand);
   position: relative;
   border: 1px solid transparent;
   background: #0f0f0f;
@@ -76,9 +78,9 @@
 }
 .secondary:hover {
   transform: translateY(-3px) scale(1.02);
-  border-color: var(--p-primary, var(--ais-brand));
+  border-color: var(--ais-brand);
   box-shadow: var(--ais-shadow-lift),
-    0 0 20px color-mix(in srgb, var(--p-primary, var(--ais-brand)) 22%, transparent);
+    0 0 20px color-mix(in srgb, var(--ais-brand) 22%, transparent);
 }
 
 /* 암(어두운 스테이지/벽) 위 — 보조 배지를 밝은 글라스로 전환 */
@@ -90,9 +92,9 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.22);
 }
 .dark.secondary:hover {
-  border-color: var(--p-primary, var(--ais-brand));
+  border-color: var(--ais-brand);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3),
-    0 0 20px color-mix(in srgb, var(--p-primary, var(--ais-brand)) 24%, transparent);
+    0 0 20px color-mix(in srgb, var(--ais-brand) 24%, transparent);
 }
 /* primary(골드)는 다크/라이트 동일 — 그 위 잉크는 항상 네이비라 대비 충분 */
 
@@ -145,7 +147,7 @@
   transform: translateY(-1px) scale(0.99);
 }
 .badge:focus-visible {
-  outline: 2px solid var(--p-primary, var(--ais-brand));
+  outline: 2px solid var(--ais-brand);
   outline-offset: 3px;
 }
 
@@ -205,15 +207,12 @@
   line-height: 1.4;
   transition: transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
-/* FREE 핀: primary(near-black 채움) 위에선 서비스 브랜드색 채움 + 흰 글자(개성 유지),
-   secondary 위에선 서비스 브랜드색 배경. 각 서비스 톤과 조화. */
-.primary .freePin {
-  background: var(--p-primary, var(--ais-brand));
-  color: #ffffff;
-}
+/* v8: FREE 핀 = 전역 노랑 포인트 채움 + 검정 글자(노랑 위 흰글씨 1.53 미달 → 검정 12.13).
+   서비스 브랜드색 분기 제거, 6서비스 노랑 통일. */
+.primary .freePin,
 .secondary .freePin {
-  background: var(--p-primary, var(--ais-brand));
-  color: var(--p-on-primary, #ffffff);
+  background: var(--ais-brand);
+  color: #1a1200;
 }
 .badge:hover .freePin {
   transform: scale(1.12) rotate(3deg);
