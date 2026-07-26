@@ -547,10 +547,10 @@
   font-size: clamp(2.4rem, 1.8rem + 2.4vw, 3.4rem);
   line-height: 1;
   letter-spacing: -0.03em;
-  /* ★ v5: 시안은 오직 여기 — 카드 큰 수치 한 곳만(다크섹션 유일 포인트).
+  /* ★ v8: 포인트(순노랑)는 오직 여기 — 카드 큰 수치 한 곳만(다크섹션 유일 포인트).
      나머지는 전부 near-white/그레이(OpenAI 다크섹션식 거의 흑백). */
   color: var(--ais-dark-accent);
-  text-shadow: 0 0 20px rgba(86, 182, 232, 0.18);
+  text-shadow: 0 0 20px rgba(250, 204, 21, 0.22);
 }
 
 .metricUnit {

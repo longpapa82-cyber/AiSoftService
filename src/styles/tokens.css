@@ -21,24 +21,25 @@
   --ais-text-mid: #5a5a5a; /* 중성 그레이 */
   --ais-text-soft: #7a7a7a;
 
-  /* ── 포인트 (v7: 스카이 블루 계열로 통일 — 다크섹션 "실시간" 색(#56b6e8)과 한 계열.
-     남색기 #2563eb 폐기. 화이트=딥 스카이(sky-600/700, AA), 다크=#56b6e8. ── */
-  --ais-gold: #0284c7;
-  --ais-gold-2: #0369a1;
-  --ais-gold-deep: #0369a1;
-  --ais-brand: #0284c7;
-  --ais-brand-2: #0369a1;
-  --ais-brand-grad: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-  --ais-glow: rgba(2, 132, 199, 0.28);
+  /* ── 포인트 (v8: 본래 Signal Gold(노랑) 복원 — 투톤 적재적소.
+     노랑은 화이트 위 텍스트 취약(순노랑 1.53) → 텍스트는 딥골드(#92610a AA),
+     채움/로고/다크는 순노랑(#facc15). 스카이(v7) 폐기. ── */
+  --ais-gold: #facc15;        /* 순노랑 — 채움/큰 요소 */
+  --ais-gold-2: #92610a;      /* 딥골드 — 화이트 위 텍스트(AA 5.33) */
+  --ais-gold-deep: #a16207;   /* 딥골드 — 아이콘/보더 */
+  --ais-brand: #facc15;
+  --ais-brand-2: #92610a;
+  --ais-brand-grad: linear-gradient(135deg, #fde047 0%, #facc15 100%);
+  --ais-glow: rgba(250, 204, 21, 0.38);
 
   /* ── 다크 앵커 (v4 신규: Technology/Footer near-black + 시안 강렬 포인트) ── */
   --ais-dark-bg: #0f0f0f;
   --ais-dark-surface: #1a1a1a;
   --ais-dark-text: #ffffff;
   --ais-dark-text-soft: #b8b8b8;
-  /* 적재적소: 형광 시안(#00d9ff)이 게임·네온틱 → 차분한 스카이로 톤다운(다크 수치용). */
-  --ais-dark-accent: #56b6e8;        /* 차분한 스카이 — 다크 배경 수치 포인트(형광 제거) */
-  --ais-dark-accent-soft: rgba(86, 182, 232, 0.1);
+  /* v8: 노랑 최대 강점 — 검은 배경 위 순노랑(#facc15 12.52 AA)이 가장 화려. */
+  --ais-dark-accent: #facc15;        /* 순노랑 — 다크 배경 수치 포인트("실시간" 등) */
+  --ais-dark-accent-soft: rgba(250, 204, 21, 0.1);
 
   /* 글래스 표면 */
   --ais-glass-bg: rgba(255, 255, 255, 0.7);
@@ -46,7 +47,7 @@
   --ais-glass-border: rgba(0, 0, 0, 0.08);
 
   /* 절제된 웜 골드 글로우 — StoreBadges 등 hover 강조에 사용(게임 잔재 아님). */
-  --ais-neon-gold: 0 0 0 2px rgba(2, 132, 199, 0.18), 0 0 20px rgba(2, 132, 199, 0.3);
+  --ais-neon-gold: 0 0 0 2px rgba(250, 204, 21, 0.22), 0 0 20px rgba(250, 204, 21, 0.35);
 
   /* ── 타이포 (v4: 한글 Pretendard로 통일 — 글로벌 테크 산세리프) ── */
   --ais-font-display: 'Outfit', 'Pretendard', system-ui, -apple-system, sans-serif;
@@ -122,10 +123,10 @@
   --ais-warm-border-strong: rgba(0, 0, 0, 0.12);
 
   /* ── 색상 위계 3계층 (v4: 시안/블루 단일 액센트로 절제 — 골드/세이지/로즈 폐기) ── */
-  /* [1] Primary — v7 딥 스카이 블루: CTA·포인트. 다크섹션 #56b6e8과 한 계열. */
-  --ais-accent-primary: #0284c7;         /* sky-600 채움/큰 요소 */
-  --ais-accent-primary-soft: #e0f2fe;    /* sky-50 옅은 스카이 워시 (pill/아이콘 배경) */
-  --ais-accent-primary-ink: #0369a1;     /* sky-700 화이트 위 텍스트 (AA 5.93) */
+  /* [1] Primary — v8 노랑(Signal Gold): 투톤. 채움은 순노랑, 텍스트는 딥골드. */
+  --ais-accent-primary: #facc15;         /* 순노랑 채움/큰 요소 (위 텍스트는 검정) */
+  --ais-accent-primary-soft: #fef9c3;    /* amber-50 옅은 노랑 워시 (pill/아이콘 배경) */
+  --ais-accent-primary-ink: #92610a;     /* 딥골드 화이트 위 텍스트 (AA 5.33) */
   /* (v6 청소: --ais-accent-primary-border 데드 토큰 제거 — 참조 0) */
 
   /* [2] Secondary — 절제: 뉴트럴 그레이(3색 남용 방지, 글로벌 기업 색 절제).
@@ -135,11 +136,11 @@
   --ais-accent-secondary-ink: #3a3a3a;
   --ais-accent-secondary-border: rgba(0, 0, 0, 0.12);
 
-  /* [3] Highlight — v7 스카이 계열 라이트 틴트로 통일. */
-  --ais-accent-highlight: #38bdf8;       /* sky-400 */
-  --ais-accent-highlight-soft: #e0f2fe;
-  --ais-accent-highlight-ink: #0369a1;
-  --ais-accent-highlight-border: rgba(56, 189, 248, 0.35);
+  /* [3] Highlight — v8 노랑 계열 라이트 틴트로 통일. */
+  --ais-accent-highlight: #fde047;       /* yellow-300 */
+  --ais-accent-highlight-soft: #fef9c3;
+  --ais-accent-highlight-ink: #92610a;
+  --ais-accent-highlight-border: rgba(250, 204, 21, 0.4);
 
   /* (v6 청소: --ais-accent-grad 데드 토큰 제거 — Hero "AI" 클립 전용 --ais-ai-grad로 대체됨) */
 
@@ -147,8 +148,8 @@
      Hero "AI" 그라데이션 클립(.wordAI) 전용 accent — 공유 --ais-accent-grad를
      장식(Footer 라인·Header progressFill·Hero gradGlow 등)에서 뉴트럴로 뺄 때
      이 토큰만 컬러로 남겨 AI 시그니처를 보존한다(토큰 분리 = keeps 격리). */
-  /* v7: 스카이 계열(다크섹션 실시간 #56b6e8과 한 계열). 화이트 위라 딥쪽 비중↑로 가독. */
-  --ais-ai-grad: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+  /* v8: 노랑 계열. Hero "AI"는 큰 면적 클립이라 순노랑 OK. 화이트 위 가독 위해 딥쪽(#f5b400) 확보. */
+  --ais-ai-grad: linear-gradient(135deg, #fde047 0%, #f5b400 100%);
 
   /* ═══ [B] 깊이 — 다층 확산 그림자 (v4: 뉴트럴 그레이스케일, 웜 브라운 폐기) ═══ */
   --ais-shadow-hairline: 0 1px 0 rgba(0, 0, 0, 0.04),
@@ -159,8 +160,8 @@
     0 3px 10px rgba(0, 0, 0, 0.06);                     /* 카드 기본 elevation 2 */
   --ais-shadow-lift-warm: 0 24px 56px -12px rgba(0, 0, 0, 0.14),
     0 8px 20px rgba(0, 0, 0, 0.08);                     /* hover 부양 elevation 3 */
-  /* 절제된 블루 hover 글로우 */
-  --ais-glow-warm: 0 0 24px rgba(2, 132, 199, 0.18);
+  /* 절제된 노랑 hover 글로우(웜 골드) */
+  --ais-glow-warm: 0 0 24px rgba(250, 204, 21, 0.3);
 
   /* ═══ [C] 리듬 — 간격 / 타이포 / 라운드 ══════════════════════════ */
 
