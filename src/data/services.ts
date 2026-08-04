@@ -646,9 +646,10 @@ export const SERVICES: AppService[] = [
       '계약서·협약서를 사진으로 찍으면 로픽 AI가 어려운 법률 내용을 쉽게 풀어주고, 놓치기 쉬운 조항과 꼭 확인해야 할 부분을 짚어드립니다. 궁금한 점은 AI 법률 챗봇에게 바로 물어보세요.',
     // iOS·Android 모두 출시 완료. iOS = Apple ID 6792434731(개발자 HOONJAE PARK),
     // Android = com.joyfulday.lawpic(Play 프로덕션 공개). 두 스토어 실링크 모두 활성.
-    // web은 라이브 홍보 랜딩(lawpic-promo.vercel.app)이지만 앱 설치 유도가 우선이라
-    // App Store를 primary로(webIsLegal). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)에
-    // iOS·Android 모두 다른 앱으로 이미 집계돼 총 플랫폼 수 불변.
+    // 주 CTA(포인트 컬러/골드) = 웹사이트(lawpic-promo.vercel.app 홍보 랜딩).
+    // webIsLegal 미설정 → primaryStore=false → 웹사이트가 primary(골드). 배지 슬롯 순서
+    // [App Store][Google Play][웹사이트] 불변, 골드만 웹사이트로. PLATFORM_COUNT(Hero)·
+    // PLATFORMS(Technology)에 iOS·Android 모두 다른 앱으로 이미 집계돼 총 플랫폼 수 불변.
     status: 'live',
     moodLabel: 'Ethereal Sky Trust',
     emoji: '⚖️',
@@ -657,7 +658,6 @@ export const SERVICES: AppService[] = [
       ios: 'https://apps.apple.com/kr/app/id6792434731',
       android: 'https://play.google.com/store/apps/details?id=com.joyfulday.lawpic',
       web: 'https://lawpic-promo.vercel.app/',
-      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
