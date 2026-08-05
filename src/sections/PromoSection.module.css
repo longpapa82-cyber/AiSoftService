@@ -1521,3 +1521,33 @@
     transition-delay: 0ms;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+ * Voice Buddy 전용 대비 보정 (#promo-voicebuddy)
+ * dark:true + 밝은(흰) surface 카드 조합은 이 서비스가 처음이라,
+ * .dark 기본 규칙엔 "흰 카드 안 텍스트를 어둡게" 하는 처리가 없다.
+ * 인디고 배경 위 텍스트는 흰색(--p-ink) 유지하되, 흰 surface 안(칩·스텝·
+ * 분석카드 등)의 텍스트는 인디고/차콜로 되돌려 대비를 확보한다.
+ * :global(#promo-voicebuddy)로 이 서비스만 타겟 → 다른 6서비스 무영향.
+ * ────────────────────────────────────────────────────────────── */
+
+/* highlight 칩: 흰 배경 위 값=인디고, 라벨=슬레이트 */
+:global(#promo-voicebuddy) .highlightValue {
+  color: #3f5ee8;
+}
+:global(#promo-voicebuddy) .highlightLabel {
+  color: #6b7089;
+}
+
+/* 우측 스텝 카드: 흰 배경 위 제목=차콜, 설명=슬레이트 */
+:global(#promo-voicebuddy) .stepTitle {
+  color: #2b2d42;
+}
+:global(#promo-voicebuddy) .stepDesc {
+  color: #6b7089;
+}
+/* 스텝 번호 배지: 인디고 채움 + 흰 숫자(홍보웹의 원형 번호칩) */
+:global(#promo-voicebuddy) .stepNo {
+  background: linear-gradient(135deg, #6d86ff, #5b7cfa);
+  color: #ffffff;
+}
