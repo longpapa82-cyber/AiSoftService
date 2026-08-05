@@ -799,15 +799,17 @@ export const SERVICES: AppService[] = [
       headlineAccent: '버디와 함께 떠나요',
       subcopy:
         '한국어로 말하면 버디가 상대 언어로 실시간 통역해 들려줘요. 마주보고 하는 양방향 대화 모드와, 인터넷이 없어도 쓰는 오프라인 여행 회화집까지 챙겼어요.',
-      // Voice Buddy: "밝고 귀여운(Playful Pastel)" 톤 — 부드러운 인디고 #5B7CFA + 코랄 #FF7A8A,
-      // 연한 라벤더 배경. 마스코트 "버디" 중심. dark 미설정(라이트 톤).
+      // Voice Buddy: 홍보웹(promo-web-gray) 톤 정합 — 인디고가 지배하는 라이트 무드.
+      // ⚠️ accent는 마스코트 후광(mascotGlow=var(--p-accent))·강조에 쓰이므로, 홍보웹처럼
+      // 라이트 인디고 #8aa0ff로 둔다(홍보웹 마스코트 후광 radial-gradient(#d9e2ff,#8aa0ff)와 정합).
+      // 코랄 #FF7A8A는 홍보웹에서 거의 미사용이라 promo에선 배제(통합 카드 theme.accent에만 소량 유지).
       palette: {
         bg: '#eef0fb',
         heroGradient:
           'linear-gradient(150deg, #8aa0ff 0%, #5b7cfa 50%, #3f5ee8 100%)',
         surface: '#ffffff',
         primary: '#5b7cfa',
-        accent: '#ff7a8a',
+        accent: '#8aa0ff',
         ink: '#2b2d42',
         inkSoft: '#6b7089',
         onPrimary: '#ffffff',
