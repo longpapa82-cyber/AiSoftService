@@ -555,17 +555,16 @@ export const SERVICES: AppService[] = [
     tagline: '누구나 만드는 나만의 음악',
     description:
       '원하는 곡 내용을 입력하면 AI가 자동으로 음악을 만들어 주는 앱. 가수 보이스 유형을 골라 나만의 곡을 완성하고, 소장하거나 공유할 수 있어요. 트로트·팝·발라드부터 K-Pop·시티팝·재즈까지 8가지 장르, 30·60·180초 길이를 지원합니다.',
-    // iOS 출시 완료(Apple ID 6789540285). Android는 준비 중(스토어 미출시) → androidPending으로 "준비 중" 배지 표기.
-    // Android 출시 시 androidPending 제거하고 android 링크만 추가하면 자동 반영.
-    // web은 웨이팅 홍보 랜딩이지만 iOS 출시로 앱 설치 유도가 우선이라 App Store를 primary로(webIsLegal).
+    // iOS·Android 모두 출시 완료. iOS = Apple ID 6789540285, Android = com.aimusicstudio.app(Play 프로덕션 공개).
+    // web은 홍보 랜딩이지만 앱 설치 유도가 우선이라 App Store를 primary로(webIsLegal).
     status: 'live',
     moodLabel: 'Dark Luxury Studio',
     emoji: '🎵',
     iconUrl: aimusicIcon,
     links: {
       ios: 'https://apps.apple.com/kr/app/id6789540285',
+      android: 'https://play.google.com/store/apps/details?id=com.aimusicstudio.app',
       web: 'https://ai-music-studio.com/',
-      androidPending: true,
       webIsLegal: true,
     },
     theme: {
