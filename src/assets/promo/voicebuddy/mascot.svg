@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="280" viewBox="0 0 140 140" role="img" aria-label="Voice Buddy 마스코트">
+  <defs>
+    <radialGradient id="auraB" cx="50%" cy="46%" r="55%">
+      <stop offset="0.6" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bodyB" x1="0" y1="0" x2="0.4" y2="1">
+      <stop offset="0" stop-color="#F3F7FF"/>
+      <stop offset="1" stop-color="#C7D8FF"/>
+    </linearGradient>
+    <linearGradient id="shineB" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.7"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <circle cx="70" cy="64" r="66" fill="url(#auraB)"/>
+  <path d="M70 16 C102 16 120 34 120 62 C120 90 102 108 70 108 L52 108 L34 122 L38 105 C22 96 20 80 20 62 C20 34 38 16 70 16 Z" fill="url(#bodyB)" stroke="#FFFFFF" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M70 22 C98 22 114 38 114 58 C114 46 96 32 70 32 C44 32 26 46 26 58 C26 38 42 22 70 22 Z" fill="url(#shineB)"/>
+  <circle cx="44" cy="72" r="8" fill="#FF9DAF" opacity="0.75"/>
+  <circle cx="96" cy="72" r="8" fill="#FF9DAF" opacity="0.75"/>
+  <ellipse cx="54" cy="60" rx="7.5" ry="9" fill="#2B2D42"/>
+  <ellipse cx="86" cy="60" rx="7.5" ry="9" fill="#2B2D42"/>
+  <circle cx="57" cy="56" r="3" fill="#FFFFFF"/>
+  <circle cx="89" cy="56" r="3" fill="#FFFFFF"/>
+  <circle cx="51" cy="63" r="1.4" fill="#FFFFFF" opacity="0.8"/>
+  <circle cx="83" cy="63" r="1.4" fill="#FFFFFF" opacity="0.8"/>
+  <path d="M54 78 Q70 92 86 78" stroke="#2B2D42" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+</svg>

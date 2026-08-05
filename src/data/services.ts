@@ -9,6 +9,7 @@ import mybabyIcon from '../assets/services/mybaby-icon.png';
 import mytodayIcon from '../assets/services/mytoday-icon.png';
 import aimusicIcon from '../assets/services/aimusic-icon.png';
 import lawpicIcon from '../assets/services/lawpic-icon.png';
+import voicebuddyIcon from '../assets/services/voicebuddy-icon.png';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -24,6 +25,10 @@ import aimusicShot from '../assets/promo/aimusic/shot-home.webp';
 import aimusicHero from '../assets/promo/aimusic/hero-welcome.webp';
 // 로픽: 부엉이 마스코트(투명 배경) — 우측 히어로 일러스트(myToday 새싹과 동일 취급).
 import lawpicMascot from '../assets/promo/lawpic/mascot.webp';
+// Voice Buddy: "버디" 채팅 버블 마스코트(투명 배경 SVG) — 우측 히어로 일러스트.
+// 홍보 웹의 래스터 buddy-512.png는 인디고 배경이 채워진 불투명 이미지라, 원형 프레임과
+// 배경 충돌이 없는 투명 벡터(buddy-onbrand.svg)를 반입해 myToday 새싹·로픽 부엉이와 동일 취급.
+import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -752,6 +757,94 @@ export const SERVICES: AppService[] = [
         '로픽의 AI 설명·분석은 일반적인 정보 제공과 참고를 위한 것으로, 변호사의 법률 자문이나 법률 판단을 대체하지 않습니다. 중요한 법적 결정은 반드시 전문가와 상담하세요.',
     },
     order: 6,
+  },
+  {
+    id: 'voicebuddy',
+    name: 'Voice Buddy',
+    tagline: '말하면 빠르게 번역, 버디와 함께',
+    description:
+      '해외 여행에서 현지인과 자연스럽게 대화하세요. 말하면 상대 언어로 실시간 통역하고, 마주보고 하는 양방향 대화 모드와 오프라인 여행 회화집까지. 한·영·일·중 등 9개 언어를 지원합니다.',
+    // iOS·Android 모두 스토어 미출시(준비 중). 홍보 웹(promo-web-gray.vercel.app)만 라이브.
+    // → status='coming_soon'(두 스토어 준비중 배지 + 웹사이트가 주 CTA). 로픽 최초(#45)·
+    // AI Music 최초(#40)와 동일 상태. ios/android 링크 미설정 → PLATFORM_COUNT(Hero)·
+    // PLATFORMS(Technology) 집계 제외로 허위 출시 플랫폼 방지. web은 라이브라 집계 반영.
+    // ⚠️ Android 패키지는 출시 시 app.json(com.systemplanners.interpreter)이 SoT — 이번엔 링크 미설정.
+    status: 'coming_soon',
+    moodLabel: 'Playful Pastel Voice',
+    emoji: '🗣️',
+    iconUrl: voicebuddyIcon,
+    links: {
+      web: 'https://promo-web-gray.vercel.app/',
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#2b2d42',
+      inkSoft: '#6b7089',
+      // 부드러운 인디고 #5B7CFA(흰 글씨 대비 4.6:1 WCAG AA 충족) + 코랄 #FF7A8A 포인트.
+      primary: '#5b7cfa',
+      accent: '#ff7a8a',
+      gradient: 'linear-gradient(135deg, #e9edff 0%, #f3f4fd 55%, #ffffff 100%)',
+      font: "'Noto Sans KR', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'mic', title: '실시간 음성 통역', desc: '말하면 상대 언어로 바로 통역해 들려줘요' },
+      { icon: 'forum', title: '양방향 대화 모드', desc: '마주보고 서로의 말을 실시간으로 통역' },
+      { icon: 'menu_book', title: '여행 회화집', desc: '국가별 필수 표현을 오프라인으로 상시 제공' },
+    ],
+    stats: [{ label: '지원 언어', value: '9개' }],
+    promo: {
+      kicker: 'AI 여행 통역 앱',
+      headline: '말하면 빠르게 번역,\n',
+      headlineAccent: '버디와 함께 떠나요',
+      subcopy:
+        '한국어로 말하면 버디가 상대 언어로 실시간 통역해 들려줘요. 마주보고 하는 양방향 대화 모드와, 인터넷이 없어도 쓰는 오프라인 여행 회화집까지 챙겼어요.',
+      // Voice Buddy: "밝고 귀여운(Playful Pastel)" 톤 — 부드러운 인디고 #5B7CFA + 코랄 #FF7A8A,
+      // 연한 라벤더 배경. 마스코트 "버디" 중심. dark 미설정(라이트 톤).
+      palette: {
+        bg: '#eef0fb',
+        heroGradient:
+          'linear-gradient(150deg, #8aa0ff 0%, #5b7cfa 50%, #3f5ee8 100%)',
+        surface: '#ffffff',
+        primary: '#5b7cfa',
+        accent: '#ff7a8a',
+        ink: '#2b2d42',
+        inkSoft: '#6b7089',
+        onPrimary: '#ffffff',
+      },
+      fontDisplay: "'Jua', 'Noto Sans KR', system-ui, sans-serif",
+      fontBody: "'Noto Sans KR', system-ui, sans-serif",
+      radius: 24,
+      motif: 'none',
+      // "버디" 채팅 버블 마스코트(투명 SVG) — 우측 비주얼 상단 원형 프레임.
+      mascot: voicebuddyMascot,
+      highlights: [
+        { value: '9개 언어', label: '실시간 통역' },
+        { value: '양방향', label: '대화 모드' },
+        { value: '오프라인', label: '여행 회화집' },
+      ],
+      // 우측 비주얼: 실제 서비스 흐름 3단계 (마이크 켜기 → 말하기 → 번역해 들려주기).
+      steps: [
+        {
+          no: '1',
+          title: '마이크 켜기',
+          desc: '통역할 언어를 고르고 마이크를 켜요. 준비는 이걸로 끝이에요.',
+        },
+        {
+          no: '2',
+          title: '말하기',
+          desc: '하고 싶은 말을 편하게 말하면 버디가 바로 알아들어요.',
+        },
+        {
+          no: '3',
+          title: '번역해 들려주기',
+          desc: '버디가 상대 언어로 실시간 번역해 음성으로 들려줘요.',
+        },
+      ],
+      disclaimer:
+        '실시간 통역 품질은 네트워크 상태·발화 환경에 따라 달라질 수 있으며, 중요한 의사소통은 참고용으로 활용하세요. 오프라인 회화집은 사전 제공된 표현에 한합니다.',
+    },
+    order: 7,
   },
 ];
 
