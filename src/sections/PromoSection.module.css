@@ -1646,9 +1646,13 @@
      상단엔 ✈️·🌏 2개만, 나머지 3개는 우측 골에 세로로 흘려 상하 분산. */
   :global(#promo-voicebuddy) .travelIcon0 { left: 6%; top: 1%; }    /* ✈️ 좌상단 */
   :global(#promo-voicebuddy) .travelIcon2 { left: 90%; top: 3%; }   /* 🌏 상단 우측 */
-  :global(#promo-voicebuddy) .travelIcon3 { left: 92%; top: 13%; }  /* 💬 우측(로고줄 여백) */
-  :global(#promo-voicebuddy) .travelIcon1 { left: 10%; top: 40%; }  /* 🗺️ 상단서 좌측 중단으로 내림(사용자 요청) */
-  :global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 30%; }  /* 🧳 우측 골(subcopy·badges 사이) 유지 */
+  /* 375px(최협폭) 여백 실측 — 배지 스택(33~45%)·마스코트대(50~80%)는 좌우
+     모두 콘텐츠가 잠식. 진짜 안전 여백은 상단(0~4%)·우측(4~28%)·최하단(95%+).
+     배지 우측도 좁은 화면선 배지가 넓어져 위험 → 그 대역 회피.
+     배치: 상단 ✈️🌏 / 우측 💬·🧳 / 최하단 🗺️ → 상하 골고루. */
+  :global(#promo-voicebuddy) .travelIcon3 { left: 92%; top: 12%; }  /* 💬 우측(로고줄 여백, 우여백23%) */
+  :global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 27%; }  /* 🧳 우측(langSwap 아래, 우여백13%) */
+  :global(#promo-voicebuddy) .travelIcon1 { left: 12%; top: 96%; }  /* 🗺️ 최하단 여백(스텝 아래 빈 줄, 상단서 내림) */
 }
 
 /* ══════════════════════════════════════════════════════════════
