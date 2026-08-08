@@ -1552,35 +1552,92 @@
   color: #ffffff;
 }
 
-/* ══════════════════════════════════════════════════════════════
- * Voice Buddy: 떠다니는 여행 무드 이모지 (홍보 웹 시그니처)
- * 인디고 히어로 뒤로 ✈️🌍🧳💬🏛️🗺️를 반투명하게 흩뿌리고 은은히 부유시킨다.
- * .decor(z-index:-2) 안에 렌더되므로 히어로 카드/텍스트에 가리지 않는다.
- * 위치·크기·모션 위상은 인덱스별로 흩어 자연스러운 리듬을 만든다.
- * ────────────────────────────────────────────────────────────── */
-.floatIcon {
-  position: absolute;
-  font-size: clamp(1.6rem, 1rem + 2.2vw, 3rem);
-  line-height: 1;
-  opacity: 0.42;
-  /* 밝은 인디고 위에서 이모지가 은은히 떠 보이도록 흰 후광 + 소프트 섀도 */
-  filter:
-    drop-shadow(0 0 10px rgba(255, 255, 255, 0.45))
-    drop-shadow(0 8px 16px rgba(40, 60, 160, 0.3));
-  user-select: none;
-  will-change: transform;
-  animation: promo-vb-float 9s var(--ais-ease-expo, ease-in-out) infinite;
+/* 마스코트 글로우: 홍보웹 glow-pulse 재현 — 숨쉬듯 밝기·크기 맥동 (Voice Buddy만) */
+:global(#promo-voicebuddy) .mascotGlow {
+  inset: -22%;
+  filter: blur(14px);
+  animation: promo-vb-glow 3.6s ease-in-out infinite;
 }
-/* 개별 아이콘 배치 + 모션 지연/주기 분산 (히어로 카드를 피해 가장자리로) */
-.floatIcon0 { top: 16%; left: 6%; animation-duration: 8s; animation-delay: 0s; }
-.floatIcon1 { top: 12%; right: 9%; font-size: clamp(1.2rem, 0.8rem + 1.4vw, 2rem); animation-duration: 10.5s; animation-delay: -1.5s; }
-.floatIcon2 { bottom: 14%; right: 7%; animation-duration: 9.5s; animation-delay: -3s; }
-.floatIcon3 { top: 46%; left: 3%; font-size: clamp(1rem, 0.7rem + 1.2vw, 1.7rem); animation-duration: 11s; animation-delay: -2.2s; }
-.floatIcon4 { bottom: 18%; left: 10%; animation-duration: 8.8s; animation-delay: -4s; }
-.floatIcon5 { top: 60%; right: 5%; font-size: clamp(1.1rem, 0.75rem + 1.3vw, 1.85rem); animation-duration: 10s; animation-delay: -0.8s; }
-@keyframes promo-vb-float {
-  0%, 100% { transform: translateY(0) rotate(-4deg); }
-  50% { transform: translateY(-16px) rotate(4deg); }
+@keyframes promo-vb-glow {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 0.95; transform: scale(1.1); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+ * Voice Buddy: 소리 확산 링 (홍보 웹 pulse-ring — 음성 통역 핵심 모티프)
+ * 마스코트 뒤로 소리가 퍼져나가는 파동을 N겹 링이 순차 확산으로 표현한다.
+ * mascotStage(position:relative) 안에 절대배치, 마스코트 뒤(z-index:0)에 깔린다.
+ * ────────────────────────────────────────────────────────────── */
+:global(#promo-voicebuddy) .soundRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 82%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.55);
+  transform: translate(-50%, -50%) scale(1);
+  z-index: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: promo-vb-ring 3.2s ease-out infinite;
+}
+:global(#promo-voicebuddy) .soundRing0 { animation-delay: 0s; }
+:global(#promo-voicebuddy) .soundRing1 { animation-delay: 1.06s; }
+:global(#promo-voicebuddy) .soundRing2 { animation-delay: 2.13s; }
+@keyframes promo-vb-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.92);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.7);
+    opacity: 0;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+ * Voice Buddy: 통역 데모 칩 (홍보 웹 float-chip)
+ * 마스코트 주변을 감싸며 떠다니는 흰 pill — "안녕하세요 → Hello" 등.
+ * 칩 좌측 원형 도트가 상태색(듣기 cyan → 번역 brand → 재생 green)을 표현.
+ * ────────────────────────────────────────────────────────────── */
+:global(#promo-voicebuddy) .chatChip {
+  position: absolute;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid #e7e9f5;
+  font-family: var(--p-font-body);
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+  color: #2b2d42;
+  box-shadow: 0 14px 30px -10px rgba(40, 60, 160, 0.45);
+  will-change: transform;
+  animation: promo-vb-chip 4.5s ease-in-out infinite;
+}
+:global(#promo-voicebuddy) .chatChipDot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  flex: none;
+}
+:global(#promo-voicebuddy) .chatChipDot_brand { background: #5b7cfa; }
+:global(#promo-voicebuddy) .chatChipDot_cyan { background: #3fd0e8; }
+:global(#promo-voicebuddy) .chatChipDot_green { background: #38d39f; }
+:global(#promo-voicebuddy) .chatChipDot_coral { background: #ff7a8a; }
+/* 칩 배치 — 마스코트를 시계 방향으로 감싸고 위상 분산으로 각자 떠다님 */
+:global(#promo-voicebuddy) .chatChip0 { top: 8%; left: -6%; animation-delay: 0s; }
+:global(#promo-voicebuddy) .chatChip1 { top: 20%; right: -8%; animation-delay: -1.1s; }
+:global(#promo-voicebuddy) .chatChip2 { bottom: 22%; left: -8%; animation-delay: -2.2s; }
+:global(#promo-voicebuddy) .chatChip3 { bottom: 6%; right: -4%; animation-delay: -3.3s; }
+@keyframes promo-vb-chip {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -1627,9 +1684,16 @@
   font-weight: 700;
 }
 
-/* 접근성: 모션 최소화 선호 시 부유 애니메이션 정지 */
+/* 접근성: 모션 최소화 선호 시 링/칩/글로우 애니메이션 정지 (요소는 유지) */
 @media (prefers-reduced-motion: reduce) {
-  .floatIcon {
+  :global(#promo-voicebuddy) .soundRing,
+  :global(#promo-voicebuddy) .chatChip,
+  :global(#promo-voicebuddy) .mascotGlow {
     animation: none;
+  }
+  /* 링은 모션 없으면 첫 프레임에 겹쳐 지저분 → 하나만 은은히 남김 */
+  :global(#promo-voicebuddy) .soundRing1,
+  :global(#promo-voicebuddy) .soundRing2 {
+    opacity: 0;
   }
 }

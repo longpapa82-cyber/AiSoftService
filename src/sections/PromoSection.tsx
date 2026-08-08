@@ -101,12 +101,6 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
           Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className={`${styles.leaf} ${styles[`leaf${i}`]}`} />
           ))}
-        {/* 여행 무드 이모지(Voice Buddy): 히어로 뒤로 반투명하게 떠다니는 아이콘 */}
-        {promo.floatingIcons?.map((icon, i) => (
-          <span key={`${icon}-${i}`} className={`${styles.floatIcon} ${styles[`floatIcon${i}`]}`}>
-            {icon}
-          </span>
-        ))}
       </div>
 
       <div className="ais-container">
@@ -343,6 +337,15 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
               /* 마스코트 히어로 + 기분 칩 + 스텝 (myToday: 새싹 성장 서사) */
               <div className={styles.growCard}>
                 <div className={styles.mascotStage}>
+                  {/* 소리 확산 링(Voice Buddy): 마스코트 뒤로 퍼지는 음성 파동 */}
+                  {promo.soundRings &&
+                    Array.from({ length: promo.soundRings }).map((_, i) => (
+                      <span
+                        key={`ring-${i}`}
+                        className={`${styles.soundRing} ${styles[`soundRing${i}`]}`}
+                        aria-hidden="true"
+                      />
+                    ))}
                   <span className={styles.mascotGlow} aria-hidden="true" />
                   <img
                     className={styles.mascotImg}
@@ -352,6 +355,19 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                     height={200}
                     loading="lazy"
                   />
+                  {/* 통역 데모 칩(Voice Buddy): 마스코트 주변을 감싸며 떠다니는 흰 pill */}
+                  {promo.chatChips?.map((chip, i) => (
+                    <span
+                      key={chip.text}
+                      className={`${styles.chatChip} ${styles[`chatChip${i}`]}`}
+                    >
+                      <span
+                        className={`${styles.chatChipDot} ${styles[`chatChipDot_${chip.tone}`]}`}
+                        aria-hidden="true"
+                      />
+                      {chip.text}
+                    </span>
+                  ))}
                 </div>
 
                 {promo.moods && (

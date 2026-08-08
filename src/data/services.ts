@@ -187,12 +187,6 @@ export interface ServicePromo {
   /** 무료체험 강조 배지(로픽: "3일 무료체험"). 있으면 히어로 kicker 옆 pill로 표기. */
   trialBadge?: string;
   /**
-   * 섹션 배경에 은은히 떠다니는 이모지 아이콘 목록(Voice Buddy: 여행 무드 ✈️🌍🧳💬🏛️).
-   * 홍보 웹의 시그니처 — 히어로 뒤로 반투명하게 흩뿌려 서비스 분위기를 전한다.
-   * 있으면 .decor 레이어에 개별 span으로 렌더되고 prefers-reduced-motion을 존중해 부유 모션.
-   */
-  floatingIcons?: string[];
-  /**
    * 언어 스왑 위젯(Voice Buddy: 🇰🇷 한국어 ⇄ 🇺🇸 English).
    * 홍보 웹 히어로의 "무엇을 무엇으로 통역하는지" 시각화 — CTA 위 pill로 배치한다.
    * flag는 국기 이모지, label은 언어명.
@@ -201,6 +195,18 @@ export interface ServicePromo {
     from: { flag: string; label: string };
     to: { flag: string; label: string };
   };
+  /**
+   * 마스코트 주변에 떠다니는 통역 데모 칩(Voice Buddy: 홍보 웹 float-chip 재현).
+   * "안녕하세요 → Hello", "번역 완료" 같은 흰 pill이 마스코트 무대 주변을 감싸며 떠다닌다.
+   * tone: 칩 좌측 원형 아이콘 도트 색 계열(brand/cyan/green/coral) — 상태색 흐름 재현.
+   */
+  chatChips?: { text: string; tone: 'brand' | 'cyan' | 'green' | 'coral' }[];
+  /**
+   * 마스코트 뒤로 퍼지는 "소리 확산 링" 개수(Voice Buddy: pulse-ring).
+   * 음성 통역 앱의 핵심 모티프 — 실시간 음성이 퍼져나가는 파동을 표현한다.
+   * 있으면 마스코트 stage 뒤에 N겹 링이 순차 확산한다.
+   */
+  soundRings?: number;
 }
 
 export interface AppService {
@@ -838,14 +844,21 @@ export const SERVICES: AppService[] = [
       fontBody: "'Noto Sans KR', system-ui, sans-serif",
       radius: 24,
       motif: 'none',
-      // 홍보 웹 시그니처: 인디고 히어로 뒤로 여행 무드 이모지가 은은히 떠다닌다.
-      // ✈️ 비행기 · 🌍 지구본 · 🧳 여행가방 · 💬 대화 · 🏛️ 랜드마크 (해외여행+통역 서사).
-      floatingIcons: ['✈️', '🌍', '🧳', '💬', '🏛️', '🗺️'],
       // 통역 방향 시각화 — CTA 위 "🇰🇷 한국어 ⇄ 🇺🇸 English" 스왑 pill.
       langSwap: {
         from: { flag: '🇰🇷', label: '한국어' },
         to: { flag: '🇺🇸', label: 'English' },
       },
+      // 홍보 웹 시그니처: 마스코트 주변을 감싸며 떠다니는 통역 데모 칩.
+      // 상태색 흐름(듣기 cyan → 번역 brand → 재생 green)을 칩 도트 색으로 재현.
+      chatChips: [
+        { text: '안녕하세요 → Hello', tone: 'brand' },
+        { text: '번역 완료', tone: 'green' },
+        { text: '여행 시작', tone: 'cyan' },
+        { text: '준비 완료', tone: 'coral' },
+      ],
+      // 음성 통역 앱 핵심 모티프: 마스코트 뒤로 소리가 퍼지는 확산 링 3겹.
+      soundRings: 3,
       // "버디" 채팅 버블 마스코트(투명 SVG) — 우측 비주얼 상단 원형 프레임.
       mascot: voicebuddyMascot,
       highlights: [
