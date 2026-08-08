@@ -1639,16 +1639,16 @@
     font-size: 20px;
     opacity: 0.26;
   }
-  /* 모바일 여백 지도(세로 구간별 좌우 빈 공간 측정):
+  /* 모바일 여백 지도(5% 구간 실측):
      · 0~10%  우여백 26% → 상단 우측
-     · 30~40% 우여백 39% → 중상단 우측(langSwap 아래·badges 사이 넓은 골)
-     · 50~90% 콘텐츠 전폭(마스코트/칩/스텝) → 완전 회피
-     상단 한 줄로 몰지 않고 상단대 + 30~40% 우측 골로 계단식 분산. */
+     · 30~45% 우여백 39~40% → subcopy·badges 사이 우측 넓은 골(세로로 긺)
+     · 50~80% 콘텐츠 전폭(마스코트/칩/스텝) → 완전 회피
+     상단엔 ✈️·🌏 2개만, 나머지 3개는 우측 골에 세로로 흘려 상하 분산. */
   :global(#promo-voicebuddy) .travelIcon0 { left: 6%; top: 1%; }    /* ✈️ 좌상단 */
-  :global(#promo-voicebuddy) .travelIcon1 { left: 40%; top: 2%; }   /* 🗺️ 상단 중앙 */
   :global(#promo-voicebuddy) .travelIcon2 { left: 90%; top: 3%; }   /* 🌏 상단 우측 */
-  :global(#promo-voicebuddy) .travelIcon3 { left: 92%; top: 12%; }  /* 💬 우측(로고줄 우측 여백) */
-  :global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 30%; }  /* 🧳 우측 넓은 골(subcopy·badges 사이, 우여백 39%) */
+  :global(#promo-voicebuddy) .travelIcon3 { left: 92%; top: 13%; }  /* 💬 우측(로고줄 여백) */
+  :global(#promo-voicebuddy) .travelIcon1 { left: 10%; top: 40%; }  /* 🗺️ 상단서 좌측 중단으로 내림(사용자 요청) */
+  :global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 30%; }  /* 🧳 우측 골(subcopy·badges 사이) 유지 */
 }
 
 /* ══════════════════════════════════════════════════════════════
