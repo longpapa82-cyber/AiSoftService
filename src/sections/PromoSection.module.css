@@ -1631,6 +1631,23 @@
   0%, 100% { transform: translateY(0) rotate(-8deg); }
   50% { transform: translateY(-14px) rotate(8deg); }
 }
+/* 모바일: 세로 1단 레이아웃이라 중앙·하단이 콘텐츠로 꽉 참(진단: 스텝카드·
+   마스코트와 겹침). 이모지를 좌우 가장자리 여백 + 상단 마스코트 위로만 몰고
+   크기 축소·투명도 하향으로 텍스트 가독성 보호. 하단 스텝 영역은 완전 회피. */
+@media (max-width: 860px) {
+  :global(#promo-voicebuddy) .travelIcon {
+    font-size: 20px;
+    opacity: 0.26;
+  }
+  /* 모바일은 세로 레이아웃이라 콘텐츠(카피·칩·subcopy·마스코트·스텝)가
+     빽빽 → 겹침 없는 유일한 여백은 최상단(top 0~6%). 5개를 상단 한 줄에
+     좌우로 흩뿌려 배치. 여기 밖으론 두더지잡기라 상단대에 집중. */
+  :global(#promo-voicebuddy) .travelIcon0 { left: 5%; top: 1%; }    /* ✈️ */
+  :global(#promo-voicebuddy) .travelIcon1 { left: 28%; top: 5%; }   /* 🗺️ */
+  :global(#promo-voicebuddy) .travelIcon2 { left: 50%; top: 1%; }   /* 🌏 */
+  :global(#promo-voicebuddy) .travelIcon3 { left: 72%; top: 5%; }   /* 💬 */
+  :global(#promo-voicebuddy) .travelIcon4 { left: 94%; top: 1%; }   /* 🧳 */
+}
 
 /* ══════════════════════════════════════════════════════════════
  * Voice Buddy: 통역 데모 칩 (홍보 웹 float-chip)
