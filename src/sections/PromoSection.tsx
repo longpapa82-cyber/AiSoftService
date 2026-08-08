@@ -101,16 +101,22 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
           Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className={`${styles.leaf} ${styles[`leaf${i}`]}`} />
           ))}
-        {/* 여행 무드 이모지(Voice Buddy): 배경에 은은히 떠다니는 travel-decor */}
-        {promo.travelDecor?.map((icon, i) => (
-          <span
-            key={`td-${i}`}
-            className={`${styles.travelIcon} ${styles[`travelIcon${i}`]}`}
-          >
-            {icon}
-          </span>
-        ))}
       </div>
+
+      {/* 여행 무드 이모지(Voice Buddy): 배경 blob 위·전경 콘텐츠 아래 별도 레이어.
+          .decor(z-index:-2)에 두면 콘텐츠에 가려지므로 자체 레이어(z-index:1)로 분리. */}
+      {promo.travelDecor && (
+        <div className={styles.travelDecor} aria-hidden="true">
+          {promo.travelDecor.map((icon, i) => (
+            <span
+              key={`td-${i}`}
+              className={`${styles.travelIcon} ${styles[`travelIcon${i}`]}`}
+            >
+              {icon}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div className="ais-container">
         <div ref={reveal} className={`${styles.inner} reveal`}>

@@ -1602,21 +1602,31 @@
  * .decor(z-index:-2) 안이라 히어로 카드/통역칩(전경)에 안 가림. 역할 분리.
  * td-float: 부유(±14px) + 회전(±8deg) — 홍보 웹 키프레임 재현.
  * ────────────────────────────────────────────────────────────── */
+/* 여행 데코 레이어: 배경 blob(z-index:-2) 위, 전경 콘텐츠(z-index:2~4) 아래.
+   섹션(position:relative) 직속이라 z-index:1이면 "배경 위·전경 아래"에 정확히 낀다. */
+:global(#promo-voicebuddy) .travelDecor {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
 :global(#promo-voicebuddy) .travelIcon {
   position: absolute;
-  opacity: 0.22;
-  filter: blur(0.4px);
+  opacity: 0.34;
+  filter: blur(0.3px) drop-shadow(0 2px 7px rgba(40, 60, 160, 0.3));
   line-height: 1;
   user-select: none;
   will-change: transform;
   animation: promo-vb-td 4s ease-in-out infinite;
 }
-/* 위치·크기·모션 위상 — 홍보 웹 .td-plane/map/globe/chat/bag 좌표 그대로 */
-:global(#promo-voicebuddy) .travelIcon0 { left: 7%; top: 14%; font-size: 26px; animation-duration: 3.8s; animation-delay: 0s; }
-:global(#promo-voicebuddy) .travelIcon1 { left: 84%; top: 22%; font-size: 30px; animation-duration: 4.2s; animation-delay: -0.6s; }
-:global(#promo-voicebuddy) .travelIcon2 { left: 71%; top: 9%; font-size: 24px; animation-duration: 3.4s; animation-delay: -1.2s; }
-:global(#promo-voicebuddy) .travelIcon3 { left: 13%; top: 58%; font-size: 22px; animation-duration: 4s; animation-delay: -0.9s; }
-:global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 74%; font-size: 24px; animation-duration: 4.4s; animation-delay: -0.3s; }
+/* 좌표 — 콘텐츠 충돌 회피 + 좌우/상하 고르게 분산(홍보웹처럼 사방에 흩뿌림).
+   진단 회피 지점: 마스코트글로우/langSwap/subcopy 텍스트를 피한 여백대. */
+:global(#promo-voicebuddy) .travelIcon0 { left: 43%; top: 7%; font-size: 30px; animation-duration: 3.8s; animation-delay: 0s; }      /* ✈️ 상단 중앙 여백 */
+:global(#promo-voicebuddy) .travelIcon1 { left: 53%; top: 46%; font-size: 30px; animation-duration: 4.2s; animation-delay: -0.6s; }  /* 🗺️ 좌우 카피/비주얼 사이 중앙 골 */
+:global(#promo-voicebuddy) .travelIcon2 { left: 63%; top: 5%; font-size: 27px; animation-duration: 3.4s; animation-delay: -1.2s; }   /* 🌏 상단 우측 여백(마스코트 위) */
+:global(#promo-voicebuddy) .travelIcon3 { left: 34%; top: 90%; font-size: 25px; animation-duration: 4s; animation-delay: -0.9s; }    /* 💬 하단 좌측 여백 */
+:global(#promo-voicebuddy) .travelIcon4 { left: 58%; top: 91%; font-size: 27px; animation-duration: 4.4s; animation-delay: -0.3s; }  /* 🧳 하단 우측 여백 */
 @keyframes promo-vb-td {
   0%, 100% { transform: translateY(0) rotate(-8deg); }
   50% { transform: translateY(-14px) rotate(8deg); }
