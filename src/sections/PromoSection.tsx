@@ -101,6 +101,12 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
           Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className={`${styles.leaf} ${styles[`leaf${i}`]}`} />
           ))}
+        {/* 여행 무드 이모지(Voice Buddy): 히어로 뒤로 반투명하게 떠다니는 아이콘 */}
+        {promo.floatingIcons?.map((icon, i) => (
+          <span key={`${icon}-${i}`} className={`${styles.floatIcon} ${styles[`floatIcon${i}`]}`}>
+            {icon}
+          </span>
+        ))}
       </div>
 
       <div className="ais-container">
@@ -151,6 +157,27 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                 </li>
               ))}
             </ul>
+
+            {/* 언어 스왑 위젯(Voice Buddy): 통역 방향을 한눈에 — CTA 위 pill */}
+            {promo.langSwap && (
+              <div className={styles.langSwap} aria-label="지원 통역 방향">
+                <span className={styles.langSwapSide}>
+                  <span className={styles.langSwapFlag} aria-hidden="true">
+                    {promo.langSwap.from.flag}
+                  </span>
+                  <span className={styles.langSwapLabel}>{promo.langSwap.from.label}</span>
+                </span>
+                <span className={styles.langSwapArrow} aria-hidden="true">
+                  ⇄
+                </span>
+                <span className={styles.langSwapSide}>
+                  <span className={styles.langSwapFlag} aria-hidden="true">
+                    {promo.langSwap.to.flag}
+                  </span>
+                  <span className={styles.langSwapLabel}>{promo.langSwap.to.label}</span>
+                </span>
+              </div>
+            )}
 
             <StoreBadges
               ios={service.links.ios}

@@ -186,6 +186,21 @@ export interface ServicePromo {
   accentCaution?: string;
   /** 무료체험 강조 배지(로픽: "3일 무료체험"). 있으면 히어로 kicker 옆 pill로 표기. */
   trialBadge?: string;
+  /**
+   * 섹션 배경에 은은히 떠다니는 이모지 아이콘 목록(Voice Buddy: 여행 무드 ✈️🌍🧳💬🏛️).
+   * 홍보 웹의 시그니처 — 히어로 뒤로 반투명하게 흩뿌려 서비스 분위기를 전한다.
+   * 있으면 .decor 레이어에 개별 span으로 렌더되고 prefers-reduced-motion을 존중해 부유 모션.
+   */
+  floatingIcons?: string[];
+  /**
+   * 언어 스왑 위젯(Voice Buddy: 🇰🇷 한국어 ⇄ 🇺🇸 English).
+   * 홍보 웹 히어로의 "무엇을 무엇으로 통역하는지" 시각화 — CTA 위 pill로 배치한다.
+   * flag는 국기 이모지, label은 언어명.
+   */
+  langSwap?: {
+    from: { flag: string; label: string };
+    to: { flag: string; label: string };
+  };
 }
 
 export interface AppService {
@@ -823,6 +838,14 @@ export const SERVICES: AppService[] = [
       fontBody: "'Noto Sans KR', system-ui, sans-serif",
       radius: 24,
       motif: 'none',
+      // 홍보 웹 시그니처: 인디고 히어로 뒤로 여행 무드 이모지가 은은히 떠다닌다.
+      // ✈️ 비행기 · 🌍 지구본 · 🧳 여행가방 · 💬 대화 · 🏛️ 랜드마크 (해외여행+통역 서사).
+      floatingIcons: ['✈️', '🌍', '🧳', '💬', '🏛️', '🗺️'],
+      // 통역 방향 시각화 — CTA 위 "🇰🇷 한국어 ⇄ 🇺🇸 English" 스왑 pill.
+      langSwap: {
+        from: { flag: '🇰🇷', label: '한국어' },
+        to: { flag: '🇺🇸', label: 'English' },
+      },
       // "버디" 채팅 버블 마스코트(투명 SVG) — 우측 비주얼 상단 원형 프레임.
       mascot: voicebuddyMascot,
       highlights: [

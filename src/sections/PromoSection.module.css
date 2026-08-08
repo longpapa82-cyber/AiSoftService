@@ -1551,3 +1551,85 @@
   background: linear-gradient(135deg, #6d86ff, #5b7cfa);
   color: #ffffff;
 }
+
+/* ══════════════════════════════════════════════════════════════
+ * Voice Buddy: 떠다니는 여행 무드 이모지 (홍보 웹 시그니처)
+ * 인디고 히어로 뒤로 ✈️🌍🧳💬🏛️🗺️를 반투명하게 흩뿌리고 은은히 부유시킨다.
+ * .decor(z-index:-2) 안에 렌더되므로 히어로 카드/텍스트에 가리지 않는다.
+ * 위치·크기·모션 위상은 인덱스별로 흩어 자연스러운 리듬을 만든다.
+ * ────────────────────────────────────────────────────────────── */
+.floatIcon {
+  position: absolute;
+  font-size: clamp(1.6rem, 1rem + 2.2vw, 3rem);
+  line-height: 1;
+  opacity: 0.42;
+  /* 밝은 인디고 위에서 이모지가 은은히 떠 보이도록 흰 후광 + 소프트 섀도 */
+  filter:
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.45))
+    drop-shadow(0 8px 16px rgba(40, 60, 160, 0.3));
+  user-select: none;
+  will-change: transform;
+  animation: promo-vb-float 9s var(--ais-ease-expo, ease-in-out) infinite;
+}
+/* 개별 아이콘 배치 + 모션 지연/주기 분산 (히어로 카드를 피해 가장자리로) */
+.floatIcon0 { top: 16%; left: 6%; animation-duration: 8s; animation-delay: 0s; }
+.floatIcon1 { top: 12%; right: 9%; font-size: clamp(1.2rem, 0.8rem + 1.4vw, 2rem); animation-duration: 10.5s; animation-delay: -1.5s; }
+.floatIcon2 { bottom: 14%; right: 7%; animation-duration: 9.5s; animation-delay: -3s; }
+.floatIcon3 { top: 46%; left: 3%; font-size: clamp(1rem, 0.7rem + 1.2vw, 1.7rem); animation-duration: 11s; animation-delay: -2.2s; }
+.floatIcon4 { bottom: 18%; left: 10%; animation-duration: 8.8s; animation-delay: -4s; }
+.floatIcon5 { top: 60%; right: 5%; font-size: clamp(1.1rem, 0.75rem + 1.3vw, 1.85rem); animation-duration: 10s; animation-delay: -0.8s; }
+@keyframes promo-vb-float {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-16px) rotate(4deg); }
+}
+
+/* ══════════════════════════════════════════════════════════════
+ * Voice Buddy: 언어 스왑 위젯 (🇰🇷 한국어 ⇄ 🇺🇸 English)
+ * 인디고 히어로 위 흰 글래스 pill — 통역 방향을 한눈에. CTA 위에 배치.
+ * ────────────────────────────────────────────────────────────── */
+.langSwap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  align-self: flex-start;
+  margin-bottom: 1rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow:
+    0 12px 28px -8px rgba(40, 60, 160, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.9);
+}
+.langSwapSide {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.langSwapFlag {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+.langSwapLabel {
+  font-family: var(--p-font-body);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #2b2d42;
+}
+.langSwapArrow {
+  display: grid;
+  place-items: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6d86ff, #5b7cfa);
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+/* 접근성: 모션 최소화 선호 시 부유 애니메이션 정지 */
+@media (prefers-reduced-motion: reduce) {
+  .floatIcon {
+    animation: none;
+  }
+}
