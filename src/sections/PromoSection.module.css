@@ -1639,14 +1639,16 @@
     font-size: 20px;
     opacity: 0.26;
   }
-  /* 모바일은 세로 레이아웃이라 콘텐츠(카피·칩·subcopy·마스코트·스텝)가
-     빽빽 → 겹침 없는 유일한 여백은 최상단(top 0~6%). 5개를 상단 한 줄에
-     좌우로 흩뿌려 배치. 여기 밖으론 두더지잡기라 상단대에 집중. */
-  :global(#promo-voicebuddy) .travelIcon0 { left: 5%; top: 1%; }    /* ✈️ */
-  :global(#promo-voicebuddy) .travelIcon1 { left: 28%; top: 5%; }   /* 🗺️ */
-  :global(#promo-voicebuddy) .travelIcon2 { left: 50%; top: 1%; }   /* 🌏 */
-  :global(#promo-voicebuddy) .travelIcon3 { left: 72%; top: 5%; }   /* 💬 */
-  :global(#promo-voicebuddy) .travelIcon4 { left: 94%; top: 1%; }   /* 🧳 */
+  /* 모바일 여백 지도(세로 구간별 좌우 빈 공간 측정):
+     · 0~10%  우여백 26% → 상단 우측
+     · 30~40% 우여백 39% → 중상단 우측(langSwap 아래·badges 사이 넓은 골)
+     · 50~90% 콘텐츠 전폭(마스코트/칩/스텝) → 완전 회피
+     상단 한 줄로 몰지 않고 상단대 + 30~40% 우측 골로 계단식 분산. */
+  :global(#promo-voicebuddy) .travelIcon0 { left: 6%; top: 1%; }    /* ✈️ 좌상단 */
+  :global(#promo-voicebuddy) .travelIcon1 { left: 40%; top: 2%; }   /* 🗺️ 상단 중앙 */
+  :global(#promo-voicebuddy) .travelIcon2 { left: 90%; top: 3%; }   /* 🌏 상단 우측 */
+  :global(#promo-voicebuddy) .travelIcon3 { left: 92%; top: 12%; }  /* 💬 우측(로고줄 우측 여백) */
+  :global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 30%; }  /* 🧳 우측 넓은 골(subcopy·badges 사이, 우여백 39%) */
 }
 
 /* ══════════════════════════════════════════════════════════════
