@@ -207,6 +207,12 @@ export interface ServicePromo {
    * 있으면 마스코트 stage 뒤에 N겹 링이 순차 확산한다.
    */
   soundRings?: number;
+  /**
+   * 섹션 배경에 은은히 떠다니는 여행 무드 이모지(Voice Buddy: 홍보 웹 travel-decor).
+   * ✈️🗺️🌏💬🧳 — opacity 0.22 · blur로 배경에 녹아드는 장식(전경 통역칩과 역할 분리).
+   * .decor 레이어에 렌더되며 td-float 모션(±8deg 회전 + 부유). 배열 순서=위치 프리셋.
+   */
+  travelDecor?: string[];
 }
 
 export interface AppService {
@@ -859,6 +865,9 @@ export const SERVICES: AppService[] = [
       ],
       // 음성 통역 앱 핵심 모티프: 마스코트 뒤로 소리가 퍼지는 확산 링 3겹.
       soundRings: 3,
+      // 홍보 웹 travel-decor 재현: 섹션 배경에 은은히 떠다니는 여행 이모지.
+      // ✈️ 비행기 · 🗺️ 지도 · 🌏 지구본 · 💬 대화 · 🧳 여행가방 (opacity 0.22 배경 장식).
+      travelDecor: ['✈️', '🗺️', '🌏', '💬', '🧳'],
       // "버디" 채팅 버블 마스코트(투명 SVG) — 우측 비주얼 상단 원형 프레임.
       mascot: voicebuddyMascot,
       highlights: [

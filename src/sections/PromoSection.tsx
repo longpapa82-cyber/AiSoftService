@@ -101,6 +101,15 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
           Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className={`${styles.leaf} ${styles[`leaf${i}`]}`} />
           ))}
+        {/* 여행 무드 이모지(Voice Buddy): 배경에 은은히 떠다니는 travel-decor */}
+        {promo.travelDecor?.map((icon, i) => (
+          <span
+            key={`td-${i}`}
+            className={`${styles.travelIcon} ${styles[`travelIcon${i}`]}`}
+          >
+            {icon}
+          </span>
+        ))}
       </div>
 
       <div className="ais-container">

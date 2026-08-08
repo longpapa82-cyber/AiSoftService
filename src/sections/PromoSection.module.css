@@ -1597,6 +1597,32 @@
 }
 
 /* ══════════════════════════════════════════════════════════════
+ * Voice Buddy: 배경 여행 데코 이모지 (홍보 웹 travel-decor 그대로)
+ * ✈️🗺️🌏💬🧳 — opacity 0.22 · blur 0.4px로 배경에 녹아드는 은은한 장식.
+ * .decor(z-index:-2) 안이라 히어로 카드/통역칩(전경)에 안 가림. 역할 분리.
+ * td-float: 부유(±14px) + 회전(±8deg) — 홍보 웹 키프레임 재현.
+ * ────────────────────────────────────────────────────────────── */
+:global(#promo-voicebuddy) .travelIcon {
+  position: absolute;
+  opacity: 0.22;
+  filter: blur(0.4px);
+  line-height: 1;
+  user-select: none;
+  will-change: transform;
+  animation: promo-vb-td 4s ease-in-out infinite;
+}
+/* 위치·크기·모션 위상 — 홍보 웹 .td-plane/map/globe/chat/bag 좌표 그대로 */
+:global(#promo-voicebuddy) .travelIcon0 { left: 7%; top: 14%; font-size: 26px; animation-duration: 3.8s; animation-delay: 0s; }
+:global(#promo-voicebuddy) .travelIcon1 { left: 84%; top: 22%; font-size: 30px; animation-duration: 4.2s; animation-delay: -0.6s; }
+:global(#promo-voicebuddy) .travelIcon2 { left: 71%; top: 9%; font-size: 24px; animation-duration: 3.4s; animation-delay: -1.2s; }
+:global(#promo-voicebuddy) .travelIcon3 { left: 13%; top: 58%; font-size: 22px; animation-duration: 4s; animation-delay: -0.9s; }
+:global(#promo-voicebuddy) .travelIcon4 { left: 90%; top: 74%; font-size: 24px; animation-duration: 4.4s; animation-delay: -0.3s; }
+@keyframes promo-vb-td {
+  0%, 100% { transform: translateY(0) rotate(-8deg); }
+  50% { transform: translateY(-14px) rotate(8deg); }
+}
+
+/* ══════════════════════════════════════════════════════════════
  * Voice Buddy: 통역 데모 칩 (홍보 웹 float-chip)
  * 마스코트 주변을 감싸며 떠다니는 흰 pill — "안녕하세요 → Hello" 등.
  * 칩 좌측 원형 도트가 상태색(듣기 cyan → 번역 brand → 재생 green)을 표현.
@@ -1688,6 +1714,7 @@
 @media (prefers-reduced-motion: reduce) {
   :global(#promo-voicebuddy) .soundRing,
   :global(#promo-voicebuddy) .chatChip,
+  :global(#promo-voicebuddy) .travelIcon,
   :global(#promo-voicebuddy) .mascotGlow {
     animation: none;
   }
