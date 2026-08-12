@@ -109,7 +109,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
             <span className={styles.lawDots} />
             <span className={styles.lawGrain} />
             <span className={styles.lawAurora} />
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
               <span
                 key={`lp-${i}`}
                 className={`${styles.lawParticle} ${styles[`lawP${i}`]}`}

@@ -239,70 +239,75 @@
  * 애니는 transform/opacity만(컴포지터), prefers-reduced-motion에서 정지.
  */
 
-/* ① 도트그리드 — 홍보웹 FinalCta .grain (sky 14%, 26px 타일, 중앙 페이드 마스크) */
+/* ① 도트그리드 — 홍보웹 FinalCta .grain 기반, 통합 랜딩용 강화(한 섹션이라 누적 없음 보정).
+   sky 색·불투명·타일 간격 up, 마스크는 가장자리만 살짝 페이드(중앙 콘텐츠 뒤에도 보이게). */
 .lawDots {
   position: absolute;
   inset: 0;
   pointer-events: none;
   background-image: radial-gradient(
     circle at 1px 1px,
-    rgba(56, 189, 248, 0.14) 1px,
+    rgba(56, 189, 248, 0.28) 1.4px,
     transparent 0
   );
-  background-size: 26px 26px;
-  opacity: 0.4;
-  mask-image: radial-gradient(70% 70% at 50% 45%, #000 0%, transparent 100%);
-  -webkit-mask-image: radial-gradient(70% 70% at 50% 45%, #000 0%, transparent 100%);
+  background-size: 22px 22px;
+  opacity: 0.7;
+  mask-image: radial-gradient(95% 95% at 50% 50%, #000 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(95% 95% at 50% 50%, #000 55%, transparent 100%);
 }
 
-/* ② 그레인 노이즈 — 홍보웹 body::before (feTurbulence, opacity 0.05, 종이 질감) */
+/* ② 그레인 노이즈 — 홍보웹 body::before feTurbulence. 통합 랜딩용 강화(0.05→0.09). */
 .lawGrain {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.05;
+  opacity: 0.09;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ③ 오로라 4겹 — 홍보웹 body 배경(sky/indigo/mint/cyan) + FinalCta 마스크·드리프트.
+   통합 랜딩용 강화: 색 stop·불투명 up, blur 축소(더 선명), 코너 색감 또렷.
    .decor(z-index:-2) 하위 span → 콘텐츠(.inner) 아래 확정. */
 .lawAurora {
   position: absolute;
   inset: -12% -8%;
   pointer-events: none;
   background-image:
-    radial-gradient(46% 40% at 12% 8%, rgba(56, 189, 248, 0.22) 0%, transparent 62%),
-    radial-gradient(42% 38% at 88% 6%, rgba(129, 140, 248, 0.18) 0%, transparent 60%),
-    radial-gradient(50% 44% at 82% 88%, rgba(16, 185, 129, 0.16) 0%, transparent 62%),
-    radial-gradient(48% 42% at 8% 92%, rgba(224, 242, 254, 0.9) 0%, transparent 60%);
-  filter: blur(14px);
-  opacity: 0.55;
+    radial-gradient(48% 44% at 10% 6%, rgba(56, 189, 248, 0.42) 0%, transparent 60%),
+    radial-gradient(44% 40% at 90% 8%, rgba(129, 140, 248, 0.34) 0%, transparent 58%),
+    radial-gradient(52% 48% at 84% 90%, rgba(16, 185, 129, 0.32) 0%, transparent 60%),
+    radial-gradient(50% 46% at 6% 94%, rgba(125, 211, 252, 0.5) 0%, transparent 60%);
+  filter: blur(10px);
+  opacity: 0.9;
   /* 상·하단 페이드 → 섹션 경계 blob과 자연스럽게 블렌드 */
-  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%);
   animation: promo-law-aurora 22s var(--ais-ease-expo, ease-in-out) infinite alternate;
   will-change: transform, opacity;
 }
 @keyframes promo-law-aurora {
-  0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.5; }
-  50% { transform: translate3d(2%, 1.5%, 0) scale(1.06); opacity: 0.66; }
-  100% { transform: translate3d(-1%, 2%, 0) scale(1.02); opacity: 0.55; }
+  0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.82; }
+  50% { transform: translate3d(2%, 1.5%, 0) scale(1.06); opacity: 1; }
+  100% { transform: translate3d(-1%, 2%, 0) scale(1.02); opacity: 0.9; }
 }
 
-/* ④ 떠다니는 입자 6개 — 홍보웹 Hero .particle (sky/green/blue, floatParticle) */
+/* ④ 떠다니는 입자 — 홍보웹 Hero .particle. 통합 랜딩용 강화: 크기·불투명 up, 8개로 증량. */
 .lawParticle {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
+  box-shadow: 0 0 12px currentColor;
   animation: promo-law-float 10s var(--ais-ease-expo, ease-in-out) infinite;
   will-change: transform;
 }
-.lawP0 { top: 18%; left: 14%; width: 10px; height: 10px; background: #38bdf8; opacity: 0.5; animation-duration: 9s; }
-.lawP1 { top: 32%; left: 46%; width: 6px; height: 6px; background: #10b981; opacity: 0.5; animation-duration: 11s; animation-direction: reverse; }
-.lawP2 { top: 62%; left: 8%; width: 8px; height: 8px; background: #2563eb; opacity: 0.35; animation-duration: 13s; }
-.lawP3 { top: 12%; right: 22%; width: 7px; height: 7px; background: #0284c7; opacity: 0.4; animation-duration: 10s; animation-direction: reverse; }
-.lawP4 { bottom: 20%; right: 12%; width: 12px; height: 12px; background: #38bdf8; opacity: 0.3; animation-duration: 14s; }
-.lawP5 { bottom: 30%; left: 40%; width: 5px; height: 5px; background: #10b981; opacity: 0.55; animation-duration: 8s; animation-direction: reverse; }
+.lawP0 { top: 16%; left: 12%; width: 15px; height: 15px; background: #38bdf8; color: #38bdf8; opacity: 0.75; animation-duration: 9s; }
+.lawP1 { top: 30%; left: 44%; width: 10px; height: 10px; background: #10b981; color: #10b981; opacity: 0.7; animation-duration: 11s; animation-direction: reverse; }
+.lawP2 { top: 60%; left: 7%; width: 13px; height: 13px; background: #2563eb; color: #2563eb; opacity: 0.55; animation-duration: 13s; }
+.lawP3 { top: 10%; right: 20%; width: 11px; height: 11px; background: #0284c7; color: #0284c7; opacity: 0.6; animation-duration: 10s; animation-direction: reverse; }
+.lawP4 { bottom: 18%; right: 10%; width: 18px; height: 18px; background: #38bdf8; color: #38bdf8; opacity: 0.5; animation-duration: 14s; }
+.lawP5 { bottom: 28%; left: 38%; width: 9px; height: 9px; background: #10b981; color: #10b981; opacity: 0.75; animation-duration: 8s; animation-direction: reverse; }
+.lawP6 { top: 44%; right: 34%; width: 12px; height: 12px; background: #7dd3fc; color: #7dd3fc; opacity: 0.6; animation-duration: 12s; }
+.lawP7 { top: 74%; right: 26%; width: 8px; height: 8px; background: #a5b4fc; color: #a5b4fc; opacity: 0.65; animation-duration: 9.5s; animation-direction: reverse; }
 @keyframes promo-law-float {
   0%, 100% { transform: translate3d(0, 0, 0); }
   33% { transform: translate3d(12px, -18px, 0); }
@@ -310,10 +315,14 @@
 }
 
 /* ⑤ mint→sky 멀티스톱 blob — 홍보웹 Trust .blob. 로픽만 오버라이드(다른 서비스 .blobB 불변).
-   "안전(초록)·신뢰(하늘)" 서사를 배경까지 확장 → analysisCard 액센트와 호응. */
+   통합 랜딩용 강화(불투명·색 진하게). "안전(초록)·신뢰(하늘)" 서사를 배경까지 확장. */
 :global(#promo-lawpic) .blobB {
-  background: radial-gradient(circle, #d1fae5 0%, #e0f2fe 45%, transparent 72%);
-  opacity: 0.6;
+  background: radial-gradient(circle, #a7f3d0 0%, #bae6fd 42%, transparent 72%);
+  opacity: 0.85;
+}
+/* blobA(우상단, --p-hero 스카이 그라디언트)도 로픽만 더 또렷하게 */
+:global(#promo-lawpic) .blobA {
+  opacity: 0.75;
 }
 
 /* 접근성: 모션 최소화 시 로픽 배경 애니 정지(정적 배치 유지 → 시각 손실 0) */
