@@ -225,6 +225,105 @@
   50% { translate: 0 -14px; }
 }
 
+/*
+ * ── 로픽(law) 모티프: 홍보웹(lawpic-promo.vercel.app) 배경 시그니처 이식 ──
+ * 라이트 럭셔리 스카이블루 무드. 5종 배경 요소 전부 로픽 섹션에만 적용:
+ *   ① 도트그리드(.lawDots)   ② 그레인 노이즈(.lawGrain)
+ *   ③ 오로라 4겹(.lawAurora) ④ 떠다니는 입자 6(.lawParticle)
+ *   ⑤ mint→sky blob(:global(#promo-lawpic) .blobB)
+ * ①~④는 .decor(z-index:-2) 하위 span. ⑤는 :global 스코프 → 6서비스 회귀 0.
+ * ★ 의사요소(::before/::after)를 쓰지 않는 이유: .section이 이미 경계 페더용
+ *   ::before/::after를 쓰는데 한 엘리먼트는 각 의사요소를 하나만 가질 수 있어,
+ *   .motif_law::before가 .section::before(페더)를 덮어 로픽만 페더가 사라짐.
+ *   → span 레이어로 분리해 페더 보존.
+ * 애니는 transform/opacity만(컴포지터), prefers-reduced-motion에서 정지.
+ */
+
+/* ① 도트그리드 — 홍보웹 FinalCta .grain (sky 14%, 26px 타일, 중앙 페이드 마스크) */
+.lawDots {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(56, 189, 248, 0.14) 1px,
+    transparent 0
+  );
+  background-size: 26px 26px;
+  opacity: 0.4;
+  mask-image: radial-gradient(70% 70% at 50% 45%, #000 0%, transparent 100%);
+  -webkit-mask-image: radial-gradient(70% 70% at 50% 45%, #000 0%, transparent 100%);
+}
+
+/* ② 그레인 노이즈 — 홍보웹 body::before (feTurbulence, opacity 0.05, 종이 질감) */
+.lawGrain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ③ 오로라 4겹 — 홍보웹 body 배경(sky/indigo/mint/cyan) + FinalCta 마스크·드리프트.
+   .decor(z-index:-2) 하위 span → 콘텐츠(.inner) 아래 확정. */
+.lawAurora {
+  position: absolute;
+  inset: -12% -8%;
+  pointer-events: none;
+  background-image:
+    radial-gradient(46% 40% at 12% 8%, rgba(56, 189, 248, 0.22) 0%, transparent 62%),
+    radial-gradient(42% 38% at 88% 6%, rgba(129, 140, 248, 0.18) 0%, transparent 60%),
+    radial-gradient(50% 44% at 82% 88%, rgba(16, 185, 129, 0.16) 0%, transparent 62%),
+    radial-gradient(48% 42% at 8% 92%, rgba(224, 242, 254, 0.9) 0%, transparent 60%);
+  filter: blur(14px);
+  opacity: 0.55;
+  /* 상·하단 페이드 → 섹션 경계 blob과 자연스럽게 블렌드 */
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  animation: promo-law-aurora 22s var(--ais-ease-expo, ease-in-out) infinite alternate;
+  will-change: transform, opacity;
+}
+@keyframes promo-law-aurora {
+  0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.5; }
+  50% { transform: translate3d(2%, 1.5%, 0) scale(1.06); opacity: 0.66; }
+  100% { transform: translate3d(-1%, 2%, 0) scale(1.02); opacity: 0.55; }
+}
+
+/* ④ 떠다니는 입자 6개 — 홍보웹 Hero .particle (sky/green/blue, floatParticle) */
+.lawParticle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: promo-law-float 10s var(--ais-ease-expo, ease-in-out) infinite;
+  will-change: transform;
+}
+.lawP0 { top: 18%; left: 14%; width: 10px; height: 10px; background: #38bdf8; opacity: 0.5; animation-duration: 9s; }
+.lawP1 { top: 32%; left: 46%; width: 6px; height: 6px; background: #10b981; opacity: 0.5; animation-duration: 11s; animation-direction: reverse; }
+.lawP2 { top: 62%; left: 8%; width: 8px; height: 8px; background: #2563eb; opacity: 0.35; animation-duration: 13s; }
+.lawP3 { top: 12%; right: 22%; width: 7px; height: 7px; background: #0284c7; opacity: 0.4; animation-duration: 10s; animation-direction: reverse; }
+.lawP4 { bottom: 20%; right: 12%; width: 12px; height: 12px; background: #38bdf8; opacity: 0.3; animation-duration: 14s; }
+.lawP5 { bottom: 30%; left: 40%; width: 5px; height: 5px; background: #10b981; opacity: 0.55; animation-duration: 8s; animation-direction: reverse; }
+@keyframes promo-law-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  33% { transform: translate3d(12px, -18px, 0); }
+  66% { transform: translate3d(-10px, -8px, 0); }
+}
+
+/* ⑤ mint→sky 멀티스톱 blob — 홍보웹 Trust .blob. 로픽만 오버라이드(다른 서비스 .blobB 불변).
+   "안전(초록)·신뢰(하늘)" 서사를 배경까지 확장 → analysisCard 액센트와 호응. */
+:global(#promo-lawpic) .blobB {
+  background: radial-gradient(circle, #d1fae5 0%, #e0f2fe 45%, transparent 72%);
+  opacity: 0.6;
+}
+
+/* 접근성: 모션 최소화 시 로픽 배경 애니 정지(정적 배치 유지 → 시각 손실 0) */
+@media (prefers-reduced-motion: reduce) {
+  .lawAurora,
+  .lawParticle {
+    animation: none;
+  }
+}
+
 /* ── 레이아웃 (v5 Apple식: 비주얼 컬럼 우세 — 제품이 주인공) ── */
 .inner {
   display: grid;

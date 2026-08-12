@@ -101,6 +101,22 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
           Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className={`${styles.leaf} ${styles[`leaf${i}`]}`} />
           ))}
+        {/* 로픽 모티프: 홍보웹 배경 시그니처 — 오로라 4겹 + 도트그리드 + 그레인 + 입자 6개.
+            전부 .decor(z-index:-2) 하위 span → 섹션 경계 페더(.section::before/::after)와
+            충돌 없음(같은 엘리먼트 의사요소는 하나뿐이라 span으로 분리). */}
+        {promo.motif === 'law' && (
+          <>
+            <span className={styles.lawDots} />
+            <span className={styles.lawGrain} />
+            <span className={styles.lawAurora} />
+            {Array.from({ length: 6 }).map((_, i) => (
+              <span
+                key={`lp-${i}`}
+                className={`${styles.lawParticle} ${styles[`lawP${i}`]}`}
+              />
+            ))}
+          </>
+        )}
       </div>
 
       {/* 여행 무드 이모지(Voice Buddy): 배경 blob 위·전경 콘텐츠 아래 별도 레이어.

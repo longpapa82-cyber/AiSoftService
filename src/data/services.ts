@@ -104,8 +104,8 @@ export interface ServicePromo {
   fontBody: string;
   /** 카드/표면 라운드 (px). myPet=28 claymorphism 등 */
   radius: number;
-  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀 등 */
-  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'none';
+  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인) 등 */
+  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'none';
   /** 미니 홍보용 통계 칩 (실제 수치) */
   highlights: { value: string; label: string }[];
   /**
@@ -728,7 +728,10 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Jua', 'Quicksand', 'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Quicksand', 'Noto Sans KR', system-ui, sans-serif",
       radius: 28,
-      motif: 'none',
+      // 홍보웹(lawpic-promo.vercel.app) 배경 시그니처 이식: 오로라 4겹 + 그레인 노이즈 +
+      // 떠다니는 입자 6 + 도트그리드 + mint→sky blob. 전부 .decor/:global(#promo-lawpic)
+      // 스코프라 나머지 6서비스 회귀 0. 라이트 럭셔리 스카이블루 무드 강화.
+      motif: 'law',
       // 실제 홍보 랜딩의 부엉이 마스코트(투명 배경) — 분석 결과 카드 상단 배지.
       mascot: lawpicMascot,
       // 홍보 사이트 최신 시그니처 비주얼: 글래스 "분석 결과" 카드(안심도 + 주의/안전 조항).
