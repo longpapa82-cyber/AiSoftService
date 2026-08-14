@@ -794,17 +794,22 @@ export const SERVICES: AppService[] = [
     tagline: '말하면 빠르게 번역, 버디와 함께',
     description:
       '해외 여행에서 현지인과 자연스럽게 대화하세요. 말하면 상대 언어로 실시간 통역하고, 마주보고 하는 양방향 대화 모드와 오프라인 여행 회화집까지. 한·영·일·중 등 9개 언어를 지원합니다.',
-    // iOS·Android 모두 스토어 미출시(준비 중). 홍보 웹(promo-web-gray.vercel.app)만 라이브.
-    // → status='coming_soon'(두 스토어 준비중 배지 + 웹사이트가 주 CTA). 로픽 최초(#45)·
-    // AI Music 최초(#40)와 동일 상태. ios/android 링크 미설정 → PLATFORM_COUNT(Hero)·
-    // PLATFORMS(Technology) 집계 제외로 허위 출시 플랫폼 방지. web은 라이브라 집계 반영.
-    // ⚠️ Android 패키지는 출시 시 app.json(com.systemplanners.interpreter)이 SoT — 이번엔 링크 미설정.
-    status: 'coming_soon',
+    // iOS 출시 완료(App Store id6799329142, 2026-08-14 라이브 curl 200+title 대조 검증).
+    // Android는 아직 준비 중 → androidPending:true(Google Play "준비 중" 비활성 배지).
+    // AI Music(#44)·myToday(#38)와 동일한 iOS 출시 / Android 준비 중 혼합 상태.
+    // webIsLegal:true로 App Store를 주 CTA(골드)로 승격(설치 우선). PLATFORM_COUNT(Hero)·
+    // PLATFORMS(Technology)는 links.ios/android 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총수 불변,
+    // androidPending은 별개 플래그라 미집계 = 허위 출시 플랫폼 방지(정직 지표).
+    // ⚠️ Android 패키지는 출시 시 app.json(com.systemplanners.interpreter)이 SoT — Android 출시 시 링크 추가.
+    status: 'live',
     moodLabel: 'Playful Pastel Voice',
     emoji: '🗣️',
     iconUrl: voicebuddyIcon,
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6799329142',
+      androidPending: true,
       web: 'https://promo-web-gray.vercel.app/',
+      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
