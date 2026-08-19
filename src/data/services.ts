@@ -10,6 +10,7 @@ import mytodayIcon from '../assets/services/mytoday-icon.png';
 import aimusicIcon from '../assets/services/aimusic-icon.png';
 import lawpicIcon from '../assets/services/lawpic-icon.png';
 import voicebuddyIcon from '../assets/services/voicebuddy-icon.png';
+import fitsnapIcon from '../assets/services/fitsnap-icon.png';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -29,6 +30,14 @@ import lawpicMascot from '../assets/promo/lawpic/mascot.webp';
 // 홍보 웹의 래스터 buddy-512.png는 인디고 배경이 채워진 불투명 이미지라, 원형 프레임과
 // 배경 충돌이 없는 투명 벡터(buddy-onbrand.svg)를 반입해 myToday 새싹·로픽 부엉이와 동일 취급.
 import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
+// FitSnap: 같은 인물 before(원본)→after(착용 결과) 정렬쌍 + 옷장 스와이프 정렬 5벌.
+// (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
+import fitsnapBefore from '../assets/promo/fitsnap/before.webp';
+import fitsnapAfter from '../assets/promo/fitsnap/after.webp';
+import fitsnapKnit from '../assets/promo/fitsnap/outfits/knit.webp';
+import fitsnapCoat from '../assets/promo/fitsnap/outfits/coat.webp';
+import fitsnapShirt from '../assets/promo/fitsnap/outfits/shirt.webp';
+import fitsnapJacket from '../assets/promo/fitsnap/outfits/jacket.webp';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -179,6 +188,20 @@ export interface ServicePromo {
       emphasis?: string;
       ownerNote?: string;
     }[];
+  };
+  /**
+   * FitSnap 전용: "옷이 바뀌는 마법" before→after 시그니처 비주얼.
+   * 같은 인물의 원본(before)과 착용 결과(after)를 겹쳐, CSS 자동 크로스페이드로
+   * "입어보지 않고 입어본" 순간을 재현한다. outfits는 하단 옷 썸네일 칩(옷장 스와이프 은유).
+   * 있으면 analysisCard/shot/mascot/steps보다 우선해 렌더된다.
+   */
+  beforeAfter?: {
+    /** 원본 사진(착용 전) */
+    before: string;
+    /** AI 착용 결과(착용 후) */
+    after: string;
+    /** 옷장 스와이프 칩 — 하단에 "갈아입을 옷" 썸네일로 표기(선택) */
+    outfits?: { src: string; label: string }[];
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -905,6 +928,99 @@ export const SERVICES: AppService[] = [
         '실시간 통역 품질은 네트워크 상태·발화 환경에 따라 달라질 수 있으며, 중요한 의사소통은 참고용으로 활용하세요. 오프라인 회화집은 사전 제공된 표현에 한합니다.',
     },
     order: 7,
+  },
+  {
+    id: 'fitsnap',
+    name: 'FitSnap',
+    tagline: '입어보지 않고, 입어본다',
+    description:
+      '내 사진과 옷 사진만 있으면 AI가 실제로 입은 모습을 보여줍니다. 온라인 쇼핑에서 사기 전에 나에게 어울리는지 미리 확인하세요. 키·몸무게·체형을 반영해 더 자연스러운 착용 모습을 만듭니다.',
+    // ⚠️ Android 비공개 테스트 단계(스토어 미공개). iOS 후속. 허위 출시 표기 금지:
+    // status='coming_soon' + androidPending로 "준비 중"을 정직하게 표기(다른 서비스와 동일 원칙).
+    status: 'coming_soon',
+    moodLabel: 'Bright Coral Fitting',
+    emoji: '👗',
+    iconUrl: fitsnapIcon,
+    links: {
+      web: 'https://longpapa82-cyber.github.io/fitsnap-web/',
+      androidPending: true,
+      webIsLegal: false,
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#2a2724',
+      inkSoft: '#7a736c',
+      primary: '#ff6b4a',
+      accent: '#ff9478',
+      gradient: 'linear-gradient(135deg, #ffede7 0%, #fff3ec 55%, #fbf9f6 100%)',
+      font: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'checkroom', title: 'AI 가상 착용', desc: '내 사진 + 옷 사진으로 실제 입은 모습 확인' },
+      { icon: 'straighten', title: '체형 반영 정밀도', desc: '키·몸무게·체형으로 더 자연스러운 착용' },
+      { icon: 'photo_library', title: '내 옷장', desc: '입어본 룩을 저장하고 다시 비교' },
+    ],
+    promo: {
+      kicker: 'AI 가상 피팅룸',
+      headline: '입어보지 않고,\n',
+      headlineAccent: '입어봅니다',
+      subcopy:
+        '내 사진과 마음에 드는 옷 사진을 고르면, AI가 실제로 입은 모습을 만들어 줘요. 온라인 쇼핑에서 사기 전에 나에게 어울리는지 미리 확인하세요.',
+      // FitSnap: "Bright & Breezy" 라이트 럭셔리 — 크림 #FBF9F6 + 코랄 #FF6B4A + 소프트 피치.
+      palette: {
+        bg: '#fbf9f6',
+        heroGradient:
+          'linear-gradient(150deg, #ffede7 0%, #fff3ec 50%, #f7fafe 100%)',
+        surface: '#ffffff',
+        primary: '#ff6b4a',
+        accent: '#ff9478',
+        ink: '#2a2724',
+        inkSoft: '#7a736c',
+        onPrimary: '#ffffff',
+      },
+      fontDisplay: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
+      fontBody: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
+      radius: 26,
+      motif: 'none',
+      // 시그니처 비주얼: 같은 인물 before→after 크로스페이드 + 옷장 스와이프 칩.
+      beforeAfter: {
+        before: fitsnapBefore,
+        after: fitsnapAfter,
+        outfits: [
+          { src: fitsnapKnit, label: '니트' },
+          { src: fitsnapCoat, label: '코트' },
+          { src: fitsnapShirt, label: '셔츠' },
+          { src: fitsnapJacket, label: '자켓' },
+        ],
+      },
+      highlights: [
+        { value: '사진 한 장', label: 'AI 가상 착용' },
+        { value: '체형 반영', label: '자연스러운 핏' },
+        { value: '사기 전에', label: '미리 확인' },
+      ],
+      // 우측 시그니처(beforeAfter)가 우선 렌더되지만, 좌측 내러티브용 3단계도 제공.
+      steps: [
+        {
+          no: '1',
+          title: '내 사진 올리기',
+          desc: '전신이 잘 나온 사진 한 장이면 충분해요.',
+        },
+        {
+          no: '2',
+          title: '입어볼 옷 선택',
+          desc: '온라인 쇼핑몰의 옷 사진이나 갤러리에서 골라요.',
+        },
+        {
+          no: '3',
+          title: 'AI가 입혀줘요',
+          desc: '실제 입은 모습을 만들어, 나에게 어울리는지 바로 확인해요.',
+        },
+      ],
+      disclaimer:
+        'AI가 생성한 착용 이미지는 참고용이며, 실제 착용 모습·핏·색상과 다를 수 있습니다. 사진은 본인 또는 동의받은 인물의 것만 사용해 주세요.',
+    },
+    order: 8,
   },
 ];
 

@@ -222,7 +222,42 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
-            {promo.analysisCard ? (
+            {promo.beforeAfter ? (
+              /* FitSnap: 같은 인물 before→after 크로스페이드 + 옷장 스와이프 칩 (시그니처) */
+              <div className={styles.baWrap}>
+                <div className={styles.baStage}>
+                  {/* before(원본) — 항상 바닥. after가 위에서 페이드 인/아웃하며 "옷이 바뀌는" 마법 */}
+                  <img
+                    className={styles.baBefore}
+                    src={promo.beforeAfter.before}
+                    alt={`${service.name} 착용 전 원본`}
+                    loading="lazy"
+                  />
+                  <img
+                    className={styles.baAfter}
+                    src={promo.beforeAfter.after}
+                    alt={`${service.name} AI 가상 착용 결과`}
+                    loading="lazy"
+                  />
+                  {/* 상단 라벨 — before/after가 번갈아 강조 */}
+                  <span className={`${styles.baTag} ${styles.baTagBefore}`}>원본</span>
+                  <span className={`${styles.baTag} ${styles.baTagAfter}`}>입은 모습</span>
+                  {/* 골드 프레임 힌트(피팅룸 거울 은유) */}
+                  <span className={styles.baSheen} aria-hidden="true" />
+                </div>
+                {/* 옷장 스와이프 칩 — "갈아입을 옷" 썸네일 */}
+                {promo.beforeAfter.outfits && (
+                  <ul className={styles.baOutfits} aria-label="갈아입어 볼 옷">
+                    {promo.beforeAfter.outfits.map((o) => (
+                      <li key={o.label} className={styles.baOutfit}>
+                        <img src={o.src} alt={o.label} loading="lazy" />
+                        <span>{o.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ) : promo.analysisCard ? (
               /* 로픽: 부엉이 마스코트 + 글래스 "분석 결과" 카드 (안심도 + 주의/안전 조항) */
               <div className={styles.analysisWrap}>
                 {promo.mascot && (

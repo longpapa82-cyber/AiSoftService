@@ -1867,3 +1867,132 @@
     opacity: 0;
   }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FitSnap 전용: before→after "옷이 바뀌는 마법" 시그니처 비주얼
+   같은 인물 원본(before) 위로 착용 결과(after)가 크로스페이드로 나타났다 사라진다.
+   opacity/transform만 애니(컴포지터 친화). reduced-motion에서 after 고정.
+   ═══════════════════════════════════════════════════════════════════ */
+.baWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
+}
+.baStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--p-radius, 26px) + 6px);
+  overflow: hidden;
+  /* 피팅룸 거울 프레임 — 골드+코랄 그라디언트 테두리 */
+  padding: 7px;
+  background: linear-gradient(155deg, rgba(212, 175, 55, 0.5), rgba(255, 107, 74, 0.35) 45%, rgba(212, 175, 55, 0.42));
+  box-shadow: 0 24px 60px rgba(42, 39, 36, 0.16), 0 2px 0 rgba(255, 255, 255, 0.6) inset;
+}
+.baBefore,
+.baAfter {
+  position: absolute;
+  inset: 7px;
+  width: calc(100% - 14px);
+  height: calc(100% - 14px);
+  object-fit: cover;
+  border-radius: var(--p-radius, 26px);
+}
+/* after가 위에 얹혀 순환 크로스페이드 (원본 ↔ 착용 결과) */
+.baAfter {
+  opacity: 1;
+  animation: baSwap 5.2s ease-in-out infinite;
+}
+@keyframes baSwap {
+  0%, 38% { opacity: 1; }
+  50%, 88% { opacity: 0; }
+  100% { opacity: 1; }
+}
+/* 상단 대각 광택(거울 sheen) */
+.baSheen {
+  position: absolute;
+  inset: 7px;
+  border-radius: var(--p-radius, 26px);
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, transparent 32%);
+}
+/* before/after 라벨 pill — after와 반대 위상으로 강조 */
+.baTag {
+  position: absolute;
+  bottom: 18px;
+  left: 18px;
+  z-index: 3;
+  padding: 6px 13px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.baTagBefore {
+  background: rgba(42, 39, 36, 0.62);
+  animation: baTagBefore 5.2s ease-in-out infinite;
+}
+.baTagAfter {
+  background: var(--p-primary, #ff6b4a);
+  box-shadow: 0 6px 16px rgba(255, 107, 74, 0.4);
+  animation: baTagAfter 5.2s ease-in-out infinite;
+}
+@keyframes baTagBefore {
+  0%, 38% { opacity: 0; }
+  50%, 88% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes baTagAfter {
+  0%, 38% { opacity: 1; }
+  50%, 88% { opacity: 0; }
+  100% { opacity: 1; }
+}
+/* 옷장 스와이프 칩 — 갈아입을 옷 썸네일 */
+.baOutfits {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.baOutfit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  opacity: 0.85;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.baOutfit:hover {
+  transform: translateY(-4px);
+  opacity: 1;
+}
+.baOutfit img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  background: var(--p-surface, #fff);
+  box-shadow: 0 4px 12px rgba(42, 39, 36, 0.1);
+  transition: border-color 0.25s ease;
+}
+.baOutfit:hover img {
+  border-color: var(--p-primary, #ff6b4a);
+}
+.baOutfit span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--p-ink-soft, #7a736c);
+}
+/* 접근성: 동작 줄이기 — after 고정(정보 전달), 순환·부유 정지 */
+@media (prefers-reduced-motion: reduce) {
+  :global(#promo-fitsnap) .baAfter { animation: none; opacity: 1; }
+  :global(#promo-fitsnap) .baTagBefore { animation: none; opacity: 0; }
+  :global(#promo-fitsnap) .baTagAfter { animation: none; opacity: 1; }
+}
