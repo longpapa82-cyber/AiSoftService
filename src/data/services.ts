@@ -30,10 +30,9 @@ import lawpicMascot from '../assets/promo/lawpic/mascot.webp';
 // 홍보 웹의 래스터 buddy-512.png는 인디고 배경이 채워진 불투명 이미지라, 원형 프레임과
 // 배경 충돌이 없는 투명 벡터(buddy-onbrand.svg)를 반입해 myToday 새싹·로픽 부엉이와 동일 취급.
 import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
-// FitSnap: 같은 인물 before(원본)→after(착용 결과) 정렬쌍 + 옷장 스와이프 정렬 5벌.
+// FitSnap 옷장 스와이프: 같은 남성의 동일 프레임에 옷만 바뀐 정렬 5종(원본+4벌).
 // (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
-import fitsnapBefore from '../assets/promo/fitsnap/before.webp';
-import fitsnapAfter from '../assets/promo/fitsnap/after.webp';
+import fitsnapBase from '../assets/promo/fitsnap/outfits/base.webp';
 import fitsnapKnit from '../assets/promo/fitsnap/outfits/knit.webp';
 import fitsnapCoat from '../assets/promo/fitsnap/outfits/coat.webp';
 import fitsnapShirt from '../assets/promo/fitsnap/outfits/shirt.webp';
@@ -113,10 +112,10 @@ export interface ServicePromo {
   fontBody: string;
   /** 카드/표면 라운드 (px). myPet=28 claymorphism 등 */
   radius: number;
-  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인) 등 */
-  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'none';
-  /** 미니 홍보용 통계 칩 (실제 수치) */
-  highlights: { value: string; label: string }[];
+  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인)/FitSnap(떠다니는 의류 아이콘+옷걸이 레일) 등 */
+  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'cloth' | 'none';
+  /** 미니 홍보용 통계 칩 (실제 수치). icon(Material Symbols 이름)이 있으면 값 위에 아이콘 표시. */
+  highlights: { value: string; label: string; icon?: string }[];
   /**
    * 섹션 배경에 깔리는 실사 이미지 (각 서비스 홈의 실제 사진).
    * 로컬 import URL 또는 원격 URL(myTravel=Unsplash). 그라디언트 오버레이로 가독성 확보.
@@ -190,18 +189,15 @@ export interface ServicePromo {
     }[];
   };
   /**
-   * FitSnap 전용: "옷이 바뀌는 마법" before→after 시그니처 비주얼.
-   * 같은 인물의 원본(before)과 착용 결과(after)를 겹쳐, CSS 자동 크로스페이드로
-   * "입어보지 않고 입어본" 순간을 재현한다. outfits는 하단 옷 썸네일 칩(옷장 스와이프 은유).
+   * FitSnap 전용: "옷장 스와이프" 시그니처 비주얼(fitsnap 앱 OutfitCarousel 이식).
+   * 같은 인물의 동일 프레임에 옷만 바뀐 정렬쌍 — 옷 썸네일을 클릭(또는 자동순환)하면
+   * 큰 이미지가 그 옷 착용 모습으로 크로스페이드된다. "입어보지 않고 입어보는" 순간을 재현.
+   * 큰 이미지와 썸네일이 반드시 같은 인물이어야 정합이 맞는다(동일 프레임 생성물).
    * 있으면 analysisCard/shot/mascot/steps보다 우선해 렌더된다.
    */
-  beforeAfter?: {
-    /** 원본 사진(착용 전) */
-    before: string;
-    /** AI 착용 결과(착용 후) */
-    after: string;
-    /** 옷장 스와이프 칩 — 하단에 "갈아입을 옷" 썸네일로 표기(선택) */
-    outfits?: { src: string; label: string }[];
+  outfitSwap?: {
+    /** 옷 목록 — 각 항목은 같은 인물의 동일 프레임에 옷만 바뀐 이미지. 순서=표시 순서. */
+    items: { src: string; label: string }[];
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -982,12 +978,13 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
       radius: 26,
-      motif: 'none',
-      // 시그니처 비주얼: 같은 인물 before→after 크로스페이드 + 옷장 스와이프 칩.
-      beforeAfter: {
-        before: fitsnapBefore,
-        after: fitsnapAfter,
-        outfits: [
+      // 홍보웹 BgApparel 이식: 코랄/골드 그라디언트 메시 + 떠다니는 의류 라인 아이콘 + 옷걸이 레일.
+      motif: 'cloth',
+      // 시그니처 비주얼: 옷장 스와이프 — 같은 남성이 옷을 갈아입는 정렬 5종.
+      // 옷 칩 클릭/자동순환 → 큰 이미지가 그 옷 착용 모습으로 크로스페이드(정합 일치).
+      outfitSwap: {
+        items: [
+          { src: fitsnapBase, label: '원본' },
           { src: fitsnapKnit, label: '니트' },
           { src: fitsnapCoat, label: '코트' },
           { src: fitsnapShirt, label: '셔츠' },
@@ -995,9 +992,9 @@ export const SERVICES: AppService[] = [
         ],
       },
       highlights: [
-        { value: '사진 한 장', label: 'AI 가상 착용' },
-        { value: '체형 반영', label: '자연스러운 핏' },
-        { value: '사기 전에', label: '미리 확인' },
+        { value: '사진 한 장', label: 'AI 가상 착용', icon: 'checkroom' },
+        { value: '체형 반영', label: '자연스러운 핏', icon: 'straighten' },
+        { value: '사기 전에', label: '미리 확인', icon: 'verified' },
       ],
       // 우측 시그니처(beforeAfter)가 우선 렌더되지만, 좌측 내러티브용 3단계도 제공.
       steps: [

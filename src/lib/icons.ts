@@ -20,6 +20,11 @@ const ICON_MAP: Record<string, string> = {
   gavel: '⚖️',
   forum: '💬',
   menu_book: '📖',
+  // FitSnap
+  checkroom: '👔',
+  straighten: '📐',
+  verified: '✅',
+  photo_library: '🖼️',
 };
 
 export function iconFor(name: string): string {

@@ -1996,3 +1996,219 @@
   :global(#promo-fitsnap) .baTagBefore { animation: none; opacity: 0; }
   :global(#promo-fitsnap) .baTagAfter { animation: none; opacity: 1; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FitSnap 모티프(cloth): fitsnap 홍보웹 BgApparel 이식
+   떠다니는 의류 라인 아이콘(옷걸이·티셔츠·드레스·코트) + 옷걸이 레일 + grain.
+   전부 .decor(z-index:-2) 하위 → 콘텐츠 아래. :global(#promo-fitsnap) 스코프로 회귀 0.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* FitSnap만 blob(코랄 그라디언트 원)을 조금 더 또렷하게 — 크림 배경 위 온기 */
+:global(#promo-fitsnap) .blobA { opacity: 0.6; }
+:global(#promo-fitsnap) .blobB {
+  opacity: 0.5;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.28), transparent 66%);
+}
+
+/* 아주 옅은 grain — flat 탈피(홍보웹 grain 이식) */
+.clothGrain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+/* 떠다니는 의류 라인 아이콘 — 코랄 톤, 좌우 가장자리 분포, 은은한 부유 */
+.clothIcon {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  color: var(--p-primary, #ff6b4a);
+  opacity: 0.14;
+  animation: clothFloat 19s ease-in-out infinite;
+}
+@keyframes clothFloat {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  50% { transform: translateY(-14px) rotate(4deg); }
+}
+/* 위치·크기·속도 프리셋(좌우 가장자리, 콘텐츠 컬럼 바깥 위주) */
+.clothIcon0 { top: 12%; left: 4%;  width: 52px; height: 52px; animation-delay: 0s; }
+.clothIcon1 { top: 30%; right: 5%; width: 44px; height: 44px; animation-delay: 1.4s; }
+.clothIcon2 { top: 58%; left: 6%;  width: 38px; height: 38px; animation-delay: 2.8s; }
+.clothIcon3 { top: 78%; right: 7%; width: 50px; height: 50px; animation-delay: 0.8s; }
+.clothIcon4 { top: 46%; left: 3%;  width: 34px; height: 34px; opacity: 0.1; animation-delay: 3.6s; }
+.clothIcon5 { top: 8%;  right: 9%; width: 36px; height: 36px; opacity: 0.1; animation-delay: 2.2s; }
+.clothIcon6 { top: 90%; left: 10%; width: 40px; height: 40px; opacity: 0.1; animation-delay: 1s; }
+.clothIcon7 { top: 66%; right: 4%; width: 46px; height: 46px; animation-delay: 3s; }
+
+/* 옷걸이 레일 — 가로 봉 + 옷걸이 3개(옷장 은유) */
+.clothRail {
+  position: absolute;
+  width: 150px;
+  height: 55px;
+  color: var(--p-accent, #ff9478);
+  opacity: 0.16;
+  animation: clothFloat 22s ease-in-out infinite;
+}
+.clothRail0 { top: 20%; left: 2%;  animation-delay: 0.5s; }
+.clothRail1 { top: 70%; right: 2%; opacity: 0.12; animation-delay: 2.5s; }
+
+/* 접근성: 동작 줄이기 — 부유 정지(정적 배치) */
+@media (prefers-reduced-motion: reduce) {
+  :global(#promo-fitsnap) .clothIcon,
+  :global(#promo-fitsnap) .clothRail { animation: none; }
+}
+/* 모바일: 장식 최소화(레일 숨김, 아이콘 절반) */
+@media (max-width: 640px) {
+  :global(#promo-fitsnap) .clothRail { display: none; }
+  :global(#promo-fitsnap) .clothIcon4,
+  :global(#promo-fitsnap) .clothIcon5,
+  :global(#promo-fitsnap) .clothIcon6 { display: none; }
+}
+
+/* highlight 칩 아이콘 — 값 위에 이모지(FitSnap 등 icon 지정 서비스). 코랄 원형 배경. */
+.highlightIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0.35rem;
+  border-radius: 11px;
+  font-size: 1.05rem;
+  line-height: 1;
+  background: color-mix(in srgb, var(--p-primary) 12%, transparent);
+}
+
+/* ── FitSnap 배경 장식 강도 상향(사용자 피드백: 너무 약함) ── */
+:global(#promo-fitsnap) .clothIcon { opacity: 0.26; }
+:global(#promo-fitsnap) .clothIcon4,
+:global(#promo-fitsnap) .clothIcon5,
+:global(#promo-fitsnap) .clothIcon6 { opacity: 0.2; }
+:global(#promo-fitsnap) .clothRail { opacity: 0.3; }
+:global(#promo-fitsnap) .clothRail1 { opacity: 0.24; }
+:global(#promo-fitsnap) .blobA { opacity: 0.8; }
+:global(#promo-fitsnap) .blobB { opacity: 0.7; }
+:global(#promo-fitsnap) .clothGrain { opacity: 0.55; }
+
+/* FitSnap 의류 아이콘 크기 상향(존재감 강화) */
+:global(#promo-fitsnap) .clothIcon0 { width: 66px; height: 66px; }
+:global(#promo-fitsnap) .clothIcon1 { width: 56px; height: 56px; }
+:global(#promo-fitsnap) .clothIcon3 { width: 62px; height: 62px; }
+:global(#promo-fitsnap) .clothIcon7 { width: 58px; height: 58px; }
+:global(#promo-fitsnap) .clothRail { width: 180px; height: 66px; }
+
+/* highlight 칩 아이콘이 SVG일 때 코랄 라인 색상 적용 */
+.highlightIcon svg { color: var(--p-primary, #ff6b4a); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   FitSnap 옷장 스와이프(outfitSwap) — 인터랙티브 시그니처
+   같은 인물 옷 이미지를 겹쳐두고 active만 opacity 1. 썸네일 클릭 → 크로스페이드.
+   ═══════════════════════════════════════════════════════════════════ */
+.osWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 380px;
+  margin-inline: auto;
+}
+.osStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: calc(var(--p-radius, 26px) + 6px);
+  overflow: hidden;
+  padding: 7px;
+  /* 피팅룸 거울 골드+코랄 프레임 */
+  background: linear-gradient(155deg, rgba(212, 175, 55, 0.5), rgba(255, 107, 74, 0.35) 45%, rgba(212, 175, 55, 0.42));
+  box-shadow: 0 24px 60px rgba(42, 39, 36, 0.16), 0 2px 0 rgba(255, 255, 255, 0.6) inset;
+}
+.osImg {
+  position: absolute;
+  inset: 7px;
+  width: calc(100% - 14px);
+  height: calc(100% - 14px);
+  object-fit: cover;
+  border-radius: var(--p-radius, 26px);
+  opacity: 0;
+  transform: scale(1.02);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.osImgOn {
+  opacity: 1;
+  transform: scale(1);
+}
+.osSheen {
+  position: absolute;
+  inset: 7px;
+  border-radius: var(--p-radius, 26px);
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, transparent 32%);
+}
+.osBadge {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  z-index: 3;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #fff;
+  background: var(--p-primary, #ff6b4a);
+  box-shadow: 0 6px 16px rgba(255, 107, 74, 0.4);
+}
+/* 옷 썸네일 — 클릭하면 그 옷으로 갈아입음 */
+.osThumbs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.osThumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+.osThumb:hover,
+.osThumb:focus-visible {
+  transform: translateY(-4px);
+  opacity: 1;
+  outline: none;
+}
+.osThumbOn {
+  opacity: 1;
+}
+.osThumb img {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 2px solid transparent;
+  background: var(--p-surface, #fff);
+  box-shadow: 0 4px 12px rgba(42, 39, 36, 0.1);
+  transition: border-color 0.22s ease;
+}
+.osThumbOn img {
+  border-color: var(--p-primary, #ff6b4a);
+}
+.osThumb span {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--p-ink-soft, #7a736c);
+}
+.osThumbOn span {
+  color: var(--p-primary, #ff6b4a);
+}

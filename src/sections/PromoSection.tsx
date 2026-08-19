@@ -1,10 +1,33 @@
-import type { CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
 import { MoodIcon } from '../components/ui/MoodIcon';
 import { useReveal } from '../hooks/useReveal';
 import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
+
+/**
+ * FitSnap(cloth) 모티프용 의류 라인 아이콘 path — fitsnap 홍보웹 BgApparel의 ICONS 재사용.
+ * 둥근 join·부드러운 곡선으로 톤 통일. 배경에 은은히 떠다니며 "옷장/피팅룸" 분위기를 만든다.
+ */
+const CLOTH_PATHS: Record<string, string> = {
+  tshirt: 'M6 9.5 8.8 7A3.2 3.2 0 0 0 12 8.6 3.2 3.2 0 0 0 15.2 7L18 9.5l-2.3 2v6.9H8.3v-6.9L6 9.5Z',
+  dress: 'M9.2 4h5.6l-1 4 2.4 11.8H7.8L10.2 8ZM9.2 4 11 6.5M14.8 4 13 6.5',
+  hanger: 'M12 6a1.6 1.6 0 1 1 1.4 2.3c-.9.2-1.4.7-1.4 1.5l7.4 4.1c1 .6.6 2.1-.5 2.1H4.1c-1.1 0-1.5-1.5-.5-2.1L11 9.3',
+  coat: 'M8 5 6 8v11h5V5m2 0v14h5V8l-2-3M12 5 8 5m4 0 4 0M12 5v10',
+};
+/** 배경에 배치할 아이콘 순서(위치 프리셋은 CSS clothIcon0~7). */
+const CLOTH_ICONS = ['hanger', 'dress', 'tshirt', 'coat', 'hanger', 'tshirt', 'dress', 'coat'];
+
+/**
+ * FitSnap highlight 칩용 라인 SVG 아이콘 — 이모지 대신 코랄 톤 라인으로 통일(홍보웹 톤).
+ * key는 services.ts highlights[].icon 값과 매칭. 없으면 iconFor(이모지) 폴백.
+ */
+const LINE_ICONS: Record<string, string> = {
+  checkroom: CLOTH_PATHS.tshirt, // 가상 착용 = 티셔츠 라인
+  straighten: 'M4 20 20 4M4 20l0-4M4 20l4 0M8 16l-2-2M12 12l-2-2M16 8l-2-2', // 자(줄자) 라인
+  verified: 'M20 7 10 17l-5-5M9 4l1.5 1.5M15 4l-1.5 1.5', // 체크(확인) 라인
+};
 
 /**
  * 조항 텍스트 안에서 핵심 문구(emphasis)만 볼드+컬러 하이라이트로 감싼다.
@@ -117,6 +140,47 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
             ))}
           </>
         )}
+        {/* FitSnap 모티프(cloth): 홍보웹 BgApparel 이식 —
+            떠다니는 의류 라인 아이콘(옷걸이·티셔츠·드레스·코트) + 옷걸이 레일 + grain. */}
+        {promo.motif === 'cloth' && (
+          <>
+            <span className={styles.clothGrain} />
+            {CLOTH_ICONS.map((c, i) => (
+              <svg
+                key={`ci-${i}`}
+                className={`${styles.clothIcon} ${styles[`clothIcon${i}`]}`}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d={CLOTH_PATHS[c]} />
+              </svg>
+            ))}
+            {[0, 1].map((i) => (
+              <svg
+                key={`rail-${i}`}
+                className={`${styles.clothRail} ${styles[`clothRail${i}`]}`}
+                viewBox="0 0 120 44"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.1"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="4" y1="8" x2="116" y2="8" />
+                {[24, 60, 96].map((x) => (
+                  <g key={x}>
+                    <path d={`M${x} 8 q0 -4 3 -4`} />
+                    <path d={`M${x} 8 l-8 12 h16 z`} />
+                  </g>
+                ))}
+              </svg>
+            ))}
+          </>
+        )}
       </div>
 
       {/* 여행 무드 이모지(Voice Buddy): 배경 blob 위·전경 콘텐츠 아래 별도 레이어.
@@ -173,10 +237,31 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
             <p className={styles.subcopy}>{promo.subcopy}</p>
 
-            {/* 통계 하이라이트 칩 */}
+            {/* 통계 하이라이트 칩 (icon이 있으면 값 옆에 아이콘 표시) */}
             <ul className={styles.highlights}>
               {promo.highlights.map((h) => (
                 <li key={h.label} className={styles.highlight}>
+                  {h.icon &&
+                    (LINE_ICONS[h.icon] ? (
+                      <span className={styles.highlightIcon} aria-hidden="true">
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.7"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          width="20"
+                          height="20"
+                        >
+                          <path d={LINE_ICONS[h.icon]} />
+                        </svg>
+                      </span>
+                    ) : (
+                      <span className={styles.highlightIcon} aria-hidden="true">
+                        {iconFor(h.icon)}
+                      </span>
+                    ))}
                   <strong className={styles.highlightValue}>{h.value}</strong>
                   <span className={styles.highlightLabel}>{h.label}</span>
                 </li>
@@ -222,41 +307,9 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
-            {promo.beforeAfter ? (
-              /* FitSnap: 같은 인물 before→after 크로스페이드 + 옷장 스와이프 칩 (시그니처) */
-              <div className={styles.baWrap}>
-                <div className={styles.baStage}>
-                  {/* before(원본) — 항상 바닥. after가 위에서 페이드 인/아웃하며 "옷이 바뀌는" 마법 */}
-                  <img
-                    className={styles.baBefore}
-                    src={promo.beforeAfter.before}
-                    alt={`${service.name} 착용 전 원본`}
-                    loading="lazy"
-                  />
-                  <img
-                    className={styles.baAfter}
-                    src={promo.beforeAfter.after}
-                    alt={`${service.name} AI 가상 착용 결과`}
-                    loading="lazy"
-                  />
-                  {/* 상단 라벨 — before/after가 번갈아 강조 */}
-                  <span className={`${styles.baTag} ${styles.baTagBefore}`}>원본</span>
-                  <span className={`${styles.baTag} ${styles.baTagAfter}`}>입은 모습</span>
-                  {/* 골드 프레임 힌트(피팅룸 거울 은유) */}
-                  <span className={styles.baSheen} aria-hidden="true" />
-                </div>
-                {/* 옷장 스와이프 칩 — "갈아입을 옷" 썸네일 */}
-                {promo.beforeAfter.outfits && (
-                  <ul className={styles.baOutfits} aria-label="갈아입어 볼 옷">
-                    {promo.beforeAfter.outfits.map((o) => (
-                      <li key={o.label} className={styles.baOutfit}>
-                        <img src={o.src} alt={o.label} loading="lazy" />
-                        <span>{o.label}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+            {promo.outfitSwap ? (
+              /* FitSnap: 옷장 스와이프 — 같은 인물이 옷을 갈아입는 인터랙티브 시그니처 */
+              <OutfitSwapVisual items={promo.outfitSwap.items} serviceName={service.name} />
             ) : promo.analysisCard ? (
               /* 로픽: 부엉이 마스코트 + 글래스 "분석 결과" 카드 (안심도 + 주의/안전 조항) */
               <div className={styles.analysisWrap}>
@@ -557,5 +610,75 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * FitSnap 옷장 스와이프 비주얼 — 같은 인물이 옷을 갈아입는 인터랙티브 시그니처.
+ * 옷 이미지를 겹쳐두고 active만 보이게 크로스페이드. 썸네일 클릭 → 그 옷으로 전환.
+ * 자동순환(2.6s), 사용자 상호작용·reduced-motion 시 정지. fitsnap 앱 OutfitCarousel 이식.
+ */
+function OutfitSwapVisual({
+  items,
+  serviceName,
+}: {
+  items: { src: string; label: string }[];
+  serviceName: string;
+}) {
+  const [active, setActive] = useState(1 % items.length); // 원본 다음(옷)부터 시작
+  const [paused, setPaused] = useState(false);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || paused) return;
+    timer.current = setInterval(() => {
+      setActive((i) => (i + 1) % items.length);
+    }, 2600);
+    return () => {
+      if (timer.current) clearInterval(timer.current);
+    };
+  }, [paused, items.length]);
+
+  return (
+    <div className={styles.osWrap}>
+      <div
+        className={styles.osStage}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+      >
+        {items.map((o, i) => (
+          <img
+            key={o.label}
+            className={`${styles.osImg} ${i === active ? styles.osImgOn : ''}`}
+            src={o.src}
+            alt={`${serviceName} — ${o.label} 착용 모습`}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            draggable={false}
+          />
+        ))}
+        <span className={styles.osBadge}>{items[active].label}</span>
+        <span className={styles.osSheen} aria-hidden="true" />
+      </div>
+      <ul className={styles.osThumbs} aria-label="갈아입어 볼 옷">
+        {items.map((o, i) => (
+          <li key={o.label}>
+            <button
+              type="button"
+              className={`${styles.osThumb} ${i === active ? styles.osThumbOn : ''}`}
+              onClick={() => {
+                setActive(i);
+                setPaused(true);
+              }}
+              aria-pressed={i === active}
+              aria-label={o.label}
+            >
+              <img src={o.src} alt="" loading="lazy" draggable={false} />
+              <span>{o.label}</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
