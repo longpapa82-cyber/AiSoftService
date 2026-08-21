@@ -2076,9 +2076,11 @@
   :global(#promo-fitsnap) .clothIcon5 {
     display: block; left: auto; right: 9%; top: 92%; opacity: 0.18;
   }
-  /* 좌측 2개 — 헤드라인 우하단 공백·중단 좌측 여백(짧은 행 옆) */
-  :global(#promo-fitsnap) .clothIcon1 { left: 4%;  right: auto; top: 26%; opacity: 0.22; }
-  :global(#promo-fitsnap) .clothIcon2 { left: 6%;  right: auto; top: 60%; opacity: 0.2; }
+  /* 좌측 2개 — highlight 카드 밴드(26~33%, 풀폭)를 반드시 피한다.
+     clothIcon1이 26%에서 "사진 한 장" 카드 뒤에 겹쳤던 문제 → 헤드라인 좌측 여백(15%)으로
+     올림(한글 헤드라인이 짧아 좌측 whitespace 확보). clothIcon2는 스토어배지 아래 좌측(62%). */
+  :global(#promo-fitsnap) .clothIcon1 { left: 5%;  right: auto; top: 15%; opacity: 0.22; }
+  :global(#promo-fitsnap) .clothIcon2 { left: 6%;  right: auto; top: 62%; opacity: 0.2; }
   /* 나머지는 모바일에서 숨김(밀도 과다 방지) */
   :global(#promo-fitsnap) .clothIcon4,
   :global(#promo-fitsnap) .clothIcon6 { display: none; }
@@ -2121,19 +2123,19 @@
 /* highlight 칩 아이콘이 SVG일 때 코랄 라인 색상 적용 */
 .highlightIcon svg { color: var(--p-primary, #ff6b4a); }
 
-/* ── FitSnap 미니헤더: COMING SOON 배지 줄밀림 정합 ──
-   miniHeader는 flex-wrap 행(logo+brand+kicker+comingSoon). FitSnap은 kicker
-   "AI 가상 피팅룸"이 길어 logo+brand+kicker가 1행을 다 채워 COMING SOON이 우발적으로
-   2행으로 찢어졌다. flex-basis:100%로 "의도된 2행"에 두되, align-self:flex-start로
-   알약이 콘텐츠 폭만큼만 차지하게(100% 늘어나면 배지가 과하게 커 보임) 왼쪽 정렬.
-   coming_soon은 현재 FitSnap 뿐이라 스코프 안전. */
+/* ── FitSnap 미니헤더: COMING SOON을 kicker와 같은 줄에 ──
+   4요소(logo+FitSnap+"AI 가상 피팅룸"+COMING SOON)가 1행에 필요폭 355px인데 가용 351px라
+   단 4px 넘쳐 배지가 다음 줄로 밀렸다. FitSnap 헤더의 gap·배지/kicker 좌우패딩을 소폭
+   줄여 여유폭을 확보해 한 줄에 정렬. coming_soon은 현재 FitSnap 뿐이라 스코프 안전. */
+:global(#promo-fitsnap) .miniHeader {
+  gap: 0.4rem;
+}
+:global(#promo-fitsnap) .kicker {
+  padding: 0.3rem 0.56rem;
+}
 :global(#promo-fitsnap) .comingSoon {
-  /* flex-basis:100%로 새 줄을 차지하되, max-width:max-content로 실제 알약은 라벨
-     폭만큼만 렌더(flex-basis는 width를 무시하지만 max-width는 렌더 박스를 캡핑한다). */
-  flex-basis: 100%;
-  max-width: max-content;
-  align-self: flex-start;
-  margin-top: 0.1rem;
+  padding: 0.28rem 0.56rem;
+  letter-spacing: 0.04em;
 }
 
 /* ── FitSnap highlight 칩 정렬 정합 ──
