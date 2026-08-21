@@ -2069,18 +2069,23 @@
   /* 모바일 아이콘 배치 원칙: 좌우 양쪽에 고르게 분산 + 세로 간격 충분히(몰림 방지).
      콘텐츠가 짧은 행(헤드라인·섹션 사이 여백)의 좌측 whitespace를 활용해 왼쪽에도 배치.
      6개만 노출(4개는 우측·2개는 좌측), 세로 위치는 서로 15%+ 떨어뜨려 "너무 가까움" 해소. */
-  /* 우측 4개 — 상·중상·중하·하단으로 분산 */
-  :global(#promo-fitsnap) .clothIcon0 { left: auto; right: 5%;  top: 7%;  opacity: 0.24; }
-  :global(#promo-fitsnap) .clothIcon3 { left: auto; right: 6%;  top: 44%; opacity: 0.24; }
-  :global(#promo-fitsnap) .clothIcon7 { left: auto; right: 4%;  top: 74%; opacity: 0.24; }
+  /* ── 배치 no-go 존(실측): 헤드라인+서브카피+카드가 y:10~31%를 풀폭(x:5~95%)으로 점유,
+     COMING SOON 배지가 y:6~8% x:64~90% 점유. 아이콘은 이 밴드를 반드시 피한다.
+     안전 빈 존: ①상단 밴드 y:0~5%(로고행 위, 풀폭 비어있음) ②y:34% 이하 측면
+     (스토어배지 좌측정렬 → 우측 비고, 갭 구간). ── */
+  /* 상단 빈 밴드 2개(배지·서브카피·로고행과 안 겹치게 y:0~4% 상단 코너).
+     좁은 폭(360px)에서 clothIcon1 하단이 brand 상단에 닿던 문제 → top:0·크기 축소로 클리어. */
+  :global(#promo-fitsnap) .clothIcon0 { left: auto; right: 7%; top: 0%;  opacity: 0.22; width: 42px; height: 42px; }
+  :global(#promo-fitsnap) .clothIcon1 { left: 5%;  right: auto; top: 0%;  opacity: 0.2; width: 30px; height: 30px; }
+  /* 하단 측면 4개 — 카드밴드(31%) 아래로만. 좁은 폭에서 스토어배지/disclaimer가 커지며
+     겹치던 문제 → 우측은 여백 더 확보(right 2~3%), disclaimer 밴드(49~53%)는 피해 배치.
+     clothIcon3=배지 아래 우측(35%), clothIcon2=disclaimer 아래 좌측(66%)으로 이동. */
+  :global(#promo-fitsnap) .clothIcon3 { left: auto; right: 2%;  top: 35%; opacity: 0.24; }
+  :global(#promo-fitsnap) .clothIcon2 { left: 4%;  right: auto; top: 66%; opacity: 0.2; }
+  :global(#promo-fitsnap) .clothIcon7 { left: auto; right: 2%;  top: 82%; opacity: 0.24; }
   :global(#promo-fitsnap) .clothIcon5 {
-    display: block; left: auto; right: 9%; top: 92%; opacity: 0.18;
+    display: block; left: auto; right: 8%; top: 94%; opacity: 0.18;
   }
-  /* 좌측 2개 — highlight 카드 밴드(26~33%, 풀폭)를 반드시 피한다.
-     clothIcon1이 26%에서 "사진 한 장" 카드 뒤에 겹쳤던 문제 → 헤드라인 좌측 여백(15%)으로
-     올림(한글 헤드라인이 짧아 좌측 whitespace 확보). clothIcon2는 스토어배지 아래 좌측(62%). */
-  :global(#promo-fitsnap) .clothIcon1 { left: 5%;  right: auto; top: 15%; opacity: 0.22; }
-  :global(#promo-fitsnap) .clothIcon2 { left: 6%;  right: auto; top: 62%; opacity: 0.2; }
   /* 나머지는 모바일에서 숨김(밀도 과다 방지) */
   :global(#promo-fitsnap) .clothIcon4,
   :global(#promo-fitsnap) .clothIcon6 { display: none; }
