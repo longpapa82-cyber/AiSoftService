@@ -2103,6 +2103,31 @@
 /* highlight 칩 아이콘이 SVG일 때 코랄 라인 색상 적용 */
 .highlightIcon svg { color: var(--p-primary, #ff6b4a); }
 
+/* ── FitSnap highlight 칩 정렬 정합 ──
+   다른 서비스는 value가 짧은 수치("37개국")라 flex-wrap이 자연스럽게 균등 정렬되지만,
+   FitSnap은 value가 4글자 구문("사진 한 장")+아이콘 배지라 칩 폭이 넓어 모바일에서
+   3개가 한 줄에 안 들어가 2+1로 찢어져 보였다. 균등 3열 그리드로 고정해 한 줄 정렬. */
+:global(#promo-fitsnap) .highlights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+}
+:global(#promo-fitsnap) .highlight {
+  /* 그리드 셀 안에서 아이콘·수치·라벨이 왼쪽 정렬 균일하게. 3열 폭이 좁아지므로
+     좌우 패딩을 줄여 "사진 한 장" 같은 4글자 구문이 줄바꿈 없이 한 줄에 들어가게. */
+  padding: 0.6rem 0.7rem;
+}
+:global(#promo-fitsnap) .highlightValue {
+  /* 3열 셀 폭에서 4글자 값이 넘치지 않도록 살짝 축소(다른 서비스 수치값엔 미적용) */
+  font-size: 1.05rem;
+}
+/* 극단적으로 좁은 화면(≤360px): 3열이 답답하면 2열로 완충 */
+@media (max-width: 360px) {
+  :global(#promo-fitsnap) .highlights {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 /* ═══════════════════════════════════════════════════════════════════
    FitSnap 옷장 스와이프(outfitSwap) — 인터랙티브 시그니처
    같은 인물 옷 이미지를 겹쳐두고 active만 opacity 1. 썸네일 클릭 → 크로스페이드.
