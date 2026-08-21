@@ -2073,10 +2073,15 @@
      COMING SOON 배지가 y:6~8% x:64~90% 점유. 아이콘은 이 밴드를 반드시 피한다.
      안전 빈 존: ①상단 밴드 y:0~5%(로고행 위, 풀폭 비어있음) ②y:34% 이하 측면
      (스토어배지 좌측정렬 → 우측 비고, 갭 구간). ── */
-  /* 상단 빈 밴드 2개(배지·서브카피·로고행과 안 겹치게 y:0~4% 상단 코너).
-     좁은 폭(360px)에서 clothIcon1 하단이 brand 상단에 닿던 문제 → top:0·크기 축소로 클리어. */
-  :global(#promo-fitsnap) .clothIcon0 { left: auto; right: 7%; top: 0%;  opacity: 0.22; width: 42px; height: 42px; }
-  :global(#promo-fitsnap) .clothIcon1 { left: 5%;  right: auto; top: 0%;  opacity: 0.2; width: 30px; height: 30px; }
+  /* 헤드라인 우측 여백에 2개 배치 — 한글 헤드라인 실제 텍스트가 x:43~54%까지만 차므로
+     우측 x:60%+ 은 넓은 whitespace(서브카피 y:17~22%는 풀폭이라 피함). 상단 코너(top:0)에
+     붙여 "상단에 붙음" 느껴지던 것 → 헤드라인 옆(y:10~16% 밴드)으로 내려 여백에 자연스럽게
+     떠 있게. 텍스트 실측 bbox 기준 미충돌(라인0 x≤54%, 라인1 x≤43%). */
+  /* clothIcon0=헤드라인 라인0 우측 여백(라인0 x≤57%라 우측 x:84%+ 전 폭 안전). 상단 무드용. */
+  :global(#promo-fitsnap) .clothIcon0 { left: auto; right: 8%; top: 10.5%; opacity: 0.22; width: 46px; height: 46px; }
+  /* clothIcon1은 헤드라인/서브카피/배지/disclaimer 사이 어느 밴드에 둬도 폭마다 흔들려
+     충돌 → 모바일에선 숨긴다(상단 무드는 clothIcon0 하나로 충분, 하단 측면 4개가 균형). */
+  :global(#promo-fitsnap) .clothIcon1 { display: none; }
   /* 하단 측면 4개 — 카드밴드(31%) 아래로만. 좁은 폭에서 스토어배지/disclaimer가 커지며
      겹치던 문제 → 우측은 여백 더 확보(right 2~3%), disclaimer 밴드(49~53%)는 피해 배치.
      clothIcon3=배지 아래 우측(35%), clothIcon2=disclaimer 아래 좌측(66%)으로 이동. */
