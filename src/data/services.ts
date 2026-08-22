@@ -30,13 +30,11 @@ import lawpicMascot from '../assets/promo/lawpic/mascot.webp';
 // 홍보 웹의 래스터 buddy-512.png는 인디고 배경이 채워진 불투명 이미지라, 원형 프레임과
 // 배경 충돌이 없는 투명 벡터(buddy-onbrand.svg)를 반입해 myToday 새싹·로픽 부엉이와 동일 취급.
 import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
-// FitSnap 옷장 스와이프: 같은 남성의 동일 프레임에 옷만 바뀐 정렬 5종(원본+4벌).
+// FitSnap before/after 슬라이더: 같은 여성 데님 모델의 픽셀 정렬 쌍(상의 색만 다름).
+// 경계선을 좌우로 밀면 상의가 바뀐다(홍보웹 CompareSlider 이식).
 // (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
-import fitsnapBase from '../assets/promo/fitsnap/outfits/base.webp';
-import fitsnapKnit from '../assets/promo/fitsnap/outfits/knit.webp';
-import fitsnapCoat from '../assets/promo/fitsnap/outfits/coat.webp';
-import fitsnapShirt from '../assets/promo/fitsnap/outfits/shirt.webp';
-import fitsnapJacket from '../assets/promo/fitsnap/outfits/jacket.webp';
+import fitsnapBefore from '../assets/promo/fitsnap/model/before.webp';
+import fitsnapAfter from '../assets/promo/fitsnap/model/after.webp';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -189,15 +187,21 @@ export interface ServicePromo {
     }[];
   };
   /**
-   * FitSnap 전용: "옷장 스와이프" 시그니처 비주얼(fitsnap 앱 OutfitCarousel 이식).
-   * 같은 인물의 동일 프레임에 옷만 바뀐 정렬쌍 — 옷 썸네일을 클릭(또는 자동순환)하면
-   * 큰 이미지가 그 옷 착용 모습으로 크로스페이드된다. "입어보지 않고 입어보는" 순간을 재현.
-   * 큰 이미지와 썸네일이 반드시 같은 인물이어야 정합이 맞는다(동일 프레임 생성물).
+   * FitSnap 전용: before/after 좌우 드래그 슬라이더(홍보웹 CompareSlider 이식).
+   * 같은 여성 모델의 픽셀 정렬 쌍(상의 밴드만 교체, 밴드 밖 원본 복원) — 경계선을
+   * 좌우로 밀면 상의가 바뀐다. "입어보지 않고 입어보는" 순간을 재현.
+   * 두 이미지는 반드시 동일 프레임·픽셀 정렬이어야 경계가 어긋나지 않는다.
    * 있으면 analysisCard/shot/mascot/steps보다 우선해 렌더된다.
    */
-  outfitSwap?: {
-    /** 옷 목록 — 각 항목은 같은 인물의 동일 프레임에 옷만 바뀐 이미지. 순서=표시 순서. */
-    items: { src: string; label: string }[];
+  beforeAfter?: {
+    /** 슬라이더 왼쪽에 노출되는 이미지(기본 상태). */
+    before: string;
+    /** 슬라이더 오른쪽에 깔리는 이미지(AI 가상 착용 상태). */
+    after: string;
+    /** before 라벨(기본 '원본'). */
+    beforeLabel?: string;
+    /** after 라벨(기본 'AI 가상 착용'). */
+    afterLabel?: string;
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -980,16 +984,13 @@ export const SERVICES: AppService[] = [
       radius: 26,
       // 홍보웹 BgApparel 이식: 코랄/골드 그라디언트 메시 + 떠다니는 의류 라인 아이콘 + 옷걸이 레일.
       motif: 'cloth',
-      // 시그니처 비주얼: 옷장 스와이프 — 같은 남성이 옷을 갈아입는 정렬 5종.
-      // 옷 칩 클릭/자동순환 → 큰 이미지가 그 옷 착용 모습으로 크로스페이드(정합 일치).
-      outfitSwap: {
-        items: [
-          { src: fitsnapBase, label: '원본' },
-          { src: fitsnapKnit, label: '니트' },
-          { src: fitsnapCoat, label: '코트' },
-          { src: fitsnapShirt, label: '셔츠' },
-          { src: fitsnapJacket, label: '자켓' },
-        ],
+      // 시그니처 비주얼: before/after 좌우 드래그 슬라이더 — 같은 여성 데님 모델의
+      // 픽셀 정렬 쌍(상의 색만 다름). 경계선을 밀면 상의가 바뀐다(홍보웹 CompareSlider 정합).
+      beforeAfter: {
+        before: fitsnapBefore,
+        after: fitsnapAfter,
+        beforeLabel: '원본',
+        afterLabel: 'AI 가상 착용',
       },
       highlights: [
         { value: '사진 한 장', label: 'AI 가상 착용', icon: 'checkroom' },

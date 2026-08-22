@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
 import { MoodIcon } from '../components/ui/MoodIcon';
@@ -307,9 +307,9 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
-            {promo.outfitSwap ? (
-              /* FitSnap: 옷장 스와이프 — 같은 인물이 옷을 갈아입는 인터랙티브 시그니처 */
-              <OutfitSwapVisual items={promo.outfitSwap.items} serviceName={service.name} />
+            {promo.beforeAfter ? (
+              /* FitSnap: before/after 좌우 드래그 슬라이더 — 밀면 상의가 바뀌는 시그니처 */
+              <CompareSliderVisual data={promo.beforeAfter} serviceName={service.name} />
             ) : promo.analysisCard ? (
               /* 로픽: 부엉이 마스코트 + 글래스 "분석 결과" 카드 (안심도 + 주의/안전 조항) */
               <div className={styles.analysisWrap}>
@@ -614,71 +614,211 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 }
 
 /**
- * FitSnap 옷장 스와이프 비주얼 — 같은 인물이 옷을 갈아입는 인터랙티브 시그니처.
- * 옷 이미지를 겹쳐두고 active만 보이게 크로스페이드. 썸네일 클릭 → 그 옷으로 전환.
- * 자동순환(2.6s), 사용자 상호작용·reduced-motion 시 정지. fitsnap 앱 OutfitCarousel 이식.
+ * FitSnap before/after 좌우 드래그 슬라이더 — 밀면 상의가 바뀌는 시그니처(홍보웹 CompareSlider 이식).
+ *
+ * 왜 슬라이더가 성립하는가: before/after가 픽셀 정렬(상의 밴드만 교체, 밴드 밖 원본 복원)이라
+ * 경계선을 어디에 두어도 인물 윤곽이 맞물린다. after를 전체 깔고, before를 clip-path로 왼쪽 pos%만 노출.
+ *
+ * 성능: 경계 위치는 CSS 변수(--pos)로 직접 조작 → 드래그 중 React 리렌더 없이 컴포지터만 갱신.
+ * 진입 자동 스윕: IntersectionObserver로 뷰포트 진입 시 1회 왕복 시연. 사용자 조작 시 영구 중단.
+ * 접근성: 핸들 role="slider" + aria-valuenow, 키보드 ←/→(±2)·Home/End(0/100), 터치 드래그(pointer).
  */
-function OutfitSwapVisual({
-  items,
+function CompareSliderVisual({
+  data,
   serviceName,
 }: {
-  items: { src: string; label: string }[];
+  data: { before: string; after: string; beforeLabel?: string; afterLabel?: string };
   serviceName: string;
 }) {
-  const [active, setActive] = useState(1 % items.length); // 원본 다음(옷)부터 시작
-  const [paused, setPaused] = useState(false);
-  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const INITIAL = 50;
+  const beforeLabel = data.beforeLabel ?? '원본';
+  const afterLabel = data.afterLabel ?? 'AI 가상 착용';
 
+  const stageRef = useRef<HTMLDivElement>(null);
+  const posRef = useRef(INITIAL); // 리렌더 없이 현재값 추적(키보드/드래그 공용)
+  const [pos, setPos] = useState(INITIAL); // aria-valuenow 표시용
+  const interacted = useRef(false); // 한 번이라도 조작하면 자동 스윕 영구 중단
+  const rafRef = useRef<number | null>(null);
+  const dragging = useRef(false);
+
+  // 경계 위치 반영: DOM CSS 변수 직접 조작(리렌더 회피) + aria용 state 동기화.
+  const apply = useCallback((next: number) => {
+    const clamped = Math.max(0, Math.min(100, next));
+    posRef.current = clamped;
+    if (stageRef.current) stageRef.current.style.setProperty('--pos', `${clamped}%`);
+    setPos(Math.round(clamped));
+  }, []);
+
+  // 사용자 조작 시작: 자동 스윕 중단(rAF 취소) + 이후 재개 안 함.
+  const stopAuto = useCallback(() => {
+    interacted.current = true;
+    if (rafRef.current != null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }, []);
+
+  // 진입 시 자동 스윕 — 경계선이 좌↔우로 왕복하며 "밀면 옷이 바뀐다"를 시연.
   useEffect(() => {
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-    if (reduce || paused) return;
-    timer.current = setInterval(() => {
-      setActive((i) => (i + 1) % items.length);
-    }, 2600);
+    if (reduce) return;
+    const el = stageRef.current;
+    if (!el) return;
+
+    let started = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries[0]?.isIntersecting || started || interacted.current) return;
+        started = true;
+        io.disconnect();
+
+        // 이징 왕복: 50 → 22% → 82% → 50. 총 ~3.4s.
+        const KEYS = [
+          { t: 0, v: INITIAL },
+          { t: 900, v: 22 },
+          { t: 2100, v: 82 },
+          { t: 3400, v: INITIAL },
+        ];
+        const startTs = performance.now();
+        const ease = (x: number) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+        const tick = (now: number) => {
+          if (interacted.current) return;
+          const elapsed = now - startTs;
+          let seg = KEYS.length - 1;
+          for (let i = 0; i < KEYS.length - 1; i++) {
+            if (elapsed < KEYS[i + 1].t) {
+              seg = i;
+              break;
+            }
+          }
+          if (elapsed >= KEYS[KEYS.length - 1].t) {
+            apply(INITIAL);
+            rafRef.current = null;
+            return;
+          }
+          const a = KEYS[seg];
+          const b = KEYS[seg + 1];
+          const p = ease((elapsed - a.t) / (b.t - a.t));
+          apply(a.v + (b.v - a.v) * p);
+          rafRef.current = requestAnimationFrame(tick);
+        };
+        rafRef.current = requestAnimationFrame(tick);
+      },
+      { threshold: 0.35 },
+    );
+    io.observe(el);
     return () => {
-      if (timer.current) clearInterval(timer.current);
+      io.disconnect();
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
     };
-  }, [paused, items.length]);
+  }, [apply]);
+
+  // 포인터 x → 경계 %(마우스·터치 공용, pointer capture로 스테이지 밖 드래그도 추적).
+  const fromClientX = useCallback((clientX: number) => {
+    const el = stageRef.current;
+    if (!el) return posRef.current;
+    const rect = el.getBoundingClientRect();
+    return ((clientX - rect.left) / rect.width) * 100;
+  }, []);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    dragging.current = true;
+    stopAuto();
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    apply(fromClientX(e.clientX));
+  };
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (!dragging.current) return;
+    apply(fromClientX(e.clientX));
+  };
+  const onPointerUp = (e: React.PointerEvent) => {
+    dragging.current = false;
+    (e.currentTarget as HTMLElement).releasePointerCapture?.(e.pointerId);
+  };
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    let handled = true;
+    if (e.key === 'ArrowLeft') apply(posRef.current - 2);
+    else if (e.key === 'ArrowRight') apply(posRef.current + 2);
+    else if (e.key === 'Home') apply(0);
+    else if (e.key === 'End') apply(100);
+    else handled = false;
+    if (handled) {
+      e.preventDefault();
+      stopAuto();
+    }
+  };
 
   return (
-    <div className={styles.osWrap}>
+    <div className={styles.csWrap}>
       <div
-        className={styles.osStage}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
+        ref={stageRef}
+        className={styles.csStage}
+        style={{ ['--pos' as string]: `${INITIAL}%` } as CSSProperties}
+        aria-label={`${serviceName} 변경 전후 비교 슬라이더`}
       >
-        {items.map((o, i) => (
+        {/* after: 전체 깔림(경계 오른쪽에 노출) */}
+        <img
+          className={styles.csImg}
+          src={data.after}
+          alt={`${serviceName} — ${afterLabel}`}
+          draggable={false}
+        />
+        {/* before: clip으로 왼쪽 pos%만 노출 */}
+        <div className={styles.csClip}>
           <img
-            key={o.label}
-            className={`${styles.osImg} ${i === active ? styles.osImgOn : ''}`}
-            src={o.src}
-            alt={`${serviceName} — ${o.label} 착용 모습`}
-            loading={i === 0 ? 'eager' : 'lazy'}
+            className={styles.csImg}
+            src={data.before}
+            alt={`${serviceName} — ${beforeLabel}`}
             draggable={false}
           />
-        ))}
-        <span className={styles.osBadge}>{items[active].label}</span>
-        <span className={styles.osSheen} aria-hidden="true" />
+        </div>
+
+        <span className={`${styles.csLabel} ${styles.csLabelBefore}`}>{beforeLabel}</span>
+        <span className={`${styles.csLabel} ${styles.csLabelAfter}`}>{afterLabel}</span>
+        <span className={styles.csSheen} aria-hidden="true" />
+
+        {/* 드래그 히트 영역(스테이지 전체) + 핸들 */}
+        <div
+          className={styles.csDrag}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+        >
+          <div
+            className={styles.csHandle}
+            role="slider"
+            tabIndex={0}
+            aria-label="비교 경계"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={pos}
+            aria-orientation="horizontal"
+            onKeyDown={onKeyDown}
+          >
+            <span className={styles.csGrip} aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                <path
+                  d="M9 6 L5 12 L9 18"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M15 6 L19 12 L15 18"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
       </div>
-      <ul className={styles.osThumbs} aria-label="갈아입어 볼 옷">
-        {items.map((o, i) => (
-          <li key={o.label}>
-            <button
-              type="button"
-              className={`${styles.osThumb} ${i === active ? styles.osThumbOn : ''}`}
-              onClick={() => {
-                setActive(i);
-                setPaused(true);
-              }}
-              aria-pressed={i === active}
-              aria-label={o.label}
-            >
-              <img src={o.src} alt="" loading="lazy" draggable={false} />
-              <span>{o.label}</span>
-            </button>
-          </li>
-        ))}
-      </ul>
+      <p className={styles.csHint}>핸들을 좌우로 밀어 전후를 비교해 보세요</p>
     </div>
   );
 }

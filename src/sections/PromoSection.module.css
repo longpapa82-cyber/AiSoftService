@@ -2174,111 +2174,124 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
-   FitSnap 옷장 스와이프(outfitSwap) — 인터랙티브 시그니처
-   같은 인물 옷 이미지를 겹쳐두고 active만 opacity 1. 썸네일 클릭 → 크로스페이드.
+   FitSnap before/after 좌우 드래그 슬라이더 (홍보웹 CompareSlider 이식)
+   after 전체 깔림 + before를 clip-path로 왼쪽 --pos%만 노출. 핸들 드래그로 경계 이동.
    ═══════════════════════════════════════════════════════════════════ */
-.osWrap {
+.csWrap {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
   width: 100%;
   max-width: 380px;
   margin-inline: auto;
 }
-.osStage {
+/* 스테이지 = 피팅룸 거울 골드+코랄 프레임(7px) + 슬라이더 무대.
+   두 img·clip·핸들은 모두 프레임 안쪽(inset:7px)에 두어 clip-path 좌표계를 일치시킨다. */
+.csStage {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
   border-radius: calc(var(--p-radius, 26px) + 6px);
   overflow: hidden;
   padding: 7px;
-  /* 피팅룸 거울 골드+코랄 프레임 */
+  user-select: none;
+  --pos: 50%;
   background: linear-gradient(155deg, rgba(212, 175, 55, 0.5), rgba(255, 107, 74, 0.35) 45%, rgba(212, 175, 55, 0.42));
   box-shadow: 0 24px 60px rgba(42, 39, 36, 0.16), 0 2px 0 rgba(255, 255, 255, 0.6) inset;
 }
-.osImg {
+.csImg {
   position: absolute;
   inset: 7px;
   width: calc(100% - 14px);
   height: calc(100% - 14px);
   object-fit: cover;
+  object-position: center;
   border-radius: var(--p-radius, 26px);
-  opacity: 0;
-  transform: scale(1.02);
-  transition: opacity 0.55s ease, transform 0.55s ease;
+  pointer-events: none;
 }
-.osImgOn {
-  opacity: 1;
-  transform: scale(1);
+/* before를 감싸 왼쪽 pos%만 노출. after는 그대로 깔려 오른쪽에 보임.
+   두 img가 동일 좌표계(inset:7px)라 경계에서 픽셀이 정확히 맞물린다. */
+.csClip {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
 }
-.osSheen {
+.csSheen {
   position: absolute;
   inset: 7px;
   border-radius: var(--p-radius, 26px);
   pointer-events: none;
+  z-index: 1;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, transparent 32%);
 }
-.osBadge {
+/* 라벨 배지 — FitSnap 코랄 톤 */
+.csLabel {
   position: absolute;
-  left: 18px;
   bottom: 18px;
   z-index: 3;
   padding: 6px 14px;
   border-radius: 999px;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 800;
+  letter-spacing: 0.02em;
   color: #fff;
+  pointer-events: none;
+}
+.csLabelBefore {
+  left: 18px;
+  background: rgba(42, 39, 36, 0.7);
+}
+.csLabelAfter {
+  right: 18px;
   background: var(--p-primary, #ff6b4a);
   box-shadow: 0 6px 16px rgba(255, 107, 74, 0.4);
 }
-/* 옷 썸네일 — 클릭하면 그 옷으로 갈아입음 */
-.osThumbs {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* 드래그 히트 영역: 스테이지 전체를 덮어 어디를 눌러도 경계 이동.
+   touch-action:none → 모바일 드래그 중 페이지 스크롤 방지. */
+.csDrag {
+  position: absolute;
+  inset: 7px;
+  z-index: 2;
+  cursor: ew-resize;
+  touch-action: none;
 }
-.osThumb {
+/* 핸들: 세로 라인 + 중앙 원형 그립. 경계(--pos)에 붙어 이동. */
+.csHandle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  width: 2px;
+  margin-left: -1px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 0 0 1px rgba(42, 39, 36, 0.15);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 5px;
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  opacity: 0.75;
-  transition: transform 0.22s ease, opacity 0.22s ease;
+  justify-content: center;
 }
-.osThumb:hover,
-.osThumb:focus-visible {
-  transform: translateY(-4px);
-  opacity: 1;
+.csHandle:focus-visible {
   outline: none;
 }
-.osThumbOn {
-  opacity: 1;
+.csHandle:focus-visible .csGrip {
+  outline: 3px solid var(--p-primary, #ff6b4a);
+  outline-offset: 2px;
 }
-.osThumb img {
-  width: 56px;
-  height: 56px;
-  object-fit: cover;
-  border-radius: 14px;
-  border: 2px solid transparent;
-  background: var(--p-surface, #fff);
-  box-shadow: 0 4px 12px rgba(42, 39, 36, 0.1);
-  transition: border-color 0.22s ease;
-}
-.osThumbOn img {
-  border-color: var(--p-primary, #ff6b4a);
-}
-.osThumb span {
-  font-size: 0.74rem;
-  font-weight: 700;
-  color: var(--p-ink-soft, #7a736c);
-}
-.osThumbOn span {
+.csGrip {
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: #fff;
   color: var(--p-primary, #ff6b4a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(42, 39, 36, 0.28);
+  cursor: ew-resize;
+}
+.csHint {
+  margin: 0;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--p-ink-soft, #7a736c);
 }
