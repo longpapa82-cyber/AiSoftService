@@ -84,7 +84,7 @@ function renderWord(word: string, i: number) {
 /**
  * 정통 프리미엄 기업 히어로 (Stripe/Linear 풍).
  * 웜크림 베이스 + 대각 골드 그라데이션 배경, 좌 대형 슬로건 카피 + 신뢰지표 통계 행,
- * 우 6서비스 절제 로고 프리뷰. 게임 HUD(LV/XP/PRESS START/UNLOCKED)는 전면 제거.
+ * 우 전체 서비스 절제 로고 프리뷰. 게임 HUD(LV/XP/PRESS START/UNLOCKED)는 전면 제거.
  * 모션은 transform/opacity만. reduced-motion에서 드리프트/패럴랙스/카운트업 정지.
  */
 export function Hero() {
@@ -167,7 +167,7 @@ export function Hero() {
             </div>
           </div>
 
-          {/* ── 우: 6서비스 절제 로고 프리뷰 (정적, 상세는 PromoSection 위임) ── */}
+          {/* ── 우: 전체 서비스 절제 로고 프리뷰 (정적, 상세는 PromoSection 위임) ── */}
           <aside
             className={styles.servicePreview}
             aria-label="에이아이소프트 서비스"

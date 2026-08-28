@@ -208,7 +208,7 @@
   transition: transform var(--ais-dur-fast) var(--ais-ease-spring);
 }
 /* v8: FREE 핀 = 전역 노랑 포인트 채움 + 검정 글자(노랑 위 흰글씨 1.53 미달 → 검정 12.13).
-   서비스 브랜드색 분기 제거, 6서비스 노랑 통일. */
+   서비스 브랜드색 분기 제거, 전체 서비스 노랑 통일. */
 .primary .freePin,
 .secondary .freePin {
   background: var(--ais-brand);

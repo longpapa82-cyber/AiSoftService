@@ -231,7 +231,7 @@
  *   ① 도트그리드(.lawDots)   ② 그레인 노이즈(.lawGrain)
  *   ③ 오로라 4겹(.lawAurora) ④ 떠다니는 입자 6(.lawParticle)
  *   ⑤ mint→sky blob(:global(#promo-lawpic) .blobB)
- * ①~④는 .decor(z-index:-2) 하위 span. ⑤는 :global 스코프 → 6서비스 회귀 0.
+ * ①~④는 .decor(z-index:-2) 하위 span. ⑤는 :global 스코프 → 다른 서비스 회귀 0.
  * ★ 의사요소(::before/::after)를 쓰지 않는 이유: .section이 이미 경계 페더용
  *   ::before/::after를 쓰는데 한 엘리먼트는 각 의사요소를 하나만 가질 수 있어,
  *   .motif_law::before가 .section::before(페더)를 덮어 로픽만 페더가 사라짐.
@@ -1636,7 +1636,7 @@
  * .dark 기본 규칙엔 "흰 카드 안 텍스트를 어둡게" 하는 처리가 없다.
  * 인디고 배경 위 텍스트는 흰색(--p-ink) 유지하되, 흰 surface 안(칩·스텝·
  * 분석카드 등)의 텍스트는 인디고/차콜로 되돌려 대비를 확보한다.
- * :global(#promo-voicebuddy)로 이 서비스만 타겟 → 다른 6서비스 무영향.
+ * :global(#promo-voicebuddy)로 이 서비스만 타겟 → 다른 서비스 무영향.
  * ────────────────────────────────────────────────────────────── */
 
 /* highlight 칩: 흰 배경 위 값=인디고, 라벨=슬레이트 */

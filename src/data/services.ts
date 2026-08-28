@@ -442,8 +442,10 @@ export const SERVICES: AppService[] = [
     moodLabel: 'Cool Clean',
     emoji: '💙',
     iconUrl: mybabyIcon,
+    // web은 홍보 랜딩이 아니라 백엔드 API 엔드포인트(onrender.com)라 노출 시 서버 응답이
+    // 사용자에게 보일 수 있어 제거. iOS·Android 스토어를 주 CTA로 안내한다.
+    // (holdover였던 mybaby-backend.onrender.com은 JSON-LD sameAs·noscript에서도 함께 제거.)
     links: {
-      web: 'https://mybaby-backend.onrender.com/',
       ios: 'https://apps.apple.com/kr/app/id6772832100',
       android: 'https://play.google.com/store/apps/details?id=com.naesaekki.app',
     },
@@ -753,7 +755,7 @@ export const SERVICES: AppService[] = [
       radius: 28,
       // 홍보웹(lawpic-promo.vercel.app) 배경 시그니처 이식: 오로라 4겹 + 그레인 노이즈 +
       // 떠다니는 입자 6 + 도트그리드 + mint→sky blob. 전부 .decor/:global(#promo-lawpic)
-      // 스코프라 나머지 6서비스 회귀 0. 라이트 럭셔리 스카이블루 무드 강화.
+      // 스코프라 나머지 서비스 회귀 0. 라이트 럭셔리 스카이블루 무드 강화.
       motif: 'law',
       // 실제 홍보 랜딩의 부엉이 마스코트(투명 배경) — 분석 결과 카드 상단 배지.
       mascot: lawpicMascot,
