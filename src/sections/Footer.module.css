@@ -12,7 +12,8 @@
   isolation: isolate;
 }
 
-/* 회로 도트 질감: accent 감사 — 시안 격자 → 뉴트럴 near-white 저알파 격자. */
+/* 회로 도트 질감: accent 감사 — 시안 격자 → 뉴트럴 near-white 저알파 격자.
+   "Living Silicon" — 격자가 아주 느리게 대각 시프트 + 골드 스캔선이 훑고 지나감. */
 .footer::before {
   content: '';
   position: absolute;
@@ -27,9 +28,23 @@
   mask-image: linear-gradient(180deg, #000 0%, transparent 80%);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, transparent 80%);
   pointer-events: none;
+  /* [OPT-4 예외] background-position 애니 유지 — 도트 격자는 마스크 페더 구조라
+     translate 전환 시 마스크가 깨짐. 면적 대비 alpha 0.05로 극저 + 8s 저빈도라 repaint 비용 미미. */
+  animation: footerGrid 8s linear infinite;
 }
 
-/* accent 감사: 상단 시그널 라인+글로우 → 뉴트럴 near-white hairline(글로우 제거). */
+@keyframes footerGrid {
+  to {
+    background-position: -23px 21px; /* 격자 1칸(22)+1 대각 → 끊김 없는 순환 */
+  }
+}
+
+/* 신경망 파티클 캔버스 — 도트 격자 위, 콘텐츠 아래. */
+.field {
+  z-index: -1;
+}
+
+/* accent 감사: 상단 시그널 라인 → 뉴트럴 near-white hairline(정적, 애니 없음 = repaint 0). */
 .footer::after {
   content: '';
   position: absolute;
@@ -39,6 +54,36 @@
   background: rgba(255, 255, 255, 0.16);
   opacity: 0.7;
   pointer-events: none;
+}
+
+/* [OPT-4] 골드 데이터 스트림 — hairline 위를 흐르는 광점.
+   background-position 애니(repaint) → 별도 밴드 요소 translateX(컴포지터 온리)로 전환.
+   상단 1px 라인폭 밴드를 좌 밖→우 밖으로 이동. footer overflow:hidden으로 클립. */
+.stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 1px;
+  width: 40%;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ais-motion-signal) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transform: translateX(-100%);
+  animation: footerStream 2.8s var(--ais-ease-flow) infinite;
+}
+
+@keyframes footerStream {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
 }
 
 .inner {
@@ -82,6 +127,7 @@
 }
 
 .logoMark {
+  position: relative;
   display: grid;
   place-items: center;
   width: 2.5rem;
@@ -96,6 +142,32 @@
   /* 브랜드 심볼 채움은 헤더 로고(--ais-brand-grad)와 톤 일치 위해 유지(심볼 = keep). */
   background: var(--ais-brand-grad);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+/* hover 시 골드 신호 확산 링 1회(pulse-ring) — "시스템 신호 발신" 인상. */
+.logoMark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1.5px solid var(--ais-gold);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.logo:hover .logoMark::after {
+  animation: logoPulse 0.9s var(--ais-ease-expo);
+}
+
+@keyframes logoPulse {
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
 }
 
 .logoText {
@@ -329,5 +401,16 @@
   .serviceLink,
   .serviceLink:hover {
     transform: none;
+  }
+  /* Living Silicon 신규 모션 전부 정지 — 정적 최종 상태만. */
+  .footer::before {
+    animation: none !important;
+  }
+  /* 골드 스트림 밴드 제거(정적 hairline은 ::after가 담당). */
+  .stream {
+    display: none;
+  }
+  .logo:hover .logoMark::after {
+    animation: none !important;
   }
 }

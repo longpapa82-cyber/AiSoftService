@@ -2,6 +2,7 @@ import type { JSX } from 'react';
 import { COMPANY } from '../data/company';
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { TechBadge } from '../components/ui/TechBadge';
+import { ParticleField } from '../components/visual/ParticleField';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
 import { SERVICES } from '../data/services';
@@ -206,6 +207,16 @@ export function About() {
       className={styles.section}
       aria-labelledby="about-title"
     >
+      {/* "Living Silicon" — 밝은 배경 라이트 변형(Hero와 동일 시각 언어).
+          텍스트 중심 섹션이라 밀도는 Hero보다 낮춰 가독성 우선. */}
+      <ParticleField
+        className={styles.field}
+        density={40}
+        signalRatio={0.2}
+        speed={1.1}
+        pointerRadius={180}
+        linkDist={160}
+      />
       <div className="ais-container">
         <div className={styles.heading}>
           <TechBadge variant="gold" dot>

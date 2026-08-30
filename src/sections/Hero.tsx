@@ -2,6 +2,7 @@ import type { CSSProperties, JSX } from 'react';
 import { COMPANY } from '../data/company';
 import { SERVICES_SORTED } from '../data/services';
 import { Button } from '../components/ui/Button';
+import { ParticleField } from '../components/visual/ParticleField';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
 import { usePointerParallax } from '../hooks/usePointerParallax';
@@ -110,9 +111,51 @@ export function Hero() {
       className={styles.hero}
       aria-labelledby="hero-heading"
     >
-      {/* 배경: 웜크림 베이스 + 대각 골드 그라데이션(느린 드리프트). 장식, 스크린리더 무시. */}
+      {/* 배경: 웜크림 베이스 + 대각 골드 그라데이션(느린 드리프트). 장식, 스크린리더 무시.
+          "Living Silicon" — 다층 오로라 + 신경망 파티클 필드 + 회로 빔으로 연산 중인 시스템 인상. */}
       <div className={styles.heroGradient} aria-hidden="true">
         <span className={styles.gradGlow} />
+        <span className={styles.gradGlow2} />
+        <ParticleField
+          className={styles.field}
+          density={72}
+          signalRatio={0.26}
+          speed={1.5}
+          pointerRadius={240}
+          linkDist={175}
+        />
+        {/* 회로 트레이스 + 흐르는 골드 신호(SVG 스트로크 대시 애니) */}
+        <svg
+          className={styles.circuit}
+          viewBox="0 0 1200 800"
+          preserveAspectRatio="xMidYMid slice"
+          aria-hidden="true"
+        >
+          <path
+            className={styles.trace}
+            d="M-20 210 H360 L440 130 H760 L840 210 H1220"
+          />
+          <path
+            className={`${styles.trace} ${styles.traceB}`}
+            d="M-20 560 H240 L320 640 H720 L800 560 H1220"
+          />
+          <path
+            className={`${styles.trace} ${styles.traceC}`}
+            d="M180 -20 V180 L260 260 V520 L180 600 V820"
+          />
+          <path
+            className={`${styles.trace} ${styles.traceD}`}
+            d="M1020 -20 V140 L940 220 V460 L1020 540 V820"
+          />
+          <path
+            className={`${styles.trace} ${styles.traceE}`}
+            d="M-20 380 H180 L260 300 H540 L620 380 H900 L980 300 H1220"
+          />
+          <path
+            className={`${styles.trace} ${styles.traceF}`}
+            d="M560 -20 V120 L640 200 V400 L560 480 V680 L640 760 V820"
+          />
+        </svg>
         <span className={styles.hairline} />
       </div>
 

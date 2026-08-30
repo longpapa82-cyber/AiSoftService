@@ -59,6 +59,11 @@
     );
 }
 
+/* 신경망 파티클 캔버스 — 배경 글로우(::after 0)와 같은 층, 콘텐츠(z-index 1) 아래. */
+.field {
+  z-index: 0;
+}
+
 .section > .ais-container {
   position: relative;
   z-index: 1;

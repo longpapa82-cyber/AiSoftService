@@ -1,5 +1,6 @@
 import { SectionHeader } from '../components/ui/SectionHeader';
 import { TechBadge } from '../components/ui/TechBadge';
+import { ParticleField } from '../components/visual/ParticleField';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
 import { useTilt } from '../hooks/useTilt';
@@ -204,6 +205,19 @@ export function Technology() {
       className={styles.section}
       aria-labelledby="technology-heading"
     >
+      {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
+      <span className={styles.stream} aria-hidden="true" />
+      {/* "Living Silicon" — 다크 앵커 위 골드 신경망(Footer와 동일 시각 언어).
+          기술력 섹션이라 밀도·펄스를 Footer보다 살짝 높여 "연산 중" 인상 극대화. */}
+      <ParticleField
+        className={styles.field}
+        dark
+        density={52}
+        signalRatio={0.28}
+        speed={1.2}
+        pointerRadius={200}
+        linkDist={170}
+      />
       <div className="ais-container">
         <div className={styles.badgeRow}>
           <TechBadge variant="navy" dot>

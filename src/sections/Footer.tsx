@@ -2,6 +2,7 @@ import { useReveal } from '../hooks/useReveal';
 import { SERVICES_SORTED } from '../data/services';
 import { COMPANY } from '../data/company';
 import { TechBadge } from '../components/ui/TechBadge';
+import { ParticleField } from '../components/visual/ParticleField';
 import styles from './Footer.module.css';
 
 /** 서비스 대표 링크: 웹사이트가 있으면 웹, 없으면 iOS, 없으면 Android 순. */
@@ -24,6 +25,19 @@ export function Footer() {
 
   return (
     <footer ref={ref} className={`${styles.footer} reveal`}>
+      {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
+      <span className={styles.stream} aria-hidden="true" />
+      {/* "System Panel Online" — 다크 배경 위 경량 신경망 파티클(연산 잔열 인상).
+          near-black에 맞춰 dark 변형, 노드 수는 Hero의 절반 이하. */}
+      <ParticleField
+        className={styles.field}
+        dark
+        density={46}
+        signalRatio={0.3}
+        speed={1.3}
+        pointerRadius={190}
+        linkDist={170}
+      />
       <div className={`ais-container ${styles.inner}`}>
         <div className={styles.brand}>
           <TechBadge variant="gold" dot>

@@ -44,6 +44,8 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
+  /* 내부 자식(오로라·캔버스·회로)의 z-index를 이 레이어 안에 격리 */
+  isolation: isolate;
 }
 
 /* 우상단 앰비언트 글로우 — accent 감사: 블루 그라데이션 → 뉴트럴 그레이 라디얼(장식 분위기만). */
@@ -56,13 +58,134 @@
   max-width: 1100px;
   max-height: 1100px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.06) 0%, transparent 70%);
+  /* [OPT-6] filter: blur 제거 — radial-gradient stop을 완만하게 넓혀 시각 등가.
+     대형 blur는 GPU 오프스크린 표면을 크게 유지해 비쌈. stop 감쇠로 대체. */
+  background: radial-gradient(
+    circle,
+    rgba(0, 0, 0, 0.06) 0%,
+    rgba(0, 0, 0, 0.03) 45%,
+    transparent 78%
+  );
   opacity: 0.8;
-  filter: blur(90px);
   transform: translate3d(0, 0, 0) scale(1);
   animation: heroDrift 24s ease-in-out infinite alternate;
   /* 마우스 패럴랙스: 포인터 반대 방향으로 아주 은은하게 */
   will-change: transform;
+}
+
+/* 2번째 오로라 겹 — 골드 틴트, 반대 방향/다른 주기로 위상차 드리프트(깊이감).
+   plus-lighter로 첫 겹과 겹칠 때 밝게 합성(지원 안되면 일반 중첩). */
+.gradGlow2 {
+  position: absolute;
+  bottom: -35%;
+  left: -15%;
+  width: 70vw;
+  height: 70vw;
+  max-width: 900px;
+  max-height: 900px;
+  border-radius: 50%;
+  /* [OPT-6] filter: blur 제거 — stop 완만화로 등가(대형 blur GPU 표면 비용 해소). */
+  background: radial-gradient(
+    circle,
+    var(--ais-glow) 0%,
+    rgba(250, 204, 21, 0.12) 30%,
+    rgba(250, 204, 21, 0.04) 55%,
+    transparent 80%
+  );
+  /* 강도 최대화: 0.75→0.9, 드리프트 주기 22s→15s(움직임 체감↑↑) */
+  opacity: 0.9;
+  mix-blend-mode: plus-lighter;
+  transform: translate3d(0, 0, 0) scale(1);
+  animation: heroDrift2 15s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes heroDrift2 {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6%, -5%, 0) scale(1.15);
+  }
+}
+
+/* 신경망 파티클 캔버스 — 배경 최하단 레이어. 마우스 패럴랙스와 함께 미세 이동. */
+.field {
+  z-index: 0;
+  transform: translate3d(
+    calc(var(--px, 0) * -10px),
+    calc(var(--py, 0) * -10px),
+    0
+  );
+  transition: transform 0.5s var(--ais-ease-expo);
+}
+
+/* ── 회로 트레이스 + 흐르는 골드 신호 ── */
+.circuit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+/* 각 트레이스: 얇은 뉴트럴 베이스 라인 위로, 짧은 골드 대시가 흐른다.
+   base 라인은 ::글로우 없이 hairline. 흐름은 stroke-dashoffset 애니. */
+.trace {
+  fill: none;
+  stroke: var(--ais-motion-signal);
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  /* 신호 패킷(34) + 간격(350) → 라인 위를 달리는 광점 인상(강도 상향: 24→34, 굵기 1.4→1.8) */
+  stroke-dasharray: 34 350;
+  stroke-dashoffset: 0;
+  /* [OPT-5] filter: drop-shadow 제거 — dashoffset 애니라 매 프레임 필터 재평가로 비쌌음.
+     신호 토큰 알파(0.85)가 이미 충분한 존재감 → 필터 없이 순수 스트로크 페인트만. */
+  animation: traceFlow 3.5s var(--ais-ease-flow) infinite;
+}
+
+.traceB {
+  stroke-width: 1.5;
+  animation-duration: 6s;
+  animation-delay: -2s;
+  opacity: 0.85;
+}
+
+.traceC {
+  stroke-width: 1.3;
+  animation-duration: 7.5s;
+  animation-delay: -4s;
+  opacity: 0.75;
+}
+
+.traceD {
+  stroke-width: 1.4;
+  animation-duration: 6.8s;
+  animation-delay: -1s;
+  opacity: 0.8;
+}
+
+.traceE {
+  stroke-width: 1.6;
+  animation-duration: 5.2s;
+  animation-delay: -3s;
+  opacity: 0.9;
+}
+
+.traceF {
+  stroke-width: 1.3;
+  animation-duration: 8s;
+  animation-delay: -5.5s;
+  opacity: 0.7;
+}
+
+@keyframes traceFlow {
+  to {
+    /* dasharray 합(384)의 배수만큼 이동 → 끊김 없는 순환 흐름 */
+    stroke-dashoffset: -768;
+  }
 }
 
 /* 얇은 hairline 1겹 — 상단 경계에 정통 제품페이지 디테일 */
@@ -167,10 +290,25 @@
 .wordAI {
   display: inline-block;
   background: var(--ais-ai-grad);
-  background-size: 140% 140%;
+  background-size: 220% 220%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  /* 그라데이션이 살아 흐르는 shimmer 루프 — "AI"가 연산 중인 느낌.
+     background-position만 애니(컴포지터 친화, 레이아웃 무영향). 강도 상향 5s→3.5s. */
+  animation: aiShimmer 2.5s var(--ais-ease-flow) infinite;
+}
+
+@keyframes aiShimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* reveal 컨테이너(.copy)가 보이면(.is-visible) 단어들 순차 등장 */
@@ -286,6 +424,9 @@
 .previewPanel {
   position: relative;
   isolation: isolate;
+  /* [OPT-4] 신호 스윕 밴드(::after, translateX)가 패널 밖으로 새지 않게 클립.
+     카드 hover 리프트/아이콘 팝은 패널 padding 안쪽이라 영향 없음. */
+  overflow: hidden;
   padding: var(--ais-space-sm);
   border-radius: var(--ais-radius-lg);
   border: 1px solid var(--ais-warm-border);
@@ -310,6 +451,50 @@
   -webkit-mask: radial-gradient(120% 100% at 50% 0%, #000 40%, transparent 100%);
   mask: radial-gradient(120% 100% at 50% 0%, #000 40%, transparent 100%);
   pointer-events: none;
+  /* 살아있는 PCB — 도트 격자가 느리게 대각 시프트(연산 잔열 인상).
+     [OPT-4 예외] 도트 격자는 radial mask 페더 구조라 translate 전환 시 마스크 깨짐.
+     alpha 0.06 극저 + 패널 영역만이라 repaint 비용 미미 → background-position 유지. */
+  animation: pcbShift 6s linear infinite;
+}
+
+@keyframes pcbShift {
+  to {
+    background-position: 16px 16px;
+  }
+}
+
+/* 신호 스윕 — 패널 위를 골드 광선이 대각으로 주기 훑음(시스템 스캔 인상).
+   [OPT-4] background-position 애니(매 프레임 repaint) → translateX(컴포지터 온리)로 전환.
+   패널보다 넓은 광선 밴드를 좌→우로 이동시키고 패널 radius로 클립. */
+.previewPanel::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  /* 밴드 폭을 패널의 40%로 두고 좌측 밖(-40%)→우측 밖(250%)까지 이동 */
+  width: 40%;
+  border-radius: inherit;
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    var(--ais-motion-signal-soft) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transform: translateX(-140%);
+  animation: panelSweep 3.5s var(--ais-ease-flow) infinite;
+}
+
+@keyframes panelSweep {
+  0% {
+    transform: translateX(-140%);
+  }
+  55%,
+  100% {
+    transform: translateX(340%);
+  }
 }
 
 /* 패널 캡션 — 모노 라벨 + 한 줄 태그라인(프리뷰의 위계 앵커) */
@@ -553,8 +738,28 @@
 
 /* ── reduced-motion: 드리프트/패럴랙스/카운트업 정지, 최종 상태만 표시 ── */
 @media (prefers-reduced-motion: reduce) {
-  .gradGlow {
+  .gradGlow,
+  .gradGlow2 {
     animation: none !important;
+  }
+  /* Living Silicon 신규 모션 전부 정지 — 정적 최종 상태만 표시. */
+  .field {
+    transform: none;
+    animation: none !important;
+  }
+  .circuit {
+    display: none; /* 흐르는 신호 = 순수 모션 장식 → reduced-motion에선 제거 */
+  }
+  .wordAI {
+    animation: none !important;
+    background-position: 0% 50%;
+  }
+  .previewPanel::before {
+    animation: none !important;
+  }
+  .previewPanel::after {
+    animation: none !important;
+    display: none;
   }
   .servicePreview {
     transform: none;

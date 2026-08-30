@@ -189,6 +189,26 @@
   /* ── 라운드: 기존 chip(12)/soft(14)/card(24) 사이 빈 구간 보강 ── */
   --ais-radius-xs: 8px;      /* 아주 작은 배지/인풋 */
   --ais-radius-sm: 10px;     /* 소형 버튼/태그 */
+
+  /* ══════════════════════════════════════════════════════════════
+   * "Living Silicon" 모션 토큰 (2026-08-30 · 추가 전용, 기존 변경 0)
+   * Hero·Footer 하이테크 모션 고도화. AI·반도체 "연산 중" 시각 언어.
+   * 강조형 채택 → 강도는 올리되 시각 어휘는 '정밀 시스템'으로 잠금.
+   * 색 규율: 컬러 포인트는 Signal Gold(--ais-gold) 계열에만, 나머지는 뉴트럴.
+   * 애니는 transform/opacity/background-position/filter만(레이아웃 무영향).
+   * ────────────────────────────────────────────────────────────── */
+  /* 강도 상향(2026-08-30 사용자 "효과 더 높여줘"): 0.55→0.72 / 0.16→0.26 */
+  --ais-motion-signal: rgba(250, 204, 21, 0.85);   /* 데이터 흐름 빔(골드) */
+  --ais-motion-signal-soft: rgba(250, 204, 21, 0.36); /* 빔 잔상/트레이스 */
+  --ais-motion-node: rgba(10, 10, 10, 0.42);       /* 뉴트럴 노드(라이트 배경) */
+  --ais-motion-node-dark: rgba(255, 255, 255, 0.5); /* 노드(다크 배경) */
+  --ais-motion-link: rgba(10, 10, 10, 0.14);       /* 노드 연결선(라이트) */
+  --ais-motion-link-dark: rgba(255, 255, 255, 0.12); /* 연결선(다크) */
+  --ais-dur-flow: 6s;        /* 신호가 트레이스를 한 바퀴 흐르는 주기 */
+  --ais-dur-flow-fast: 3.5s; /* 짧은 스윕(hairline sweep 등) */
+  --ais-dur-breathe: 3.2s;   /* 맥동 호흡 주기(System Online 배지 등) */
+  --ais-dur-shimmer: 5s;     /* AI 클립 그라데이션 흐름 주기 */
+  --ais-ease-flow: linear;   /* 신호 흐름은 등속 */
 }
 
 /* ── 말랑·통통 키프레임 (transform/opacity만 → 컴포지터 친화) ── */

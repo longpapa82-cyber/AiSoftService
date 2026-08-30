@@ -38,14 +38,14 @@
   --ais-glow: rgba(255, 255, 255, 0.12);
 }
 
-/* 상단 시그니처 헤어라인 — 다크 위 화이트 hairline + 중앙 시안 포인트로 Technology의 서명(레버2). */
+/* 상단 시그니처 헤어라인 — 다크 위 화이트 hairline(정적, 애니 없음 = repaint 0). */
 .section::before {
   content: '';
   position: absolute;
   inset: 0 0 auto 0;
   height: 3px;
   z-index: 2;
-  /* v5: 상단 라인도 뉴트럴 화이트 hairline만(시안 제거 — 산만함 해소). */
+  pointer-events: none;
   background: linear-gradient(
     90deg,
     transparent 0%,
@@ -53,6 +53,41 @@
     transparent 100%
   );
   opacity: 0.6;
+}
+
+/* [OPT-4] 골드 데이터 스트림 — background-position 애니 → translateX 밴드(컴포지터 온리).
+   ★ 이 섹션은 --ais-gold를 near-white로 지역 재정의하므로 밴드 색은 전역 모션 토큰
+   (--ais-motion-signal, 순골드 rgba)을 직접 사용해 골드 유지. section overflow:hidden 클립. */
+.stream {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 40%;
+  z-index: 3;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--ais-motion-signal) 50%,
+    transparent 100%
+  );
+  pointer-events: none;
+  transform: translateX(-100%);
+  animation: techStream 3.2s var(--ais-ease-flow) infinite;
+}
+
+@keyframes techStream {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(350%);
+  }
+}
+
+/* 신경망 파티클 캔버스 — 배경 오브(::after -1)와 같은 층, 콘텐츠 아래. */
+.field {
+  z-index: -1;
 }
 
 /* 배경 웜/세이지 오브 2겹 — 다크 네이비 잉크 위 은은한 깊이(장식, 콘텐츠 아님).
@@ -623,6 +658,10 @@
   .metric::after {
     transition: none;
     transform: scaleX(1);
+  }
+  /* Living Silicon 정지 — 골드 스트림 밴드 제거(정적 hairline은 ::before가 담당). */
+  .stream {
+    display: none;
   }
   /* v6 M5 섹션 전환 스케일업 정지 — 최종 상태 즉시 표시(콘텐츠 은닉 0). */
   .section > .ais-container {
