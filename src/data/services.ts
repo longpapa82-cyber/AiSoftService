@@ -937,16 +937,23 @@ export const SERVICES: AppService[] = [
     tagline: '입어보지 않고, 입어본다',
     description:
       '내 사진과 옷 사진만 있으면 AI가 실제로 입은 모습을 보여줍니다. 온라인 쇼핑에서 사기 전에 나에게 어울리는지 미리 확인하세요. 키·몸무게·체형을 반영해 더 자연스러운 착용 모습을 만듭니다.',
-    // ⚠️ Android 비공개 테스트 단계(스토어 미공개). iOS 후속. 허위 출시 표기 금지:
-    // status='coming_soon' + androidPending로 "준비 중"을 정직하게 표기(다른 서비스와 동일 원칙).
-    status: 'coming_soon',
+    // iOS 출시 완료(App Store id6801993872 · 번들 com.longpapa82.fitsnap, 2026-08-31 라이브
+    // curl 200+title "FitSnap - AI 가상 피팅 앱" 대조 검증). Android는 비공개 테스트 단계 →
+    // androidPending:true 유지(Google Play "준비 중" 비활성 배지). Voice Buddy(id6799329142)·
+    // myToday와 동일한 "iOS 출시 + Android 준비 중" 혼합 상태. webIsLegal:true로 App Store를
+    // 주 CTA(골드)로 승격(설치 우선). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)·About는
+    // links.ios/android 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총 플랫폼 수 불변,
+    // androidPending은 별개 플래그라 미집계 = 허위 출시 방지(정직 지표).
+    // ⚠️ Android 출시 시 app.json 패키지명이 SoT — 출시되면 links.android 실링크 추가.
+    status: 'live',
     moodLabel: 'Bright Coral Fitting',
     emoji: '👗',
     iconUrl: fitsnapIcon,
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6801993872',
       web: 'https://longpapa82-cyber.github.io/fitsnap-web/',
       androidPending: true,
-      webIsLegal: false,
+      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
