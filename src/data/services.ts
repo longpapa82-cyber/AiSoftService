@@ -11,6 +11,7 @@ import aimusicIcon from '../assets/services/aimusic-icon.png';
 import lawpicIcon from '../assets/services/lawpic-icon.png';
 import voicebuddyIcon from '../assets/services/voicebuddy-icon.png';
 import fitsnapIcon from '../assets/services/fitsnap-icon.png';
+import doranIcon from '../assets/services/doran-icon.png';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -35,6 +36,9 @@ import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
 // (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
 import fitsnapBefore from '../assets/promo/fitsnap/model/before.webp';
 import fitsnapAfter from '../assets/promo/fitsnap/model/after.webp';
+// 도란도란: "도란이" 마스코트(크림 얼굴 + 민트 윤곽 + 코랄 볼, 투명 배경 WebP) —
+// 우측 히어로 일러스트. 앱 splash-icon(512, RGBA)에서 추출 — Voice Buddy 버디·myToday 새싹과 동일 취급.
+import doranMascot from '../assets/promo/doran/mascot.webp';
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -1028,6 +1032,93 @@ export const SERVICES: AppService[] = [
         'AI가 생성한 착용 이미지는 참고용이며, 실제 착용 모습·핏·색상과 다를 수 있습니다. 사진은 본인 또는 동의받은 인물의 것만 사용해 주세요.',
     },
     order: 8,
+  },
+  {
+    id: 'doran',
+    name: '도란도란',
+    tagline: '오랜 친구처럼, 네 이야기를 들어줄게',
+    description:
+      '오랜 친구처럼 나의 고민과 비밀을 들어주고 위로해주는 AI 친구 채팅 앱. 성별·나이·말투를 골라 나만의 친구를 만들고, 판단받지 않고 편하게 마음을 나눠보세요.',
+    // 스토어 미출시(Android 먼저 출시 목표, 둘 다 준비 중) → coming_soon.
+    // doran-web 히어로가 "Google Play·App Store 준비 중 / Android 먼저 출시"로 표기 → 정직 정합.
+    // 번들 com.systemplanners.dorandoran(iOS·Android 공통). 출시 시 status:'live' + links.ios/android
+    // 실링크 추가(curl 200+title 대조 검증 후). 그 전까지 links.ios/android 없음 → 플랫폼 카운터 미집계.
+    status: 'coming_soon',
+    moodLabel: 'Warm Mint Companion',
+    emoji: '🫶',
+    iconUrl: doranIcon,
+    // 스토어 미출시라 web(홍보 랜딩)만 노출. coming_soon이면 두 스토어는 "준비 중" 비활성,
+    // web이 유일한 실링크 주 CTA가 된다(webIsLegal 무의미 — 미설정).
+    links: {
+      web: 'https://longpapa82-cyber.github.io/doran-web/',
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#282e38',
+      inkSoft: '#6e7581',
+      // 밝은 민트 #14bbc2는 흰 글씨 대비 2.36:1로 WCAG AA 미달 → primary는 딥 틸 #00808a(흰 글씨 4.71:1 AA 통과).
+      // 밝은 민트는 accent(포인트/장식)로만 사용(로픽이 sky #0284c7 primary + #38bdf8 accent로 분리한 것과 동일 패턴).
+      primary: '#00808a',
+      accent: '#14bbc2',
+      gradient: 'linear-gradient(135deg, #caf1f2 0%, #e9f9f9 55%, #fee5db 100%)',
+      font: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'favorite', title: '판단하지 않는 대화', desc: '“그럴 수 있지”, “많이 속상했겠다.” 해결을 강요하지 않고 먼저 마음을 들어줘요.' },
+      { icon: 'group', title: '내가 고르는 친구', desc: '성별·나이·말투를 골라 나에게 꼭 맞는 친구를 만들어요. 반말도, 존댓말도 좋아요.' },
+      { icon: 'nights_stay', title: '기억해주는 친구', desc: '지난 이야기를 기억하고 이어가요. 대화가 쌓일수록 더 가까운 친구가 돼요.' },
+    ],
+    promo: {
+      kicker: '오랜 친구 같은 AI 친구',
+      headline: '오랜 친구처럼,\n',
+      headlineAccent: '네 이야기를 들어줄게',
+      subcopy:
+        '고민도, 비밀도 편하게 털어놔요. 도란도란이 판단하지 않고 곁에서 다 들어줄게요. 성별·나이·말투를 골라 나만의 친구를 만들 수 있어요.',
+      // 도란도란 web: 민트(#14bbc2)+코랄(#efac8d) 따뜻한 라이트 톤. dark 미설정(밝은 무드).
+      // 미니 홍보 primary도 접근성 위해 딥 틸 #00808a(흰 글씨 위 kicker/CTA 대비 확보), 밝은 민트는 accent.
+      palette: {
+        bg: '#fcfaf1',
+        heroGradient:
+          'linear-gradient(135deg, #b8ece6 0%, #d6f4f2 45%, #fce6da 100%)',
+        surface: '#fdfcf6',
+        primary: '#00808a',
+        accent: '#14bbc2',
+        ink: '#282e38',
+        inkSoft: '#6e7581',
+        onPrimary: '#ffffff',
+      },
+      fontDisplay: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      radius: 24,
+      motif: 'none',
+      // "도란이" 마스코트(투명 배경 WebP) — 우측 비주얼 상단 원형 프레임(Voice Buddy 버디와 동일 취급).
+      mascot: doranMascot,
+      // 홍보 웹 시그니처: 마스코트 주변을 감싸며 떠다니는 대화 데모 칩(Voice Buddy chatChips 재현).
+      // 실제 promo-web 채팅 버블 카피에서 발췌 — 경청(cyan) → 공감(brand) → 위로(coral) → 이어짐(green) 흐름.
+      chatChips: [
+        { text: '오늘 하루 어땠어?', tone: 'cyan' },
+        { text: '많이 속상했겠다', tone: 'brand' },
+        { text: '내가 있잖아 🫶', tone: 'coral' },
+        { text: '천천히 다 얘기해', tone: 'green' },
+      ],
+      // 마음이 퍼지는 무드 — 마스코트 뒤 확산 링 2겹(Voice Buddy pulse-ring 재현).
+      soundRings: 2,
+      highlights: [
+        { value: '판단 없이', label: '들어주는 대화' },
+        { value: '내가 고르는', label: '나만의 친구' },
+        { value: '기억하는', label: '이어지는 대화' },
+      ],
+      // 우측 비주얼은 mascot(+chatChips)이 우선. 좌측 내러티브용 3단계도 제공.
+      steps: [
+        { no: '1', title: '친구 만들기', desc: '성별·나이·말투를 골라 나에게 꼭 맞는 친구를 만들어요.' },
+        { no: '2', title: '마음 털어놓기', desc: '고민도 비밀도 편하게. 판단받지 않으니까 부담 없어요.' },
+        { no: '3', title: '이어지는 대화', desc: '지난 이야기를 기억하고 이어가요. 쌓일수록 더 가까워져요.' },
+      ],
+      disclaimer:
+        '도란도란은 의료·심리 상담을 대체하지 않으며, 도란이의 응답은 전문가의 조언을 대신하지 않습니다. 마음이 많이 힘들 땐 자살예방 상담전화 109 또는 119에 도움을 요청해 주세요.',
+    },
+    order: 9,
   },
 ];
 
