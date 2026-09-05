@@ -2235,6 +2235,50 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════════
+ * 도란도란(#promo-doran) 모바일 레이아웃 정합
+ * FitSnap과 동일한 두 증상: (1) COMING SOON 배지 2줄 밀림, (2) highlight 2+1 찢어짐.
+ * 단 도란 kicker("오랜 친구 같은 AI 친구")가 FitSnap보다 길어 gap 압축으론 1줄이 무리 →
+ * COMING SOON을 kicker 뒤에서 명시적으로 다음 줄에 배치(flex-basis:100%)해 깔끔한 2줄로 정돈.
+ * highlight는 value가 "판단 없이" 등 구문이라 칩이 넓어 3개가 안 들어감 → 균등 3열 그리드.
+ * coming_soon은 현재 FitSnap·도란 뿐이라 :global 스코프 안전(다른 서비스 무영향).
+ * ────────────────────────────────────────────────────────────────── */
+/* 데스크톱은 폭이 넓어 [로고][브랜드][kicker][COMING SOON]이 1줄에 자연 정렬 → 손대지 않음(회귀 0).
+   모바일(≤640px)에서만: kicker가 길어 COMING SOON을 2줄로 밀어내므로, kicker를 아랫줄로 내린다.
+   → 윗줄 [로고][도란도란][COMING SOON], 아랫줄 [오랜 친구 같은 AI 친구].
+   kicker에만 flex-basis:100%+order를 줘 다음 줄 전용으로 밀고, COMING SOON은 brand 옆 원래 크기 유지. */
+@media (max-width: 640px) {
+  :global(#promo-doran) .kicker {
+    order: 9;
+    flex-basis: 100%;
+    width: fit-content;
+    margin-top: 0.1rem;
+  }
+}
+/* highlight: 데스크톱은 기존 flex-wrap 유지(폭 넓어 3칩 1줄 OK) → 회귀 0.
+   모바일(≤640px)에서만 value가 구문이라 칩이 넓어 2+1로 찢어지므로 3열 균등 그리드로 정렬. */
+@media (max-width: 640px) {
+  :global(#promo-doran) .highlights {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    align-items: stretch;
+  }
+  :global(#promo-doran) .highlight {
+    /* 3열 폭이 좁아지므로 좌우 패딩 축소 — "판단 없이" 같은 구문이 줄바꿈 없이 들어가게 */
+    padding: 0.6rem 0.55rem;
+  }
+  :global(#promo-doran) .highlightValue {
+    /* 3열 셀 폭에서 구문형 value가 넘치지 않도록 살짝 축소 */
+    font-size: 0.98rem;
+  }
+}
+/* 극단적으로 좁은 화면(≤360px): 3열이 답답하면 2열로 완충(FitSnap과 동일) */
+@media (max-width: 360px) {
+  :global(#promo-doran) .highlights {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
    FitSnap before/after 좌우 드래그 슬라이더 (홍보웹 CompareSlider 이식)
    after 전체 깔림 + before를 clip-path로 왼쪽 --pos%만 노출. 핸들 드래그로 경계 이동.
    ═══════════════════════════════════════════════════════════════════ */
