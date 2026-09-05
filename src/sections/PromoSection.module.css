@@ -2249,8 +2249,11 @@
 @media (max-width: 640px) {
   :global(#promo-doran) .kicker {
     order: 9;
+    /* flex-basis:100%는 "새 줄로 밀기" 용도. 단 그대로 두면 pill 배경이 전폭으로 늘어나므로
+       max-width:max-content로 pill을 내용 폭에 고정한다(줄바꿈은 유지, 배경만 축소). */
     flex-basis: 100%;
-    width: fit-content;
+    max-width: max-content;
+    align-self: flex-start;
     margin-top: 0.1rem;
   }
 }
