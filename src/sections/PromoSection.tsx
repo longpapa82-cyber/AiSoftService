@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from 're
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
 import { MoodIcon } from '../components/ui/MoodIcon';
+import { DoraniMascot } from '../components/DoraniMascot';
 import { useReveal } from '../hooks/useReveal';
 import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
@@ -452,7 +453,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                   loading="lazy"
                 />
               </div>
-            ) : promo.mascot ? (
+            ) : promo.mascot || promo.mascotComponent ? (
               /* 마스코트 히어로 + 기분 칩 + 스텝 (myToday: 새싹 성장 서사) */
               <div className={styles.growCard}>
                 <div className={styles.mascotStage}>
@@ -466,14 +467,19 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                       />
                     ))}
                   <span className={styles.mascotGlow} aria-hidden="true" />
-                  <img
-                    className={styles.mascotImg}
-                    src={promo.mascot}
-                    alt={`${service.name} 마스코트`}
-                    width={200}
-                    height={200}
-                    loading="lazy"
-                  />
+                  {/* 도란: 벡터 SVG 컴포넌트(dorani.js 이식). 그 외: 정적 이미지. mascotImg 스타일 공유. */}
+                  {promo.mascotComponent === 'dorani' ? (
+                    <DoraniMascot className={styles.mascotImg} />
+                  ) : (
+                    <img
+                      className={styles.mascotImg}
+                      src={promo.mascot}
+                      alt={`${service.name} 마스코트`}
+                      width={200}
+                      height={200}
+                      loading="lazy"
+                    />
+                  )}
                   {/* 통역 데모 칩(Voice Buddy): 마스코트 주변을 감싸며 떠다니는 흰 pill */}
                   {promo.chatChips?.map((chip, i) => (
                     <span

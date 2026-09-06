@@ -1870,6 +1870,32 @@
 :global(#promo-doran) .chatChip2 { bottom: 22%; left: -8%; animation-delay: -2.2s; }
 :global(#promo-doran) .chatChip3 { bottom: 6%; right: -4%; animation-delay: -3.3s; }
 
+/* ── 도란 홍보웹 정합: SoftShadow(따뜻한 저채도 민트 그림자) + accent 형광펜 밑줄 ──
+   홍보웹 designTokens의 --shadow-card(0 8px 24px rgba(126,154,160,.16))를 도란 카드류에 반영.
+   차가운 검정/primary 그림자 대신 민트 계통 저채도로 "cozy" 무드. #promo-doran 스코프라 회귀 0. */
+:global(#promo-doran) .highlight {
+  box-shadow: 0 8px 24px rgba(126, 154, 160, 0.16);
+}
+:global(#promo-doran) .step {
+  box-shadow: 0 8px 24px rgba(126, 154, 160, 0.16);
+}
+/* headlineAccent("네 이야기를 들어줄게")에 코랄 형광펜 밑줄(홍보웹 .accent::after).
+   기존 .accent는 primary→accent 그라디언트 텍스트라, 밑줄은 z-index:-1로 텍스트 뒤에 깔아 충돌 방지. */
+:global(#promo-doran) .accent {
+  position: relative;
+}
+:global(#promo-doran) .accent::after {
+  content: '';
+  position: absolute;
+  left: -0.04em;
+  right: -0.04em;
+  bottom: 0.04em;
+  height: 0.34em;
+  background: color-mix(in srgb, #efac8d 60%, transparent);
+  border-radius: 999px;
+  z-index: -1;
+}
+
 /* ══════════════════════════════════════════════════════════════
  * Voice Buddy: 언어 스왑 위젯 (🇰🇷 한국어 ⇄ 🇺🇸 English)
  * 인디고 히어로 위 흰 글래스 pill — 통역 방향을 한눈에. CTA 위에 배치.

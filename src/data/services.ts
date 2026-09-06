@@ -36,9 +36,8 @@ import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
 // (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
 import fitsnapBefore from '../assets/promo/fitsnap/model/before.webp';
 import fitsnapAfter from '../assets/promo/fitsnap/model/after.webp';
-// 도란도란: "도란이" 마스코트(크림 얼굴 + 민트 윤곽 + 코랄 볼, 투명 배경 WebP) —
-// 우측 히어로 일러스트. 앱 splash-icon(512, RGBA)에서 추출 — Voice Buddy 버디·myToday 새싹과 동일 취급.
-import doranMascot from '../assets/promo/doran/mascot.webp';
+// 도란도란: "도란이" 마스코트는 정적 이미지 대신 벡터 컴포넌트(DoraniMascot)로 렌더한다.
+// (홍보웹 dorani.js를 JSX로 이식 — promo.mascotComponent:'dorani' + PromoSection 분기)
 
 export type ServiceStatus = 'live' | 'beta' | 'coming_soon';
 
@@ -155,6 +154,12 @@ export interface ServicePromo {
    * 있으면 상단/배경에 원형 프레임으로 큰 일러스트 배치(myToday 새싹).
    */
   mascot?: string;
+  /**
+   * 마스코트를 정적 이미지(mascot) 대신 벡터 SVG 컴포넌트로 렌더(현재 'dorani'만).
+   * 있으면 mascot(이미지)보다 우선 — 홍보웹 dorani.js를 JSX로 이식한 DoraniMascot 사용.
+   * 앱·홍보웹과 픽셀 동일한 벡터 도란이(무한 확장·파일 없음).
+   */
+  mascotComponent?: 'dorani';
   /**
    * 기분/감정 단계 칩 (myToday: 5단계 기분).
    * 각 단계의 앱 브랜드 아이콘(score) + 라벨 + 컬러로 원형 칩 표현.
@@ -1061,7 +1066,8 @@ export const SERVICES: AppService[] = [
       primary: '#00808a',
       accent: '#14bbc2',
       gradient: 'linear-gradient(135deg, #caf1f2 0%, #e9f9f9 55%, #fee5db 100%)',
-      font: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      // 제목/브랜드 폰트를 Jua 선두로(도란 홍보웹 --font-display 정합, 브랜드 개성). 본문은 Pretendard 폴백.
+      font: "'Jua', 'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       onPrimary: '#ffffff',
     },
     features: [
@@ -1079,8 +1085,8 @@ export const SERVICES: AppService[] = [
       // 미니 홍보 primary도 접근성 위해 딥 틸 #00808a(흰 글씨 위 kicker/CTA 대비 확보), 밝은 민트는 accent.
       palette: {
         bg: '#fcfaf1',
-        heroGradient:
-          'linear-gradient(135deg, #b8ece6 0%, #d6f4f2 45%, #fce6da 100%)',
+        // 도란 홍보웹 --grad-hero(#B8ECE6→#FCE6DA) 정합 — 민트→피치 2색 클린 그라디언트.
+        heroGradient: 'linear-gradient(135deg, #b8ece6 0%, #fce6da 100%)',
         surface: '#fdfcf6',
         primary: '#00808a',
         accent: '#14bbc2',
@@ -1088,12 +1094,14 @@ export const SERVICES: AppService[] = [
         inkSoft: '#6e7581',
         onPrimary: '#ffffff',
       },
-      fontDisplay: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      // 제목/번호/카드 제목 = Jua(홍보웹 정합), 본문 = Pretendard.
+      fontDisplay: "'Jua', 'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       radius: 24,
       motif: 'none',
-      // "도란이" 마스코트(투명 배경 WebP) — 우측 비주얼 상단 원형 프레임(Voice Buddy 버디와 동일 취급).
-      mascot: doranMascot,
+      // "도란이" 마스코트 — 정적 WebP 대신 벡터 SVG 컴포넌트(DoraniMascot)로 렌더.
+      // 홍보웹 dorani.js를 JSX로 이식 → 앱·홍보웹과 픽셀 동일, 무한 확장(파일 없음).
+      mascotComponent: 'dorani',
       // 홍보 웹 시그니처: 마스코트 주변을 감싸며 떠다니는 대화 데모 칩(Voice Buddy chatChips 재현).
       // 실제 promo-web 채팅 버블 카피에서 발췌 — 경청(cyan) → 공감(brand) → 위로(coral) → 이어짐(green) 흐름.
       chatChips: [
