@@ -1044,18 +1044,24 @@ export const SERVICES: AppService[] = [
     tagline: '오랜 친구처럼, 네 이야기를 들어줄게',
     description:
       '오랜 친구처럼 나의 고민과 비밀을 들어주고 위로해주는 AI 친구 채팅 앱. 성별·나이·말투를 골라 나만의 친구를 만들고, 판단받지 않고 편하게 마음을 나눠보세요.',
-    // 스토어 미출시(Android 먼저 출시 목표, 둘 다 준비 중) → coming_soon.
-    // doran-web 히어로가 "Google Play·App Store 준비 중 / Android 먼저 출시"로 표기 → 정직 정합.
-    // 번들 com.systemplanners.dorandoran(iOS·Android 공통). 출시 시 status:'live' + links.ios/android
-    // 실링크 추가(curl 200+title 대조 검증 후). 그 전까지 links.ios/android 없음 → 플랫폼 카운터 미집계.
-    status: 'coming_soon',
+    // iOS 출시 완료(App Store id6809109847 · 번들 com.systemplanners.dorandoran, 2026-09-18 라이브
+    // curl lookup + App Store Connect "1.0 배포 준비됨" + trackName "도란도란 - AI 친구 상담" 3중 대조 검증).
+    // Android는 아직 스토어 미출시(준비 중) → androidPending:true(Google Play "준비 중" 비활성 배지).
+    // FitSnap(id6801993872)·Voice Buddy(id6799329142)·myToday와 동일한 "iOS 출시 + Android 준비 중" 혼합 상태.
+    // webIsLegal:true로 App Store를 주 CTA(골드)로 승격(설치 우선). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)·
+    // About는 links.ios 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총 플랫폼 수 불변, androidPending은 별개
+    // 플래그라 미집계 = 허위 출시 방지(정직 지표). ⚠️ Android 출시 시 links.android 실링크 추가.
+    status: 'live',
     moodLabel: 'Warm Mint Companion',
     emoji: '🫶',
     iconUrl: doranIcon,
-    // 스토어 미출시라 web(홍보 랜딩)만 노출. coming_soon이면 두 스토어는 "준비 중" 비활성,
-    // web이 유일한 실링크 주 CTA가 된다(webIsLegal 무의미 — 미설정).
+    // iOS 실링크 노출 + web(홍보 랜딩)은 보조. webIsLegal:true → App Store를 주 CTA로 승격(설치 우선).
+    // androidPending:true → Google Play "준비 중" 비활성 배지(출시 전 기대감).
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6809109847',
       web: 'https://longpapa82-cyber.github.io/doran-web/',
+      androidPending: true,
+      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
