@@ -427,8 +427,7 @@
   .cosmosGlowB,
   .cosmosTwinkle,
   .cosmosOrbit circle,
-  .shotBadge,
-  :global(#promo-shortkit) .phoneShot {
+  .shotBadge {
     animation: none;
   }
 }
@@ -467,16 +466,12 @@
   color: #ffffff;
 }
 
-/* 홍보웹 sk-float 이식: 폰 목업 은은한 부유(위아래).
-   .phone은 스크롤 타임라인(promoPhoneTurn)을 쓰므로, 충돌 없이 내부 이미지에 float 적용. */
-:global(#promo-shortkit) .phoneShot {
-  animation: promo-shot-float 4.5s ease-in-out infinite;
-  will-change: transform;
-}
-@keyframes promo-shot-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
+/* 홍보웹 sk-float(폰 부유)는 랜딩의 기존 .phone 스크롤 드리프트(promoProductDrift,
+   ±10px 세로)가 이미 담당하므로 별도 무한 float은 넣지 않는다.
+   ⚠️ 이미지(.phoneShot)에만 float을 걸면 프레임 베젤(overflow 없음) 밖으로 화면이
+   삐져나오고, 프레임(.phone)에 걸면 translate 프로퍼티가 스크롤 드리프트와 충돌한다.
+   → 3개 프로퍼티(transform/rotate/translate)를 스크롤 애니가 이미 점유 = float 자리 없음.
+   결론: 폰 부유는 스크롤 드리프트로 충분(홍보웹 sk-float과 동등 효과). 중복 제거. */
 
 /* 숏킷 "30초" 헤드라인 강조 — 홍보웹처럼 옐로 하이라이트 박스(검정 글씨).
    기본 .accent(그라디언트 텍스트)를 스코프 오버라이드. background-clip 리셋 필수. */
