@@ -466,9 +466,14 @@
    하단 여백은 탭바색(#fff)과 동일해 이음매 선 없음, OS바 잔재는 크롭 제거. */
 :global(#promo-shortkit) .phone {
   border-radius: 26px;
+  /* 이미지(2.039)와 프레임(9/19=2.111) 비율이 달라 cover가 상단을 크롭했다.
+     → 숏킷 폰은 프레임 비율을 이미지에 맞춰(고정 aspect-ratio 해제) 크롭 자체를 없앤다. */
+  aspect-ratio: 720 / 1468;
 }
 :global(#promo-shortkit) .phoneShot {
   border-radius: 18px;
+  /* contain으로 이미지 전체를 잘림 없이 표시(상단 상태바 온전 보존). */
+  object-fit: contain;
 }
 
 /* 글래스 칩(홍보웹 backdrop-blur 재현): 블루 무대 위 반투명 흰 칩 + 블러.
