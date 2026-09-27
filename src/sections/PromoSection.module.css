@@ -454,6 +454,16 @@
   border-radius: 42px;
 }
 
+/* 헤드라인("긴 영상, 핵심만"): 홍보웹 원본은 훨씬 굵고 큰 대담 타이포(--text-hero
+   clamp 최대 5rem·weight 800~900). 랜딩 기본(최대 3.1rem)은 약해 보임 → 숏킷만
+   크기·굵기 강화(Pretendard variable 900). 통합 랜딩 균형상 5rem보다 살짝 절제. */
+:global(#promo-shortkit) .headline {
+  font-size: clamp(2.4rem, 1rem + 6vw, 4.6rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
 /* 서브카피: 블루 무대 위 연한 하늘(inkSoft #dbe8ff)은 대비 약함(특히 모바일) →
    거의 흰색으로 올려 가독성 확보(헤드라인 흰색과 조화). */
 :global(#promo-shortkit) .subcopy {
