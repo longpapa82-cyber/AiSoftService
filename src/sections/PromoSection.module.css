@@ -459,12 +459,17 @@
 :global(#promo-shortkit) .phone:hover {
   transform: rotate(0deg) translateY(-6px) scale(1.02);
 }
-/* 숏킷 스크린샷 상하 여백은 이미지 자체에 여백을 추가해 해결(shot-home.webp 720×1588).
-   ⚠️ 상단 여백 130px[#f2f4f5 앱bg]: 프레임 라운드 코너(44px)+축소배율 고려해 넉넉히 →
-      "숏킷" 로고가 곡선에 가려지지 않게. object-position:top이라 상단은 안 잘림.
-   ⚠️ 하단 여백 60px[#ffffff 탭바색과 동일→이음매 선 없음]. 비율 2.206>프레임이라
-      하단만 미세 크롭(흰 여백이라 무해). 원본 하단 OS바 잔재(#caccce)는 크롭 제거.
-   베젤은 기본 10px 유지(테두리 두꺼워지지 않음). */
+/* 숏킷 폰: 상단 콘텐츠(로고)가 프레임 라운드 코너에 가리는 문제는, 여백을 키우면
+   폰이 비대해져 섹션 상단이 잘리는 역효과가 난다. → 근본 해법은 라운드 축소.
+   숏킷만 border-radius를 44→22px로 줄여 곡선이 상단 콘텐츠를 덜 깎게 한다.
+   덕분에 적은 여백(이미지 상40·하30px)으로도 로고가 안 가리고 폰도 비대해지지 않는다.
+   하단 여백은 탭바색(#fff)과 동일해 이음매 선 없음, OS바 잔재는 크롭 제거. */
+:global(#promo-shortkit) .phone {
+  border-radius: 26px;
+}
+:global(#promo-shortkit) .phoneShot {
+  border-radius: 18px;
+}
 
 /* 글래스 칩(홍보웹 backdrop-blur 재현): 블루 무대 위 반투명 흰 칩 + 블러.
    흰 배경이 아니라 유리질이라 텍스트는 흰색 유지(대비 확보). */
