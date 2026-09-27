@@ -449,8 +449,9 @@
 }
 :global(#promo-shortkit) .phoneShot {
   object-fit: contain;
-  /* 하단도 상단처럼 프레임 곡선을 따르도록 네 모서리 라운딩(각진 흰 하단 모서리 제거). */
-  border-radius: 34px;
+  /* 화면 모서리를 프레임 라운딩(44px)에 맞춰 크게 → 상하단 대칭으로 곡선 정합.
+     34px는 하단이 상단보다 덜 둥글어 보였다(상단은 노치+프레임 곡선이 겹쳐 더 둥금). */
+  border-radius: 42px;
 }
 
 /* 글래스 칩(홍보웹 backdrop-blur 재현): 블루 무대 위 반투명 흰 칩 + 블러.
