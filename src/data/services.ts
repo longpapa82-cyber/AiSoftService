@@ -12,6 +12,11 @@ import lawpicIcon from '../assets/services/lawpic-icon.png';
 import voicebuddyIcon from '../assets/services/voicebuddy-icon.png';
 import fitsnapIcon from '../assets/services/fitsnap-icon.png';
 import doranIcon from '../assets/services/doran-icon.png';
+import shortkitIcon from '../assets/services/shortkit-icon.png';
+// 숏킷: 홍보웹 Hero의 실제 앱 "유튜브 URL 입력 홈 화면" — 폰 목업(shot)으로 우측 비주얼 재현.
+// (홍보웹 longpapa82-cyber.github.io/shortkit-web/shots/home.webp와 SHA 동일, 720×1498)
+// "링크만 붙여넣으면"이라는 핵심 카피와 정합 — 서비스 진입점(URL 입력)을 보여준다.
+import shortkitShot from '../assets/promo/shortkit/shot-home.webp';
 
 // 각 서비스 홈페이지의 실제 실사 이미지(원본 프로젝트에서 추출).
 // myPet: 실사 히어로(강아지) + 실제 앱 홈 스크린샷.
@@ -113,8 +118,8 @@ export interface ServicePromo {
   fontBody: string;
   /** 카드/표면 라운드 (px). myPet=28 claymorphism 등 */
   radius: number;
-  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인)/FitSnap(떠다니는 의류 아이콘+옷걸이 레일) 등 */
-  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'cloth' | 'none';
+  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인)/FitSnap(떠다니는 의류 아이콘+옷걸이 레일)/숏킷(cosmos: 궤도링+광원+옐로 트윙클) 등 */
+  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'cloth' | 'cosmos' | 'none';
   /** 미니 홍보용 통계 칩 (실제 수치). icon(Material Symbols 이름)이 있으면 값 위에 아이콘 표시. */
   highlights: { value: string; label: string; icon?: string }[];
   /**
@@ -129,6 +134,11 @@ export interface ServicePromo {
    * 있으면 폰 프레임으로, 없으면 아이콘 카드로 표현.
    */
   shot?: string;
+  /**
+   * shot(폰 목업) 우상단에 붙는 시그니처 배지 문구(선택).
+   * (숏킷: 홍보웹 Hero의 "14분 → 30초!" 스티커 이식 — 요약 전후 대비를 한눈에.)
+   */
+  shotBadge?: string;
   /**
    * 우측 비주얼을 실사 갤러리로 구성할 때의 이미지+라벨 목록.
    * (myTravel: 실제 여행지 사진 — 원본 앱 Featured Destinations와 동일 Unsplash ID)
@@ -1133,6 +1143,109 @@ export const SERVICES: AppService[] = [
         '도란도란은 의료·심리 상담을 대체하지 않으며, 도란이의 응답은 전문가의 조언을 대신하지 않습니다. 마음이 많이 힘들 땐 자살예방 상담전화 109 또는 119에 도움을 요청해 주세요.',
     },
     order: 9,
+  },
+  {
+    id: 'shortkit',
+    name: '숏킷',
+    tagline: '긴 영상, 핵심만 30초',
+    description:
+      '유튜브 영상 링크만 붙여넣으면 숏킷 AI가 핵심만 30초로 요약해 드려요. 자막이 없어도 음성을 인식해 요약하고, 레시피·운동·리뷰·지식 등 영상 유형에 맞춰 정말 필요한 정보만 정리합니다. 원본 영상과 전체 전사도 함께 확인할 수 있어요.',
+    // 앱 미출시(스토어 링크 없음, site.ts IS_LAUNCHED=false) → coming_soon 진입.
+    // 홍보웹은 이미 라이브(GitHub Pages, curl 200 확인)라 web만 실링크 + webIsLegal로 주 CTA 승격.
+    // (로픽·FitSnap·도란과 동일한 GitHub Pages 홍보웹 패턴. 스토어 링크는 출시 시 후속 추가.)
+    status: 'coming_soon',
+    moodLabel: 'Bright Toss Blue',
+    emoji: '▶',
+    iconUrl: shortkitIcon,
+    links: {
+      web: 'https://longpapa82-cyber.github.io/shortkit-web/',
+      webIsLegal: true,
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#191f28',
+      inkSoft: '#4e5968',
+      // primary #3182f6(토스블루)는 흰 글씨 대비 ≈3.6:1 — 대형/그라디언트엔 OK.
+      // 소형 버튼 텍스트 대비를 위해 onPrimary 버튼 배경은 primary-dark #2272eb 계열로(로픽 선례).
+      primary: '#3182f6',
+      accent: '#12b76a',
+      gradient: 'linear-gradient(135deg, #e8f3ff 0%, #f2f4f6 100%)',
+      font: "'Pretendard', system-ui, -apple-system, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      { icon: 'bolt', title: '30초 핵심 요약', desc: '긴 영상도 링크만 붙여넣으면 핵심만 30초로 정리' },
+      { icon: 'hearing', title: '자막 없어도 OK', desc: '음성을 인식해 요약 — 강의·팟캐스트도 문제없어요' },
+      { icon: 'category', title: '유형별 정리', desc: '레시피·운동·리뷰·지식 등 영상 종류에 맞춘 핵심 정보' },
+    ],
+    promo: {
+      kicker: 'AI 영상 요약',
+      // 홍보웹 Hero와 동일 줄바꿈("긴 영상,\n핵심만 30초"). accent는 브랜드 숫자 '30초'.
+      headline: '긴 영상,\n핵심만 ',
+      headlineAccent: '30초',
+      // 홍보웹 Hero 실측 카피(지어낸 문구 교체) — Hero.tsx의 .sub 원문.
+      subcopy:
+        '링크만 붙여넣으면 AI가 대신 봐드려요. 자막이 없어도 음성까지 읽어 핵심만 정리해요.',
+      // ⚠️ 홍보웹 Hero는 전면 블루 무대(#3182F6 풀블리드) + 흰 대담 타이포 + 옐로 하이라이트.
+      //   Voice Buddy(인디고 무대)와 동일한 검증된 dark 경로를 블루로 적용한다.
+      //   dark:true + bg=블루 그라디언트 → 섹션 전체 블루, 텍스트/헤딩 흰색.
+      //   surface=흰색 → highlight 칩·스토어 CTA가 블루 위 흰 카드로(홍보웹 흰 칩과 정합).
+      //   primary=밝은 하늘빛 #bcd6ff → 다크 배경 위 kicker·강조 대비 확보.
+      //   accent=옐로 #ffc800 → "30초" 하이라이트 박스·트윙클 포인트(홍보웹 시그니처).
+      //   onPrimary=딥블루 → 흰 CTA 버튼 위 글자색.
+      dark: true,
+      palette: {
+        bg: '#3182f6',
+        heroGradient:
+          'linear-gradient(150deg, #5ba6ff 0%, #3182f6 52%, #1e63d8 100%)',
+        surface: '#ffffff',
+        primary: '#bcd6ff',
+        accent: '#ffc800',
+        ink: '#ffffff',
+        inkSoft: '#dbe8ff',
+        onPrimary: '#1e63d8',
+      },
+      fontDisplay: "'Pretendard', system-ui, -apple-system, sans-serif",
+      fontBody: "'Pretendard', system-ui, -apple-system, sans-serif",
+      radius: 20,
+      // cosmos: 홍보웹 Hero 무대 시그니처(궤도 링 + 광원 blob + 옐로 트윙클)를 우측 비주얼
+      // 배경에 재현. 라이트 섹션 유지 — 전면 블루 배경(dark 경로) 대신 .decor 배경 데코로만.
+      motif: 'cosmos',
+      // 실측 수치만 사용(미출시라 사용량 수치 없음): 30초·자막없어도·3일 무료(site.ts PRICING.trialDays=3).
+      trialBadge: '3일 무료체험',
+      // 우측 비주얼: 홍보웹 Hero의 실제 앱 "30초 요약 결과 화면"을 폰 목업으로 렌더(shot).
+      // 홍보웹 시그니처가 "진짜 앱 스크린샷 폰목업"이라 steps(범용)보다 shot이 숏킷다움을 살린다.
+      // (myPet·AI Music과 동일 패턴 — shot=우측 폰, steps=좌측 내러티브 병행)
+      shot: shortkitShot,
+      // 홍보웹 Hero 스티커 이식: 요약 전후 대비를 한눈에(폰 우상단 옐로 배지).
+      shotBadge: '14분 → 30초!',
+      highlights: [
+        { value: '30초', label: '핵심 요약' },
+        { value: '자막 없어도', label: '음성 인식 요약' },
+        { value: '3일', label: '무료체험' },
+      ],
+      // 좌측 내러티브(+shot 없을 때 폴백): 서비스 흐름 3단계.
+      steps: [
+        {
+          no: '1',
+          title: '링크 붙여넣기',
+          desc: '요약하고 싶은 유튜브 영상 링크를 복사해 붙여넣기만 하면 돼요.',
+        },
+        {
+          no: '2',
+          title: 'AI 핵심 요약',
+          desc: '자막이 없어도 음성을 인식해, 영상 유형에 맞춰 핵심만 30초로 정리해요.',
+        },
+        {
+          no: '3',
+          title: '요점·원본 확인',
+          desc: '정리된 핵심을 빠르게 읽고, 원본 영상·전체 전사도 함께 확인하세요.',
+        },
+      ],
+      disclaimer:
+        'AI 요약 결과는 참고용이며, 원본 영상의 내용과 다를 수 있습니다. 중요한 정보는 원본 영상에서 확인하세요.',
+    },
+    order: 10,
   },
 ];
 

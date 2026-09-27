@@ -333,6 +333,197 @@
   }
 }
 
+/* ── motif: cosmos (숏킷 홍보웹 Hero 무대 시그니처) ──────────────────────
+ * 홍보웹 Hero.tsx 이식: 블루 광원 blob 2 + 궤도 링 이중 SVG + 옐로 트윙클 5.
+ * 라이트 섹션 유지 원칙: 전면 블루 배경(dark 경로) 대신 우측 폰 목업 뒤 배경 데코로만.
+ * 전부 .decor(z-index:-2) 하위 → 콘텐츠(.inner) 아래. 애니는 transform/opacity만.
+ * 위치 좌표는 우측 비주얼(폰 목업) 뒤에 집중 배치(오른쪽 60%~). */
+
+/* 광원 blob 2 — 홍보웹 heroGlow1/2(#8FC2FF·#2461D6 radial). 우측에 은은한 깊이감. */
+.cosmosGlowA,
+.cosmosGlowB {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(18px);
+  will-change: transform, opacity;
+  animation: promo-cosmos-glow 20s var(--ais-ease-expo, ease-in-out) infinite alternate;
+}
+/* 홍보웹 heroGlow1(#8FC2FF 0.55) — 블루 무대 위 밝은 광원(좌상). */
+.cosmosGlowA {
+  top: 2%;
+  left: 4%;
+  width: 50%;
+  height: 62%;
+  background: radial-gradient(circle, rgba(143, 194, 255, 0.55) 0%, transparent 66%);
+  opacity: 0.9;
+}
+/* 홍보웹 heroGlow2(#2461D6 0.5) — 딥블루 광원(우하, 깊이감). */
+.cosmosGlowB {
+  bottom: 2%;
+  right: 8%;
+  width: 52%;
+  height: 58%;
+  background: radial-gradient(circle, rgba(36, 97, 214, 0.5) 0%, transparent 64%);
+  opacity: 0.85;
+  animation-direction: alternate-reverse;
+}
+@keyframes promo-cosmos-glow {
+  0% { transform: translate3d(-2%, -1%, 0) scale(1); opacity: 0.7; }
+  100% { transform: translate3d(2%, 2%, 0) scale(1.08); opacity: 0.9; }
+}
+
+/* 궤도 링 SVG — 홍보웹 무대 곡선 라인. 섹션 전폭에 걸쳐(텍스트 뒤·폰 뒤 모두).
+   홍보웹 sk-spin 이식: 초저속 회전(무대 배경 생동감). 개별 링을 반대 속도로. */
+.cosmosOrbit {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.9;
+  overflow: visible;
+}
+.cosmosOrbit circle {
+  transform-box: view-box;
+  transform-origin: center;
+  animation: promo-cosmos-spin 55s linear infinite;
+  will-change: transform;
+}
+.cosmosOrbit circle:nth-child(even) {
+  animation-duration: 40s;
+  animation-direction: reverse;
+}
+@keyframes promo-cosmos-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* 옐로 트윙클 5 — 홍보웹 sk-twinkle 이식(포인트 #ffc800). 반짝임(scale+opacity 펄스). */
+.cosmosTwinkle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 8px currentColor;
+  /* 홍보웹 sk-twinkle 이식(opacity 0.2↔1, 1.7s) + 은은한 scale 펄스. */
+  animation: promo-cosmos-twinkle 1.7s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+/* 위치·크기·지연 스태거 — 홍보웹 Hero 트윙클 배치 재현(전폭 산개: 좌측 텍스트 영역 + 우측 폰). */
+.cosmosTw0 { top: 30%; left: 14%; width: 10px; height: 10px; animation-delay: 0ms; }
+.cosmosTw1 { top: 18%; right: 32%; width: 7px; height: 7px; animation-delay: 500ms; }
+.cosmosTw2 { top: 52%; left: 40%; width: 8px; height: 8px; animation-delay: 1000ms; }
+.cosmosTw3 { top: 62%; right: 16%; width: 6px; height: 6px; animation-delay: 1400ms; }
+.cosmosTw4 { top: 26%; right: 8%; width: 9px; height: 9px; animation-delay: 800ms; }
+.cosmosTw5 { top: 44%; right: 40%; width: 7px; height: 7px; animation-delay: 1200ms; }
+@keyframes promo-cosmos-twinkle {
+  0%, 100% { transform: scale(0.7); opacity: 0.2; }
+  50% { transform: scale(1); opacity: 1; }
+}
+
+/* 접근성: 모션 최소화 시 cosmos·시그니처 애니 전부 정지(정적 배치 유지) */
+@media (prefers-reduced-motion: reduce) {
+  .cosmosGlowA,
+  .cosmosGlowB,
+  .cosmosTwinkle,
+  .cosmosOrbit circle,
+  .shotBadge,
+  :global(#promo-shortkit) .phoneShot {
+    animation: none;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+ * 숏킷 전용 대비 보정 (#promo-shortkit)
+ * dark:true + 흰(surface) 칩 조합 → Voice Buddy와 동일 이슈.
+ * 블루 배경 위 텍스트는 흰색(--p-ink) 유지하되, 흰 카드 안(칩·스텝) 텍스트는
+ * 차콜/슬레이트로 되돌려 대비 확보. :global(#promo-shortkit)로 이 서비스만 타겟.
+ * ────────────────────────────────────────────────────────────── */
+/* 글래스 칩(홍보웹 backdrop-blur 재현): 블루 무대 위 반투명 흰 칩 + 블러.
+   흰 배경이 아니라 유리질이라 텍스트는 흰색 유지(대비 확보). */
+:global(#promo-shortkit) .highlight {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(15, 60, 140, 0.18);
+}
+/* 글래스 칩 위 텍스트: 값=흰색 볼드, 라벨=연한 하늘(대비 유지). */
+:global(#promo-shortkit) .highlightValue {
+  color: #ffffff;
+}
+:global(#promo-shortkit) .highlightLabel {
+  color: #dbe8ff;
+}
+/* 좌측 스텝 카드(흰 배경): 제목=차콜, 설명=슬레이트, 번호=블루 채움+흰 숫자 */
+:global(#promo-shortkit) .stepTitle {
+  color: #191f28;
+}
+:global(#promo-shortkit) .stepDesc {
+  color: #4e5968;
+}
+:global(#promo-shortkit) .stepNo {
+  background: linear-gradient(135deg, #5ba6ff, #3182f6);
+  color: #ffffff;
+}
+
+/* 홍보웹 sk-float 이식: 폰 목업 은은한 부유(위아래).
+   .phone은 스크롤 타임라인(promoPhoneTurn)을 쓰므로, 충돌 없이 내부 이미지에 float 적용. */
+:global(#promo-shortkit) .phoneShot {
+  animation: promo-shot-float 4.5s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes promo-shot-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* 숏킷 "30초" 헤드라인 강조 — 홍보웹처럼 옐로 하이라이트 박스(검정 글씨).
+   기본 .accent(그라디언트 텍스트)를 스코프 오버라이드. background-clip 리셋 필수. */
+:global(#promo-shortkit) .accent {
+  display: inline-block;
+  padding: 0.04em 0.32em;
+  margin-left: 0.12em;
+  border-radius: 16px;
+  background: #ffc800;
+  color: #191f28;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-text-fill-color: #191f28;
+  box-shadow: 0 8px 22px rgba(255, 200, 0, 0.35);
+  transform: rotate(-1.5deg);
+}
+
+/* 시그니처 스티커 배지(숏킷: "14분 → 30초!") — 폰 목업 우상단, 옐로 포인트 기울임.
+   홍보웹 brand.tsx Sticker 이식. .phone(position:relative) 기준 절대배치. */
+.shotBadge {
+  position: absolute;
+  top: -14px;
+  right: -18px;
+  z-index: 3;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: var(--p-accent, #ffc800);
+  color: #1a1206;
+  font-family: var(--p-font-display, inherit);
+  font-weight: 800;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(255, 200, 0, 0.4);
+  /* 홍보웹 sk-wiggle 이식: 7°↔10° 좌우 흔들(살아있는 스티커). */
+  animation: promo-shot-wiggle 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes promo-shot-wiggle {
+  0%, 100% { transform: rotate(7deg); }
+  50% { transform: rotate(10deg); }
+}
+/* 숏킷만 배지 색을 옐로 포인트로(accent는 green이라 오버라이드). 회귀 0(스코프). */
+:global(#promo-shortkit) .shotBadge {
+  background: #ffc800;
+  box-shadow: 0 6px 18px rgba(255, 200, 0, 0.45);
+}
+
 /* ── 레이아웃 (v5 Apple식: 비주얼 컬럼 우세 — 제품이 주인공) ── */
 .inner {
   display: grid;

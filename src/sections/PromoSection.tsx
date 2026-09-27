@@ -20,6 +20,9 @@ const CLOTH_PATHS: Record<string, string> = {
 /** 배경에 배치할 아이콘 순서(위치 프리셋은 CSS clothIcon0~7). */
 const CLOTH_ICONS = ['hanger', 'dress', 'tshirt', 'coat', 'hanger', 'tshirt', 'dress', 'coat'];
 
+// 숏킷 cosmos 트윙클 색(홍보웹 Hero 실측): 옐로 포인트 #ffc800 3개 + 흰·라이트블루·민트 혼합.
+const COSMOS_TWINKLES = ['#ffc800', '#ffffff', '#ffc800', '#bbd8ff', '#7de3ae', '#ffc800'];
+
 /**
  * FitSnap highlight 칩용 라인 SVG 아이콘 — 이모지 대신 코랄 톤 라인으로 통일(홍보웹 톤).
  * key는 services.ts highlights[].icon 값과 매칭. 없으면 iconFor(이모지) 폴백.
@@ -179,6 +182,35 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                   </g>
                 ))}
               </svg>
+            ))}
+          </>
+        )}
+        {/* 숏킷 모티프(cosmos): 홍보웹 Hero 무대 시그니처 이식 —
+            궤도 링 이중(우상단·좌하단) + 광원 blob 2 + 옐로 트윙클 5개(#ffc800 포인트).
+            전부 .decor(z-index:-2) 하위 → 우측 폰 목업 뒤 배경에 은은히(라이트 섹션 유지). */}
+        {promo.motif === 'cosmos' && (
+          <>
+            <span className={styles.cosmosGlowA} />
+            <span className={styles.cosmosGlowB} />
+            <svg
+              className={styles.cosmosOrbit}
+              viewBox="0 0 1000 600"
+              fill="none"
+              preserveAspectRatio="xMidYMid slice"
+              aria-hidden="true"
+            >
+              {/* 홍보웹 무대의 곡선 궤도 라인 — 전폭 대형 링(우상단 이중 + 좌측 대형 + 좌하단). */}
+              <circle cx="820" cy="120" r="300" stroke="rgba(255,255,255,0.16)" strokeWidth="2.5" />
+              <circle cx="820" cy="120" r="420" stroke="rgba(255,255,255,0.09)" strokeWidth="2" />
+              <circle cx="120" cy="300" r="360" stroke="rgba(255,255,255,0.1)" strokeWidth="2" />
+              <circle cx="60" cy="560" r="220" stroke="rgba(255,255,255,0.13)" strokeWidth="2.5" />
+            </svg>
+            {COSMOS_TWINKLES.map((t, i) => (
+              <span
+                key={`ck-${i}`}
+                className={`${styles.cosmosTwinkle} ${styles[`cosmosTw${i}`]}`}
+                style={{ background: t, color: t }}
+              />
             ))}
           </>
         )}
@@ -452,6 +484,10 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                   alt={`${service.name} 앱 화면`}
                   loading="lazy"
                 />
+                {/* 시그니처 배지(숏킷: "14분 → 30초!") — 폰 우상단 기울임 스티커 */}
+                {promo.shotBadge && (
+                  <span className={styles.shotBadge}>{promo.shotBadge}</span>
+                )}
               </div>
             ) : promo.mascot || promo.mascotComponent ? (
               /* 마스코트 히어로 + 기분 칩 + 스텝 (myToday: 새싹 성장 서사) */
