@@ -445,7 +445,7 @@
    이미지에 상단 70px(#f2f4f5 노치 회피)·하단 170px(#fff 탭바 여유) 여백을 내장.
    (대비 보정 highlight/step 색은 아래 유지) */
 :global(#promo-shortkit) .phone {
-  aspect-ratio: 720 / 1680;
+  aspect-ratio: 720 / 1618;
 }
 :global(#promo-shortkit) .phoneShot {
   object-fit: contain;
