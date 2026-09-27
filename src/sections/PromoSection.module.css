@@ -459,20 +459,19 @@
 :global(#promo-shortkit) .phone:hover {
   transform: rotate(0deg) translateY(-6px) scale(1.02);
 }
-/* 숏킷 폰: 상단 콘텐츠(로고)가 프레임 라운드 코너에 가리는 문제는, 여백을 키우면
-   폰이 비대해져 섹션 상단이 잘리는 역효과가 난다. → 근본 해법은 라운드 축소.
-   숏킷만 border-radius를 44→22px로 줄여 곡선이 상단 콘텐츠를 덜 깎게 한다.
-   덕분에 적은 여백(이미지 상40·하30px)으로도 로고가 안 가리고 폰도 비대해지지 않는다.
-   하단 여백은 탭바색(#fff)과 동일해 이음매 선 없음, OS바 잔재는 크롭 제거. */
+/* 숏킷 폰(Playwright 측정 기반 확정):
+   - CSS는 정상(aspect-ratio 정합·contain·object-position:top → 크롭 0).
+   - 진짜 원인은 이미지 상단 여백 부족: contain 축소율 0.528이라 원본 40px 여백이
+     화면상 21px로 줄어 로고가 프레임 상단에 붙어 보였다.
+   - 해결: 이미지 상단 여백 180px(화면상 ~95px)·하단 76px(#fff, 탭바색 동일).
+     aspect-ratio를 새 이미지(720×1654)에 정합 → cover/contain 모두 크롭 0.
+   OS바 잔재 크롭 제거·노치 숨김·회전 0은 위에서 처리. */
 :global(#promo-shortkit) .phone {
   border-radius: 26px;
-  /* 이미지(2.039)와 프레임(9/19=2.111) 비율이 달라 cover가 상단을 크롭했다.
-     → 숏킷 폰은 프레임 비율을 이미지에 맞춰(고정 aspect-ratio 해제) 크롭 자체를 없앤다. */
-  aspect-ratio: 720 / 1468;
+  aspect-ratio: 720 / 1654;
 }
 :global(#promo-shortkit) .phoneShot {
   border-radius: 18px;
-  /* contain으로 이미지 전체를 잘림 없이 표시(상단 상태바 온전 보존). */
   object-fit: contain;
 }
 
