@@ -444,17 +444,8 @@
 :global(#promo-shortkit) .phoneNotch {
   display: none;
 }
-/* 숏킷 스크린샷은 상하 시스템 여백(safe-area)이 없는 풀블리드 캡처라, 노치·OS바 제거 후
-   상태바·탭바가 프레임 테두리에 딱 붙는다. 화면 안쪽 패딩을 늘려 다크 베젤이
-   여백을 만들게 한다. 상태바(상단)가 특히 빠듯해 상단을 더 크게(top 38 > bottom 20).
-   #promo-shortkit 스코프(box-sizing:border-box라 안쪽 여백). */
-:global(#promo-shortkit) .phone {
-  padding: 38px 12px 20px;
-}
-/* cover가 패딩을 먹지 않도록 이미지를 프레임 안쪽에 가두고 상하 여백 확보. */
-:global(#promo-shortkit) .phoneShot {
-  border-radius: 26px;
-}
+/* 숏킷 스크린샷 상하 여백은 베젤(패딩)이 아니라 이미지 자체에 앱 배경색 여백을 추가해
+   해결한다(shot-home.webp에 상단 #f2f4f5·하단 #f7f7f7 띠 포함). 베젤은 기본 10px 유지. */
 
 /* 글래스 칩(홍보웹 backdrop-blur 재현): 블루 무대 위 반투명 흰 칩 + 블러.
    흰 배경이 아니라 유리질이라 텍스트는 흰색 유지(대비 확보). */
