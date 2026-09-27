@@ -445,10 +445,11 @@
   display: none;
 }
 /* 숏킷 스크린샷은 상하 시스템 여백(safe-area)이 없는 풀블리드 캡처라, 노치·OS바 제거 후
-   상태바·탭바가 프레임 테두리에 딱 붙는다. 화면 안쪽 상하 패딩을 늘려 다크 베젤이
-   위아래 여백을 만들게 한다(상태바 위·탭바 아래 숨쉴 공간). #promo-shortkit 스코프. */
+   상태바·탭바가 프레임 테두리에 딱 붙는다. 화면 안쪽 패딩을 늘려 다크 베젤이
+   여백을 만들게 한다. 상태바(상단)가 특히 빠듯해 상단을 더 크게(top 38 > bottom 20).
+   #promo-shortkit 스코프(box-sizing:border-box라 안쪽 여백). */
 :global(#promo-shortkit) .phone {
-  padding: 22px 12px;
+  padding: 38px 12px 20px;
 }
 /* cover가 패딩을 먹지 않도록 이미지를 프레임 안쪽에 가두고 상하 여백 확보. */
 :global(#promo-shortkit) .phoneShot {
