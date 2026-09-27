@@ -454,6 +454,12 @@
   border-radius: 42px;
 }
 
+/* 서브카피: 블루 무대 위 연한 하늘(inkSoft #dbe8ff)은 대비 약함(특히 모바일) →
+   거의 흰색으로 올려 가독성 확보(헤드라인 흰색과 조화). */
+:global(#promo-shortkit) .subcopy {
+  color: #f0f5ff;
+}
+
 /* 글래스 칩(홍보웹 backdrop-blur 재현): 블루 무대 위 반투명 흰 칩 + 블러.
    흰 배경이 아니라 유리질이라 텍스트는 흰색 유지(대비 확보). */
 :global(#promo-shortkit) .highlight {
