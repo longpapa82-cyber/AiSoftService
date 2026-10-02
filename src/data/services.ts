@@ -285,6 +285,8 @@ export interface AppService {
     /**
      * web이 홍보 랜딩이 아니라 법적 고지(개인정보/약관) 페이지인 경우 true.
      * true면 스토어 배지에서 App Store(또는 Play)를 주 CTA로 승격한다(설치 우선).
+     * ⚠️ 2026-10-02 사용자 결정: 모든 서비스의 주 CTA(골드 강조)를 웹사이트로 통일 — 현재 사용처 0.
+     *    새 서비스에도 기본적으로 설정하지 말 것(웹이 법적 고지 전용인 예외가 생기면 사용자 확인 후 사용).
      */
     webIsLegal?: boolean;
   };
@@ -632,7 +634,7 @@ export const SERVICES: AppService[] = [
     description:
       '원하는 곡 내용을 입력하면 AI가 자동으로 음악을 만들어 주는 앱. 가수 보이스 유형을 골라 나만의 곡을 완성하고, 소장하거나 공유할 수 있어요. 트로트·팝·발라드부터 K-Pop·시티팝·재즈까지 8가지 장르, 30·60·180초 길이를 지원합니다.',
     // iOS·Android 모두 출시 완료. iOS = Apple ID 6789540285, Android = com.aimusicstudio.app(Play 프로덕션 공개).
-    // web은 홍보 랜딩이지만 앱 설치 유도가 우선이라 App Store를 primary로(webIsLegal).
+    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정).
     status: 'live',
     moodLabel: 'Dark Luxury Studio',
     emoji: '🎵',
@@ -641,7 +643,6 @@ export const SERVICES: AppService[] = [
       ios: 'https://apps.apple.com/kr/app/id6789540285',
       android: 'https://play.google.com/store/apps/details?id=com.aimusicstudio.app',
       web: 'https://ai-music-studio.com/',
-      webIsLegal: true,
     },
     theme: {
       surface: '#1d2022',
@@ -841,7 +842,7 @@ export const SERVICES: AppService[] = [
     // iOS 출시 완료(App Store id6799329142, 2026-08-14 라이브 curl 200+title 대조 검증).
     // Android는 아직 준비 중 → androidPending:true(Google Play "준비 중" 비활성 배지).
     // AI Music(#44)·myToday(#38)와 동일한 iOS 출시 / Android 준비 중 혼합 상태.
-    // webIsLegal:true로 App Store를 주 CTA(골드)로 승격(설치 우선). PLATFORM_COUNT(Hero)·
+    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정). PLATFORM_COUNT(Hero)·
     // PLATFORMS(Technology)는 links.ios/android 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총수 불변,
     // androidPending은 별개 플래그라 미집계 = 허위 출시 플랫폼 방지(정직 지표).
     // ⚠️ Android 패키지는 출시 시 app.json(com.systemplanners.interpreter)이 SoT — Android 출시 시 링크 추가.
@@ -853,7 +854,6 @@ export const SERVICES: AppService[] = [
       ios: 'https://apps.apple.com/kr/app/id6799329142',
       androidPending: true,
       web: 'https://promo-web-gray.vercel.app/',
-      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
@@ -959,7 +959,7 @@ export const SERVICES: AppService[] = [
     // iOS·Android 모두 출시 완료. iOS = id6801993872(번들 com.longpapa82.fitsnap, 2026-08-31 라이브).
     // Android = app.fitsnap(Play 프로덕션 공개, 2026-10-02 curl 200 + og:title "FitSnap" 대조 검증).
     // ⚠️ Android 패키지(app.fitsnap)는 iOS 번들과 다름 — fitsnap/app/app.json:61이 SoT(유추 금지).
-    // webIsLegal:true로 App Store를 주 CTA(골드)로 유지(설치 우선).
+    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정).
     // PLATFORM_COUNT(Hero)·PLATFORMS(Technology)·About는 links 실링크만 Set 집계
     // — Android 이미 타 앱 집계로 총 플랫폼 수 불변(정직 지표).
     status: 'live',
@@ -970,7 +970,6 @@ export const SERVICES: AppService[] = [
       ios: 'https://apps.apple.com/kr/app/id6801993872',
       android: 'https://play.google.com/store/apps/details?id=app.fitsnap',
       web: 'https://longpapa82-cyber.github.io/fitsnap-web/',
-      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
@@ -1056,20 +1055,19 @@ export const SERVICES: AppService[] = [
     // curl lookup + App Store Connect "1.0 배포 준비됨" + trackName "도란도란 - AI 친구 상담" 3중 대조 검증).
     // Android는 아직 스토어 미출시(준비 중) → androidPending:true(Google Play "준비 중" 비활성 배지).
     // FitSnap(id6801993872)·Voice Buddy(id6799329142)·myToday와 동일한 "iOS 출시 + Android 준비 중" 혼합 상태.
-    // webIsLegal:true로 App Store를 주 CTA(골드)로 승격(설치 우선). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)·
+    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)·
     // About는 links.ios 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총 플랫폼 수 불변, androidPending은 별개
     // 플래그라 미집계 = 허위 출시 방지(정직 지표). ⚠️ Android 출시 시 links.android 실링크 추가.
     status: 'live',
     moodLabel: 'Warm Mint Companion',
     emoji: '🫶',
     iconUrl: doranIcon,
-    // iOS 실링크 노출 + web(홍보 랜딩)은 보조. webIsLegal:true → App Store를 주 CTA로 승격(설치 우선).
+    // iOS 실링크 노출 + web(홍보 랜딩)이 주 CTA(골드) — 전 서비스 통일.
     // androidPending:true → Google Play "준비 중" 비활성 배지(출시 전 기대감).
     links: {
       ios: 'https://apps.apple.com/kr/app/id6809109847',
       web: 'https://longpapa82-cyber.github.io/doran-web/',
       androidPending: true,
-      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
@@ -1149,7 +1147,7 @@ export const SERVICES: AppService[] = [
     description:
       '유튜브 영상 링크만 붙여넣으면 숏킷 AI가 핵심만 30초로 요약해 드려요. 자막이 없어도 음성을 인식해 요약하고, 레시피·운동·리뷰·지식 등 영상 유형에 맞춰 정말 필요한 정보만 정리합니다. 원본 영상과 전체 전사도 함께 확인할 수 있어요.',
     // 앱 미출시(스토어 링크 없음, site.ts IS_LAUNCHED=false) → coming_soon 진입.
-    // 홍보웹은 이미 라이브(GitHub Pages, curl 200 확인)라 web만 실링크 + webIsLegal로 주 CTA 승격.
+    // 홍보웹은 이미 라이브(GitHub Pages, curl 200 확인)라 web만 실링크(주 CTA=웹사이트, 전 서비스 통일).
     // (로픽·FitSnap·도란과 동일한 GitHub Pages 홍보웹 패턴. 스토어 링크는 출시 시 후속 추가.)
     status: 'coming_soon',
     moodLabel: 'Bright Toss Blue',
@@ -1157,7 +1155,6 @@ export const SERVICES: AppService[] = [
     iconUrl: shortkitIcon,
     links: {
       web: 'https://longpapa82-cyber.github.io/shortkit-web/',
-      webIsLegal: true,
     },
     theme: {
       surface: '#ffffff',
