@@ -463,12 +463,14 @@ export const SERVICES: AppService[] = [
     moodLabel: 'Cool Clean',
     emoji: '💙',
     iconUrl: mybabyIcon,
-    // web은 홍보 랜딩이 아니라 백엔드 API 엔드포인트(onrender.com)라 노출 시 서버 응답이
-    // 사용자에게 보일 수 있어 제거. iOS·Android 스토어를 주 CTA로 안내한다.
-    // (holdover였던 mybaby-backend.onrender.com은 JSON-LD sameAs·noscript에서도 함께 제거.)
+    // web 복원(2026-10-02): mybaby-backend.onrender.com 루트가 과거 raw API 응답이었으나
+    // 지금은 정식 홍보 랜딩("내새끼 - AI 셀럽 뉴스 알림 앱", canonical 자기참조) 서빙 확인(curl 200+title 대조).
+    // 5219d91의 제거 사유 해소 → links.web + index.html(sameAs·noscript) 3곳 동기 복원.
+    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일.
     links: {
       ios: 'https://apps.apple.com/kr/app/id6772832100',
       android: 'https://play.google.com/store/apps/details?id=com.naesaekki.app',
+      web: 'https://mybaby-backend.onrender.com/',
     },
     theme: {
       surface: '#ffffff',
