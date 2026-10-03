@@ -1158,6 +1158,9 @@ export const SERVICES: AppService[] = [
     iconUrl: shortkitIcon,
     links: {
       ios: 'https://apps.apple.com/kr/app/id6816935944',
+      // Android는 아직 스토어 미출시(준비 중) → androidPending:true(Google Play "준비 중" 비활성 배지).
+      // Voice Buddy·도란과 동일 패턴. androidPending은 PLATFORM_COUNT 미집계 = 허위 출시 방지(정직 지표).
+      androidPending: true,
       web: 'https://longpapa82-cyber.github.io/shortkit-web/',
     },
     theme: {
