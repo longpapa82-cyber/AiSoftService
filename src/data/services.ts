@@ -1148,14 +1148,16 @@ export const SERVICES: AppService[] = [
     tagline: '긴 영상, 핵심만 30초',
     description:
       '유튜브 영상 링크만 붙여넣으면 숏킷 AI가 핵심만 30초로 요약해 드려요. 자막이 없어도 음성을 인식해 요약하고, 레시피·운동·리뷰·지식 등 영상 유형에 맞춰 정말 필요한 정보만 정리합니다. 원본 영상과 전체 전사도 함께 확인할 수 있어요.',
-    // 앱 미출시(스토어 링크 없음, site.ts IS_LAUNCHED=false) → coming_soon 진입.
-    // 홍보웹은 이미 라이브(GitHub Pages, curl 200 확인)라 web만 실링크(주 CTA=웹사이트, 전 서비스 통일).
-    // (로픽·FitSnap·도란과 동일한 GitHub Pages 홍보웹 패턴. 스토어 링크는 출시 시 후속 추가.)
-    status: 'coming_soon',
+    // iOS 출시 완료(App Store id6816935944, 번들 com.shortkit.app — iTunes lookup 실측 검증) → live.
+    // Android는 아직 미출시(Voice Buddy·도란과 함께 pending). 스토어 링크는 출시 시 후속 추가.
+    // 주 CTA=웹사이트로 전 서비스 통일(#85) 원칙 유지 — web이 primary, ios는 보조 CTA로 자동 렌더.
+    // (로픽·FitSnap·도란과 동일한 GitHub Pages 홍보웹 + App Store 패턴.)
+    status: 'live',
     moodLabel: 'Bright Toss Blue',
     emoji: '▶',
     iconUrl: shortkitIcon,
     links: {
+      ios: 'https://apps.apple.com/kr/app/id6816935944',
       web: 'https://longpapa82-cyber.github.io/shortkit-web/',
     },
     theme: {
