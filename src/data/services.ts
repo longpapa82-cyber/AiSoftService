@@ -1349,10 +1349,11 @@ export const SERVICES: AppService[] = [
         afterLabel: 'AI 예상 결과',
         // 앱·홍보웹 BeforeAfterSlider 시그니처(골드 디바이더 드래그)를 그대로 재현.
         layout: 'slider',
-        // 홍보웹(index.astro)과 동일한 세로 초점 보정 — before 34% / after 28%로
+        // 홍보웹(index.astro)과 동일한 세로 초점 보정 — before 34% / after 30%로
         // 같은 인물(face-1 쌍)의 머리 위치차를 맞춰 슬라이더 경계에서 자연스럽게 겹침.
+        // (after는 머리 위 여백을 아주 살짝 축소: 28 → 30)
         focusY: 34,
-        afterFocusY: 28,
+        afterFocusY: 30,
       },
       disclaimer:
         '전후 비교 이미지는 AI가 생성한 모델 샘플이며 실제 환자가 아닙니다. 시뮬레이션 결과는 예상 이미지로 실제 수술 결과와 다를 수 있고 의학적 효과를 보장하지 않으니, 시술 결정은 반드시 전문의와 상담하세요.',
