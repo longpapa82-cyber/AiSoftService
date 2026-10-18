@@ -2648,3 +2648,64 @@
   font-weight: 600;
   color: var(--p-ink-soft, #7a736c);
 }
+
+/* ──────────────────────────────────────────────────────────────
+   facePreview 전/후 나란히 비교 (side-by-side) — 픽셀 정렬 아닌 쌍용
+   ────────────────────────────────────────────────────────────── */
+.sbsWrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+}
+.sbsCell {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 3 / 4;
+  border-radius: calc(var(--p-radius, 22px) + 4px);
+  overflow: hidden;
+  /* 다크 Clinical Luxe 프레임 — 골드 테두리 + 깊은 그림자 */
+  padding: 4px;
+  background: linear-gradient(155deg, rgba(203, 169, 104, 0.55), rgba(111, 214, 201, 0.28) 60%, rgba(203, 169, 104, 0.4));
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.45);
+}
+.sbsImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--p-radius, 22px);
+  display: block;
+}
+.sbsTag {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  z-index: 2;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.sbsTagBefore {
+  background: rgba(12, 13, 17, 0.72);
+  backdrop-filter: blur(4px);
+}
+.sbsTagAfter {
+  background: var(--p-primary, #cba968);
+  color: var(--p-on-primary, #17130a);
+  box-shadow: 0 6px 16px rgba(203, 169, 104, 0.4);
+}
+@media (max-width: 540px) {
+  .sbsWrap {
+    gap: 10px;
+    max-width: 340px;
+  }
+  .sbsTag {
+    font-size: 0.7rem;
+    padding: 4px 9px;
+  }
+}

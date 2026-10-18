@@ -227,6 +227,13 @@ export interface ServicePromo {
     beforeLabel?: string;
     /** after 라벨(기본 'AI 가상 착용'). */
     afterLabel?: string;
+    /**
+     * 비교 레이아웃(기본 'slider').
+     * - 'slider': 좌우 드래그 경계 슬라이더(FitSnap — before/after가 픽셀 정렬일 때만 성립).
+     * - 'sideBySide': 두 이미지를 나란히 배치(facePreview — 독립 생성된 전/후처럼 픽셀 정렬이
+     *   아닐 때. 경계 어긋남 없이 '전·후 비교'를 명확히 보여준다).
+     */
+    layout?: 'slider' | 'sideBySide';
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -1278,7 +1285,9 @@ export const SERVICES: AppService[] = [
       primary: '#b08d4e',
       accent: '#3aa99a',
       gradient: 'linear-gradient(135deg, #f6efe2 0%, #f3f5f4 55%, #eaf4f1 100%)',
-      font: "'Cormorant Garamond', 'Noto Serif KR', 'Pretendard Variable', serif",
+      // 랜딩에 로드된 폰트만 사용 가능(index.html Google Fonts 목록). Cormorant/Paperlogy는 미로드라
+      // 한글 폴백으로 깨짐 → 로드된 'Gowun Dodum'(우아한 한글 세리프 톤)으로 Clinical Luxe 고급감 표현.
+      font: "'Gowun Dodum', 'Noto Sans KR', system-ui, sans-serif",
       onPrimary: '#ffffff',
     },
     features: [
@@ -1300,8 +1309,8 @@ export const SERVICES: AppService[] = [
     ],
     promo: {
       kicker: 'AI 성형 시뮬레이션',
-      headline: '수술 없이, 미리 만나는 변화',
-      headlineAccent: '미리 만나는',
+      headline: '수술 없이,\n미리 만나는 ',
+      headlineAccent: '변화',
       subcopy:
         '내 얼굴 사진으로 성형 후 모습을 사실적으로 미리 보세요. 부위별로 정교하게 조절하고, 전후를 나란히 비교할 수 있어요. 상담 전 결정을 돕는 참고용 미리보기입니다.',
       // 다크 "Clinical Luxe" 무대 — 딥 차콜 배경 + 샴페인 골드/뮤트 틸(앱 tokens.ts 시그니처).
@@ -1316,7 +1325,7 @@ export const SERVICES: AppService[] = [
         inkSoft: '#a7acb5',
         onPrimary: '#17130a',
       },
-      fontDisplay: "'Cormorant Garamond', 'Noto Serif KR', serif",
+      fontDisplay: "'Gowun Dodum', 'Noto Sans KR', serif",
       fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       radius: 22,
       motif: 'none',
@@ -1331,6 +1340,8 @@ export const SERVICES: AppService[] = [
         after: facepreviewAfter,
         beforeLabel: '수술 전',
         afterLabel: 'AI 예상 결과',
+        // 전/후가 독립 생성된 쌍이라 픽셀 정렬이 아님 → 슬라이더 경계 어긋남 방지 위해 나란히 비교.
+        layout: 'sideBySide',
       },
       disclaimer:
         '본 시뮬레이션은 AI가 생성한 예상 이미지로 실제 수술 결과와 다를 수 있으며, 의학적 진단·효과를 보장하지 않습니다. 시술 결정은 반드시 전문의와 상담하세요.',

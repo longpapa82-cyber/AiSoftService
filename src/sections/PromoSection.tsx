@@ -341,8 +341,13 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
             {promo.beforeAfter ? (
-              /* FitSnap: before/after 좌우 드래그 슬라이더 — 밀면 상의가 바뀌는 시그니처 */
-              <CompareSliderVisual data={promo.beforeAfter} serviceName={service.name} />
+              promo.beforeAfter.layout === 'sideBySide' ? (
+                /* facePreview: 전/후를 나란히 비교 — 픽셀 정렬 아닌 쌍의 경계 어긋남 방지 */
+                <CompareSideBySide data={promo.beforeAfter} />
+              ) : (
+                /* FitSnap: before/after 좌우 드래그 슬라이더 — 밀면 상의가 바뀌는 시그니처 */
+                <CompareSliderVisual data={promo.beforeAfter} serviceName={service.name} />
+              )
             ) : promo.analysisCard ? (
               /* 로픽: 부엉이 마스코트 + 글래스 "분석 결과" 카드 (안심도 + 주의/안전 조항) */
               <div className={styles.analysisWrap}>
@@ -652,6 +657,32 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
         </div>
       </div>
     </section>
+  );
+}
+
+/**
+ * facePreview 전/후 나란히 비교 — 독립 생성된 쌍이라 픽셀 정렬이 아니므로 슬라이더(경계 어긋남)
+ * 대신 두 이미지를 좌우로 나란히 배치한다. 각 이미지는 자기 프레임 안에서 object-fit: cover로
+ * 안정적으로 보여지고, 하단 라벨(수술 전 / AI 예상 결과)로 전·후를 명확히 구분한다.
+ */
+function CompareSideBySide({
+  data,
+}: {
+  data: { before: string; after: string; beforeLabel?: string; afterLabel?: string };
+}) {
+  const beforeLabel = data.beforeLabel ?? '수술 전';
+  const afterLabel = data.afterLabel ?? 'AI 예상 결과';
+  return (
+    <div className={styles.sbsWrap}>
+      <figure className={styles.sbsCell}>
+        <img className={styles.sbsImg} src={data.before} alt={beforeLabel} loading="lazy" />
+        <figcaption className={`${styles.sbsTag} ${styles.sbsTagBefore}`}>{beforeLabel}</figcaption>
+      </figure>
+      <figure className={styles.sbsCell}>
+        <img className={styles.sbsImg} src={data.after} alt={afterLabel} loading="lazy" />
+        <figcaption className={`${styles.sbsTag} ${styles.sbsTagAfter}`}>{afterLabel}</figcaption>
+      </figure>
+    </div>
   );
 }
 
