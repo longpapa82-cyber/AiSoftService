@@ -707,6 +707,7 @@ function CompareSliderVisual({
     afterLabel?: string;
     focusY?: number;
     afterFocusY?: number;
+    reversed?: boolean;
   };
   serviceName: string;
 }) {
@@ -716,6 +717,16 @@ function CompareSliderVisual({
   // 세로 초점 보정(앱 BeforeAfterSlider focusY/afterFocusY) — before/after 머리 위치를 맞춘다.
   const beforePos = `50% ${data.focusY ?? 50}%`;
   const afterPos = `50% ${data.afterFocusY ?? data.focusY ?? 50}%`;
+
+  // 방향: 기본은 after=바탕 / before=clip(왼쪽 노출) → 왼쪽=before, 오른쪽=after(FitSnap).
+  // reversed면 before=바탕 / after=clip(왼쪽 노출) → 왼쪽=after, 오른쪽=before(홍보웹/앱 방향).
+  const reversed = data.reversed ?? false;
+  const baseSrc = reversed ? data.before : data.after;
+  const baseAlt = reversed ? beforeLabel : afterLabel;
+  const basePos = reversed ? beforePos : afterPos;
+  const clipSrc = reversed ? data.after : data.before;
+  const clipAlt = reversed ? afterLabel : beforeLabel;
+  const clipPos = reversed ? afterPos : beforePos;
 
   const stageRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(INITIAL); // 리렌더 없이 현재값 추적(키보드/드래그 공용)
@@ -840,27 +851,37 @@ function CompareSliderVisual({
         style={{ ['--pos' as string]: `${INITIAL}%` } as CSSProperties}
         aria-label={`${serviceName} 변경 전후 비교 슬라이더`}
       >
-        {/* after: 전체 깔림(경계 오른쪽에 노출) */}
+        {/* 바탕 이미지: 전체 깔림(경계 오른쪽에 노출). 기본 after / reversed면 before */}
         <img
           className={styles.csImg}
-          src={data.after}
-          alt={`${serviceName} — ${afterLabel}`}
+          src={baseSrc}
+          alt={`${serviceName} — ${baseAlt}`}
           draggable={false}
-          style={{ objectPosition: afterPos }}
+          style={{ objectPosition: basePos }}
         />
-        {/* before: clip으로 왼쪽 pos%만 노출 */}
+        {/* clip 이미지: 왼쪽 pos%만 노출. 기본 before / reversed면 after */}
         <div className={styles.csClip}>
           <img
             className={styles.csImg}
-            src={data.before}
-            alt={`${serviceName} — ${beforeLabel}`}
+            src={clipSrc}
+            alt={`${serviceName} — ${clipAlt}`}
             draggable={false}
-            style={{ objectPosition: beforePos }}
+            style={{ objectPosition: clipPos }}
           />
         </div>
 
-        <span className={`${styles.csLabel} ${styles.csLabelBefore}`}>{beforeLabel}</span>
-        <span className={`${styles.csLabel} ${styles.csLabelAfter}`}>{afterLabel}</span>
+        {/* 라벨: 위치(왼/오)는 이미지 노출과 일치시키고, 골드 강조는 항상 after(결과)에 둔다.
+            기본: 왼쪽=before(어두움)·오른쪽=after(골드). reversed: 왼쪽=after(골드)·오른쪽=before(어두움). */}
+        <span
+          className={`${styles.csLabel} ${styles.csLabelLeft} ${reversed ? styles.csLabelAccent : styles.csLabelMuted}`}
+        >
+          {reversed ? afterLabel : beforeLabel}
+        </span>
+        <span
+          className={`${styles.csLabel} ${styles.csLabelRight} ${reversed ? styles.csLabelMuted : styles.csLabelAccent}`}
+        >
+          {reversed ? beforeLabel : afterLabel}
+        </span>
         <span className={styles.csSheen} aria-hidden="true" />
 
         {/* 드래그 히트 영역(스테이지 전체) + 핸들 */}

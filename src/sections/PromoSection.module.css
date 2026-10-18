@@ -2596,14 +2596,19 @@
   color: #fff;
   pointer-events: none;
 }
-.csLabelBefore {
+/* 위치(좌/우)와 강조(어두움/골드)를 분리 — reversed 시 after 라벨이 왼쪽에서도 골드 유지. */
+.csLabelLeft {
   left: 18px;
-  background: rgba(42, 39, 36, 0.7);
 }
-.csLabelAfter {
+.csLabelRight {
   right: 18px;
+}
+.csLabelMuted {
+  background: rgba(20, 18, 14, 0.7);
+}
+.csLabelAccent {
   background: var(--p-primary, #ff6b4a);
-  box-shadow: 0 6px 16px rgba(255, 107, 74, 0.4);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--p-primary, #ff6b4a) 42%, transparent);
 }
 /* 드래그 히트 영역: 스테이지 전체를 덮어 어디를 눌러도 경계 이동.
    touch-action:none → 모바일 드래그 중 페이지 스크롤 방지. */

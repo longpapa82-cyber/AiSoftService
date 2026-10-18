@@ -241,6 +241,12 @@ export interface ServicePromo {
      */
     focusY?: number;
     afterFocusY?: number;
+    /**
+     * 좌우 방향 반전(기본 false). false면 왼쪽=before·오른쪽=after(FitSnap).
+     * true면 왼쪽=after·오른쪽=before(facePreview — 홍보웹/앱 방향: 핸들을 오른쪽으로
+     * 밀수록 after(예상 결과)가 드러나고, 라벨 AFTER=왼쪽/BEFORE=오른쪽).
+     */
+    reversed?: boolean;
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -1354,6 +1360,8 @@ export const SERVICES: AppService[] = [
         // (after는 머리 위 여백을 아주 살짝 축소: 28 → 30)
         focusY: 34,
         afterFocusY: 30,
+        // 홍보웹/앱과 동일 방향: 왼쪽=AFTER(예상 결과), 오른쪽=BEFORE(수술 전).
+        reversed: true,
       },
       disclaimer:
         '전후 비교 이미지는 AI가 생성한 모델 샘플이며 실제 환자가 아닙니다. 시뮬레이션 결과는 예상 이미지로 실제 수술 결과와 다를 수 있고 의학적 효과를 보장하지 않으니, 시술 결정은 반드시 전문의와 상담하세요.',
