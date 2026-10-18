@@ -13,6 +13,7 @@ import voicebuddyIcon from '../assets/services/voicebuddy-icon.png';
 import fitsnapIcon from '../assets/services/fitsnap-icon.png';
 import doranIcon from '../assets/services/doran-icon.png';
 import shortkitIcon from '../assets/services/shortkit-icon.png';
+import facepreviewIcon from '../assets/services/facepreview-icon.png';
 // 숏킷: 홍보웹 Hero의 실제 앱 "유튜브 URL 입력 홈 화면" — 폰 목업(shot)으로 우측 비주얼 재현.
 // (홍보웹 longpapa82-cyber.github.io/shortkit-web/shots/home.webp와 SHA 동일, 720×1498)
 // "링크만 붙여넣으면"이라는 핵심 카피와 정합 — 서비스 진입점(URL 입력)을 보여준다.
@@ -41,6 +42,11 @@ import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
 // (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
 import fitsnapBefore from '../assets/promo/fitsnap/model/before.webp';
 import fitsnapAfter from '../assets/promo/fitsnap/model/after.webp';
+// facePreview before/after 슬라이더: 성형 시뮬레이션 전/후 쌍(동일 프레임 896×1200 픽셀 정렬).
+// 경계선을 좌우로 밀면 "수술 전 → AI 예상 결과"가 전환된다(FitSnap CompareSlider 패턴 재사용).
+// (facePreview 앱 editorial 샘플 ba-before/ba-after를 webp로 반입 — 홍보 데모 자산.)
+import facepreviewBefore from '../assets/promo/facepreview/before.webp';
+import facepreviewAfter from '../assets/promo/facepreview/after.webp';
 // 도란도란: "도란이" 마스코트는 정적 이미지 대신 벡터 컴포넌트(DoraniMascot)로 렌더한다.
 // (홍보웹 dorani.js를 JSX로 이식 — promo.mascotComponent:'dorani' + PromoSection 분기)
 
@@ -1248,6 +1254,88 @@ export const SERVICES: AppService[] = [
         'AI 요약 결과는 참고용이며, 원본 영상의 내용과 다를 수 있습니다. 중요한 정보는 원본 영상에서 확인하세요.',
     },
     order: 10,
+  },
+  {
+    id: 'facepreview',
+    name: 'facePreview',
+    tagline: '수술 없이, 미리 만나는 변화',
+    description:
+      '내 얼굴 사진으로 성형 후 모습을 미리 보는 AI 시뮬레이션 앱. 눈·코·입·턱 등 원하는 부위를 골라 조절하면, 피부결과 분위기는 그대로 둔 채 예상 결과를 사실적으로 보여줘요. 결정을 돕는 참고용 미리보기입니다.',
+    status: 'coming_soon',
+    moodLabel: 'Clinical Luxe',
+    emoji: '🪞',
+    iconUrl: facepreviewIcon,
+    links: {
+      // 앱은 출시 전(iOS 심사 준비 중)이라 coming_soon — 스토어 배지는 "준비 중"으로 표기.
+      // 홍보 웹(Astro, Vercel)은 라이브이므로 유일한 활성 CTA로 연결한다.
+      web: 'https://facepreview.vercel.app',
+      androidPending: true,
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#1b1c22',
+      inkSoft: '#6a6e78',
+      primary: '#b08d4e',
+      accent: '#3aa99a',
+      gradient: 'linear-gradient(135deg, #f6efe2 0%, #f3f5f4 55%, #eaf4f1 100%)',
+      font: "'Cormorant Garamond', 'Noto Serif KR', 'Pretendard Variable', serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      {
+        icon: 'photo_camera_front',
+        title: '내 얼굴로 미리보기',
+        desc: '사진 한 장이면 돼요. 내 얼굴 그대로, 바뀐 모습만 사실적으로 확인해요.',
+      },
+      {
+        icon: 'tune',
+        title: '부위별 정교 조절',
+        desc: '눈·코·입·턱선·보조개까지 — 원하는 부위를 골라 강도를 세밀하게 맞춰요.',
+      },
+      {
+        icon: 'lock',
+        title: '안전한 처리',
+        desc: '사진은 암호화해 처리하고 30일 뒤 자동 삭제해요. 필요하면 언제든 바로 지워요.',
+      },
+    ],
+    promo: {
+      kicker: 'AI 성형 시뮬레이션',
+      headline: '수술 없이, 미리 만나는 변화',
+      headlineAccent: '미리 만나는',
+      subcopy:
+        '내 얼굴 사진으로 성형 후 모습을 사실적으로 미리 보세요. 부위별로 정교하게 조절하고, 전후를 나란히 비교할 수 있어요. 상담 전 결정을 돕는 참고용 미리보기입니다.',
+      // 다크 "Clinical Luxe" 무대 — 딥 차콜 배경 + 샴페인 골드/뮤트 틸(앱 tokens.ts 시그니처).
+      dark: true,
+      palette: {
+        bg: '#0c0d11',
+        heroGradient: 'linear-gradient(135deg, #15161c 0%, #0c0d11 60%, #10171a 100%)',
+        surface: '#191c23',
+        primary: '#cba968',
+        accent: '#6fd6c9',
+        ink: '#f3f1ec',
+        inkSoft: '#a7acb5',
+        onPrimary: '#17130a',
+      },
+      fontDisplay: "'Cormorant Garamond', 'Noto Serif KR', serif",
+      fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      radius: 22,
+      motif: 'none',
+      highlights: [
+        { value: '내 얼굴로', label: '미리보기', icon: 'photo_camera_front' },
+        { value: '부위별', label: '정교 조절', icon: 'tune' },
+        { value: '30일 후', label: '자동 삭제', icon: 'lock' },
+      ],
+      // 성형 전/후 드래그 슬라이더(FitSnap CompareSlider 패턴). 동일 프레임 896×1200 픽셀 정렬.
+      beforeAfter: {
+        before: facepreviewBefore,
+        after: facepreviewAfter,
+        beforeLabel: '수술 전',
+        afterLabel: 'AI 예상 결과',
+      },
+      disclaimer:
+        '본 시뮬레이션은 AI가 생성한 예상 이미지로 실제 수술 결과와 다를 수 있으며, 의학적 진단·효과를 보장하지 않습니다. 시술 결정은 반드시 전문의와 상담하세요.',
+    },
+    order: 11,
   },
 ];
 
