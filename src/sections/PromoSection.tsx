@@ -700,12 +700,22 @@ function CompareSliderVisual({
   data,
   serviceName,
 }: {
-  data: { before: string; after: string; beforeLabel?: string; afterLabel?: string };
+  data: {
+    before: string;
+    after: string;
+    beforeLabel?: string;
+    afterLabel?: string;
+    focusY?: number;
+    afterFocusY?: number;
+  };
   serviceName: string;
 }) {
   const INITIAL = 50;
   const beforeLabel = data.beforeLabel ?? '원본';
   const afterLabel = data.afterLabel ?? 'AI 가상 착용';
+  // 세로 초점 보정(앱 BeforeAfterSlider focusY/afterFocusY) — before/after 머리 위치를 맞춘다.
+  const beforePos = `50% ${data.focusY ?? 50}%`;
+  const afterPos = `50% ${data.afterFocusY ?? data.focusY ?? 50}%`;
 
   const stageRef = useRef<HTMLDivElement>(null);
   const posRef = useRef(INITIAL); // 리렌더 없이 현재값 추적(키보드/드래그 공용)
@@ -836,6 +846,7 @@ function CompareSliderVisual({
           src={data.after}
           alt={`${serviceName} — ${afterLabel}`}
           draggable={false}
+          style={{ objectPosition: afterPos }}
         />
         {/* before: clip으로 왼쪽 pos%만 노출 */}
         <div className={styles.csClip}>
@@ -844,6 +855,7 @@ function CompareSliderVisual({
             src={data.before}
             alt={`${serviceName} — ${beforeLabel}`}
             draggable={false}
+            style={{ objectPosition: beforePos }}
           />
         </div>
 

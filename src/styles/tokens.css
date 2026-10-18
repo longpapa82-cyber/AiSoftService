@@ -4,6 +4,37 @@
  * 외피(--ais-*)만 하이테크. 서비스 카드는 자기 --svc-* 컬러를 유지(2계층).
  * 타이포: Outfit(디스플레이) / Inter(본문) / JetBrains Mono(테크 배지).
  */
+
+/*
+ * facePreview 전용 자가호스팅 폰트 — 앱(facePreview)의 실제 폰트와 동일하게 재현.
+ * Paperlogy(한글 세리프, 커스텀 폰트라 Google Fonts 없음) + Cormorant(영문/숫자 variable serif).
+ * 앱 app/assets/fonts에서 반입. Pretendard(본문)는 index.html jsdelivr로 이미 로드됨.
+ */
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/Paperlogy-4Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/Paperlogy-6SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Paperlogy';
+  src: url('/fonts/Paperlogy-7Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/Cormorant-Variable.ttf') format('truetype');
+  font-weight: 300 700;
+  font-display: swap;
+}
+
 :root {
   /* ── 베이스 (v4: 순수 화이트 + 중성 그레이 — 글로벌 테크 기업) ── */
   --ais-bg: #ffffff;

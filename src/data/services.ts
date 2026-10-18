@@ -229,11 +229,18 @@ export interface ServicePromo {
     afterLabel?: string;
     /**
      * 비교 레이아웃(기본 'slider').
-     * - 'slider': 좌우 드래그 경계 슬라이더(FitSnap — before/after가 픽셀 정렬일 때만 성립).
-     * - 'sideBySide': 두 이미지를 나란히 배치(facePreview — 독립 생성된 전/후처럼 픽셀 정렬이
-     *   아닐 때. 경계 어긋남 없이 '전·후 비교'를 명확히 보여준다).
+     * - 'slider': 좌우 드래그 경계 슬라이더(FitSnap·facePreview — 앱 BeforeAfterSlider 시그니처).
+     * - 'sideBySide': 두 이미지를 나란히 배치(대안).
      */
     layout?: 'slider' | 'sideBySide';
+    /**
+     * before 이미지 세로 초점(object-position Y, %). 기본 50.
+     * after 이미지 세로 초점(%). 지정 시 after만 다르게 크롭해 before와 머리 위치를 맞춘다.
+     * (facePreview 앱 home: focusY=32 / afterFocusY=28 — 독립 생성 쌍의 얼굴 위치차 보정으로
+     *  슬라이더 경계에서 같은 인물로 자연스럽게 겹치게 한다.)
+     */
+    focusY?: number;
+    afterFocusY?: number;
   };
   /** 멀티 액센트 — 안전(초록) 조항용. analysisCard와 함께 사용(로픽). */
   accentSafe?: string;
@@ -1285,9 +1292,8 @@ export const SERVICES: AppService[] = [
       primary: '#b08d4e',
       accent: '#3aa99a',
       gradient: 'linear-gradient(135deg, #f6efe2 0%, #f3f5f4 55%, #eaf4f1 100%)',
-      // 랜딩에 로드된 폰트만 사용 가능(index.html Google Fonts 목록). Cormorant/Paperlogy는 미로드라
-      // 한글 폴백으로 깨짐 → 로드된 'Gowun Dodum'(우아한 한글 세리프 톤)으로 Clinical Luxe 고급감 표현.
-      font: "'Gowun Dodum', 'Noto Sans KR', system-ui, sans-serif",
+      // 앱과 동일 폰트: Paperlogy(한글 세리프 디스플레이, tokens.css @font-face 자가호스팅).
+      font: "'Paperlogy', 'Pretendard Variable', 'Noto Sans KR', serif",
       onPrimary: '#ffffff',
     },
     features: [
@@ -1325,7 +1331,8 @@ export const SERVICES: AppService[] = [
         inkSoft: '#a7acb5',
         onPrimary: '#17130a',
       },
-      fontDisplay: "'Gowun Dodum', 'Noto Sans KR', serif",
+      // 앱 실제 폰트 재현: 디스플레이=Paperlogy(한글 세리프)+Cormorant(영문/숫자), 본문=Pretendard.
+      fontDisplay: "'Paperlogy', 'Cormorant', 'Noto Sans KR', serif",
       fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       radius: 22,
       motif: 'none',
@@ -1340,11 +1347,14 @@ export const SERVICES: AppService[] = [
         after: facepreviewAfter,
         beforeLabel: '수술 전',
         afterLabel: 'AI 예상 결과',
-        // 전/후가 독립 생성된 쌍이라 픽셀 정렬이 아님 → 슬라이더 경계 어긋남 방지 위해 나란히 비교.
-        layout: 'sideBySide',
+        // 앱 BeforeAfterSlider 시그니처(골드 디바이더 드래그)를 그대로 재현.
+        layout: 'slider',
+        // 앱 home과 동일한 세로 초점 보정 — 독립 생성 쌍의 얼굴 위치차를 맞춰 같은 인물로 겹침.
+        focusY: 32,
+        afterFocusY: 28,
       },
       disclaimer:
-        '본 시뮬레이션은 AI가 생성한 예상 이미지로 실제 수술 결과와 다를 수 있으며, 의학적 진단·효과를 보장하지 않습니다. 시술 결정은 반드시 전문의와 상담하세요.',
+        '전후 비교 이미지는 AI가 생성한 모델 샘플이며 실제 환자가 아닙니다. 시뮬레이션 결과는 예상 이미지로 실제 수술 결과와 다를 수 있고 의학적 효과를 보장하지 않으니, 시술 결정은 반드시 전문의와 상담하세요.',
     },
     order: 11,
   },
