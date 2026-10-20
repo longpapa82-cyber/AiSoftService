@@ -1355,11 +1355,10 @@ export const SERVICES: AppService[] = [
         afterLabel: 'AI 예상 결과',
         // 앱·홍보웹 BeforeAfterSlider 시그니처(골드 디바이더 드래그)를 그대로 재현.
         layout: 'slider',
-        // 홍보웹(index.astro)과 동일한 세로 초점 보정 — before 34% / after 30%로
-        // 같은 인물(face-1 쌍)의 머리 위치차를 맞춰 슬라이더 경계에서 자연스럽게 겹침.
-        // (after는 머리 위 여백을 아주 살짝 축소: 28 → 30)
+        // 홍보웹(.ba-img)과 동일한 세로 초점 — before·after 모두 object-position center 34%.
+        // (홍보웹 재배포로 before가 새 모델로 교체됐고, 두 이미지 모두 34%로 정렬됨.)
         focusY: 34,
-        afterFocusY: 30,
+        afterFocusY: 34,
         // 홍보웹/앱과 동일 방향: 왼쪽=AFTER(예상 결과), 오른쪽=BEFORE(수술 전).
         reversed: true,
       },
