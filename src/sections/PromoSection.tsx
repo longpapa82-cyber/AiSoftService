@@ -663,14 +663,14 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 /**
  * facePreview 전/후 나란히 비교 — 독립 생성된 쌍이라 픽셀 정렬이 아니므로 슬라이더(경계 어긋남)
  * 대신 두 이미지를 좌우로 나란히 배치한다. 각 이미지는 자기 프레임 안에서 object-fit: cover로
- * 안정적으로 보여지고, 하단 라벨(수술 전 / AI 예상 결과)로 전·후를 명확히 구분한다.
+ * 안정적으로 보여지고, 하단 라벨(원본 / AI 예상 결과)로 전·후를 명확히 구분한다.
  */
 function CompareSideBySide({
   data,
 }: {
   data: { before: string; after: string; beforeLabel?: string; afterLabel?: string };
 }) {
-  const beforeLabel = data.beforeLabel ?? '수술 전';
+  const beforeLabel = data.beforeLabel ?? '원본';
   const afterLabel = data.afterLabel ?? 'AI 예상 결과';
   return (
     <div className={styles.sbsWrap}>

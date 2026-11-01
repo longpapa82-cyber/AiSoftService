@@ -42,8 +42,8 @@ import voicebuddyMascot from '../assets/promo/voicebuddy/mascot.svg';
 // (fitsnap 홍보웹의 초상권-프리 AI 가상인물 이미지 재사용 — 실존 인물 아님.)
 import fitsnapBefore from '../assets/promo/fitsnap/model/before.webp';
 import fitsnapAfter from '../assets/promo/fitsnap/model/after.webp';
-// facePreview before/after 슬라이더: 성형 시뮬레이션 전/후 쌍(동일 프레임 896×1200 픽셀 정렬).
-// 경계선을 좌우로 밀면 "수술 전 → AI 예상 결과"가 전환된다(FitSnap CompareSlider 패턴 재사용).
+// facePreview before/after 슬라이더: AI 뷰티 미리보기 전·후 쌍(동일 프레임 896×1200 픽셀 정렬).
+// 경계선을 좌우로 밀면 "원본 → AI 예상 결과"가 전환된다(FitSnap CompareSlider 패턴 재사용).
 // (facePreview 앱 editorial 샘플 ba-before/ba-after를 webp로 반입 — 홍보 데모 자산.)
 import facepreviewBefore from '../assets/promo/facepreview/before.webp';
 import facepreviewAfter from '../assets/promo/facepreview/after.webp';
@@ -1278,9 +1278,9 @@ export const SERVICES: AppService[] = [
   {
     id: 'facepreview',
     name: 'facePreview',
-    tagline: '수술 없이, 미리 만나는 변화',
+    tagline: '사진 한 장으로, 미리 만나는 변화',
     description:
-      '내 얼굴 사진으로 성형 후 모습을 미리 보는 AI 시뮬레이션 앱. 눈·코·입·턱 등 원하는 부위를 골라 조절하면, 피부결과 분위기는 그대로 둔 채 예상 결과를 사실적으로 보여줘요. 결정을 돕는 참고용 미리보기입니다.',
+      '사진 한 장으로 달라진 모습을 재미있게 미리 보는 AI 뷰티 미리보기 앱. 눈·코·입·턱 등 원하는 부위를 골라 조절하면, 피부결과 분위기는 그대로 둔 채 달라진 모습을 사실적으로 보여줘요. 가볍게 즐기는 엔터테인먼트 미리보기입니다.',
     status: 'coming_soon',
     moodLabel: 'Clinical Luxe',
     emoji: '🪞',
@@ -1320,11 +1320,11 @@ export const SERVICES: AppService[] = [
       },
     ],
     promo: {
-      kicker: 'AI 성형 시뮬레이션',
-      headline: '수술 없이,\n미리 만나는 ',
+      kicker: 'AI 뷰티 미리보기',
+      headline: '사진 한 장으로,\n미리 만나는 ',
       headlineAccent: '변화',
       subcopy:
-        '내 얼굴 사진으로 성형 후 모습을 사실적으로 미리 보세요. 부위별로 정교하게 조절하고, 전후를 나란히 비교할 수 있어요. 상담 전 결정을 돕는 참고용 미리보기입니다.',
+        '내 얼굴 사진으로 달라진 모습을 사실적으로 미리 보세요. 부위별로 정교하게 조절하고, 전·후를 나란히 비교할 수 있어요. 가볍게 즐기는 엔터테인먼트 미리보기입니다.',
       // 다크 "Clinical Luxe" 무대 — 딥 차콜 배경 + 샴페인 골드/뮤트 틸(앱 tokens.ts 시그니처).
       dark: true,
       palette: {
@@ -1347,11 +1347,11 @@ export const SERVICES: AppService[] = [
         { value: '부위별', label: '정교 조절', icon: 'tune' },
         { value: '30일 후', label: '자동 삭제', icon: 'lock' },
       ],
-      // 성형 전/후 드래그 슬라이더(FitSnap CompareSlider 패턴). 동일 프레임 896×1200 픽셀 정렬.
+      // 전·후 드래그 슬라이더(FitSnap CompareSlider 패턴). 동일 프레임 896×1200 픽셀 정렬.
       beforeAfter: {
         before: facepreviewBefore,
         after: facepreviewAfter,
-        beforeLabel: '수술 전',
+        beforeLabel: '원본',
         afterLabel: 'AI 예상 결과',
         // 앱·홍보웹 BeforeAfterSlider 시그니처(골드 디바이더 드래그)를 그대로 재현.
         layout: 'slider',
@@ -1359,11 +1359,11 @@ export const SERVICES: AppService[] = [
         // (홍보웹 재배포로 before가 새 모델로 교체됐고, 두 이미지 모두 34%로 정렬됨.)
         focusY: 34,
         afterFocusY: 34,
-        // 홍보웹/앱과 동일 방향: 왼쪽=AFTER(예상 결과), 오른쪽=BEFORE(수술 전).
+        // 홍보웹/앱과 동일 방향: 왼쪽=AFTER(예상 결과), 오른쪽=BEFORE(원본).
         reversed: true,
       },
       disclaimer:
-        '전후 비교 이미지는 AI가 생성한 모델 샘플이며 실제 환자가 아닙니다. 시뮬레이션 결과는 예상 이미지로 실제 수술 결과와 다를 수 있고 의학적 효과를 보장하지 않으니, 시술 결정은 반드시 전문의와 상담하세요.',
+        '전·후 비교 이미지는 AI가 생성한 모델 샘플이며 실존 인물이 아닙니다. 미리보기 결과는 AI가 생성한 예상 이미지로 실제와 다를 수 있으며, 재미로 즐기는 엔터테인먼트 콘텐츠입니다.',
     },
     order: 11,
   },
