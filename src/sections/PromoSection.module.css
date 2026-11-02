@@ -2723,3 +2723,234 @@
     padding: 4px 9px;
   }
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+   숨통 전용 — breath 모티프 + 호흡 대시보드 비주얼(BreathDashboardVisual).
+   전부 :global(#promo-soomtong) 스코프로 격리 → 다른 11서비스 CSS 불변.
+   애니는 transform/opacity만(컴포지터), prefers-reduced-motion에서 정지.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* breath 모티프 배경: 섹션 뒤로 번지는 민트 글로우(호흡처럼 천천히 밝아졌다 어두워짐). */
+:global(#promo-soomtong) .motif_breath::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    42% 46% at 72% 40%,
+    color-mix(in srgb, var(--p-primary) 18%, transparent) 0%,
+    transparent 70%
+  );
+  animation: promo-breath-glow 9.5s ease-in-out infinite;
+}
+@keyframes promo-breath-glow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+
+/* 호흡 대시보드 카드 — 보상/링/회복 3단 스택. 밝은 헬스케어 톤. */
+.breathCard {
+  position: relative;
+  z-index: 1;
+  width: min(92%, 400px);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 22px;
+  border-radius: calc(var(--p-radius, 24px) + 2px);
+  background: var(--p-surface);
+  box-shadow:
+    0 24px 50px -12px color-mix(in srgb, var(--p-primary) 26%, transparent),
+    0 6px 16px color-mix(in srgb, var(--p-primary) 14%, transparent);
+}
+
+/* ① 실시간 보상 — 민트 그라디언트 위 아낀 돈 카운트업 */
+.breathReward {
+  border-radius: var(--p-radius, 24px);
+  padding: 18px 20px;
+  color: var(--p-on-primary);
+  background: var(--p-hero);
+  box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--p-primary) 40%, transparent);
+}
+.breathRewardLabel {
+  font-size: 0.82rem;
+  opacity: 0.92;
+}
+.breathSavings {
+  margin-top: 2px;
+  font-family: var(--p-font-display);
+  font-size: clamp(2rem, 1.4rem + 2.4vw, 2.6rem);
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+}
+.breathWon {
+  font-size: 0.56em;
+  margin-left: 2px;
+}
+.breathSubStats {
+  margin-top: 10px;
+  display: flex;
+  gap: 16px;
+  font-size: 0.78rem;
+  opacity: 0.95;
+}
+.breathSubStat {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.breathSubValue {
+  font-family: var(--p-font-display);
+  font-size: 1.05rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ② 4-7-8 호흡 링 — 들숨4·멈춤7·날숨8 리듬으로 확장·수축(19s 루프). */
+.breathRingWrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 164px;
+}
+.breathRingOuter,
+.breathRingMid,
+.breathRingCore {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+}
+.breathRingOuter {
+  width: 148px;
+  height: 148px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--p-primary) 22%, transparent) 0%,
+    transparent 68%
+  );
+  animation: promo-breath-478 19s ease-in-out infinite;
+}
+.breathRingMid {
+  width: 112px;
+  height: 112px;
+  border: 2px solid color-mix(in srgb, var(--p-primary) 40%, transparent);
+  animation: promo-breath-478 19s ease-in-out infinite;
+  animation-delay: -0.4s;
+}
+.breathRingCore {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  background: var(--p-hero);
+  color: var(--p-on-primary);
+  box-shadow: 0 8px 20px -6px color-mix(in srgb, var(--p-primary) 50%, transparent);
+  animation: promo-breath-478 19s ease-in-out infinite;
+}
+.breathRingLabel {
+  font-family: var(--p-font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+}
+.breathRingHint {
+  position: absolute;
+  bottom: -2px;
+  font-size: 0.74rem;
+  color: var(--p-ink-soft);
+  white-space: nowrap;
+}
+/* 4-7-8: 들숨 4s 확장 → 멈춤 7s 유지 → 날숨 8s 수축 (총 19s). */
+@keyframes promo-breath-478 {
+  0% {
+    transform: scale(0.72);
+  }
+  21% {
+    transform: scale(1);
+  } /* 들숨 끝(4s) */
+  58% {
+    transform: scale(1);
+  } /* 멈춤 끝(11s) */
+  100% {
+    transform: scale(0.72);
+  } /* 날숨 끝(19s) */
+}
+
+/* ③ 회복 미니 타임라인 — tone 비율로 채워지는 바 + 마지막 숨숨이 */
+.recoveryMini {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.recoveryRow {
+  position: relative;
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  align-items: center;
+  gap: 10px;
+}
+.recoveryWhen {
+  font-family: var(--p-font-display);
+  font-size: 0.82rem;
+  color: var(--p-primary);
+}
+.recoveryTrack {
+  height: 7px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--p-primary) 12%, var(--p-surface));
+}
+.recoveryFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--p-hero);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.9s var(--ais-ease-expo);
+}
+/* useReveal(.is-visible)가 붙으면 tone(--tone)만큼 채운다 — JS 인라인 없이 CSS 주도. */
+.recoveryMini:global(.is-visible) .recoveryFill {
+  transform: scaleX(var(--tone, 1));
+}
+.recoveryLabel {
+  font-size: 0.76rem;
+  color: var(--p-ink-soft);
+}
+.recoveryMascot {
+  position: absolute;
+  right: -6px;
+  top: -14px;
+  width: 40px;
+  height: 40px;
+  animation: promo-mascot-bob 4s var(--ais-ease-expo) infinite;
+  filter: drop-shadow(0 6px 10px color-mix(in srgb, var(--p-primary) 30%, transparent));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :global(#promo-soomtong) .motif_breath::before,
+  .breathRingOuter,
+  .breathRingMid,
+  .breathRingCore,
+  .recoveryMascot {
+    animation: none;
+  }
+  .breathRingOuter,
+  .breathRingMid,
+  .breathRingCore {
+    transform: scale(0.92);
+  }
+  .recoveryFill {
+    transition: none;
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/sections/PromoSection.module.css"
+        ],
+        "createdAt": "2026-11-02T13:08:39.995Z",
+        "reason": "pre-existing .accent headline treatment shared by all 12 services, has solid-color fallback; not introduced by soomtong work"
+      }
+    ]
+  }
+}

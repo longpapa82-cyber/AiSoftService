@@ -4,6 +4,7 @@ import { StoreBadges } from '../components/ui/StoreBadges';
 import { MoodIcon } from '../components/ui/MoodIcon';
 import { DoraniMascot } from '../components/DoraniMascot';
 import { useReveal } from '../hooks/useReveal';
+import { useCountUp } from '../hooks/useCountUp';
 import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
 
@@ -340,7 +341,10 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
           {/* ── 우: 비주얼 — 실제 앱 화면/여행지 실사/아이콘 카드 (서비스별 분기) ── */}
           <div className={styles.visual}>
-            {promo.beforeAfter ? (
+            {promo.breathCard ? (
+              /* 숨통: 금연 3가치(보상 카운트업·4-7-8 호흡 링·회복 타임라인)를 한 비주얼로 */
+              <BreathDashboardVisual data={promo.breathCard} mascot={promo.mascot} />
+            ) : promo.beforeAfter ? (
               promo.beforeAfter.layout === 'sideBySide' ? (
                 /* facePreview: 전/후를 나란히 비교 — 픽셀 정렬 아닌 쌍의 경계 어긋남 방지 */
                 <CompareSideBySide data={promo.beforeAfter} />
@@ -925,6 +929,104 @@ function CompareSliderVisual({
         </div>
       </div>
       <p className={styles.csHint}>핸들을 좌우로 밀어 전후를 비교해 보세요</p>
+    </div>
+  );
+}
+
+/**
+ * 숨통 전용 "호흡 대시보드" 비주얼 — 금연 앱의 3가치를 하나의 살아있는 카드로.
+ * (FitSnap CompareSliderVisual·로픽 analysisCard와 동급의 서비스 시그니처 컴포넌트.)
+ *   ① 실시간 보상: savings/cigarettes/hours가 뷰포트 진입 시 0→목표로 카운트업(useCountUp).
+ *   ② 4-7-8 호흡: 중앙 링이 들숨4·멈춤7·날숨8 리듬으로 확장·수축(CSS, reduce-motion 정적).
+ *   ③ 회복 타임라인: tone 비율로 채워지는 미니 바 + 마지막 단계 숨숨이 응원.
+ * 수치는 데모(예시) — 실제 통계 아님(섹션 disclaimer 명시).
+ */
+function BreathDashboardVisual({
+  data,
+  mascot,
+}: {
+  data: {
+    savings: number;
+    cigarettes: number;
+    hoursReclaimed: number;
+    breathLabel?: string;
+    recovery: { when: string; label: string; tone: number }[];
+  };
+  mascot?: string;
+}) {
+  // 각 수치별 카운트업(뷰포트 진입 1회, reduce-motion 즉시 스냅 — 훅 내장).
+  const [savingsRef, savings] = useCountUp<HTMLParagraphElement>(data.savings, {
+    durationMs: 1600,
+  });
+  const [cigRef, cigs] = useCountUp<HTMLSpanElement>(data.cigarettes, { durationMs: 1400 });
+  const [hourRef, hours] = useCountUp<HTMLSpanElement>(data.hoursReclaimed, { durationMs: 1400 });
+  // 회복 바는 뷰포트 진입 시 .is-visible 클래스로 채워진다(useReveal — CSS 주도, reduce-motion 즉시).
+  const recoveryRef = useReveal<HTMLUListElement>();
+
+  return (
+    <div className={styles.breathCard}>
+      {/* ① 실시간 보상 — 아낀 돈 카운트업 + 보조 수치 */}
+      <div className={styles.breathReward}>
+        <span className={styles.breathRewardLabel}>지금까지 아낀 돈</span>
+        <p ref={savingsRef} className={styles.breathSavings}>
+          {savings.toLocaleString('ko-KR')}
+          <span className={styles.breathWon}>원</span>
+        </p>
+        <div className={styles.breathSubStats}>
+          <span className={styles.breathSubStat}>
+            <span ref={cigRef} className={styles.breathSubValue}>
+              {cigs.toLocaleString('ko-KR')}
+            </span>
+            개비 안 피움
+          </span>
+          <span className={styles.breathSubStat}>
+            <span ref={hourRef} className={styles.breathSubValue}>
+              {hours.toLocaleString('ko-KR')}
+            </span>
+            시간 되찾음
+          </span>
+        </div>
+      </div>
+
+      {/* ② 4-7-8 호흡 링 — 들숨4·멈춤7·날숨8 리듬 루프(CSS). 호버 시 단계 라벨. */}
+      <div className={styles.breathRingWrap}>
+        <span className={styles.breathRingOuter} aria-hidden="true" />
+        <span className={styles.breathRingMid} aria-hidden="true" />
+        <span className={styles.breathRingCore} aria-hidden="true">
+          <span className={styles.breathRingLabel}>{data.breathLabel ?? '4·7·8'}</span>
+        </span>
+        <p className={styles.breathRingHint}>충동이 올 땐, 함께 숨 고르기</p>
+      </div>
+
+      {/* ③ 회복 타임라인 — tone 비율로 채워지는 미니 바 + 마지막 단계 숨숨이 응원 */}
+      <ul ref={recoveryRef} className={`${styles.recoveryMini} reveal`} aria-label="신체 회복 타임라인">
+        {data.recovery.map((r, i) => {
+          const isLast = i === data.recovery.length - 1;
+          return (
+            <li key={r.when} className={styles.recoveryRow}>
+              <span className={styles.recoveryWhen}>{r.when}</span>
+              <span className={styles.recoveryTrack}>
+                {/* --tone: 진입 시 .is-visible이 scaleX(0)→scaleX(var(--tone))로 채운다 */}
+                <span
+                  className={styles.recoveryFill}
+                  style={{ '--tone': r.tone } as CSSProperties}
+                />
+              </span>
+              <span className={styles.recoveryLabel}>{r.label}</span>
+              {isLast && mascot && (
+                <img
+                  className={styles.recoveryMascot}
+                  src={mascot}
+                  alt="숨통 마스코트 숨숨이"
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                />
+              )}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

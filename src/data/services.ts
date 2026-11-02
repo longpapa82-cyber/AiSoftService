@@ -129,8 +129,8 @@ export interface ServicePromo {
   fontBody: string;
   /** 카드/표면 라운드 (px). myPet=28 claymorphism 등 */
   radius: number;
-  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인)/FitSnap(떠다니는 의류 아이콘+옷걸이 레일)/숏킷(cosmos: 궤도링+광원+옐로 트윙클) 등 */
-  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'cloth' | 'cosmos' | 'none';
+  /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인)/FitSnap(떠다니는 의류 아이콘+옷걸이 레일)/숏킷(cosmos: 궤도링+광원+옐로 트윙클)/숨통(breath: 4-7-8 호흡 동심원+민트 글로우) 등 */
+  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'cloth' | 'cosmos' | 'breath' | 'none';
   /** 미니 홍보용 통계 칩 (실제 수치). icon(Material Symbols 이름)이 있으면 값 위에 아이콘 표시. */
   highlights: { value: string; label: string; icon?: string }[];
   /**
@@ -286,6 +286,26 @@ export interface ServicePromo {
    * .decor 레이어에 렌더되며 td-float 모션(±8deg 회전 + 부유). 배열 순서=위치 프리셋.
    */
   travelDecor?: string[];
+  /**
+   * 숨통 전용 "호흡 대시보드" 비주얼 — 금연 앱의 3가치를 하나의 살아있는 카드로 전달한다.
+   * (FitSnap beforeAfter·로픽 analysisCard와 동급의 서비스 시그니처. 있으면 mascot 분기보다 우선.)
+   * ① 실시간 보상: savings/cigarettes/hoursReclaimed가 뷰포트 진입 시 0→목표로 카운트업(useCountUp).
+   * ② 4-7-8 호흡: 중앙 호흡 링이 들숨4·멈춤7·날숨8 리듬으로 확장·수축(CSS 루프, reduce-motion 정적).
+   * ③ 회복 타임라인: recovery 단계가 미니 진행 바 + 숨숨이 응원으로 "몸이 회복된다" 서사 전달.
+   * 수치는 데모(예시)이며 실제 통계가 아니다 — disclaimer에 명시.
+   */
+  breathCard?: {
+    /** 지금까지 아낀 돈(원) — 카운트업 */
+    savings: number;
+    /** 안 피운 담배(개비) — 카운트업 */
+    cigarettes: number;
+    /** 되찾은 시간(시간) — 카운트업 */
+    hoursReclaimed: number;
+    /** 호흡 링 중앙 문구(기본 '4·7·8') */
+    breathLabel?: string;
+    /** 회복 미니 타임라인 — tone(0~1)이 진행 바 채움 비율. 마지막 단계에 숨숨이 응원. */
+    recovery: { when: string; label: string; tone: number }[];
+  };
 }
 
 export interface AppService {
@@ -1438,16 +1458,32 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Jua', 'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       radius: 24,
-      motif: 'none',
-      // 앱/홍보웹 히어로의 "숨숨이" 마스코트(cheer) — 우측 비주얼 상단 원형 프레임.
+      // 숨통 시그니처: 4-7-8 호흡 동심원 + 민트 글로우(:global(#promo-soomtong) 격리).
+      motif: 'breath',
+      // 앱/홍보웹 히어로의 "숨숨이" 마스코트(cheer) — breathCard 회복 타임라인 끝 응원.
       mascot: soomtongMascot,
+      // 숨통 전용 "호흡 대시보드" — 금연 3가치(보상·호흡·회복)를 하나의 살아있는 비주얼로.
+      // 수치는 데모(예시)이며 실제 통계가 아니다(disclaimer 명시). FitSnap·로픽 전용 비주얼과 동급.
+      breathCard: {
+        savings: 128500,
+        cigarettes: 460,
+        hoursReclaimed: 38,
+        breathLabel: '4·7·8',
+        // WHO/미 심장협회 신체 회복 단계(앱 HEALTH 타임라인 발췌) — tone이 진행 바 채움 비율.
+        recovery: [
+          { when: '20분', label: '혈압·맥박 정상화', tone: 0.3 },
+          { when: '24시간', label: '심장마비 위험 감소', tone: 0.55 },
+          { when: '2주', label: '혈액순환·폐 기능 향상', tone: 0.8 },
+          { when: '1년', label: '심장질환 위험 절반으로', tone: 1 },
+        ],
+      },
       highlights: [
         { value: '초 단위', label: '실시간 타이머', icon: 'timer' },
         { value: '4-7-8', label: '긴급 호흡', icon: 'self_improvement' },
         { value: 'WHO 기준', label: '회복 타임라인', icon: 'ecg_heart' },
       ],
       disclaimer:
-        '금연 성과 수치(절약 금액·되찾은 시간)와 신체 회복 타임라인은 일반적 기준에 따른 추정이며 개인차가 있습니다. 의학적 효과를 보장하지 않으며, 금연 치료가 필요한 경우 전문가와 상담하세요.',
+        '비주얼의 절약 금액·참은 개비·되찾은 시간은 이해를 돕기 위한 예시 수치이며 실제 통계가 아닙니다. 신체 회복 타임라인은 일반적 기준에 따른 추정으로 개인차가 있고 의학적 효과를 보장하지 않으며, 금연 치료가 필요한 경우 전문가와 상담하세요.',
     },
     order: 12,
   },
