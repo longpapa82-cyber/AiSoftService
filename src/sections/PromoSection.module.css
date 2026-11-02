@@ -2816,9 +2816,28 @@
 /* ② 4-7-8 호흡 링 — 들숨4·멈춤7·날숨8 리듬으로 확장·수축(19s 루프). */
 .breathRingWrap {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 150px;
+  padding-bottom: 22px;
+}
+/* 대형 숨숨이 — 카드 주인공. 호흡 링 왼쪽에 큼직하게 둥실 떠오른다. */
+.breathMascot {
+  width: clamp(104px, 36%, 140px);
+  height: auto;
+  flex-shrink: 0;
+  animation: promo-mascot-bob 4s var(--ais-ease-expo) infinite;
+  filter: drop-shadow(0 12px 18px color-mix(in srgb, var(--p-primary) 32%, transparent));
+}
+.breathRingStage {
+  position: relative;
   display: grid;
   place-items: center;
-  height: 164px;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
 }
 .breathRingOuter,
 .breathRingMid,
@@ -2862,10 +2881,12 @@
 }
 .breathRingHint {
   position: absolute;
-  bottom: -2px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
   font-size: 0.74rem;
   color: var(--p-ink-soft);
-  white-space: nowrap;
 }
 /* 4-7-8: 들숨 4s 확장 → 멈춤 7s 유지 → 날숨 8s 수축 (총 19s). */
 @keyframes promo-breath-478 {
@@ -2895,7 +2916,7 @@
 .recoveryRow {
   position: relative;
   display: grid;
-  grid-template-columns: 52px 1fr auto;
+  grid-template-columns: 52px minmax(70px, 1fr) auto;
   align-items: center;
   gap: 10px;
 }
@@ -2927,22 +2948,13 @@
   font-size: 0.76rem;
   color: var(--p-ink-soft);
 }
-.recoveryMascot {
-  position: absolute;
-  right: -6px;
-  top: -14px;
-  width: 40px;
-  height: 40px;
-  animation: promo-mascot-bob 4s var(--ais-ease-expo) infinite;
-  filter: drop-shadow(0 6px 10px color-mix(in srgb, var(--p-primary) 30%, transparent));
-}
 
 @media (prefers-reduced-motion: reduce) {
   :global(#promo-soomtong) .motif_breath::before,
   .breathRingOuter,
   .breathRingMid,
   .breathRingCore,
-  .recoveryMascot {
+  .breathMascot {
     animation: none;
   }
   .breathRingOuter,

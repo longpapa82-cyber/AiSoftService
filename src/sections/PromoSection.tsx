@@ -988,44 +988,43 @@ function BreathDashboardVisual({
         </div>
       </div>
 
-      {/* ② 4-7-8 호흡 링 — 들숨4·멈춤7·날숨8 리듬 루프(CSS). 호버 시 단계 라벨. */}
+      {/* ② 4-7-8 호흡 링 + 대형 숨숨이 — 캐릭터를 카드 주인공으로 크게 배치. */}
       <div className={styles.breathRingWrap}>
-        <span className={styles.breathRingOuter} aria-hidden="true" />
-        <span className={styles.breathRingMid} aria-hidden="true" />
-        <span className={styles.breathRingCore} aria-hidden="true">
-          <span className={styles.breathRingLabel}>{data.breathLabel ?? '4·7·8'}</span>
-        </span>
-        <p className={styles.breathRingHint}>충동이 올 땐, 함께 숨 고르기</p>
+        {mascot && (
+          <img
+            className={styles.breathMascot}
+            src={mascot}
+            alt="숨통 마스코트 숨숨이"
+            width={132}
+            height={132}
+            loading="lazy"
+          />
+        )}
+        <div className={styles.breathRingStage}>
+          <span className={styles.breathRingOuter} aria-hidden="true" />
+          <span className={styles.breathRingMid} aria-hidden="true" />
+          <span className={styles.breathRingCore} aria-hidden="true">
+            <span className={styles.breathRingLabel}>{data.breathLabel ?? '4·7·8'}</span>
+          </span>
+        </div>
+        <p className={styles.breathRingHint}>충동이 올 땐, 숨숨이와 함께 숨 고르기</p>
       </div>
 
-      {/* ③ 회복 타임라인 — tone 비율로 채워지는 미니 바 + 마지막 단계 숨숨이 응원 */}
+      {/* ③ 회복 타임라인 — tone 비율로 채워지는 미니 바 */}
       <ul ref={recoveryRef} className={`${styles.recoveryMini} reveal`} aria-label="신체 회복 타임라인">
-        {data.recovery.map((r, i) => {
-          const isLast = i === data.recovery.length - 1;
-          return (
-            <li key={r.when} className={styles.recoveryRow}>
-              <span className={styles.recoveryWhen}>{r.when}</span>
-              <span className={styles.recoveryTrack}>
-                {/* --tone: 진입 시 .is-visible이 scaleX(0)→scaleX(var(--tone))로 채운다 */}
-                <span
-                  className={styles.recoveryFill}
-                  style={{ '--tone': r.tone } as CSSProperties}
-                />
-              </span>
-              <span className={styles.recoveryLabel}>{r.label}</span>
-              {isLast && mascot && (
-                <img
-                  className={styles.recoveryMascot}
-                  src={mascot}
-                  alt="숨통 마스코트 숨숨이"
-                  width={40}
-                  height={40}
-                  loading="lazy"
-                />
-              )}
-            </li>
-          );
-        })}
+        {data.recovery.map((r) => (
+          <li key={r.when} className={styles.recoveryRow}>
+            <span className={styles.recoveryWhen}>{r.when}</span>
+            <span className={styles.recoveryTrack}>
+              {/* --tone: 진입 시 .is-visible이 scaleX(0)→scaleX(var(--tone))로 채운다 */}
+              <span
+                className={styles.recoveryFill}
+                style={{ '--tone': r.tone } as CSSProperties}
+              />
+            </span>
+            <span className={styles.recoveryLabel}>{r.label}</span>
+          </li>
+        ))}
       </ul>
     </div>
   );
