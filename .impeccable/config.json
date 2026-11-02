@@ -11,6 +11,15 @@
         ],
         "createdAt": "2026-11-02T13:08:39.995Z",
         "reason": "pre-existing .accent headline treatment shared by all 12 services, has solid-color fallback; not introduced by soomtong work"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/sections/PromoSection.module.css"
+        ],
+        "createdAt": "2026-11-02T13:14:01.318Z",
+        "reason": "pre-existing 로픽 .clause left-border color-codes legal clauses 주의(yellow)/안전(green) — semantic risk indicator, not decorative; predates this session, unrelated to soomtong work"
       }
     ]
   }
