@@ -25,6 +25,13 @@ const ICON_MAP: Record<string, string> = {
   straighten: '📐',
   verified: '✅',
   photo_library: '🖼️',
+  // facePreview
+  photo_camera_front: '🤳',
+  lock: '🔒',
+  // 숨통(금연)
+  timer: '⏱️',
+  self_improvement: '🧘',
+  ecg_heart: '💚',
 };
 
 export function iconFor(name: string): string {

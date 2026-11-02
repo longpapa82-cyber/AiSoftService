@@ -14,6 +14,7 @@ import fitsnapIcon from '../assets/services/fitsnap-icon.png';
 import doranIcon from '../assets/services/doran-icon.png';
 import shortkitIcon from '../assets/services/shortkit-icon.png';
 import facepreviewIcon from '../assets/services/facepreview-icon.png';
+import soomtongIcon from '../assets/services/soomtong-icon.png';
 // 숏킷: 홍보웹 Hero의 실제 앱 "유튜브 URL 입력 홈 화면" — 폰 목업(shot)으로 우측 비주얼 재현.
 // (홍보웹 longpapa82-cyber.github.io/shortkit-web/shots/home.webp와 SHA 동일, 720×1498)
 // "링크만 붙여넣으면"이라는 핵심 카피와 정합 — 서비스 진입점(URL 입력)을 보여준다.
@@ -47,6 +48,10 @@ import fitsnapAfter from '../assets/promo/fitsnap/model/after.webp';
 // (facePreview 앱 editorial 샘플 ba-before/ba-after를 webp로 반입 — 홍보 데모 자산.)
 import facepreviewBefore from '../assets/promo/facepreview/before.webp';
 import facepreviewAfter from '../assets/promo/facepreview/after.webp';
+// 숨통: "숨숨이" 마스코트(투명 배경 WebP) — 우측 히어로 일러스트(myToday 새싹·로픽 부엉이와 동일 취급).
+// 앱/홍보웹 Mascot 컴포넌트(react-native-svg → web svg 포팅)의 cheer·tone=1 룩을
+// 결정론적 SVG로 재현해 2배 해상도로 캡처(body #5EEAD4). 애니/레이아웃 간섭 없는 정적 자산.
+import soomtongMascot from '../assets/promo/soomtong/mascot.webp';
 // 도란도란: "도란이" 마스코트는 정적 이미지 대신 벡터 컴포넌트(DoraniMascot)로 렌더한다.
 // (홍보웹 dorani.js를 JSX로 이식 — promo.mascotComponent:'dorani' + PromoSection 분기)
 
@@ -1366,6 +1371,85 @@ export const SERVICES: AppService[] = [
         '전·후 비교 이미지는 AI가 생성한 모델 샘플이며 실존 인물이 아닙니다. 미리보기 결과는 AI가 생성한 예상 이미지로 실제와 다를 수 있으며, 재미로 즐기는 엔터테인먼트 콘텐츠입니다.',
     },
     order: 11,
+  },
+  {
+    id: 'soomtong',
+    name: '숨통',
+    tagline: '막혔던 일상에 맑은 숨을 틔우다',
+    description:
+      '실시간 금연 타이머로 절약한 금액·참은 개비·되찾은 시간을 한눈에 확인하고, 흡연 충동이 올 땐 4-7-8 긴급 호흡으로 넘기는 금연 관리 앱. 실수로 피워도 좌절 없이 다시 이어갈 수 있어요. 마스코트 "숨숨이"와 함께 맑은 숨을 되찾아 보세요.',
+    status: 'coming_soon',
+    moodLabel: 'Fresh Breath',
+    emoji: '🌿',
+    iconUrl: soomtongIcon,
+    links: {
+      // 앱은 출시 전(Android 먼저 출시 목표, 스토어 미제출)이라 coming_soon — 스토어 배지는 "준비 중".
+      // 홍보 웹(Next.js, Vercel)은 라이브이므로 유일한 활성 CTA로 연결한다.
+      web: 'https://soomtong-app.vercel.app',
+      androidPending: true,
+    },
+    theme: {
+      surface: '#ffffff',
+      ink: '#191f28',
+      inkSoft: '#4e5968',
+      primary: '#00c2a0',
+      accent: '#ffb21e',
+      gradient: 'linear-gradient(135deg, #ddfbf4 0%, #f0f6ff 55%, #fff4cc 100%)',
+      // 앱과 동일 폰트: Jua(둥근 한글 디스플레이) / Pretendard(본문).
+      font: "'Jua', 'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      onPrimary: '#ffffff',
+    },
+    features: [
+      {
+        icon: 'timer',
+        title: '실시간 보상 추적',
+        desc: '금연 타이머로 절약한 금액·참은 개비·되찾은 시간을 초 단위로 체감해요.',
+      },
+      {
+        icon: 'self_improvement',
+        title: 'SOS 긴급 호흡',
+        desc: '충동이 오면 4-7-8 호흡 가이드로 3분을 넘겨요. 트리거를 기록해 패턴도 분석해요.',
+      },
+      {
+        icon: 'ecg_heart',
+        title: '의학 회복 타임라인',
+        desc: 'WHO 기준 신체 회복 단계(20분~1년)를 따라가며 마일스톤 뱃지를 모아요.',
+      },
+    ],
+    promo: {
+      kicker: '금연 라이프스타일',
+      headline: '막혔던 일상에\n맑은 숨을 ',
+      headlineAccent: '틔우다',
+      // description(카드·noscript용 정의형)과 구분되는 히어로 행동유도형 카피(중복 방지).
+      subcopy:
+        '금연 타이머로 절약한 금액과 되찾은 시간을 눈으로 확인하고, 충동이 올 땐 긴급 호흡으로 넘겨요. 실수해도 좌절 없이 다시 이어가는, 압박 없는 금연 동반자예요.',
+      // 숨통 web: 민트 그라디언트(#5EDFC6→#00C2A0) + 보상 골드 #FFB21E, 밝은 헬스케어 톤.
+      palette: {
+        bg: '#f0f6ff',
+        heroGradient: 'linear-gradient(160deg, #5edfc6 0%, #00c2a0 100%)',
+        surface: '#ffffff',
+        primary: '#00c2a0',
+        accent: '#ffb21e',
+        ink: '#191f28',
+        inkSoft: '#4e5968',
+        onPrimary: '#ffffff',
+      },
+      // 앱 실제 폰트 재현: 디스플레이=Jua(둥근 한글), 본문=Pretendard.
+      fontDisplay: "'Jua', 'Noto Sans KR', system-ui, sans-serif",
+      fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
+      radius: 24,
+      motif: 'none',
+      // 앱/홍보웹 히어로의 "숨숨이" 마스코트(cheer) — 우측 비주얼 상단 원형 프레임.
+      mascot: soomtongMascot,
+      highlights: [
+        { value: '초 단위', label: '실시간 타이머', icon: 'timer' },
+        { value: '4-7-8', label: '긴급 호흡', icon: 'self_improvement' },
+        { value: 'WHO 기준', label: '회복 타임라인', icon: 'ecg_heart' },
+      ],
+      disclaimer:
+        '금연 성과 수치(절약 금액·되찾은 시간)와 신체 회복 타임라인은 일반적 기준에 따른 추정이며 개인차가 있습니다. 의학적 효과를 보장하지 않으며, 금연 치료가 필요한 경우 전문가와 상담하세요.',
+    },
+    order: 12,
   },
 ];
 
