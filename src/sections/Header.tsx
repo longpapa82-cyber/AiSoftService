@@ -24,6 +24,9 @@ const SCROLL_THRESHOLD = 24;
  */
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
+  // 다크 무대(히어로/Technology/푸터 — [data-header-dark]) 위에 떠 있는지.
+  // 초기 true: 첫 페인트가 다크 히어로 위라 라이트 글씨로 시작해야 깜빡임이 없다.
+  const [onDark, setOnDark] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   const progress = useScrollProgress();
 
@@ -34,7 +37,36 @@ export function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const headerClass = [styles.header, scrolled ? styles.scrolled : '']
+  // 헤더 톤 적응: 뷰포트를 상단 스트립(위 10% ≈ 헤더 높이)으로 축소한 IO로
+  // 지금 헤더 뒤에 있는 섹션이 다크([data-header-dark])인지 감지한다.
+  useEffect(() => {
+    const darkSections = Array.from(
+      document.querySelectorAll('[data-header-dark]'),
+    );
+    if (darkSections.length === 0) {
+      setOnDark(false);
+      return;
+    }
+    const intersecting = new Set<Element>();
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) intersecting.add(entry.target);
+          else intersecting.delete(entry.target);
+        }
+        setOnDark(intersecting.size > 0);
+      },
+      { rootMargin: '0px 0px -90% 0px', threshold: 0 },
+    );
+    darkSections.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  const headerClass = [
+    styles.header,
+    scrolled ? styles.scrolled : '',
+    onDark ? styles.onDark : '',
+  ]
     .filter(Boolean)
     .join(' ');
 

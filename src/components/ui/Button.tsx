@@ -11,6 +11,8 @@ type CommonProps = {
   variant?: ButtonVariant;
   /** 좌측 아이콘/이모지 슬롯 */
   icon?: ReactNode;
+  /** 다크 무대(딥 네이비 히어로 등) 위 배치 — primary는 골드 일렉트릭으로 반전 */
+  onDark?: boolean;
   children: ReactNode;
 };
 
@@ -35,9 +37,15 @@ function isExternal(href: string): boolean {
  * 외부 링크(http/https)는 자동으로 target/rel을 안전하게 설정한다.
  */
 export function Button(props: ButtonProps) {
-  const { variant = 'primary', icon, children, className, ...rest } = props;
+  const { variant = 'primary', icon, onDark, children, className, ...rest } =
+    props;
 
-  const classNames = [styles.base, styles[variant], className]
+  const classNames = [
+    styles.base,
+    styles[variant],
+    onDark ? styles.onDark : '',
+    className,
+  ]
     .filter(Boolean)
     .join(' ');
 

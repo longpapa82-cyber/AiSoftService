@@ -110,6 +110,7 @@ export function Hero() {
       ref={heroRef}
       className={styles.hero}
       aria-labelledby="hero-heading"
+      data-header-dark
     >
       {/* 배경: 웜크림 베이스 + 대각 골드 그라데이션(느린 드리프트). 장식, 스크린리더 무시.
           "Living Silicon" — 다층 오로라 + 신경망 파티클 필드 + 회로 빔으로 연산 중인 시스템 인상. */}
@@ -118,6 +119,7 @@ export function Hero() {
         <span className={styles.gradGlow2} />
         <ParticleField
           className={styles.field}
+          dark
           density={72}
           signalRatio={0.26}
           speed={1.5}
@@ -201,10 +203,10 @@ export function Hero() {
             </dl>
 
             <div className={styles.actions}>
-              <Button href={promoHref} variant="primary">
+              <Button href={promoHref} variant="primary" onDark>
                 서비스 둘러보기
               </Button>
-              <Button href="#about" variant="ghost">
+              <Button href="#about" variant="ghost" onDark>
                 에이아이소프트 소개
               </Button>
             </div>
@@ -221,41 +223,52 @@ export function Hero() {
                 <span className={styles.previewTagline}>일상을 잇는 AI 앱</span>
               </div>
               <ul className={styles.previewGrid}>
-                {SERVICES_SORTED.map((service, i) => (
-                <li
-                  key={service.id}
-                  className={styles.previewCard}
-                  style={
-                    {
-                      '--card-accent': service.theme.primary,
-                      '--card-i': String(i),
-                    } as CSSProperties
-                  }
-                >
-                  <a
-                    href={service.promo ? `#promo-${service.id}` : '#main'}
-                    className={styles.previewLink}
-                  >
-                    <span className={styles.previewIconWrap}>
-                      <img
-                        className={styles.previewIcon}
-                        src={service.iconUrl}
-                        alt=""
-                        width={40}
-                        height={40}
-                        loading="eager"
-                        decoding="async"
-                        aria-hidden="true"
-                      />
-                      <span
-                        className={styles.previewDot}
-                        aria-hidden="true"
-                      />
-                    </span>
-                    <span className={styles.previewName}>{service.name}</span>
-                  </a>
-                </li>
-                ))}
+                {SERVICES_SORTED.map((service, i) => {
+                  // 벤토 리듬: 대표(첫)·최신(막) 서비스는 2열 와이드 셀 + 태그라인 노출.
+                  const isWide = i === 0 || i === SERVICES_SORTED.length - 1;
+                  return (
+                    <li
+                      key={service.id}
+                      className={`${styles.previewCard} ${isWide ? styles.previewCardWide : ''}`}
+                      style={
+                        {
+                          '--card-accent': service.theme.primary,
+                          '--card-i': String(i),
+                        } as CSSProperties
+                      }
+                    >
+                      <a
+                        href={service.promo ? `#promo-${service.id}` : '#main'}
+                        className={styles.previewLink}
+                      >
+                        <span className={styles.previewIconWrap}>
+                          <img
+                            className={styles.previewIcon}
+                            src={service.iconUrl}
+                            alt=""
+                            width={40}
+                            height={40}
+                            loading="eager"
+                            decoding="async"
+                            aria-hidden="true"
+                          />
+                          <span
+                            className={styles.previewDot}
+                            aria-hidden="true"
+                          />
+                        </span>
+                        <span className={styles.previewName}>
+                          {service.name}
+                        </span>
+                        {isWide && (
+                          <span className={styles.previewCardTagline}>
+                            {service.tagline}
+                          </span>
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </aside>

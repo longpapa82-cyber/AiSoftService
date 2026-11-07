@@ -388,6 +388,90 @@
   /* --scroll은 rAF로 매 프레임 갱신되므로 transition 없이 즉시 반영 */
 }
 
+/* ══ v9 Deep Tech: onDark 톤 적응 ═══════════════════════════════════
+ * 다크 무대([data-header-dark] = 히어로/Technology/푸터) 위에 헤더가 떠 있을 때
+ * 잉크 → 웜화이트로 반전 + 다크 글래스. 라이트 룸 위에선 기존 스타일 그대로.
+ */
+.onDark .logoText {
+  color: var(--ais-dark-text);
+}
+.onDark .logoTag {
+  color: var(--ais-dark-text-soft);
+  border-left-color: rgba(255, 255, 255, 0.18);
+}
+.onDark .navLink {
+  color: var(--ais-dark-text-soft);
+}
+.onDark .navLink:hover,
+.onDark .navLink:focus-visible,
+.onDark .navLink:active {
+  color: var(--ais-dark-text);
+}
+.onDark .navLink::after {
+  background: var(--ais-gold);
+}
+.onDark .navLink:focus-visible {
+  outline-color: var(--ais-gold);
+}
+/* 다크 무대 위 CTA — 골드 일렉트릭(히어로 primary 버튼과 동일 문법) */
+.onDark .navCta {
+  color: #1a1200;
+  border-color: var(--ais-gold);
+  background: var(--ais-gold);
+}
+.onDark .navCta:hover {
+  border-color: #fde047;
+  background: #fde047;
+  box-shadow: var(--ais-neon-gold);
+}
+.onDark .navCta:focus-visible {
+  outline-color: var(--ais-gold);
+}
+.onDark.scrolled {
+  background: var(--ais-glass-dark-nav);
+  border-bottom-color: var(--ais-glass-dark-border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+.onDark.scrolled::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.16),
+    transparent
+  );
+}
+.onDark .menuBtn {
+  border-color: var(--ais-glass-dark-border);
+  background: var(--ais-glass-dark-bg);
+}
+.onDark .menuIcon,
+.onDark .menuIcon::before,
+.onDark .menuIcon::after {
+  background: var(--ais-dark-text);
+}
+.onDark .menuIconOpen {
+  background: transparent;
+}
+.onDark .mobilePanel {
+  background: var(--ais-glass-dark-nav);
+  border-bottom-color: var(--ais-glass-dark-border);
+}
+.onDark .mobileLink {
+  color: var(--ais-dark-text-soft);
+  border-bottom-color: var(--ais-glass-dark-border);
+}
+.onDark .mobileLink:hover,
+.onDark .mobileLink:focus-visible,
+.onDark .mobileLink:active {
+  color: var(--ais-dark-text);
+}
+.onDark .mobileLink::before {
+  background: var(--ais-gold);
+}
+.onDark .progressFill {
+  background: var(--ais-gold);
+}
+
 /* ── reduced-motion 가드: 모션 최소화 시 transform/translate 무효화 ── */
 @media (prefers-reduced-motion: reduce) {
   .logo:hover .logoMark,

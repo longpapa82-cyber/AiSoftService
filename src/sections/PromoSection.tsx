@@ -105,6 +105,8 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
       className={sectionClass}
       style={themeVars}
       aria-labelledby={`promo-${service.id}-title`}
+      // 다크 테마 룸 위에선 고정 헤더가 라이트 글씨로 적응(Header onDark IO 감지 대상)
+      data-header-dark={promo.dark ? '' : undefined}
     >
       {/* 실사 히어로 배경 (있으면) — 각 서비스 홈의 실제 사진. 오버레이로 가독성 확보 */}
       {promo.heroImage && (

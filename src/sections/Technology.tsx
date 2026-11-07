@@ -204,6 +204,7 @@ export function Technology() {
       id="technology"
       className={styles.section}
       aria-labelledby="technology-heading"
+      data-header-dark
     >
       {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
       <span className={styles.stream} aria-hidden="true" />

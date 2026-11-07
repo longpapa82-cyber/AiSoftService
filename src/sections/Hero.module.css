@@ -1,9 +1,9 @@
 /*
- * Hero — 정통 프리미엄 기업 히어로 (Stripe/Linear 풍).
- * 웜크림 베이스 + 우상단으로 흐르는 대각 골드 그라데이션(느린 드리프트).
- * 좌 대형 슬로건 카피 + 신뢰지표 통계 행, 우 전체 서비스 절제 로고 프리뷰.
- * 게임 HUD(LV/XP/PRESS START/UNLOCKED/부유 오브/코너 브래킷/스캔라인)는 전면 제거.
- * 화려함 = 큰 타이포 + "AI" 그라데이션 클립. 모션은 transform/opacity만.
+ * Hero — v9 "Deep Tech Stage" (Vercel/Linear 2026 벤치마크 · 2026-11-07 사용자 결정).
+ * 딥 스페이스 네이비 무대 + 골드 일렉트릭 + 오로라 글로우 + 신경망/회로.
+ * 좌 대형 슬로건 카피(키네틱 라이즈) + HUD 신뢰지표, 우 벤토 글래스 서비스 그리드.
+ * 다크 무대 → 밝은 서비스 브랜드 룸 전환이 랜딩의 극적 리듬을 만든다.
+ * 모션은 transform/opacity/clip-path만.
  */
 .hero {
   position: relative;
@@ -12,15 +12,14 @@
   display: flex;
   align-items: center;
   overflow: hidden;
-  background: var(--ais-cream);
+  background: var(--ais-dark-bg);
   padding-top: clamp(6rem, 11vh, 9rem);
   padding-bottom: clamp(3rem, 6vh, 5rem);
 }
 
-/* 하단 전환 존 — 화이트 Hero에서 다음 서비스 섹션으로 눈이 부드럽게
-   넘어가도록, 섹션 최하단을 뉴트럴 그레이(cream-3)로 살짝 가라앉힌다.
-   배경 레이어(z-index -1)라 콘텐츠에 영향 없음 + 첫 서비스 PromoSection의
-   ::before 페더(--p-bg 기반)와 이중으로 경계를 녹인다. */
+/* 하단 전환 존 — 다크 무대가 더 깊게 가라앉으며 끝나고, 바로 아래 첫 서비스
+   브랜드 룸(라이트)이 "조명 켜지듯" 등장한다. 경계의 골드 헤어라인이
+   무대 프레임 역할(섹션 경계 연출). */
 .hero::after {
   content: '';
   position: absolute;
@@ -30,11 +29,8 @@
   height: clamp(4rem, 10vh, 8rem);
   z-index: -1;
   pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    color-mix(in srgb, var(--ais-cream-3) 60%, transparent) 100%
-  );
+  background: linear-gradient(to bottom, transparent 0%, rgba(4, 6, 12, 0.7) 100%);
+  border-bottom: 1px solid rgba(250, 204, 21, 0.28);
 }
 
 /* ── 배경 레이어: 화이트 + 대각 블루 그라데이션 ── */
@@ -48,7 +44,9 @@
   isolation: isolate;
 }
 
-/* 우상단 앰비언트 글로우 — accent 감사: 블루 그라데이션 → 뉴트럴 그레이 라디얼(장식 분위기만). */
+/* 우상단 오로라 글로우 — v9 Deep Tech: 다크 무대 위 한색(쿨 블루) 앰비언트.
+   Aurora UI(2026 트렌드) — 대형 라디얼이 느리게 드리프트. accent는 여전히 골드 단일,
+   이 레이어는 분위기 전용(--ais-aurora-cool 저알파). */
 .gradGlow {
   position: absolute;
   top: -30%;
@@ -62,8 +60,8 @@
      대형 blur는 GPU 오프스크린 표면을 크게 유지해 비쌈. stop 감쇠로 대체. */
   background: radial-gradient(
     circle,
-    rgba(0, 0, 0, 0.06) 0%,
-    rgba(0, 0, 0, 0.03) 45%,
+    var(--ais-aurora-cool) 0%,
+    rgba(96, 165, 250, 0.06) 45%,
     transparent 78%
   );
   opacity: 0.8;
@@ -188,7 +186,7 @@
   }
 }
 
-/* 얇은 hairline 1겹 — 상단 경계에 정통 제품페이지 디테일 */
+/* 얇은 hairline 1겹 — 다크 무대 상단 경계(화이트 저알파) */
 .hairline {
   position: absolute;
   left: 0;
@@ -198,8 +196,8 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    var(--ais-warm-border-strong) 30%,
-    var(--ais-warm-border-strong) 70%,
+    rgba(255, 255, 255, 0.14) 30%,
+    rgba(255, 255, 255, 0.14) 70%,
     transparent 100%
   );
   opacity: 0.7;
@@ -242,18 +240,44 @@
   text-align: left;
 }
 
-/* 아이브로 — 작은 대문자 뉴트럴 그레이(accent 감사: 블루 제거 → 보조 라벨은 중립). */
+/* 아이브로 — v9: 다크 무대 위 골드 시그널 라벨(시스템 온라인 인상) + 발광 점. */
 .eyebrow {
   margin: 0 0 var(--ais-space-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--ais-font-mono);
   font-size: var(--ais-text-eyebrow);
   font-weight: 700;
   letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
-  color: var(--ais-text-mid);
+  color: var(--ais-dark-accent);
 }
 
-/* 헤드라인 — 초대형 디스플레이. v4: weight 800 강렬화(글로벌 테크 헤드라인). */
+/* 라이브 신호 점 — 숨쉬는 골드 점(시스템 가동 중) */
+.eyebrow::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ais-gold);
+  box-shadow: 0 0 10px rgba(250, 204, 21, 0.8);
+  animation: heroPulse var(--ais-dur-breathe) ease-in-out infinite;
+}
+
+@keyframes heroPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+
+/* 헤드라인 — 초대형 디스플레이, 다크 무대 위 웜화이트. */
 .headline {
   margin: 0;
   font-family: var(--ais-font-display);
@@ -261,7 +285,7 @@
   font-weight: 800;
   letter-spacing: var(--ais-tracking-display);
   line-height: 1.02;
-  color: var(--ais-text);
+  color: var(--ais-dark-text);
   text-wrap: balance;
 }
 
@@ -274,14 +298,18 @@
   letter-spacing: var(--ais-tracking-display);
 }
 
-/* 슬로건 단어별 진입 리빌(transform/opacity만). reveal 컨테이너 가시화 후 stagger. */
+/* 슬로건 단어별 키네틱 라이즈(2026 키네틱 타이포) — clip-path 베이스라인 리빌 +
+   translateY 상승. 단어가 "바닥선에서 떠오르는" 인상(transform/opacity/clip-path만). */
 .word {
   display: inline-block;
   opacity: 0;
-  transform: translateY(14px);
+  transform: translateY(0.55em);
+  /* 아래에서 잘려 올라오는 클립 — 최종 상태는 여유 inset(디센더/자간 보존) */
+  clip-path: inset(-0.2em -0.1em 100% -0.1em);
   transition:
-    opacity var(--ais-dur) var(--ais-ease-expo),
-    transform var(--ais-dur) var(--ais-ease-expo);
+    opacity var(--ais-dur-slow) var(--ais-ease-expo),
+    transform var(--ais-dur-slow) var(--ais-ease-expo),
+    clip-path var(--ais-dur-slow) var(--ais-ease-expo);
   transition-delay: calc(var(--word-i, 0) * 55ms + 90ms);
 }
 
@@ -315,6 +343,7 @@
 .copy:global(.is-visible) .word {
   opacity: 1;
   transform: none;
+  clip-path: inset(-0.2em -0.1em -0.25em -0.1em);
 }
 
 .sub {
@@ -323,7 +352,7 @@
   font-family: var(--ais-font-body);
   font-size: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
   line-height: var(--ais-leading-relaxed);
-  color: var(--ais-text-mid);
+  color: var(--ais-dark-text-soft);
 }
 
 /* ── 신뢰지표 통계 행 (게임칩 대체) ── */
@@ -347,8 +376,8 @@
   display: inline-block;
 }
 
-/* v5 색 뺄셈: 통계 언더라인을 블루→near-black 뉴트럴로(블루는 "AI" 시그니처에만 집중).
-   Hero 카피(.copy) 가시화 시 좌→우로 scaleX(컴포지터 친화). */
+/* v9 HUD 신뢰지표: 골드 언더라인이 좌→우 드로우(시스템 게이지 아님 — 밑줄 1개 절제).
+   Hero 카피(.copy) 가시화 시 scaleX(컴포지터 친화). */
 .trustValueWrap::after {
   content: '';
   position: absolute;
@@ -357,7 +386,7 @@
   width: 100%;
   height: 2px;
   border-radius: 2px;
-  background: var(--ais-text);
+  background: var(--ais-gold);
   transform: scaleX(0);
   transform-origin: left;
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
@@ -375,7 +404,7 @@
   font-weight: 700;
   letter-spacing: -0.01em;
   line-height: 1;
-  color: var(--ais-text);
+  color: var(--ais-dark-text);
 }
 
 .trustLabel {
@@ -384,20 +413,15 @@
   font-size: var(--ais-text-eyebrow);
   font-weight: 600;
   letter-spacing: var(--ais-tracking-wide);
-  color: var(--ais-text-soft);
+  color: var(--ais-dark-text-soft);
 }
 
-/* 항목 사이 얇은 세로 divider — accent 감사: 상단 블루 페이드 제거 → 뉴트럴 보더 그라데이션. */
+/* 항목 사이 얇은 세로 divider — 다크 무대 화이트 저알파. */
 .trustDivider {
   align-self: stretch;
   width: 1px;
-  background: linear-gradient(
-    to bottom,
-    var(--ais-warm-border-strong) 0%,
-    var(--ais-warm-border-strong) 45%,
-    var(--ais-warm-border-strong) 100%
-  );
-  opacity: 0.8;
+  background: rgba(255, 255, 255, 0.16);
+  opacity: 0.9;
 }
 
 .actions {
@@ -419,8 +443,8 @@
   transition: transform 0.4s var(--ais-ease-expo);
 }
 
-/* 옅은 웜 패널 앵커링 — 프리뷰 그리드를 하나의 표면으로 묶어 부유감 제거.
-   PCB 도트 질감 + 얇은 웜 보더로 정통 제품페이지 카드 프레임. */
+/* 글래스 패널(v9 Deep Tech) — 다크 무대 위 반투명 유리판 + 화이트 헤어라인.
+   PCB 도트 질감 유지(화이트 저알파). 2026 글래스모피즘: blur는 이 패널 1곳만. */
 .previewPanel {
   position: relative;
   isolation: isolate;
@@ -429,12 +453,14 @@
   overflow: hidden;
   padding: var(--ais-space-sm);
   border-radius: var(--ais-radius-lg);
-  border: 1px solid var(--ais-warm-border);
-  background: var(--ais-warm-surface);
-  box-shadow: var(--ais-shadow-ambient);
+  border: 1px solid var(--ais-glass-dark-border);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* 패널 배경 회로 도트 — 반도체 PCB 질감(잉크 수준으로 절제, 콘텐츠 아님) */
+/* 패널 배경 회로 도트 — 반도체 PCB 질감(다크 위 화이트 도트, 잉크 수준 절제) */
 .previewPanel::before {
   content: '';
   position: absolute;
@@ -442,11 +468,11 @@
   inset: 0;
   border-radius: inherit;
   background-image: radial-gradient(
-    rgba(0, 0, 0, 0.5) 0.5px,
+    rgba(255, 255, 255, 0.7) 0.5px,
     transparent 0.5px
   );
   background-size: 16px 16px;
-  opacity: 0.06;
+  opacity: 0.08;
   /* 도트를 가장자리로 갈수록 페이드 — 프레임 안쪽만 은은하게 */
   -webkit-mask: radial-gradient(120% 100% at 50% 0%, #000 40%, transparent 100%);
   mask: radial-gradient(120% 100% at 50% 0%, #000 40%, transparent 100%);
@@ -513,8 +539,7 @@
   font-weight: 700;
   letter-spacing: var(--ais-tracking-wide);
   text-transform: uppercase;
-  /* accent 감사: 블루 잉크 키커 → 뉴트럴 그레이(보조 라벨 중립). */
-  color: var(--ais-text-mid);
+  color: var(--ais-dark-accent);
 }
 
 .previewTagline {
@@ -522,10 +547,11 @@
   font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.01em;
-  color: var(--ais-text-soft);
+  color: var(--ais-dark-text-soft);
   white-space: nowrap;
 }
 
+/* 벤토 그리드(2026 트렌드) — 균일 격자 대신 첫 칸(대표)·막 칸(최신)을 2열 와이드로. */
 .previewGrid {
   list-style: none;
   margin: 0;
@@ -533,6 +559,11 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--ais-space-sm);
+}
+
+/* 와이드 벤토 셀 — 대표(첫)·최신(막) 서비스. 태그라인 한 줄이 함께 노출된다. */
+.previewCardWide {
+  grid-column: span 2;
 }
 
 .previewCard {
@@ -563,25 +594,26 @@
   gap: var(--ais-space-xs);
   padding: var(--ais-space-sm);
   border-radius: var(--ais-radius-soft);
-  border: 1px solid var(--ais-warm-border);
-  background: var(--ais-cream);
-  box-shadow: var(--ais-shadow-hairline);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   text-decoration: none;
   transition:
     transform var(--ais-dur-fast) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
+    background-color var(--ais-dur-fast) var(--ais-ease-expo),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
 }
 
 .previewLink:hover {
   transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--card-accent) 45%, var(--ais-warm-border));
-  box-shadow: var(--ais-shadow-lift-warm);
+  border-color: color-mix(in srgb, var(--card-accent) 55%, rgba(255, 255, 255, 0.12));
+  background: rgba(255, 255, 255, 0.08);
+  /* 서비스 브랜드색 글로우 — 다크 무대에서 각 앱의 색이 점화되는 마이크로 인터랙션 */
+  box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--card-accent) 45%, transparent);
 }
 
 .previewLink:focus-visible {
-  /* accent 감사: 블루 포커스 아웃라인 → 뉴트럴 near-black. */
-  outline: 2px solid var(--ais-text);
+  outline: 2px solid var(--ais-gold);
   outline-offset: 3px;
 }
 
@@ -596,7 +628,7 @@
   height: 40px;
   border-radius: 11px;
   object-fit: cover;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
   /* 호버 마이크로 인터랙션 — 아이콘만 미세 팝(컴포지터 친화) */
   transition: transform var(--ais-dur) var(--ais-ease-spring);
 }
@@ -605,8 +637,7 @@
   transform: scale(1.08) rotate(-2deg);
 }
 
-/* 미니 표식 점 — accent 감사: 서비스 브랜드색 색점 → 뉴트럴 near-black(장식 중립).
-   호버 시 링크 보더의 서비스 틴트는 유지(--card-accent), 상시 노출되는 이 점만 중립화. */
+/* 미니 표식 점 — v9: 각 서비스 브랜드색 라이브 점(다크 무대 위 12앱의 불빛). */
 .previewDot {
   position: absolute;
   bottom: -3px;
@@ -614,9 +645,9 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--ais-text);
-  border: 2px solid var(--ais-warm-surface);
-  box-shadow: var(--ais-shadow-hairline);
+  background: var(--card-accent);
+  border: 2px solid var(--ais-dark-surface);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent) 60%, transparent);
 }
 
 .previewName {
@@ -624,8 +655,21 @@
   font-family: var(--ais-font-display);
   font-size: 0.95rem;
   font-weight: 600;
-  color: var(--ais-text);
+  color: var(--ais-dark-text);
   overflow-wrap: anywhere;
+}
+
+/* 벤토 와이드 셀 전용 — 서비스명 옆 태그라인 한 줄(절제된 소프트 톤) */
+.previewCardTagline {
+  min-width: 0;
+  margin-left: auto;
+  font-family: var(--ais-font-body);
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--ais-dark-text-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ── 스크롤 인디케이터 (절제된 hairline) ── */
@@ -638,12 +682,12 @@
   flex-direction: column;
   align-items: center;
   gap: var(--ais-space-2xs);
-  color: var(--ais-text-soft);
+  color: var(--ais-dark-text-soft);
   text-decoration: none;
   transition: color var(--ais-dur-fast) var(--ais-ease-expo);
 }
 .scrollHint:hover {
-  color: var(--ais-text-mid);
+  color: var(--ais-dark-text);
 }
 
 .scrollText {
@@ -660,7 +704,7 @@
   width: 20px;
   height: 32px;
   border-radius: var(--ais-radius-pill);
-  border: 1px solid var(--ais-warm-border-strong);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   background: transparent;
   overflow: hidden;
 }
@@ -671,8 +715,7 @@
   width: 3px;
   height: 7px;
   border-radius: 2px;
-  /* accent 감사: 블루 스크롤 썸 → 뉴트럴 near-black. */
-  background: var(--ais-text);
+  background: var(--ais-gold);
   transform: translateX(-50%);
   animation: scrollDrop 1.8s var(--ais-ease-expo) infinite;
 }
@@ -702,15 +745,36 @@
     transform: none;
   }
   /* 모바일 이중 테두리 완화: 외곽 패널 프레임을 시각적으로 후퇴시켜
-     패널 보더 + 카드 보더가 겹쳐 보이는 인상을 줄인다(웜 크림 배경 흡수). */
+     패널 보더 + 카드 보더가 겹쳐 보이는 인상을 줄인다(다크 무대 흡수).
+     backdrop blur도 함께 제거(모바일 GPU 비용 절감). */
   .previewPanel {
     background: transparent;
     border-color: transparent;
     box-shadow: none;
     padding-inline: 0;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
   .previewPanel::before {
-    opacity: 0.04;
+    opacity: 0.05;
+  }
+}
+
+/* ── 스크롤 드리븐 패럴랙스 (2026 CSS 네이티브 · progressive enhancement) ──
+   지원 브라우저에서만: 히어로를 지나 스크롤할 때 카피가 배경보다 느리게 밀려 올라가며
+   페이드(무대 깊이감). 미지원 환경은 아무 일도 없음(기존 IO reveal만). */
+@supports (animation-timeline: view()) {
+  .copy {
+    animation: heroCopyDrift linear both;
+    animation-timeline: view();
+    /* 히어로가 뷰포트 상단으로 빠져나가는 구간만 구동 */
+    animation-range: exit 0% exit 100%;
+  }
+  @keyframes heroCopyDrift {
+    to {
+      transform: translateY(72px);
+      opacity: 0.25;
+    }
   }
 }
 
@@ -767,7 +831,14 @@
   .word {
     opacity: 1;
     transform: none;
+    clip-path: none;
     transition: none;
+  }
+  .eyebrow::before {
+    animation: none !important;
+  }
+  .copy {
+    animation: none !important;
   }
   .scrollThumb {
     animation: none !important;

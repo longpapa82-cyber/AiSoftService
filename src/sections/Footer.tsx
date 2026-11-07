@@ -24,7 +24,7 @@ export function Footer() {
   const ref = useReveal<HTMLElement>();
 
   return (
-    <footer ref={ref} className={`${styles.footer} reveal`}>
+    <footer ref={ref} className={`${styles.footer} reveal`} data-header-dark>
       {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
       <span className={styles.stream} aria-hidden="true" />
       {/* "System Panel Online" — 다크 배경 위 경량 신경망 파티클(연산 잔열 인상).

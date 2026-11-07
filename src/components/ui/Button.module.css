@@ -101,6 +101,39 @@
   transform: translateY(1px);
 }
 
+/* ── onDark: 다크 무대(딥 네이비 히어로) 위 배치 ──
+ * primary = 골드 일렉트릭 채움 + near-black 글씨(다크 위 노랑 대비 12+), hover 골드 글로우.
+ * ghost   = 웜화이트 텍스트, hover 화이트 글래스 워시.
+ */
+.onDark.primary {
+  --btn-fg: #1a1200;
+  background-color: var(--ais-gold);
+  border-color: var(--ais-gold);
+  box-shadow: 0 8px 28px rgba(250, 204, 21, 0.22);
+}
+.onDark.primary:hover {
+  background-color: #fde047;
+  box-shadow: var(--ais-neon-gold), 0 14px 36px rgba(250, 204, 21, 0.3);
+}
+.onDark.ghost {
+  color: var(--ais-dark-text-soft);
+}
+.onDark.ghost:hover {
+  color: var(--ais-dark-text);
+  background: rgba(255, 255, 255, 0.08);
+}
+.onDark.outline {
+  border-color: var(--ais-glass-dark-border);
+  color: var(--ais-dark-text);
+  background: rgba(255, 255, 255, 0.06);
+}
+.onDark.outline:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--ais-dark-text);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .base:hover,
   .base:active {

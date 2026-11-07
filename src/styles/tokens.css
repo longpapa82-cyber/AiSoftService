@@ -44,10 +44,12 @@
   --ais-border: rgba(0, 0, 0, 0.08);
   --ais-border-strong: rgba(0, 0, 0, 0.12);
 
-  /* ── 잉크 (v4: near-black — OpenAI/Anthropic 기준, 네이비 섞임 폐기) ── */
-  /* --ais-navy: 다크 앵커 섹션 배경으로 재정의(near-black). Footer/Header CTA 등 참조 자동 전환. */
-  --ais-navy: #0f0f0f;
-  --ais-navy-2: #1a1a1a;
+  /* ── 잉크 ── */
+  /* --ais-navy: 다크 앵커 섹션 배경(v9 Deep Tech: 딥 스페이스 네이비 — 2026-11-07 사용자
+     "미래지향·최신 기술" 결정. 뉴트럴 near-black → 우주/연산 네이비 틴트로 전환.
+     Footer/Header CTA/Technology 등 참조처 자동 전환). */
+  --ais-navy: #0b0f1a;
+  --ais-navy-2: #141a2b;
   --ais-text: #0a0a0a;
   --ais-text-mid: #5a5a5a; /* 중성 그레이 */
   --ais-text-soft: #7a7a7a;
@@ -63,9 +65,9 @@
   --ais-brand-grad: linear-gradient(135deg, #fde047 0%, #facc15 100%);
   --ais-glow: rgba(250, 204, 21, 0.38);
 
-  /* ── 다크 앵커 (v4 신규: Technology/Footer near-black + 시안 강렬 포인트) ── */
-  --ais-dark-bg: #0f0f0f;
-  --ais-dark-surface: #1a1a1a;
+  /* ── 다크 앵커 (v9 Deep Tech: Hero/Technology/Footer 딥 스페이스 네이비 무대) ── */
+  --ais-dark-bg: #0b0f1a;
+  --ais-dark-surface: #121829;
   --ais-dark-text: #ffffff;
   --ais-dark-text-soft: #b8b8b8;
   /* v8: 노랑 최대 강점 — 검은 배경 위 순노랑(#facc15 12.52 AA)이 가장 화려. */
@@ -76,6 +78,12 @@
   --ais-glass-bg: rgba(255, 255, 255, 0.7);
   --ais-glass-nav: rgba(255, 255, 255, 0.85);
   --ais-glass-border: rgba(0, 0, 0, 0.08);
+  /* v9 Deep Tech: 다크 무대(히어로/Technology/Footer) 위 글래스 — 헤더 onDark 등 */
+  --ais-glass-dark-bg: rgba(11, 15, 26, 0.55);
+  --ais-glass-dark-nav: rgba(11, 15, 26, 0.72);
+  --ais-glass-dark-border: rgba(255, 255, 255, 0.1);
+  /* v9: 다크 무대 오로라 보조 한색(앰비언트 전용 — accent는 여전히 골드 단일) */
+  --ais-aurora-cool: rgba(96, 165, 250, 0.14);
 
   /* 절제된 웜 골드 글로우 — StoreBadges 등 hover 강조에 사용(게임 잔재 아님). */
   --ais-neon-gold: 0 0 0 2px rgba(250, 204, 21, 0.22), 0 0 20px rgba(250, 204, 21, 0.35);
