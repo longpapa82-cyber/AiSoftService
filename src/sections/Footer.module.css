@@ -414,3 +414,8 @@
     animation: none !important;
   }
 }
+
+/* v11 럭셔리: 필름 그레인 — 배경 레이어(z -1, 콘텐츠 아래). .footer isolation과 쌍. */
+.grainLayer {
+  z-index: -1;
+}

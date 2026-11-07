@@ -303,6 +303,9 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
             ))}
           </>
         )}
+        {/* v11 럭셔리: 다크 브랜드 룸(6곳)에 셸과 동일한 필름 그레인 — decor 최후단(장식 위).
+            라이트 룸 제외(밝은 배경에선 그레인이 때처럼 보임). */}
+        {promo.dark && <span className="ais-grain" />}
       </div>
 
       {/* 여행 무드 이모지(Voice Buddy): 배경 blob 위·전경 콘텐츠 아래 별도 레이어.

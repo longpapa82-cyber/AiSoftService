@@ -27,6 +27,8 @@ export function Footer() {
     <footer ref={ref} className={`${styles.footer} reveal`} data-header-dark>
       {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
       <span className={styles.stream} aria-hidden="true" />
+      {/* v11 럭셔리: 필름 그레인(히어로·Technology와 동일 질감 언어) */}
+      <span className={`ais-grain ${styles.grainLayer}`} aria-hidden="true" />
       {/* "System Panel Online" — 다크 배경 위 경량 신경망 파티클(연산 잔열 인상).
           near-black에 맞춰 dark 변형, 노드 수는 Hero의 절반 이하. */}
       <ParticleField

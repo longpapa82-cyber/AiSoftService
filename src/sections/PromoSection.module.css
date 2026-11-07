@@ -755,7 +755,12 @@
   border-radius: 16px;
   background: var(--p-surface);
   border: 1px solid color-mix(in srgb, var(--p-primary) 16%, transparent);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--p-primary) 10%, transparent);
+  /* v11 럭셔리: 상단 inner 하이라이트(광원 좌상단 일관) — 칩이 표면에서 살짝 뜬 유리 톤.
+     라이트/다크 서피스 모두 동작(화이트 저알파). */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 4px 14px color-mix(in srgb, var(--p-primary) 10%, transparent),
+    0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .highlightValue {
@@ -926,12 +931,14 @@
   aspect-ratio: 9 / 19;
   padding: 10px;
   border-radius: 44px;
-  /* 다크 베젤 + Apple식 다층 뉴트럴 그림자(제품 반사광 느낌, 컬러 제거) */
+  /* 다크 베젤 + Apple식 다층 뉴트럴 그림자(제품 반사광 느낌, 컬러 제거).
+     v11: 베젤 상단 스펙큘러(광원 좌상단) — 금속 프레임이 빛 받는 모서리. */
   background: linear-gradient(150deg, #1f2630, #11151c);
   box-shadow:
     0 40px 80px -20px rgba(0, 0, 0, 0.28),
     0 16px 40px -12px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+    inset 0 0 0 2px rgba(255, 255, 255, 0.08),
+    inset 0 2px 1px -1px rgba(255, 255, 255, 0.22);
   transform: rotate(-2deg);
   /* Apple식 float — 감속 곡선 유지, duration을 늘려 무게감 있는 부양 */
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);

@@ -20,6 +20,15 @@
         ],
         "createdAt": "2026-11-02T13:14:01.318Z",
         "reason": "pre-existing 로픽 .clause left-border color-codes legal clauses 주의(yellow)/안전(green) — semantic risk indicator, not decorative; predates this session, unrelated to soomtong work"
+      },
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "src/sections/Hero.module.css"
+        ],
+        "createdAt": "2026-11-07T09:44:13.221Z",
+        "reason": "user confirmed: 사용자가 '더 고급스럽게' 명시 요청+AskUserQuestion 타이포·여백 방향 선택. 다크 무대 광원 일관성용 수직 그라데이션(색변화 아닌 조명 표현, 대비 AA 최저 12.84:1 통과). AI 클립은 기존 시그니처"
       }
     ]
   }

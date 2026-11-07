@@ -208,6 +208,9 @@ export function Technology() {
     >
       {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
       <span className={styles.stream} aria-hidden="true" />
+      {/* v11 럭셔리: 히어로와 동일 광원 언어 — 퍼플·틸 오로라(정적 앰비언트)+필름 그레인 */}
+      <span className={styles.aurora} aria-hidden="true" />
+      <span className={`ais-grain ${styles.grainLayer}`} aria-hidden="true" />
       {/* "Living Silicon" — 다크 앵커 위 골드 신경망(Footer와 동일 시각 언어).
           기술력 섹션이라 밀도·펄스를 Footer보다 살짝 높여 "연산 중" 인상 극대화. */}
       <ParticleField

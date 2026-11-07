@@ -99,6 +99,20 @@ img {
   left: 0;
 }
 
+/* v11 럭셔리: 필름 그레인 유틸 — SVG feTurbulence data URI(네트워크 0).
+   순수 그라데이션의 배너딩을 녹여 인쇄물 질감(Hero .grain과 동일 레시피).
+   z-index는 두지 않음 — 사용처에서 DOM 순서/모듈 클래스로 레이어 결정.
+   정적(모션 아님)이라 reduce-motion 무관. aria-hidden 필수. */
+.ais-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
 /* 공통 컨테이너 */
 .ais-container {
   width: 100%;
