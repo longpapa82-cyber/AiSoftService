@@ -705,6 +705,30 @@
   }
 }
 
+/* 시그니처 강조어 밑줄 드로우(v9 공통 모션) — 섹션 진입 시 브랜드 그라데이션
+   밑줄이 좌→우로 그어진다(scaleX, 컴포지터 온리). 12서비스 일괄 적용. */
+.accent {
+  position: relative;
+  display: inline-block;
+}
+.accent::after {
+  content: '';
+  position: absolute;
+  left: 0.03em;
+  right: 0.05em;
+  bottom: -0.06em;
+  height: 0.085em;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--p-primary), var(--p-accent));
+  opacity: 0.85;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--ais-ease-expo) 480ms;
+}
+.inner:global(.is-visible) .accent::after {
+  transform: scaleX(1);
+}
+
 .subcopy {
   margin: 0;
   max-width: 42ch;
@@ -731,7 +755,12 @@
   border-radius: 16px;
   background: var(--p-surface);
   border: 1px solid color-mix(in srgb, var(--p-primary) 16%, transparent);
-  box-shadow: 0 4px 14px color-mix(in srgb, var(--p-primary) 10%, transparent);
+  /* v11 럭셔리: 상단 inner 하이라이트(광원 좌상단 일관) — 칩이 표면에서 살짝 뜬 유리 톤.
+     라이트/다크 서피스 모두 동작(화이트 저알파). */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 4px 14px color-mix(in srgb, var(--p-primary) 10%, transparent),
+    0 1px 3px rgba(0, 0, 0, 0.06);
 }
 
 .highlightValue {
@@ -771,6 +800,31 @@
 .visual {
   display: flex;
   justify-content: center;
+  /* v9 공통 모션: 비주얼이 카피보다 140ms 늦게, 살짝 아래·축소에서 무게감 있게 진입.
+     (내부 제품의 scroll-driven translate/rotate/scale 개별 프로퍼티와 축 분리 — 비충돌) */
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo) 140ms,
+    transform var(--ais-dur-slow) var(--ais-ease-expo) 140ms;
+}
+.inner:global(.is-visible) .visual {
+  opacity: 1;
+  transform: none;
+}
+
+/* motif 배경 점등(v9) — 섹션 진입 시 배경 장식이 콘텐츠보다 늦게 페이드인:
+   "브랜드 룸 조명이 켜지는" 인상. :has 미지원 브라우저는 항상 켜짐(무해 폴백). */
+@supports selector(:has(*)) {
+  .decor,
+  .travelDecor {
+    opacity: 0;
+    transition: opacity 0.9s var(--ais-ease-expo) 220ms;
+  }
+  .section:has(.inner:global(.is-visible)) .decor,
+  .section:has(.inner:global(.is-visible)) .travelDecor {
+    opacity: 1;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -877,12 +931,14 @@
   aspect-ratio: 9 / 19;
   padding: 10px;
   border-radius: 44px;
-  /* 다크 베젤 + Apple식 다층 뉴트럴 그림자(제품 반사광 느낌, 컬러 제거) */
+  /* 다크 베젤 + Apple식 다층 뉴트럴 그림자(제품 반사광 느낌, 컬러 제거).
+     v11: 베젤 상단 스펙큘러(광원 좌상단) — 금속 프레임이 빛 받는 모서리. */
   background: linear-gradient(150deg, #1f2630, #11151c);
   box-shadow:
     0 40px 80px -20px rgba(0, 0, 0, 0.28),
     0 16px 40px -12px rgba(0, 0, 0, 0.18),
-    inset 0 0 0 2px rgba(255, 255, 255, 0.08);
+    inset 0 0 0 2px rgba(255, 255, 255, 0.08),
+    inset 0 2px 1px -1px rgba(255, 255, 255, 0.22);
   transform: rotate(-2deg);
   /* Apple식 float — 감속 곡선 유지, duration을 늘려 무게감 있는 부양 */
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
@@ -2967,42 +3023,234 @@
   }
 }
 
-/* ══════════════════════════════════════════════════════════════
- * v12 모션 복구 (2026-11-07 사용자 "모션·효과는 유지, 디자인 변경만 원복")
- * 아래는 전부 "기존 디자인 요소에 움직임만 더하는" 순수 모션 —
- * 신규 시각 요소(장식·밑줄·그레인·그림자) 추가 없음. 최종 정착 상태 = 원래 디자인.
- * transform/opacity/scale 온리 + reduce-motion 즉시 최종 상태.
- * ────────────────────────────────────────────────────────────── */
-
-/* 비주얼 지연 진입 — 카피보다 140ms 늦게 무게감 있게. 정착 후 원래 모습 그대로.
-   (내부 제품의 스크롤 드리븐 translate/rotate/scale 개별 프로퍼티와 축 분리=비충돌) */
-.visual {
-  opacity: 0;
-  transform: translateY(24px) scale(0.97);
-  transition:
-    opacity var(--ais-dur-slow) var(--ais-ease-expo) 140ms,
-    transform var(--ais-dur-slow) var(--ais-ease-expo) 140ms;
-}
-.inner:global(.is-visible) .visual {
-  opacity: 1;
-  transform: none;
-}
-
-/* motif 배경 점등 — 기존 장식(잎·오로라·의류 아이콘 등)이 콘텐츠보다 늦게 페이드인.
-   :has 미지원 브라우저는 항상 켜짐(무해 폴백). 장식 자체는 원래 있던 것들만. */
-@supports selector(:has(*)) {
+/* ── v9 공통 진입 모션 reduce-motion 가드: 전부 즉시 최종 상태(stuck-invisible 금지) ── */
+@media (prefers-reduced-motion: reduce) {
+  .accent::after {
+    transition: none;
+    transform: scaleX(1);
+  }
+  .visual {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
   .decor,
   .travelDecor {
-    opacity: 0;
-    transition: opacity 0.9s var(--ais-ease-expo) 220ms;
-  }
-  .section:has(.inner:global(.is-visible)) .decor,
-  .section:has(.inner:global(.is-visible)) .travelDecor {
-    opacity: 1;
+    opacity: 1 !important;
+    transition: none !important;
   }
 }
 
-/* 스텝/조항 리스트 순차 등장 — 기존 리스트 아이템의 진입 타이밍만 계단식으로 */
+/* ══════════════════════════════════════════════════════════════
+ * v9 Phase C — 서비스별 시그니처 모션.
+ * 전부 해당 motif 클래스 스코프(타 서비스 회귀 0), transform/opacity/clip 온리.
+ * 진입 1회성 연출은 .section:has(.inner.is-visible) 게이트(:has 미지원 = 정적 폴백).
+ * ────────────────────────────────────────────────────────────── */
+
+/* ── route (myTravel): 비행 경로 드로우 + 경유지 점등 + 종이비행기 ── */
+.routeSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.routePath {
+  stroke: color-mix(in srgb, var(--p-accent, #ffc800) 85%, #ffffff);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.016 0.014; /* pathLength=1 정규화 점선 */
+  opacity: 0.55;
+  /* 드로우: 전체 길이만큼 숨겼다가(1) 풀어낸다(0) — 점선 패턴은 mask 역할의 큰 오프셋 */
+  stroke-dashoffset: 1;
+}
+.section:has(.inner:global(.is-visible)) .routePath {
+  animation: promoRouteDraw 2.4s var(--ais-ease-tech) 400ms forwards;
+}
+@keyframes promoRouteDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.routeStop {
+  fill: var(--p-accent, #ffc800);
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  scale: 0.3;
+  transition:
+    opacity 0.45s var(--ais-ease-spring),
+    scale 0.45s var(--ais-ease-spring);
+}
+.section:has(.inner:global(.is-visible)) .routeStop {
+  opacity: 0.9;
+  scale: 1;
+}
+.section:has(.inner:global(.is-visible)) .routeStop0 { transition-delay: 1s; }
+.section:has(.inner:global(.is-visible)) .routeStop1 { transition-delay: 1.5s; }
+.section:has(.inner:global(.is-visible)) .routeStop2 { transition-delay: 2.1s; }
+.routePlane {
+  position: absolute;
+  top: 9%;
+  right: 4%;
+  font-size: clamp(22px, 3vw, 34px);
+  opacity: 0;
+  transform: rotate(-12deg);
+  transition: opacity 0.6s var(--ais-ease-expo) 2.5s;
+  animation: ais-bob 3.4s ease-in-out infinite;
+}
+.section:has(.inner:global(.is-visible)) .routePlane {
+  opacity: 0.9;
+}
+
+/* ── wave (AI Music): 하단 이퀄라이저 + 떠다니는 음표 ── */
+.waveBars {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(1rem, 4vh, 3rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  padding-inline: clamp(1rem, 6vw, 6rem);
+  height: 72px;
+}
+.waveBar {
+  flex: 1 1 0;
+  max-width: 14px;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--p-primary) 70%, transparent),
+    color-mix(in srgb, var(--p-accent) 55%, transparent)
+  );
+  opacity: 0.4;
+  transform: scaleY(0.25);
+  transform-origin: bottom;
+  animation: promoWaveEq 1.25s ease-in-out infinite alternate;
+  animation-delay: calc(var(--wb-i, 0) * -0.17s);
+}
+/* 바마다 피크 높이 변주 — 스펙트럼 느낌(3패턴 순환) */
+.waveBar:nth-child(3n) { animation-duration: 1.05s; }
+.waveBar:nth-child(3n + 1) { animation-duration: 1.45s; }
+@keyframes promoWaveEq {
+  from {
+    transform: scaleY(0.18);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+.waveNote {
+  position: absolute;
+  font-size: clamp(20px, 2.6vw, 30px);
+  color: color-mix(in srgb, var(--p-accent) 80%, #ffffff);
+  opacity: 0.5;
+  animation: promoNoteFloat 5.5s ease-in-out infinite;
+}
+.waveNote0 { top: 16%; left: 7%; animation-delay: 0s; }
+.waveNote1 { top: 32%; right: 9%; animation-delay: -1.8s; font-size: clamp(16px, 2vw, 24px); }
+.waveNote2 { bottom: 34%; left: 14%; animation-delay: -3.4s; font-size: clamp(14px, 1.8vw, 22px); }
+@keyframes promoNoteFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-6deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(8deg);
+  }
+}
+
+/* ── sparkle (내새끼): K-pop 무대 파스텔 트윙클 ── */
+.sparkleTw {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  box-shadow: 0 0 12px currentColor, 0 0 26px currentColor;
+  animation: promoSparkle 2.8s ease-in-out infinite;
+}
+.sparkleTw0 { top: 14%; left: 9%; }
+.sparkleTw1 { top: 24%; right: 12%; animation-delay: -0.7s; width: 5px; height: 5px; }
+.sparkleTw2 { top: 56%; left: 5%; animation-delay: -1.3s; width: 6px; height: 6px; }
+.sparkleTw3 { bottom: 20%; right: 7%; animation-delay: -1.9s; }
+.sparkleTw4 { bottom: 10%; left: 22%; animation-delay: -2.4s; width: 4px; height: 4px; }
+@keyframes promoSparkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.25);
+  }
+}
+
+/* ── paw 보강 (myPet): 발자국 산책 — 좌하→우상 순차 점등(1회) ── */
+.pawStep {
+  position: absolute;
+  font-size: clamp(18px, 2.4vw, 28px);
+  opacity: 0;
+  transition: opacity 0.6s var(--ais-ease-expo);
+}
+.pawStep0 { bottom: 12%; left: 6%; transform: rotate(14deg); }
+.pawStep1 { bottom: 24%; left: 13%; transform: rotate(-10deg); }
+.pawStep2 { bottom: 20%; left: 21%; transform: rotate(16deg); }
+.pawStep3 { bottom: 32%; left: 28%; transform: rotate(-8deg); }
+.pawStep4 { bottom: 28%; left: 36%; transform: rotate(14deg); }
+.section:has(.inner:global(.is-visible)) .pawStep {
+  opacity: 0.4;
+}
+.section:has(.inner:global(.is-visible)) .pawStep0 { transition-delay: 0.5s; }
+.section:has(.inner:global(.is-visible)) .pawStep1 { transition-delay: 0.9s; }
+.section:has(.inner:global(.is-visible)) .pawStep2 { transition-delay: 1.3s; }
+.section:has(.inner:global(.is-visible)) .pawStep3 { transition-delay: 1.7s; }
+.section:has(.inner:global(.is-visible)) .pawStep4 { transition-delay: 2.1s; }
+
+/* ── scanline (facePreview): after 이미지 위 골드 AI 스캔 스윕(1회) ── */
+.motif_scanline .sbsCell:last-child::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  top: 0;
+  height: 110px;
+  border-radius: var(--p-radius, 22px);
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(203, 169, 104, 0.3) 42%,
+    rgba(203, 169, 104, 0.55) 50%,
+    rgba(203, 169, 104, 0.3) 58%,
+    transparent
+  );
+  opacity: 0;
+  transform: translateY(-130px);
+  pointer-events: none;
+}
+.motif_scanline:has(.inner:global(.is-visible)) .sbsCell:last-child::after {
+  animation: promoScanSweep 1.7s var(--ais-ease-tech) 650ms forwards;
+}
+@keyframes promoScanSweep {
+  0% {
+    opacity: 0;
+    transform: translateY(-130px);
+  }
+  12% {
+    opacity: 1;
+  }
+  86% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(560px);
+  }
+}
+
+/* ── 공통 보강: 스텝/조항 리스트 순차 등장(비주얼 진입 140ms 뒤 이어서) ── */
 .step,
 .clauseItem {
   opacity: 0;
@@ -3025,8 +3273,7 @@
 .inner:global(.is-visible) .step:nth-child(n + 4),
 .inner:global(.is-visible) .clauseItem:nth-child(n + 4) { transition-delay: 680ms; }
 
-/* 숏킷 shotBadge 스탬프 인(1회) — scale 개별 프로퍼티(기존 wiggle transform과 축 분리).
-   정착 후엔 원래 배지 모습·wiggle 그대로. */
+/* ── 숏킷 shotBadge 스탬프 인(1회) — scale 개별 프로퍼티(wiggle transform과 축 분리) ── */
 .shotBadge {
   opacity: 0;
   scale: 1.7;
@@ -3039,7 +3286,7 @@
   scale: 1;
 }
 
-/* Voice Buddy·도란: 통역 방향 화살표 주기 플립(기존 ⇄ 글리프에 회전만) */
+/* ── Voice Buddy·도란 보강: 통역 방향 화살표 주기 플립 ── */
 .langSwapArrow {
   animation: promoSwapFlip 4.5s var(--ais-ease-expo) infinite;
 }
@@ -3057,7 +3304,7 @@
   }
 }
 
-/* FitSnap 힌트 주의 환기(1회 2깜빡) — 기존 문구 opacity만 */
+/* ── FitSnap 힌트 주의 환기(1회 2깜빡) ── */
 .motif_cloth:has(.inner:global(.is-visible)) .csHint {
   animation: promoHintBlink 1.6s ease-in-out 1.2s 1 both;
 }
@@ -3073,17 +3320,41 @@
   }
 }
 
-/* ── v12 모션 reduce-motion 가드: 전부 즉시 최종 상태(stuck-invisible 금지) ── */
+/* ── v9 Phase C reduce-motion: 전부 정적 최종 상태(그려진 경로·보이는 스텝) ── */
 @media (prefers-reduced-motion: reduce) {
-  .visual {
-    opacity: 1;
-    transform: none;
-    transition: none;
+  .routePath {
+    animation: none !important;
+    stroke-dashoffset: 0;
   }
-  .decor,
-  .travelDecor {
-    opacity: 1 !important;
-    transition: none !important;
+  .routeStop {
+    transition: none;
+    opacity: 0.9;
+    scale: 1;
+  }
+  .routePlane {
+    animation: none !important;
+    transition: none;
+    opacity: 0.9;
+  }
+  .waveBar {
+    animation: none !important;
+    transform: scaleY(0.55);
+  }
+  .waveNote {
+    animation: none !important;
+  }
+  .sparkleTw {
+    animation: none !important;
+    opacity: 0.6;
+    transform: none;
+  }
+  .pawStep {
+    transition: none;
+    opacity: 0.4;
+  }
+  .motif_scanline .sbsCell:last-child::after {
+    animation: none !important;
+    opacity: 0;
   }
   .step,
   .clauseItem {
