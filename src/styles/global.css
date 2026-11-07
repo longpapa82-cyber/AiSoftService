@@ -121,3 +121,31 @@ img {
   opacity: 1;
   transform: none;
 }
+
+/* ── 자식 순차 등장(stagger) 시스템 (v9 Deep Tech 모션 인프라) ──
+ * 컨테이너에 .reveal-stagger를 붙이면 직계 자식들이 --stagger-i 순서로 계단식 등장.
+ * 활성 조건 2가지: ① 컨테이너 자신이 is-visible(자체 useReveal)
+ *                 ② is-visible 조상 아래(부모 reveal 옵저버에 편승 — 관찰자 추가 0).
+ * 자식에 클래스 불필요 — JSX에서 style={{'--stagger-i': i}}만 주입.
+ */
+.reveal-stagger > * {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo),
+    transform var(--ais-dur-slow) var(--ais-ease-expo);
+  transition-delay: calc(var(--stagger-i, 0) * var(--ais-stagger));
+}
+.reveal-stagger.is-visible > *,
+.is-visible .reveal-stagger > * {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  /* stuck-invisible 금지: 모션 최소화 환경에선 즉시 최종 상태 */
+  .reveal-stagger > * {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
