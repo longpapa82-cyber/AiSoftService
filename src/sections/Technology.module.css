@@ -670,3 +670,24 @@
     opacity: 1;
   }
 }
+
+/* v9: 카드 진입 시 핵심 수치 1회 팝 — 큰 수치가 '확정되는' 인상(컴포지터 온리) */
+.card:global(.is-visible) .metricValue {
+  animation: techMetricPop 0.5s var(--ais-ease-spring) 320ms both;
+}
+@keyframes techMetricPop {
+  0% {
+    transform: scale(0.86);
+  }
+  70% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .card:global(.is-visible) .metricValue {
+    animation: none;
+  }
+}
