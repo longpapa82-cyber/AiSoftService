@@ -705,6 +705,30 @@
   }
 }
 
+/* 시그니처 강조어 밑줄 드로우(v9 공통 모션) — 섹션 진입 시 브랜드 그라데이션
+   밑줄이 좌→우로 그어진다(scaleX, 컴포지터 온리). 12서비스 일괄 적용. */
+.accent {
+  position: relative;
+  display: inline-block;
+}
+.accent::after {
+  content: '';
+  position: absolute;
+  left: 0.03em;
+  right: 0.05em;
+  bottom: -0.06em;
+  height: 0.085em;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--p-primary), var(--p-accent));
+  opacity: 0.85;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.7s var(--ais-ease-expo) 480ms;
+}
+.inner:global(.is-visible) .accent::after {
+  transform: scaleX(1);
+}
+
 .subcopy {
   margin: 0;
   max-width: 42ch;
@@ -771,6 +795,31 @@
 .visual {
   display: flex;
   justify-content: center;
+  /* v9 공통 모션: 비주얼이 카피보다 140ms 늦게, 살짝 아래·축소에서 무게감 있게 진입.
+     (내부 제품의 scroll-driven translate/rotate/scale 개별 프로퍼티와 축 분리 — 비충돌) */
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo) 140ms,
+    transform var(--ais-dur-slow) var(--ais-ease-expo) 140ms;
+}
+.inner:global(.is-visible) .visual {
+  opacity: 1;
+  transform: none;
+}
+
+/* motif 배경 점등(v9) — 섹션 진입 시 배경 장식이 콘텐츠보다 늦게 페이드인:
+   "브랜드 룸 조명이 켜지는" 인상. :has 미지원 브라우저는 항상 켜짐(무해 폴백). */
+@supports selector(:has(*)) {
+  .decor,
+  .travelDecor {
+    opacity: 0;
+    transition: opacity 0.9s var(--ais-ease-expo) 220ms;
+  }
+  .section:has(.inner:global(.is-visible)) .decor,
+  .section:has(.inner:global(.is-visible)) .travelDecor {
+    opacity: 1;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -2964,5 +3013,23 @@
   }
   .recoveryFill {
     transition: none;
+  }
+}
+
+/* ── v9 공통 진입 모션 reduce-motion 가드: 전부 즉시 최종 상태(stuck-invisible 금지) ── */
+@media (prefers-reduced-motion: reduce) {
+  .accent::after {
+    transition: none;
+    transform: scaleX(1);
+  }
+  .visual {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .decor,
+  .travelDecor {
+    opacity: 1 !important;
+    transition: none !important;
   }
 }

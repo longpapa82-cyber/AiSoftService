@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
+import { StatValue } from '../components/ui/StatValue';
 import { MoodIcon } from '../components/ui/MoodIcon';
 import { DoraniMascot } from '../components/DoraniMascot';
 import { useReveal } from '../hooks/useReveal';
@@ -236,8 +237,8 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
       <div className="ais-container">
         <div ref={reveal} className={`${styles.inner} reveal`}>
-          {/* ── 좌: 미니 헤더 + 카피 ── */}
-          <div className={styles.copy}>
+          {/* ── 좌: 미니 헤더 + 카피 ── reveal-stagger: 자식들이 DOM 순서로 계단식 등장 */}
+          <div className={`${styles.copy} reveal-stagger`}>
             <div className={styles.miniHeader}>
               <img
                 className={styles.logo}
@@ -298,7 +299,10 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                         {iconFor(h.icon)}
                       </span>
                     ))}
-                  <strong className={styles.highlightValue}>{h.value}</strong>
+                  <strong className={styles.highlightValue}>
+                    {/* 수치부만 뷰포트 진입 시 카운트업("17개"→0→17개). 비수치는 정적 */}
+                    <StatValue value={h.value} delayMs={260} />
+                  </strong>
                   <span className={styles.highlightLabel}>{h.label}</span>
                 </li>
               ))}
