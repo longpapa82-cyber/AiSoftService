@@ -136,36 +136,5 @@ img {
   transform: none;
 }
 
-/* ── 자식 순차 등장(stagger) 시스템 (v9 Deep Tech 모션 인프라) ──
- * 컨테이너에 .reveal-stagger를 붙이면 직계 자식들이 DOM 순서(nth-child)대로
- * 계단식 등장. 자식 JSX 변경 0(인덱스 주입 불필요).
- * 활성 조건 2가지: ① 컨테이너 자신이 is-visible(자체 useReveal)
- *                 ② is-visible 조상 아래(부모 reveal 옵저버에 편승 — 관찰자 추가 0).
- */
-.reveal-stagger > * {
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity var(--ais-dur-slow) var(--ais-ease-expo),
-    transform var(--ais-dur-slow) var(--ais-ease-expo);
-}
-.reveal-stagger > :nth-child(2) { transition-delay: calc(1 * var(--ais-stagger)); }
-.reveal-stagger > :nth-child(3) { transition-delay: calc(2 * var(--ais-stagger)); }
-.reveal-stagger > :nth-child(4) { transition-delay: calc(3 * var(--ais-stagger)); }
-.reveal-stagger > :nth-child(5) { transition-delay: calc(4 * var(--ais-stagger)); }
-.reveal-stagger > :nth-child(6) { transition-delay: calc(5 * var(--ais-stagger)); }
-.reveal-stagger > :nth-child(7) { transition-delay: calc(6 * var(--ais-stagger)); }
-.reveal-stagger > :nth-child(n + 8) { transition-delay: calc(7 * var(--ais-stagger)); }
-.reveal-stagger.is-visible > *,
-.is-visible .reveal-stagger > * {
-  opacity: 1;
-  transform: none;
-}
-@media (prefers-reduced-motion: reduce) {
-  /* stuck-invisible 금지: 모션 최소화 환경에선 즉시 최종 상태 */
-  .reveal-stagger > * {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
+/* (v9 reveal-stagger 시스템은 서비스 섹션 원복으로 사용처 소멸 → 제거.
+   2026-11-07 사용자 "각 서비스 디자인 원복" 결정. 필요 시 git 히스토리 b8a80ec 참조.) */

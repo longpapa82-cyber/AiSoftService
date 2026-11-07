@@ -9,8 +9,6 @@
 // peer 그라디언트 색은 dorani.js의 lightenHex(#8FE3D8,0.22)=#a8e9e1, darkenHex(#8FE3D8,0.1)=#81ccc2를
 // 빌드타임에 사전 계산해 상수로 박았다(런타임 색 계산 함수 불필요).
 
-import styles from './DoraniMascot.module.css';
-
 interface DoraniMascotProps {
   className?: string;
 }
@@ -67,13 +65,11 @@ export function DoraniMascot({ className }: DoraniMascotProps) {
         {/* 상단 광택 하이라이트 (cx=100-(126-74)*0.18=90.64, cy=eyeY-34=62) */}
         <ellipse cx="90.64" cy="62" rx="42" ry="26" fill="url(#dorani-hl)" />
 
-        {/* 눈 (eyeXs=[74,126], eyeY=96, eyeR=7, hiR=2.4) — v9: 그룹 깜빡임(scaleY 루프) */}
-        <g className={styles.eyes}>
-          <circle cx="74" cy="96" r="7" fill={INK} />
-          <circle cx="76.5" cy="93.5" r="2.4" fill="#ffffff" />
-          <circle cx="126" cy="96" r="7" fill={INK} />
-          <circle cx="128.5" cy="93.5" r="2.4" fill="#ffffff" />
-        </g>
+        {/* 눈 (eyeXs=[74,126], eyeY=96, eyeR=7, hiR=2.4) */}
+        <circle cx="74" cy="96" r="7" fill={INK} />
+        <circle cx="76.5" cy="93.5" r="2.4" fill="#ffffff" />
+        <circle cx="126" cy="96" r="7" fill={INK} />
+        <circle cx="128.5" cy="93.5" r="2.4" fill="#ffffff" />
 
         {/* 입 (smile, mouthY=118, mouthDip=12) */}
         <path

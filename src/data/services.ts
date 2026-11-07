@@ -130,20 +130,7 @@ export interface ServicePromo {
   /** 카드/표면 라운드 (px). myPet=28 claymorphism 등 */
   radius: number;
   /** 시그니처 장식 패턴: 발자국/별/도트/잎사귀/로픽(오로라+그레인)/FitSnap(떠다니는 의류 아이콘+옷걸이 레일)/숏킷(cosmos: 궤도링+광원+옐로 트윙클)/숨통(breath: 4-7-8 호흡 동심원+민트 글로우) 등 */
-  motif:
-    | 'paw'
-    | 'sky'
-    | 'feed'
-    | 'leaf'
-    | 'law'
-    | 'cloth'
-    | 'cosmos'
-    | 'breath'
-    | 'route' // myTravel: 비행 경로 점선 드로우 + 경유지 + 종이비행기(v9)
-    | 'wave' // AI Music: 이퀄라이저 바 + 떠다니는 음표(v9)
-    | 'sparkle' // 내새끼: 파스텔 트윙클 반짝임(v9)
-    | 'scanline' // facePreview: after 이미지 위 골드 AI 스캔 스윕(v9, CSS 온리)
-    | 'none';
+  motif: 'paw' | 'sky' | 'feed' | 'leaf' | 'law' | 'cloth' | 'cosmos' | 'breath' | 'none';
   /** 미니 홍보용 통계 칩 (실제 수치). icon(Material Symbols 이름)이 있으면 값 위에 아이콘 표시. */
   highlights: { value: string; label: string; icon?: string }[];
   /**
@@ -420,7 +407,7 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Noto Sans KR', system-ui, sans-serif",
       radius: 20,
-      motif: 'route',
+      motif: 'none',
       highlights: [
         { value: '17개', label: '지원 언어' },
         { value: 'AI 기반', label: '자동 일정' },
@@ -573,7 +560,7 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Jua', 'Plus Jakarta Sans', system-ui, sans-serif",
       fontBody: "'Plus Jakarta Sans', system-ui, sans-serif",
       radius: 22,
-      motif: 'sparkle',
+      motif: 'none',
       // 실제 랜딩 상단 히어로(K-pop 스타 4인 실사) — 다크 스크림 위에 골드 카피가 얹힌다.
       heroImage: mybabyHero,
       heroFocus: 'center 22%',
@@ -747,7 +734,7 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
       fontBody: "'Plus Jakarta Sans', 'Noto Sans KR', system-ui, sans-serif",
       radius: 22,
-      motif: 'wave',
+      motif: 'none',
       // 실제 앱 welcome 히어로(로고 중앙) 배경 + 실제 앱 홈(입력→보이스→생성) 스크린샷.
       heroImage: aimusicHero,
       heroFocus: 'center 30%',
@@ -1379,7 +1366,7 @@ export const SERVICES: AppService[] = [
       fontDisplay: "'Paperlogy', 'Cormorant', 'Noto Sans KR', serif",
       fontBody: "'Pretendard Variable', 'Noto Sans KR', system-ui, sans-serif",
       radius: 22,
-      motif: 'scanline',
+      motif: 'none',
       highlights: [
         { value: '내 얼굴로', label: '미리보기', icon: 'photo_camera_front' },
         { value: '부위별', label: '정교 조절', icon: 'tune' },

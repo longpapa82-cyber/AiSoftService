@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
-import { StatValue } from '../components/ui/StatValue';
 import { MoodIcon } from '../components/ui/MoodIcon';
 import { DoraniMascot } from '../components/DoraniMascot';
 import { useReveal } from '../hooks/useReveal';
@@ -24,15 +23,6 @@ const CLOTH_ICONS = ['hanger', 'dress', 'tshirt', 'coat', 'hanger', 'tshirt', 'd
 
 // 숏킷 cosmos 트윙클 색(홍보웹 Hero 실측): 옐로 포인트 #ffc800 3개 + 흰·라이트블루·민트 혼합.
 const COSMOS_TWINKLES = ['#ffc800', '#ffffff', '#ffc800', '#bbd8ff', '#7de3ae', '#ffc800'];
-
-// 내새끼 sparkle 트윙클 색 — K-pop 다크 무대 위 파스텔(핑크·라벤더·골드·민트·흰).
-const SPARKLE_TWINKLES = ['#ffd1e8', '#c9b8ff', '#ffe08a', '#a9f0e1', '#ffffff'];
-
-// AI Music wave 이퀄라이저 바 개수 — 섹션 하단에 깔리는 사운드 스펙트럼.
-const WAVE_BAR_COUNT = 16;
-
-// AI Music 떠다니는 음표 글리프(이모지 아닌 유니코드 음표 — 폰트 렌더 안정).
-const WAVE_NOTES = ['♪', '♫', '♩'];
 
 /**
  * FitSnap highlight 칩용 라인 SVG 아이콘 — 이모지 대신 코랄 톤 라인으로 통일(홍보웹 톤).
@@ -115,7 +105,8 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
       className={sectionClass}
       style={themeVars}
       aria-labelledby={`promo-${service.id}-title`}
-      // 다크 테마 룸 위에선 고정 헤더가 라이트 글씨로 적응(Header onDark IO 감지 대상)
+      // 다크 테마 룸 위에선 고정 헤더가 라이트 글씨로 적응(Header onDark IO 감지 대상).
+      // 섹션 자체 디자인에는 영향 없음(v9 셸 전환의 유일한 잔존 접점).
       data-header-dark={promo.dark ? '' : undefined}
     >
       {/* 실사 히어로 배경 (있으면) — 각 서비스 홈의 실제 사진. 오버레이로 가독성 확보 */}
@@ -136,82 +127,6 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
       <div className={styles.decor} aria-hidden="true">
         <span className={styles.blobA} />
         <span className={styles.blobB} />
-        {/* myTravel 모티프(route·v9): 지도 위 비행 경로 점선이 그려지고(드로우 1회),
-            경유지 점이 순차 점등, 종이비행기가 경로 끝에서 부유. 사진 배경(지도) 위라
-            "여행 동선이 짜여지는" 서사가 된다. */}
-        {promo.motif === 'route' && (
-          <>
-            <svg
-              className={styles.routeSvg}
-              viewBox="0 0 1000 600"
-              fill="none"
-              preserveAspectRatio="xMidYMid slice"
-              aria-hidden="true"
-            >
-              <path
-                className={styles.routePath}
-                pathLength={1}
-                d="M-40 480 C 160 440, 330 350, 500 330 C 660 312, 760 240, 860 170 L 1040 60"
-              />
-              {[
-                [330, 350],
-                [500, 330],
-                [760, 240],
-              ].map(([cx, cy], i) => (
-                <circle
-                  key={i}
-                  className={`${styles.routeStop} ${styles[`routeStop${i}`]}`}
-                  cx={cx}
-                  cy={cy}
-                  r="7"
-                />
-              ))}
-            </svg>
-            <span className={styles.routePlane}>✈️</span>
-          </>
-        )}
-        {/* AI Music 모티프(wave·v9): 하단 이퀄라이저 스펙트럼(바별 위상차 루프) +
-            떠다니는 음표 — "소리가 보이는" 무대. */}
-        {promo.motif === 'wave' && (
-          <>
-            <div className={styles.waveBars}>
-              {Array.from({ length: WAVE_BAR_COUNT }).map((_, i) => (
-                <span
-                  key={i}
-                  className={styles.waveBar}
-                  style={{ '--wb-i': String(i) } as CSSProperties}
-                />
-              ))}
-            </div>
-            {WAVE_NOTES.map((n, i) => (
-              <span
-                key={`wn-${i}`}
-                className={`${styles.waveNote} ${styles[`waveNote${i}`]}`}
-              >
-                {n}
-              </span>
-            ))}
-          </>
-        )}
-        {/* 내새끼 모티프(sparkle·v9): K-pop 무대 파스텔 트윙클 — 스타 라인업 뒤 반짝임. */}
-        {promo.motif === 'sparkle' &&
-          SPARKLE_TWINKLES.map((c, i) => (
-            <span
-              key={`sp-${i}`}
-              className={`${styles.sparkleTw} ${styles[`sparkleTw${i}`]}`}
-              style={{ background: c, color: c } as CSSProperties}
-            />
-          ))}
-        {/* myPet paw 보강(v9): 발자국이 "걸어가듯" 순차 점등(1회) — 산책 서사. */}
-        {promo.motif === 'paw' &&
-          Array.from({ length: 5 }).map((_, i) => (
-            <span
-              key={`pw-${i}`}
-              className={`${styles.pawStep} ${styles[`pawStep${i}`]}`}
-            >
-              🐾
-            </span>
-          ))}
         {/* 잎사귀 모티프(myToday): 섹션 곳곳에 떠다니는 개별 나뭇잎 */}
         {promo.motif === 'leaf' &&
           Array.from({ length: 6 }).map((_, i) => (
@@ -303,9 +218,6 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
             ))}
           </>
         )}
-        {/* v11 럭셔리: 다크 브랜드 룸(6곳)에 셸과 동일한 필름 그레인 — decor 최후단(장식 위).
-            라이트 룸 제외(밝은 배경에선 그레인이 때처럼 보임). */}
-        {promo.dark && <span className="ais-grain" />}
       </div>
 
       {/* 여행 무드 이모지(Voice Buddy): 배경 blob 위·전경 콘텐츠 아래 별도 레이어.
@@ -325,8 +237,8 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
       <div className="ais-container">
         <div ref={reveal} className={`${styles.inner} reveal`}>
-          {/* ── 좌: 미니 헤더 + 카피 ── reveal-stagger: 자식들이 DOM 순서로 계단식 등장 */}
-          <div className={`${styles.copy} reveal-stagger`}>
+          {/* ── 좌: 미니 헤더 + 카피 ── */}
+          <div className={styles.copy}>
             <div className={styles.miniHeader}>
               <img
                 className={styles.logo}
@@ -387,10 +299,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                         {iconFor(h.icon)}
                       </span>
                     ))}
-                  <strong className={styles.highlightValue}>
-                    {/* 수치부만 뷰포트 진입 시 카운트업("17개"→0→17개). 비수치는 정적 */}
-                    <StatValue value={h.value} delayMs={260} />
-                  </strong>
+                  <strong className={styles.highlightValue}>{h.value}</strong>
                   <span className={styles.highlightLabel}>{h.label}</span>
                 </li>
               ))}
@@ -482,11 +391,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                       }
                     >
                       <strong className={styles.analysisScoreNum}>
-                        {/* 안심도 수치 카운트업(v9) — 스캔이 완료되는 서사 */}
-                        <StatValue
-                          value={String(promo.analysisCard.safetyScore)}
-                          delayMs={420}
-                        />
+                        {promo.analysisCard.safetyScore}
                       </strong>
                       <span className={styles.analysisScoreLabel}>안심도</span>
                     </span>
