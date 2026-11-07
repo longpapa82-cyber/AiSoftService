@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import type { AppService } from '../data/services';
 import { StoreBadges } from '../components/ui/StoreBadges';
+import { StatValue } from '../components/ui/StatValue';
 import { MoodIcon } from '../components/ui/MoodIcon';
 import { DoraniMascot } from '../components/DoraniMascot';
 import { useReveal } from '../hooks/useReveal';
@@ -237,8 +238,8 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
 
       <div className="ais-container">
         <div ref={reveal} className={`${styles.inner} reveal`}>
-          {/* ── 좌: 미니 헤더 + 카피 ── */}
-          <div className={styles.copy}>
+          {/* ── 좌: 미니 헤더 + 카피 ── v12 모션: 자식들 DOM 순서 계단식 등장(디자인 불변) */}
+          <div className={`${styles.copy} reveal-stagger`}>
             <div className={styles.miniHeader}>
               <img
                 className={styles.logo}
@@ -299,7 +300,10 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                         {iconFor(h.icon)}
                       </span>
                     ))}
-                  <strong className={styles.highlightValue}>{h.value}</strong>
+                  <strong className={styles.highlightValue}>
+                    {/* v12 모션: 수치부만 카운트업("17개"→0→17개). 비수치 정적. 디자인 불변 */}
+                    <StatValue value={h.value} delayMs={260} />
+                  </strong>
                   <span className={styles.highlightLabel}>{h.label}</span>
                 </li>
               ))}
@@ -391,7 +395,11 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                       }
                     >
                       <strong className={styles.analysisScoreNum}>
-                        {promo.analysisCard.safetyScore}
+                        {/* v12 모션: 안심도 카운트업(스캔 완료 서사). 디자인 불변 */}
+                        <StatValue
+                          value={String(promo.analysisCard.safetyScore)}
+                          delayMs={420}
+                        />
                       </strong>
                       <span className={styles.analysisScoreLabel}>안심도</span>
                     </span>

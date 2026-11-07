@@ -2966,3 +2966,140 @@
     transition: none;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+ * v12 모션 복구 (2026-11-07 사용자 "모션·효과는 유지, 디자인 변경만 원복")
+ * 아래는 전부 "기존 디자인 요소에 움직임만 더하는" 순수 모션 —
+ * 신규 시각 요소(장식·밑줄·그레인·그림자) 추가 없음. 최종 정착 상태 = 원래 디자인.
+ * transform/opacity/scale 온리 + reduce-motion 즉시 최종 상태.
+ * ────────────────────────────────────────────────────────────── */
+
+/* 비주얼 지연 진입 — 카피보다 140ms 늦게 무게감 있게. 정착 후 원래 모습 그대로.
+   (내부 제품의 스크롤 드리븐 translate/rotate/scale 개별 프로퍼티와 축 분리=비충돌) */
+.visual {
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition:
+    opacity var(--ais-dur-slow) var(--ais-ease-expo) 140ms,
+    transform var(--ais-dur-slow) var(--ais-ease-expo) 140ms;
+}
+.inner:global(.is-visible) .visual {
+  opacity: 1;
+  transform: none;
+}
+
+/* motif 배경 점등 — 기존 장식(잎·오로라·의류 아이콘 등)이 콘텐츠보다 늦게 페이드인.
+   :has 미지원 브라우저는 항상 켜짐(무해 폴백). 장식 자체는 원래 있던 것들만. */
+@supports selector(:has(*)) {
+  .decor,
+  .travelDecor {
+    opacity: 0;
+    transition: opacity 0.9s var(--ais-ease-expo) 220ms;
+  }
+  .section:has(.inner:global(.is-visible)) .decor,
+  .section:has(.inner:global(.is-visible)) .travelDecor {
+    opacity: 1;
+  }
+}
+
+/* 스텝/조항 리스트 순차 등장 — 기존 리스트 아이템의 진입 타이밍만 계단식으로 */
+.step,
+.clauseItem {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.55s var(--ais-ease-expo),
+    transform 0.55s var(--ais-ease-expo);
+}
+.inner:global(.is-visible) .step,
+.inner:global(.is-visible) .clauseItem {
+  opacity: 1;
+  transform: none;
+}
+.inner:global(.is-visible) .step:nth-child(1),
+.inner:global(.is-visible) .clauseItem:nth-child(1) { transition-delay: 320ms; }
+.inner:global(.is-visible) .step:nth-child(2),
+.inner:global(.is-visible) .clauseItem:nth-child(2) { transition-delay: 440ms; }
+.inner:global(.is-visible) .step:nth-child(3),
+.inner:global(.is-visible) .clauseItem:nth-child(3) { transition-delay: 560ms; }
+.inner:global(.is-visible) .step:nth-child(n + 4),
+.inner:global(.is-visible) .clauseItem:nth-child(n + 4) { transition-delay: 680ms; }
+
+/* 숏킷 shotBadge 스탬프 인(1회) — scale 개별 프로퍼티(기존 wiggle transform과 축 분리).
+   정착 후엔 원래 배지 모습·wiggle 그대로. */
+.shotBadge {
+  opacity: 0;
+  scale: 1.7;
+  transition:
+    opacity 0.4s var(--ais-ease-spring) 700ms,
+    scale 0.4s var(--ais-ease-spring) 700ms;
+}
+.inner:global(.is-visible) .shotBadge {
+  opacity: 1;
+  scale: 1;
+}
+
+/* Voice Buddy·도란: 통역 방향 화살표 주기 플립(기존 ⇄ 글리프에 회전만) */
+.langSwapArrow {
+  animation: promoSwapFlip 4.5s var(--ais-ease-expo) infinite;
+}
+@keyframes promoSwapFlip {
+  0%,
+  40% {
+    transform: rotate(0deg);
+  }
+  50%,
+  90% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* FitSnap 힌트 주의 환기(1회 2깜빡) — 기존 문구 opacity만 */
+.motif_cloth:has(.inner:global(.is-visible)) .csHint {
+  animation: promoHintBlink 1.6s ease-in-out 1.2s 1 both;
+}
+@keyframes promoHintBlink {
+  0%,
+  50%,
+  100% {
+    opacity: 1;
+  }
+  25%,
+  75% {
+    opacity: 0.35;
+  }
+}
+
+/* ── v12 모션 reduce-motion 가드: 전부 즉시 최종 상태(stuck-invisible 금지) ── */
+@media (prefers-reduced-motion: reduce) {
+  .visual {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .decor,
+  .travelDecor {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .step,
+  .clauseItem {
+    opacity: 1;
+    transform: none;
+    transition: none !important;
+  }
+  .shotBadge {
+    transition: none;
+    opacity: 1;
+    scale: 1;
+  }
+  .langSwapArrow {
+    animation: none !important;
+  }
+  .csHint {
+    animation: none !important;
+  }
+}

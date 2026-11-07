@@ -1,0 +1,30 @@
+/*
+ * 도란이 마스코트 미세 생명감(v9) — 눈 깜빡임.
+ * 벡터 SVG 눈 그룹을 scaleY로 접었다 펴는 순수 CSS 루프(JS 0, 컴포지터 온리).
+ * transform-box: fill-box로 SVG 좌표계가 아닌 눈 자체 중심 기준 변형.
+ */
+.eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: doraniBlink 5.4s ease-in-out infinite;
+}
+
+@keyframes doraniBlink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  95.5% {
+    transform: scaleY(0.08);
+  }
+  98% {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eyes {
+    animation: none;
+  }
+}
