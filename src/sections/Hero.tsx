@@ -158,6 +158,9 @@ export function Hero() {
             d="M560 -20 V120 L640 200 V400 L560 480 V680 L640 760 V820"
           />
         </svg>
+        {/* v10 럭셔리: 비네팅(중앙 응집) + 미세 노이즈 그레인(그라데이션 배너딩 제거) */}
+        <span className={styles.vignette} />
+        <span className={styles.grain} />
         <span className={styles.hairline} />
       </div>
 

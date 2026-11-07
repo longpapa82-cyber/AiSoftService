@@ -84,6 +84,14 @@
   --ais-glass-dark-border: rgba(255, 255, 255, 0.1);
   /* v9: 다크 무대 오로라 보조 한색(앰비언트 전용 — accent는 여전히 골드 단일) */
   --ais-aurora-cool: rgba(96, 165, 250, 0.14);
+  /* v10 럭셔리: 오로라 3색 메시 — 광원 방향(좌상단) 일관. 네이비 틸 + 로열 퍼플 + 샴페인 골드.
+     저알파 앰비언트라 accent 단일 원칙 유지(장식 분위기 전용). */
+  --ais-aurora-teal: rgba(56, 189, 198, 0.1);
+  --ais-aurora-violet: rgba(129, 110, 246, 0.14);
+  --ais-aurora-gold: rgba(250, 204, 21, 0.1);
+  /* v10 샴페인 골드 — 순노랑보다 한 톤 깊고 따뜻. 대형 디스플레이 메탈릭 클립용. */
+  --ais-gold-champagne: #e8c766;
+  --ais-gold-rose: #f0b878;
 
   /* 절제된 웜 골드 글로우 — StoreBadges 등 hover 강조에 사용(게임 잔재 아님). */
   --ais-neon-gold: 0 0 0 2px rgba(250, 204, 21, 0.22), 0 0 20px rgba(250, 204, 21, 0.35);

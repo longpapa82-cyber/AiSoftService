@@ -44,58 +44,83 @@
   isolation: isolate;
 }
 
-/* 우상단 오로라 글로우 — v9 Deep Tech: 다크 무대 위 한색(쿨 블루) 앰비언트.
-   Aurora UI(2026 트렌드) — 대형 라디얼이 느리게 드리프트. accent는 여전히 골드 단일,
-   이 레이어는 분위기 전용(--ais-aurora-cool 저알파). */
+/* 우상단 오로라 글로우 — v10 럭셔리: 틸→퍼플 2색 메시(광원 좌상단 일관).
+   Aurora UI(2026) 대형 라디얼이 느리게 드리프트. 단색 평면감을 걷어내고 색 깊이 부여. */
 .gradGlow {
   position: absolute;
-  top: -30%;
-  right: -20%;
-  width: 85vw;
-  height: 85vw;
-  max-width: 1100px;
-  max-height: 1100px;
+  top: -34%;
+  right: -22%;
+  width: 88vw;
+  height: 88vw;
+  max-width: 1160px;
+  max-height: 1160px;
   border-radius: 50%;
-  /* [OPT-6] filter: blur 제거 — radial-gradient stop을 완만하게 넓혀 시각 등가.
-     대형 blur는 GPU 오프스크린 표면을 크게 유지해 비쌈. stop 감쇠로 대체. */
+  /* [OPT-6] filter: blur 제거 — radial-gradient stop 완만화로 등가.
+     타원 라디얼 + 2색 스톱으로 오로라가 번지는 결(퍼플이 코어, 틸이 외곽). */
   background: radial-gradient(
-    circle,
-    var(--ais-aurora-cool) 0%,
-    rgba(96, 165, 250, 0.06) 45%,
-    transparent 78%
+    60% 55% at 62% 38%,
+    var(--ais-aurora-violet) 0%,
+    var(--ais-aurora-teal) 42%,
+    rgba(56, 189, 198, 0.03) 66%,
+    transparent 82%
   );
-  opacity: 0.8;
+  opacity: 0.85;
   transform: translate3d(0, 0, 0) scale(1);
-  animation: heroDrift 24s ease-in-out infinite alternate;
+  animation: heroDrift 28s ease-in-out infinite alternate;
   /* 마우스 패럴랙스: 포인터 반대 방향으로 아주 은은하게 */
   will-change: transform;
 }
 
-/* 2번째 오로라 겹 — 골드 틴트, 반대 방향/다른 주기로 위상차 드리프트(깊이감).
-   plus-lighter로 첫 겹과 겹칠 때 밝게 합성(지원 안되면 일반 중첩). */
+/* 2번째 오로라 겹 — 샴페인 골드 틴트, 반대 방향/다른 주기로 위상차 드리프트(깊이감).
+   screen 합성으로 첫 겹과 겹칠 때 자연 발광(plus-lighter는 번짐이 세 톤 다운). */
 .gradGlow2 {
   position: absolute;
-  bottom: -35%;
-  left: -15%;
-  width: 70vw;
-  height: 70vw;
-  max-width: 900px;
-  max-height: 900px;
+  bottom: -38%;
+  left: -16%;
+  width: 74vw;
+  height: 74vw;
+  max-width: 940px;
+  max-height: 940px;
   border-radius: 50%;
-  /* [OPT-6] filter: blur 제거 — stop 완만화로 등가(대형 blur GPU 표면 비용 해소). */
+  /* [OPT-6] filter: blur 제거 — stop 완만화로 등가. 샴페인 골드로 따뜻한 하단 광원. */
   background: radial-gradient(
-    circle,
-    var(--ais-glow) 0%,
-    rgba(250, 204, 21, 0.12) 30%,
-    rgba(250, 204, 21, 0.04) 55%,
+    55% 55% at 42% 60%,
+    var(--ais-aurora-gold) 0%,
+    rgba(232, 199, 102, 0.07) 34%,
+    rgba(250, 204, 21, 0.025) 58%,
     transparent 80%
   );
-  /* 강도 최대화: 0.75→0.9, 드리프트 주기 22s→15s(움직임 체감↑↑) */
-  opacity: 0.9;
-  mix-blend-mode: plus-lighter;
+  opacity: 0.8;
+  mix-blend-mode: screen;
   transform: translate3d(0, 0, 0) scale(1);
-  animation: heroDrift2 15s ease-in-out infinite alternate;
+  animation: heroDrift2 19s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+/* v10 럭셔리: 비네팅 — 가장자리를 깊게 가라앉혀 중앙 콘텐츠로 시선 응집(시네마틱).
+   배경 레이어 최상단, 콘텐츠 아래. 광원 일관성을 완성하는 마지막 겹. */
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 50% 32%,
+    transparent 40%,
+    rgba(4, 6, 12, 0.45) 100%
+  );
+}
+
+/* v10 럭셔리: 미세 필름 그레인 — SVG feTurbulence를 data URI로 타일링(네트워크 0).
+   순수 그라데이션의 계단 현상(배너딩)을 녹여 인쇄물 같은 질감 부여(알파 극저).
+   soft-light로 밝은 곳만 거칠게, 어두운 곳은 유지. 정적(모션 아님 — 성능 안전). */
+.grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.4;
+  mix-blend-mode: soft-light;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
 }
 
 @keyframes heroDrift2 {
@@ -240,18 +265,31 @@
   text-align: left;
 }
 
-/* 아이브로 — v9: 다크 무대 위 골드 시그널 라벨(시스템 온라인 인상) + 발광 점. */
+/* 아이브로 — v10: 골드 시그널 라벨 + 발광 점 + 뒤따르는 hairline(시스템 레지스터 인상).
+   자간을 넓혀 모노 라벨의 '정밀 계측기' 톤 강화. */
 .eyebrow {
   margin: 0 0 var(--ais-space-md);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   font-family: var(--ais-font-mono);
   font-size: var(--ais-text-eyebrow);
   font-weight: 700;
-  letter-spacing: var(--ais-tracking-wide);
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--ais-dark-accent);
+}
+
+/* 라벨 뒤 짧은 hairline — 계측기 눈금 같은 디테일(골드→투명 페이드) */
+.eyebrow::after {
+  content: '';
+  width: clamp(28px, 4vw, 56px);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(250, 204, 21, 0.5),
+    transparent
+  );
 }
 
 /* 라이브 신호 점 — 숨쉬는 골드 점(시스템 가동 중) */
@@ -265,6 +303,7 @@
   animation: heroPulse var(--ais-dur-breathe) ease-in-out infinite;
 }
 
+/* v10: 호흡을 더 은은하게(0.45→0.6 하한, scale 축소폭 완화) — 과하지 않은 '살아있음'. */
 @keyframes heroPulse {
   0%,
   100% {
@@ -272,21 +311,35 @@
     transform: scale(1);
   }
   50% {
-    opacity: 0.45;
-    transform: scale(0.8);
+    opacity: 0.55;
+    transform: scale(0.84);
   }
 }
 
-/* 헤드라인 — 초대형 디스플레이, 다크 무대 위 웜화이트. */
+/* 헤드라인 — v10 초대형 디스플레이. 다크 무대 위 웜화이트에 미세 수직 그라데이션
+   (위 순백 → 아래 살짝 가라앉음)으로 입체 조명감. 자간을 더 조여 럭셔리 디스플레이 톤. */
 .headline {
   margin: 0;
   font-family: var(--ais-font-display);
   font-size: var(--ais-text-display);
   font-weight: 800;
-  letter-spacing: var(--ais-tracking-display);
-  line-height: 1.02;
+  letter-spacing: -0.045em;
+  line-height: 1.0;
   color: var(--ais-dark-text);
   text-wrap: balance;
+}
+
+/* 일반 어절만 웜화이트 그라데이션 클립(AI 골드 클립은 .wordAI가 전담 → 제외). */
+.word:not(:has(.wordAI)) {
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    #e9edf5 60%,
+    #cdd4e0 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 /* v4: serif italic 대비 폐기(테크 기업 부적합) → 산세리프 유지 + 강조는
@@ -303,28 +356,39 @@
 .word {
   display: inline-block;
   opacity: 0;
-  transform: translateY(0.55em);
+  transform: translateY(0.6em);
   /* 아래에서 잘려 올라오는 클립 — 최종 상태는 여유 inset(디센더/자간 보존) */
   clip-path: inset(-0.2em -0.1em 100% -0.1em);
+  /* v10: 더 길고 우아한 진입(0.6s→0.85s) + stagger 간격 확대(55→80ms)로 여유로운 리듬.
+     expo 이징이라 빠르게 출발해 부드럽게 안착(럭셔리 모션의 핵심). */
   transition:
-    opacity var(--ais-dur-slow) var(--ais-ease-expo),
-    transform var(--ais-dur-slow) var(--ais-ease-expo),
-    clip-path var(--ais-dur-slow) var(--ais-ease-expo);
-  transition-delay: calc(var(--word-i, 0) * 55ms + 90ms);
+    opacity 0.85s var(--ais-ease-expo),
+    transform 0.85s var(--ais-ease-expo),
+    clip-path 0.85s var(--ais-ease-expo);
+  transition-delay: calc(var(--word-i, 0) * 80ms + 120ms);
 }
 
-/* "AI" 두 글자만 그라데이션 텍스트 클립 — 화려함 표현. 나머지는 솔리드 잉크로 AA 확보.
-   ★ accent 감사 keep: 전용 --ais-ai-grad(블루) 사용 → 장식 뉴트럴화와 무관하게 유지. */
+/* "AI" 두 글자만 메탈릭 그라데이션 클립 — v10 다크 무대 전용 샴페인 골드 메탈릭.
+   하이라이트(순백 스펙큘러)→샴페인→딥골드→샴페인 다중 스톱으로 '닦인 금속' 반사.
+   기존 --ais-ai-grad(라이트 배경용 2색)에서 다크 전용 메탈릭으로 격상. */
 .wordAI {
   display: inline-block;
-  background: var(--ais-ai-grad);
-  background-size: 220% 220%;
+  background: linear-gradient(
+    100deg,
+    #fff4cc 0%,
+    var(--ais-gold-champagne) 22%,
+    #fde047 44%,
+    #f5b400 60%,
+    var(--ais-gold-champagne) 80%,
+    #fff4cc 100%
+  );
+  background-size: 220% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  /* 그라데이션이 살아 흐르는 shimmer 루프 — "AI"가 연산 중인 느낌.
-     background-position만 애니(컴포지터 친화, 레이아웃 무영향). 강도 상향 5s→3.5s. */
-  animation: aiShimmer 2.5s var(--ais-ease-flow) infinite;
+  /* 그라데이션이 살아 흐르는 shimmer 루프 — 금속 표면 위 반사광이 지나가는 느낌.
+     background-position만 애니(컴포지터 친화). ease-in-out으로 반사광이 끝에서 부드럽게 반전. */
+  animation: aiShimmer 6.5s ease-in-out infinite;
 }
 
 @keyframes aiShimmer {
@@ -400,28 +464,37 @@
 .trustValue {
   display: inline-block;
   font-family: var(--ais-font-display);
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1;
-  color: var(--ais-dark-text);
+  /* v10: 수치에도 헤드라인과 동일 수직 그라데이션 — 조명 일관성(위 순백→아래 가라앉음) */
+  background: linear-gradient(180deg, #ffffff, #c9d1de);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .trustLabel {
   margin: 0;
   font-family: var(--ais-font-mono);
-  font-size: var(--ais-text-eyebrow);
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: var(--ais-tracking-wide);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
   color: var(--ais-dark-text-soft);
 }
 
-/* 항목 사이 얇은 세로 divider — 다크 무대 화이트 저알파. */
+/* 항목 사이 얇은 세로 divider — v10: 중앙이 밝고 양끝 페이드(계측기 눈금 톤). */
 .trustDivider {
   align-self: stretch;
   width: 1px;
-  background: rgba(255, 255, 255, 0.16);
-  opacity: 0.9;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.22) 50%,
+    transparent
+  );
 }
 
 .actions {
@@ -443,8 +516,10 @@
   transition: transform 0.4s var(--ais-ease-expo);
 }
 
-/* 글래스 패널(v9 Deep Tech) — 다크 무대 위 반투명 유리판 + 화이트 헤어라인.
-   PCB 도트 질감 유지(화이트 저알파). 2026 글래스모피즘: blur는 이 패널 1곳만. */
+/* 글래스 패널(v10 럭셔리) — 다크 무대 위 반투명 유리판 + 광원 일관 테두리/깊이.
+   PCB 도트 질감 유지. blur는 이 패널 1곳만.
+   깊이 신호 3겹: ①상단 inner 하이라이트(광원 좌상단) ②하단 inner 그림자(두께감)
+   ③다층 drop 그림자(부양). 테두리는 상단 밝고 하단 어두운 그라데이션(유리 엣지 발광). */
 .previewPanel {
   position: relative;
   isolation: isolate;
@@ -453,11 +528,25 @@
   overflow: hidden;
   padding: var(--ais-space-sm);
   border-radius: var(--ais-radius-lg);
-  border: 1px solid var(--ais-glass-dark-border);
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+  border: 1px solid transparent;
+  /* 이중 배경: 패널 틴트(아래) + 테두리 그라데이션(위, border-box 클립)로 유리 엣지 발광 */
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025))
+      padding-box,
+    linear-gradient(
+        150deg,
+        rgba(255, 255, 255, 0.28),
+        rgba(255, 255, 255, 0.06) 40%,
+        rgba(255, 255, 255, 0.02) 70%
+      )
+      border-box;
+  backdrop-filter: blur(16px) saturate(120%);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  box-shadow:
+    0 40px 90px -24px rgba(0, 0, 0, 0.6),
+    0 12px 32px -12px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -24px 48px -36px rgba(0, 0, 0, 0.5);
 }
 
 /* 패널 배경 회로 도트 — 반도체 PCB 질감(다크 위 화이트 도트, 잉크 수준 절제) */
@@ -589,16 +678,21 @@
 }
 
 .previewLink {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--ais-space-xs);
   padding: var(--ais-space-sm);
   border-radius: var(--ais-radius-soft);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.035);
   text-decoration: none;
+  /* 유리 셀 깊이: 상단 inner 하이라이트(광원) + 미세 하단 그림자(두께) */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    0 1px 2px rgba(0, 0, 0, 0.2);
   transition:
-    transform var(--ais-dur-fast) var(--ais-ease-expo),
+    transform var(--ais-dur) var(--ais-ease-expo),
     border-color var(--ais-dur-fast) var(--ais-ease-expo),
     background-color var(--ais-dur-fast) var(--ais-ease-expo),
     box-shadow var(--ais-dur) var(--ais-ease-expo);
@@ -606,10 +700,14 @@
 
 .previewLink:hover {
   transform: translateY(-3px);
-  border-color: color-mix(in srgb, var(--card-accent) 55%, rgba(255, 255, 255, 0.12));
-  background: rgba(255, 255, 255, 0.08);
-  /* 서비스 브랜드색 글로우 — 다크 무대에서 각 앱의 색이 점화되는 마이크로 인터랙션 */
-  box-shadow: 0 10px 30px -8px color-mix(in srgb, var(--card-accent) 45%, transparent);
+  border-color: color-mix(in srgb, var(--card-accent) 55%, rgba(255, 255, 255, 0.14));
+  background: rgba(255, 255, 255, 0.075);
+  /* 서비스 브랜드색 글로우 — 다크 무대에서 각 앱의 색이 점화되는 마이크로 인터랙션.
+     상단 하이라이트 강화 + 브랜드 글로우 겹침으로 '유리가 들린' 느낌. */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 14px 34px -10px color-mix(in srgb, var(--card-accent) 50%, transparent),
+    0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .previewLink:focus-visible {
