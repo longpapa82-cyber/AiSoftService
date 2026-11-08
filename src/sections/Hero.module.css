@@ -143,6 +143,36 @@
   transition: transform 0.5s var(--ais-ease-expo);
 }
 
+/* v14: 커서 스포트라이트 — 포인터 추종 골드 라이트(--px/--py: -1~1, 훅 내부 lerp 지연).
+   다크 무대 위를 비추는 손전등. 레이아웃 속성 미사용(translate만), 포인터 비활성 시 중앙 고정. */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    42% 42% at 50% 42%,
+    rgba(232, 199, 102, 0.1),
+    rgba(232, 199, 102, 0.04) 45%,
+    transparent 72%
+  );
+  transform: translate3d(
+    calc(var(--px, 0) * 7%),
+    calc(var(--py, 0) * 5%),
+    0
+  );
+  transition: transform 0.4s var(--ais-ease-expo);
+  mix-blend-mode: screen;
+}
+
+/* 포인터 없는 환경(터치)·reduce-motion: 중앙 고정 은은한 광원만. */
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .spotlight {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ── 회로 트레이스 + 흐르는 골드 신호 ── */
 .circuit {
   position: absolute;
@@ -523,6 +553,12 @@
 .previewPanel {
   position: relative;
   isolation: isolate;
+  /* v14: 포인터 틸트 — useTilt가 --tilt-x/y(deg) 주입. 변형만(컴포지터 친화),
+     포인터 이탈 시 0deg로 부드럽게 복귀(transition). reduce-motion/터치는 훅이 변수 미갱신. */
+  transform: perspective(1100px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.5s var(--ais-ease-expo);
+  will-change: transform;
   /* [OPT-4] 신호 스윕 밴드(::after, translateX)가 패널 밖으로 새지 않게 클립.
      카드 hover 리프트/아이콘 팝은 패널 padding 안쪽이라 영향 없음. */
   overflow: hidden;
@@ -547,6 +583,37 @@
     0 12px 32px -12px rgba(0, 0, 0, 0.45),
     inset 0 1px 0 rgba(255, 255, 255, 0.14),
     inset 0 -24px 48px -36px rgba(0, 0, 0, 0.5);
+}
+
+/* v14: 틸트 글레어 — 포인터 위치(--tilt-px/py)를 따라오는 유리 반사광.
+   패널 overflow:hidden 안의 자식이라 모서리 클립. 기본 투명 → hover 시에만 발광. */
+.panelGlare {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    30% 30% at var(--tilt-px, 50%) var(--tilt-py, 50%),
+    rgba(255, 255, 255, 0.22),
+    transparent 70%
+  );
+  transition: opacity 0.4s var(--ais-ease-expo);
+}
+
+.previewPanel:hover .panelGlare {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .previewPanel {
+    transform: none;
+    will-change: auto;
+  }
+  .panelGlare {
+    display: none;
+  }
 }
 
 /* 패널 배경 회로 도트 — 반도체 PCB 질감(다크 위 화이트 도트, 잉크 수준 절제) */

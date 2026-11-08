@@ -134,9 +134,30 @@
   box-shadow: none;
 }
 
+/* ── v14 자석 효과 (opt-in) ──
+ * useMagnetic이 --mag-x/--mag-y(px)를 주입. transform은 단일 속성이라 hover 리프트와
+ * 충돌하므로, .magnetic일 때 translate를 명시적으로 합성한다(variant hover 규칙 오버라이드).
+ * 변수 기본 0 → 포인터 이탈 시 spring transition으로 복귀. */
+.magnetic {
+  transform: translate(var(--mag-x, 0px), var(--mag-y, 0px));
+}
+.magnetic.primary:hover,
+.magnetic.outline:hover {
+  transform: translate(var(--mag-x, 0px), var(--mag-y, 0px)) translateY(-3px);
+}
+.magnetic.primary:active,
+.magnetic.outline:active {
+  transform: translate(var(--mag-x, 0px), var(--mag-y, 0px)) scale(0.98);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .base:hover,
-  .base:active {
+  .base:active,
+  .magnetic,
+  .magnetic.primary:hover,
+  .magnetic.outline:hover,
+  .magnetic.primary:active,
+  .magnetic.outline:active {
     transform: none;
   }
   /* 광택 스윕 정지 */

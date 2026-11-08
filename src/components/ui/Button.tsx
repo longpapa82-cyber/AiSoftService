@@ -2,7 +2,9 @@ import type {
   AnchorHTMLAttributes,
   ButtonHTMLAttributes,
   ReactNode,
+  RefObject,
 } from 'react';
+import { useMagnetic } from '../../hooks/useMagnetic';
 import styles from './Button.module.css';
 
 export type ButtonVariant = 'primary' | 'ghost' | 'outline';
@@ -13,6 +15,8 @@ type CommonProps = {
   icon?: ReactNode;
   /** 다크 무대(딥 네이비 히어로 등) 위 배치 — primary는 골드 일렉트릭으로 반전 */
   onDark?: boolean;
+  /** 포인터 접근 시 커서 방향으로 살짝 끌리는 자석 효과(마우스 전용·opt-in) */
+  magnetic?: boolean;
   children: ReactNode;
 };
 
@@ -37,13 +41,24 @@ function isExternal(href: string): boolean {
  * 외부 링크(http/https)는 자동으로 target/rel을 안전하게 설정한다.
  */
 export function Button(props: ButtonProps) {
-  const { variant = 'primary', icon, onDark, children, className, ...rest } =
-    props;
+  const {
+    variant = 'primary',
+    icon,
+    onDark,
+    magnetic,
+    children,
+    className,
+    ...rest
+  } = props;
+
+  // 자석 효과는 opt-in. 훅은 항상 호출(규칙 준수)하되 ref 부착 여부로 활성화.
+  const magRef = useMagnetic<HTMLElement>(6);
 
   const classNames = [
     styles.base,
     styles[variant],
     onDark ? styles.onDark : '',
+    magnetic ? styles.magnetic : '',
     className,
   ]
     .filter(Boolean)
@@ -67,6 +82,7 @@ export function Button(props: ButtonProps) {
     return (
       <a
         {...anchorRest}
+        ref={magnetic ? (magRef as RefObject<HTMLAnchorElement>) : undefined}
         href={props.href}
         className={classNames}
         target={target ?? (external ? '_blank' : undefined)}
@@ -79,7 +95,12 @@ export function Button(props: ButtonProps) {
 
   const { type, ...buttonRest } = rest as ButtonHTMLAttributes<HTMLButtonElement>;
   return (
-    <button {...buttonRest} type={type ?? 'button'} className={classNames}>
+    <button
+      {...buttonRest}
+      ref={magnetic ? (magRef as RefObject<HTMLButtonElement>) : undefined}
+      type={type ?? 'button'}
+      className={classNames}
+    >
       {content}
     </button>
   );

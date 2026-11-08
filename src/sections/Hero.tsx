@@ -6,6 +6,7 @@ import { ParticleField } from '../components/visual/ParticleField';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
 import { usePointerParallax } from '../hooks/usePointerParallax';
+import { useTilt } from '../hooks/useTilt';
 import styles from './Hero.module.css';
 
 // Hero 다음 첫 콘텐츠 섹션(첫 미니 홍보)의 앵커 — 둘러보기/스크롤 타겟.
@@ -91,6 +92,8 @@ function renderWord(word: string, i: number) {
 export function Hero() {
   const copyRef = useReveal<HTMLDivElement>({ threshold: 0.1 });
   const heroRef = usePointerParallax<HTMLElement>();
+  // 우측 서비스 프리뷰 패널 — 포인터 틸트(±4°)·글레어. 마우스 전용, reduce-motion 비활성.
+  const panelRef = useTilt<HTMLDivElement>(4);
   const words = splitWords(COMPANY.slogan);
   const promoHref = FIRST_PROMO ? `#promo-${FIRST_PROMO.id}` : '#main';
 
@@ -162,6 +165,9 @@ export function Hero() {
         <span className={styles.vignette} />
         <span className={styles.grain} />
         <span className={styles.hairline} />
+        {/* v14: 커서 스포트라이트 — 포인터 추적 골드 라이트(usePointer --px/--py 재사용).
+            다크 무대 위 "손전등" 느낌. 마우스 전용·reduce-motion 비활성은 CSS가 처리. */}
+        <span className={styles.spotlight} />
       </div>
 
       <div className={`ais-container ${styles.inner}`}>
@@ -206,7 +212,7 @@ export function Hero() {
             </dl>
 
             <div className={styles.actions}>
-              <Button href={promoHref} variant="primary" onDark>
+              <Button href={promoHref} variant="primary" onDark magnetic>
                 서비스 둘러보기
               </Button>
               <Button href="#about" variant="ghost" onDark>
@@ -220,7 +226,8 @@ export function Hero() {
             className={styles.servicePreview}
             aria-label="에이아이소프트 서비스"
           >
-            <div className={styles.previewPanel}>
+            <div ref={panelRef} className={styles.previewPanel}>
+              <span className={styles.panelGlare} aria-hidden="true" />
               <div className={styles.previewCaption}>
                 <span className={styles.previewKicker}>SERVICES</span>
                 <span className={styles.previewTagline}>일상을 잇는 AI 앱</span>
