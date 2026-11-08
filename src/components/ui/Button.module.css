@@ -115,6 +115,25 @@
   background-color: #fde047;
   box-shadow: var(--ais-neon-gold), 0 14px 36px rgba(250, 204, 21, 0.3);
 }
+/* v14 C-4: 골드 CTA hover 시 1회 광택 스윕(AI 메탈릭 샴페인 언어와 일치). */
+.onDark.primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 48%,
+    transparent 66%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.7s var(--ais-ease-expo);
+}
+.onDark.primary:hover::after {
+  transform: translateX(130%);
+}
 .onDark.ghost {
   color: var(--ais-dark-text-soft);
 }
@@ -161,8 +180,8 @@
     transform: none;
   }
   /* 광택 스윕 정지 */
-  .primary::after,
-  .primary:hover::after {
+  .onDark.primary::after,
+  .onDark.primary:hover::after {
     transition: none;
     transform: translateX(-130%);
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { COMPANY } from '../data/company';
 import { useScrollProgress } from '../hooks/useScrollProgress';
@@ -28,7 +28,19 @@ export function Header() {
   // 초기 true: 첫 페인트가 다크 히어로 위라 라이트 글씨로 시작해야 깜빡임이 없다.
   const [onDark, setOnDark] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
+  // v14 이스터에그: 로고를 5회 누르면 금색 점이 한 바퀴 궤도를 돈다(숨은 재미).
+  const [celebrate, setCelebrate] = useState(false);
+  const clicksRef = useRef(0);
   const progress = useScrollProgress();
+
+  // 로고 클릭 — 홈 앵커 이동은 href가 처리. 여기선 5회 누적 시 셀레브레이션만 트리거.
+  const onLogoClick = () => {
+    clicksRef.current += 1;
+    if (clicksRef.current >= 5) {
+      clicksRef.current = 0;
+      setCelebrate(true);
+    }
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > SCROLL_THRESHOLD);
@@ -75,9 +87,22 @@ export function Header() {
   return (
     <header className={headerClass}>
       <div className={`ais-container ${styles.inner}`}>
-        <a href="#top" className={styles.logo} aria-label={`${COMPANY.name} 홈`}>
-          <span className={styles.logoMark} aria-hidden="true">
-            <span className={styles.logoDot} />
+        <a
+          href="#top"
+          className={styles.logo}
+          aria-label={`${COMPANY.name} 홈`}
+          onClick={onLogoClick}
+        >
+          <span
+            className={[styles.logoMark, celebrate ? styles.celebrate : '']
+              .filter(Boolean)
+              .join(' ')}
+            aria-hidden="true"
+          >
+            <span
+              className={styles.logoDot}
+              onAnimationEnd={() => setCelebrate(false)}
+            />
           </span>
           <span className={styles.logoText}>에이아이소프트</span>
           <span className={styles.logoTag} aria-hidden="true">

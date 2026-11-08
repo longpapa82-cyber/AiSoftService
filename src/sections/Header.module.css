@@ -92,6 +92,24 @@
   z-index: 1;
 }
 
+/* v14: 로고 hover 시 금색 점이 통통 튀는 미세 반응(기존 ais-bob 재사용). */
+.logo:hover .logoDot {
+  animation: ais-bob 0.6s var(--ais-ease-spring);
+}
+
+/* v14 이스터에그: 5회 클릭 시 점이 마크 안에서 한 바퀴 궤도를 돈다. */
+.celebrate .logoDot {
+  animation: logoOrbit 0.8s var(--ais-ease-expo);
+}
+@keyframes logoOrbit {
+  0% {
+    transform: rotate(0deg) translateX(0) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(7px) rotate(-360deg);
+  }
+}
+
 .logoText {
   font-size: 1.18rem;
   font-weight: 800;

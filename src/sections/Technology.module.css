@@ -639,6 +639,22 @@
   background-clip: text;
   color: transparent;
   text-shadow: 0 0 24px rgba(250, 204, 21, 0.18);
+  /* v14 C-6: 카드 hover 시 수치가 살짝 커지며 글로우가 밝아진다(샴페인 점화). */
+  transform-origin: left center;
+  transition:
+    transform var(--ais-dur) var(--ais-ease-spring),
+    text-shadow var(--ais-dur) var(--ais-ease-expo);
+}
+.card:hover .metricValue,
+.card:focus-within .metricValue {
+  transform: scale(1.06);
+  text-shadow: 0 0 32px rgba(250, 204, 21, 0.4);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card:hover .metricValue,
+  .card:focus-within .metricValue {
+    transform: none;
+  }
 }
 
 .metricUnit {
