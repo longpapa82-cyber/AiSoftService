@@ -125,6 +125,27 @@
 4. **접근성**: ServiceRail 키보드 내비·aria, 인터랙션 요소 포커스 링, 대비 AA 유지.
 5. **배포 검증**: `vercel deploy --prod --yes` 후 라이브 JS 번들 해시 == 로컬 빌드 (md5).
 
+## 4-R. 실행 결과 (2026-11-08 구현 완료)
+
+| Phase | 커밋 | 실제 구현 | 기존 구현이라 생략 |
+|---|---|---|---|
+| 1 (Track A) | 74f592a | ServiceRail 신규(도트 내비·IO 활성추적·툴팁·smooth scroll) | A-2 헤더 진행 바(Header 기존) |
+| 2 (Track B) | 25dd3a3 | 패널 틸트+글레어·커서 스포트라이트·마그네틱 CTA(useMagnetic 신설) | B-4 --card-i stagger(기존) |
+| 3 (Track C) | 103044d | 로고 5클릭 궤도 이스터에그·골드 CTA 샤인 스윕·메트릭 hover 점화 | C-2 nav 밑줄·C-3 배지 리프트(기존) |
+| 4 (Track D) | 091690e | 도란이 클릭 윙크·숨통 호흡 링 재생(AskUserQuestion 전원 승인) | D-2 폰 hover·D-3 무드 pop(기존) |
+
+**핵심 발견**: 계획의 다수 항목이 이미 구현돼 있었음(코드 선독으로 중복 작업 회피). 신규 가치는
+ServiceRail·히어로 포인터 인터랙션·클릭 이스터에그·룸 클릭 피드백에 집중됨.
+
+**검증 (Playwright, dist preview)**:
+- 오버플로 6뷰포트(320~1920) 전부 **0px**.
+- reduce-motion stuck-invisible: v14=25 vs baseline(6b34027)=10. **델타 +15 = 전원 ServiceRail
+  `_tip_` 툴팁(hover 전용 opacity:0 = 정상 정지 상태)**. baseline의 10개 장식 글로우(field/soundRing/
+  cardGlow)는 불변 → **실 콘텐츠 회귀 0** 증명(요소 식별로 확인, 수치만으로 판단 안 함).
+- 빌드 그린(tsc+vite), 신규 의존성 0.
+
+**잔여**: `vercel deploy --prod --yes` + 라이브 번들 해시 검증(사용자 확인 후 — 외부 공개 액션).
+
 ## 5. 리스크
 
 | 리스크 | 완화 |
