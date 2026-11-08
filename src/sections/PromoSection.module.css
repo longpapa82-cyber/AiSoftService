@@ -2894,6 +2894,38 @@
   width: 140px;
   height: 140px;
   flex-shrink: 0;
+  /* v14 D-4: div→button 전환 — 기본 버튼 스타일 리셋(시각 변화 0, 정착 모습 동일). */
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.breathRingStage:focus-visible {
+  outline: 2px solid var(--p-primary);
+  outline-offset: 6px;
+}
+/* 클릭 시 코어가 1회 또렷하게 수축→확장(호흡 한 번 따라하기 피드백). */
+.breathRingPulse {
+  animation:
+    promo-breath-478 19s ease-in-out infinite,
+    breathTapPulse 1.2s var(--ais-ease-spring);
+}
+@keyframes breathTapPulse {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(0.82);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .breathRingPulse {
+    animation: none;
+  }
 }
 .breathRingOuter,
 .breathRingMid,

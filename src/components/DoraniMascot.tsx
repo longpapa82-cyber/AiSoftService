@@ -9,10 +9,13 @@
 // peer 그라디언트 색은 dorani.js의 lightenHex(#8FE3D8,0.22)=#a8e9e1, darkenHex(#8FE3D8,0.1)=#81ccc2를
 // 빌드타임에 사전 계산해 상수로 박았다(런타임 색 계산 함수 불필요).
 
+import { useState } from 'react';
 import styles from './DoraniMascot.module.css';
 
 interface DoraniMascotProps {
   className?: string;
+  /** true면 클릭 시 오른쪽 눈을 1회 윙크(도란도란 룸 재미 요소). */
+  interactive?: boolean;
 }
 
 // AGES.peer + smile 표정 (dorani.js AGES.peer / faceMarkup('smile', peer) 좌표)
@@ -23,14 +26,32 @@ const FILL_DARK = '#81ccc2'; // darkenHex(FILL, 0.1)
 const LINE = '#3FA6AE';
 const BLUSH = '#F0A98C';
 
-export function DoraniMascot({ className }: DoraniMascotProps) {
+export function DoraniMascot({ className, interactive }: DoraniMascotProps) {
+  const [winking, setWinking] = useState(false);
+
+  const svgClass = [className, interactive ? styles.interactive : '']
+    .filter(Boolean)
+    .join(' ');
+
   return (
     <svg
-      className={className}
+      className={svgClass}
       viewBox="0 -18 200 208"
       xmlns="http://www.w3.org/2000/svg"
-      role="img"
-      aria-label="도란이 캐릭터"
+      role={interactive ? 'button' : 'img'}
+      aria-label={interactive ? '도란이 — 눌러서 윙크' : '도란이 캐릭터'}
+      tabIndex={interactive ? 0 : undefined}
+      onClick={interactive ? () => setWinking(true) : undefined}
+      onKeyDown={
+        interactive
+          ? (e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                setWinking(true);
+              }
+            }
+          : undefined
+      }
     >
       <defs>
         {/* 몸통 젤리 그라디언트(위 밝음→아래 진함) */}
@@ -67,12 +88,18 @@ export function DoraniMascot({ className }: DoraniMascotProps) {
         {/* 상단 광택 하이라이트 (cx=100-(126-74)*0.18=90.64, cy=eyeY-34=62) */}
         <ellipse cx="90.64" cy="62" rx="42" ry="26" fill="url(#dorani-hl)" />
 
-        {/* 눈 (eyeXs=[74,126], eyeY=96, eyeR=7, hiR=2.4) — v9: 그룹 깜빡임(scaleY 루프) */}
+        {/* 눈 (eyeXs=[74,126], eyeY=96, eyeR=7, hiR=2.4) — v9: 그룹 깜빡임(scaleY 루프).
+            v14: interactive 시 오른쪽 눈만 클릭 윙크(왼쪽은 떠 있어 '윙크'로 읽힘). */}
         <g className={styles.eyes}>
           <circle cx="74" cy="96" r="7" fill={INK} />
           <circle cx="76.5" cy="93.5" r="2.4" fill="#ffffff" />
-          <circle cx="126" cy="96" r="7" fill={INK} />
-          <circle cx="128.5" cy="93.5" r="2.4" fill="#ffffff" />
+          <g
+            className={winking ? styles.wink : undefined}
+            onAnimationEnd={() => setWinking(false)}
+          >
+            <circle cx="126" cy="96" r="7" fill={INK} />
+            <circle cx="128.5" cy="93.5" r="2.4" fill="#ffffff" />
+          </g>
         </g>
 
         {/* 입 (smile, mouthY=118, mouthDip=12) */}

@@ -611,7 +611,7 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
                   <span className={styles.mascotGlow} aria-hidden="true" />
                   {/* 도란: 벡터 SVG 컴포넌트(dorani.js 이식). 그 외: 정적 이미지. mascotImg 스타일 공유. */}
                   {promo.mascotComponent === 'dorani' ? (
-                    <DoraniMascot className={styles.mascotImg} />
+                    <DoraniMascot className={styles.mascotImg} interactive />
                   ) : (
                     <img
                       className={styles.mascotImg}
@@ -1057,6 +1057,9 @@ function BreathDashboardVisual({
   });
   const [cigRef, cigs] = useCountUp<HTMLSpanElement>(data.cigarettes, { durationMs: 1400 });
   const [hourRef, hours] = useCountUp<HTMLSpanElement>(data.hoursReclaimed, { durationMs: 1400 });
+  // v14 D-4: 호흡 링 클릭 시 1회 4-7-8 사이클을 또렷하게 재생(기존 루프 위 강조).
+  // key 증가로 애니메이션을 리스타트(React 재마운트 트릭 — reflow 핵 불필요).
+  const [breathCycle, setBreathCycle] = useState(0);
   // 회복 바는 뷰포트 진입 시 .is-visible 클래스로 채워진다(useReveal — CSS 주도, reduce-motion 즉시).
   const recoveryRef = useReveal<HTMLUListElement>();
 
@@ -1097,14 +1100,29 @@ function BreathDashboardVisual({
             loading="lazy"
           />
         )}
-        <div className={styles.breathRingStage}>
+        <button
+          type="button"
+          className={styles.breathRingStage}
+          onClick={() => setBreathCycle((c) => c + 1)}
+          aria-label="4·7·8 호흡 한 번 따라하기"
+        >
           <span className={styles.breathRingOuter} aria-hidden="true" />
           <span className={styles.breathRingMid} aria-hidden="true" />
-          <span className={styles.breathRingCore} aria-hidden="true">
+          {/* key 증가 → 재마운트로 1회 강조 펄스 리스타트(클릭 피드백). */}
+          <span
+            key={breathCycle}
+            className={[
+              styles.breathRingCore,
+              breathCycle > 0 ? styles.breathRingPulse : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            aria-hidden="true"
+          >
             <span className={styles.breathRingLabel}>{data.breathLabel ?? '4·7·8'}</span>
           </span>
-        </div>
-        <p className={styles.breathRingHint}>충동이 올 땐, 숨숨이와 함께 숨 고르기</p>
+        </button>
+        <p className={styles.breathRingHint}>충동이 올 땐, 숨숨이와 함께 숨 고르기 (눌러서 따라하기)</p>
       </div>
 
       {/* ③ 회복 타임라인 — tone 비율로 채워지는 미니 바 */}

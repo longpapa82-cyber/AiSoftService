@@ -23,8 +23,38 @@
   }
 }
 
+/* v14: interactive 도란이 — 커서 포인터 + 포커스 링(접근성). */
+.interactive {
+  cursor: pointer;
+}
+.interactive:focus-visible {
+  outline: 2px solid #3fa6ae;
+  outline-offset: 4px;
+  border-radius: 12px;
+}
+
+/* 클릭 윙크 — 오른쪽 눈 그룹만 1회 접었다 편다(왼쪽은 열린 채 → 윙크로 읽힘). */
+.wink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: doraniWink 0.42s ease-in-out;
+}
+@keyframes doraniWink {
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  45%,
+  60% {
+    transform: scaleY(0.08);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .eyes {
+    animation: none;
+  }
+  .wink {
     animation: none;
   }
 }
