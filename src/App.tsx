@@ -6,6 +6,7 @@ import { PromoSection } from './sections/PromoSection';
 import { Technology } from './sections/Technology';
 import { About } from './sections/About';
 import { Footer } from './sections/Footer';
+import { ServiceRail } from './components/ServiceRail';
 import { SERVICES_SORTED } from './data/services';
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
         본문 바로가기
       </a>
       <Header />
+      <ServiceRail />
       <main id="main">
         <Hero />
         {/* 서비스별 미니 홍보 사이트 — 각 서비스 풀 테마로 전환. 좌우 지그재그 리듬 */}

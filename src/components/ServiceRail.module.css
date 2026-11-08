@@ -1,0 +1,107 @@
+/* 우측 고정 세로 도트 내비게이션. 데스크톱(≥1280px) 전용. */
+.rail {
+  position: fixed;
+  top: 50%;
+  right: clamp(0.75rem, 1.4vw, 1.5rem);
+  transform: translateY(-50%);
+  z-index: 40;
+  display: none; /* 기본 숨김 → 넓은 뷰포트에서만 표시 */
+}
+
+/* 넓은 뷰포트 + 포인터가 있는 환경에서만 노출(터치 스크롤 충돌·공간 부족 회피). */
+@media (min-width: 1280px) and (hover: hover) {
+  .rail {
+    display: block;
+  }
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+/* 도트 = 포인터 타깃. 넉넉한 히트 영역(접근성) 안에 작은 시각 점. */
+.dot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  outline: none;
+}
+
+/* 시각 점(히트 영역보다 작게). 기본은 반투명, 활성/hover 시 브랜드 색으로 점등. */
+.dot::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: color-mix(in oklch, var(--dot-color) 42%, transparent);
+  transition:
+    transform var(--ais-dur) var(--ais-ease-expo),
+    background var(--ais-dur) ease,
+    box-shadow var(--ais-dur) ease;
+}
+
+.dot:hover::before {
+  background: var(--dot-color);
+  transform: scale(1.35);
+}
+
+/* 활성 도트: 브랜드 색 꽉 참 + 확대 + 외곽 글로우 링. */
+.active::before {
+  background: var(--dot-color);
+  transform: scale(1.6);
+  box-shadow:
+    0 0 0 3px color-mix(in oklch, var(--dot-color) 22%, transparent),
+    0 0 10px color-mix(in oklch, var(--dot-color) 55%, transparent);
+}
+
+/* 키보드 포커스 링 — 접근성. */
+.dot:focus-visible::before {
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--dot-color) 60%, transparent);
+}
+
+/* hover/포커스 시 좌측으로 슬라이드 인하는 서비스명 툴팁. */
+.tip {
+  position: absolute;
+  right: 150%;
+  top: 50%;
+  white-space: nowrap;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #fff;
+  background: color-mix(in oklch, var(--dot-color) 88%, #10131a);
+  box-shadow: 0 6px 18px rgba(16, 19, 26, 0.22);
+  opacity: 0;
+  transform: translate(6px, -50%);
+  pointer-events: none;
+  transition:
+    opacity var(--ais-dur-fast) ease,
+    transform var(--ais-dur) var(--ais-ease-expo);
+}
+
+.dot:hover .tip,
+.dot:focus-visible .tip {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+
+/* reduce-motion: 즉시 상태 전환(위치 정보는 유지, 모션만 제거). */
+@media (prefers-reduced-motion: reduce) {
+  .dot::before,
+  .tip {
+    transition: none;
+  }
+}
