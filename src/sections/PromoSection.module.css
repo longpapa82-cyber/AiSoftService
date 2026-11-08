@@ -3128,7 +3128,19 @@
   opacity: 0;
   transform: rotate(-12deg);
   transition: opacity 0.6s var(--ais-ease-expo) 2.5s;
-  animation: ais-bob 3.4s ease-in-out infinite;
+  /* ⚠️ 범용 ais-bob(translateY만)은 base transform:rotate(-12deg)를 덮어써 회전이 사라지고
+     사실상 움직임이 상쇄됨 → 종이비행기는 rotate를 보존한 전용 bob을 쓴다. */
+  animation: routePlaneBob 3.4s ease-in-out infinite;
+}
+/* rotate(-12deg)를 유지한 채 위아래로 떠다니는 종이비행기 전용 bob. */
+@keyframes routePlaneBob {
+  0%,
+  100% {
+    transform: rotate(-12deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-12deg) translateY(-6px);
+  }
 }
 .section:has(.inner:global(.is-visible)) .routePlane {
   opacity: 0.9;
