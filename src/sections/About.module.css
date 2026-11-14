@@ -242,12 +242,15 @@
 
 .valueCard:hover,
 .valueCard:focus-within {
-  /* v15: 리프트(-6px) + useTilt 회전 합성. 포인터 비활성 시 --tilt-*=0이라 순수 리프트. */
-  transform: perspective(700px) translateY(-6px) rotateX(var(--tilt-x))
-    rotateY(var(--tilt-y));
+  /* v16 체감 강화: 리프트(-6→-10px) + scale(1.03) + useTilt 회전(±6°) 합성.
+     포인터 비활성 시 --tilt-*=0이라 순수 리프트. */
+  transform: perspective(600px) translateY(-10px) scale(1.03)
+    rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
   border-color: var(--card-border);
-  /* accent 감사: 블루 hover 글로우 제거 → 뉴트럴 리프트 그림자만. */
-  box-shadow: var(--ais-shadow-lift-warm);
+  /* 리프트 그림자 강화 — 더 깊고 넓게 떠오르는 느낌 */
+  box-shadow:
+    var(--ais-shadow-lift-warm),
+    0 24px 48px -16px rgba(0, 0, 0, 0.22);
 }
 
 .valueCard:hover::before,

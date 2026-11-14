@@ -181,8 +181,8 @@ function SignalItem({ signal, index }: { signal: TrustSignal; index: number }) {
 
 function ValueCard({ value, index }: { value: AboutValue; index: number }) {
   // 틸트 ref를 li에 직접 부착하고, reveal은 같은 노드를 externalRef로 공유(콜백 ref 합성 회피).
-  // 라이트 톤이라 각도는 ±3°로 보수적 — 깊이는 글레어 대신 그림자 리프트(CSS)로 표현.
-  const tiltRef = useTilt<HTMLLIElement>(3);
+  // v16 체감 강화: ±3→6° — 깊이는 그림자 리프트(CSS)로 표현.
+  const tiltRef = useTilt<HTMLLIElement>(6);
   useReveal<HTMLLIElement>({ externalRef: tiltRef });
   return (
     <li

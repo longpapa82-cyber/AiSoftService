@@ -738,10 +738,31 @@
 }
 
 /* Hero(.copy) 가시화 시 프리뷰 카드도 함께 계단식 등장.
-   .copy와 .servicePreview는 .heroGrid 안 형제 → 인접형제(~) 선택자로 연동. */
+   .copy와 .servicePreview는 .heroGrid 안 형제 → 인접형제(~) 선택자로 연동.
+   v16: 등장 완료 후 상시 부유(heroCardFloat) — 벤토 그리드가 "살아있는" 느낌.
+   --card-i로 위상 분산(카드마다 다른 타이밍), reveal transition-delay 후 시작. */
 .copy:global(.is-visible) ~ .servicePreview .previewCard {
   opacity: 1;
-  transform: none;
+  animation: heroCardFloat 5.5s ease-in-out infinite;
+  animation-delay: calc(var(--card-i, 0) * 0.5s + 0.8s);
+}
+
+@keyframes heroCardFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+/* 부유 모션은 모션 허용 환경에서만 — reduce-motion은 정지(최종 위치 고정). */
+@media (prefers-reduced-motion: reduce) {
+  .copy:global(.is-visible) ~ .servicePreview .previewCard {
+    animation: none;
+    transform: none;
+  }
 }
 
 .previewLink {

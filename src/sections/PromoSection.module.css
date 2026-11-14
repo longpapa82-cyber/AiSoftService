@@ -768,15 +768,16 @@
     border-color var(--ais-dur-fast) var(--ais-ease-expo);
 }
 
-/* v15 룸 폴리시: 하이라이트 칩 hover 시 -2px 리프트 + 브랜드 컬러 글로우 강화.
+/* v16 체감 강화: 하이라이트 칩 hover 시 -4px 리프트 + scale(1.04) + 강한 브랜드 글로우.
    순수 인터랙션(기존 요소 강조만) — 시각 요소 신규 추가 0. */
 .highlight:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--p-primary) 34%, transparent);
+  transform: translateY(-4px) scale(1.04);
+  border-color: color-mix(in srgb, var(--p-primary) 55%, transparent);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.28),
-    0 8px 20px color-mix(in srgb, var(--p-primary) 22%, transparent),
-    0 2px 6px rgba(0, 0, 0, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.32),
+    0 0 0 3px color-mix(in srgb, var(--p-primary) 18%, transparent),
+    0 14px 30px color-mix(in srgb, var(--p-primary) 32%, transparent),
+    0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 @media (prefers-reduced-motion: reduce) {

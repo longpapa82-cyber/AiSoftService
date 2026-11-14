@@ -48,11 +48,11 @@ export function Footer() {
       <ParticleField
         className={styles.field}
         dark
-        density={46}
-        signalRatio={0.3}
-        speed={1.3}
-        pointerRadius={190}
-        linkDist={170}
+        density={62}
+        signalRatio={0.42}
+        speed={1.7}
+        pointerRadius={230}
+        linkDist={185}
       />
       <div className={`ais-container ${styles.inner}`}>
         <div className={styles.brand}>

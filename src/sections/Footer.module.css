@@ -52,18 +52,20 @@
   inset: 0;
   z-index: -1;
   pointer-events: none;
+  /* v16 체감 강화: 알파 0.08→0.20·반경 확대 — 마우스 따라오는 빛이 확실히 보이게. */
   background: radial-gradient(
-    38% 48% at 50% 38%,
-    rgba(232, 199, 102, 0.08),
-    rgba(232, 199, 102, 0.03) 46%,
-    transparent 70%
+    46% 56% at 50% 40%,
+    rgba(232, 199, 102, 0.2),
+    rgba(232, 199, 102, 0.08) 42%,
+    transparent 72%
   );
+  /* 이동 폭 8/6%→16/12%로 확대 — 마우스 추종이 뚜렷하게 */
   transform: translate3d(
-    calc(var(--px, 0) * 8%),
-    calc(var(--py, 0) * 6%),
+    calc(var(--px, 0) * 16%),
+    calc(var(--py, 0) * 12%),
     0
   );
-  transition: transform 0.4s var(--ais-ease-expo);
+  transition: transform 0.35s var(--ais-ease-expo);
   mix-blend-mode: screen;
 }
 

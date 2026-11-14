@@ -121,19 +121,34 @@ img {
   padding-inline: var(--ais-gutter);
 }
 
-/* 스크롤 진입 리빌(IntersectionObserver가 .is-visible 부여) */
+/* 스크롤 진입 리빌(IntersectionObserver가 .is-visible 부여).
+   v16: 체감 강화 — translateY 28→44px + scale(0.96) + blur 포커스인(영화적 등장).
+   transform+filter+opacity만(컴포지터 친화). reduce-motion은 아래 블록에서 즉시 표시. */
 .reveal {
   opacity: 0;
-  transform: translateY(28px);
+  transform: translateY(44px) scale(0.965);
+  filter: blur(6px);
   transition:
-    opacity var(--ais-dur-slow) var(--ais-ease-expo),
-    transform var(--ais-dur-slow) var(--ais-ease-expo);
+    opacity 0.7s var(--ais-ease-expo),
+    transform 0.8s var(--ais-ease-spring),
+    filter 0.6s var(--ais-ease-expo);
   transition-delay: var(--reveal-delay, 0ms);
-  will-change: opacity, transform;
+  will-change: opacity, transform, filter;
 }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  filter: none;
+}
+
+/* reduce-motion: 즉시 최종 상태(stuck-invisible 금지) */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+  }
 }
 
 /* ── 자식 순차 등장(stagger) 시스템 (v12 모션 복구 — 2026-11-07 사용자 "모션·효과는 유지") ──
@@ -144,10 +159,11 @@ img {
  */
 .reveal-stagger > * {
   opacity: 0;
-  transform: translateY(18px);
+  /* v16: 18→30px + scale로 계단식 등장 체감 강화 */
+  transform: translateY(30px) scale(0.97);
   transition:
     opacity var(--ais-dur-slow) var(--ais-ease-expo),
-    transform var(--ais-dur-slow) var(--ais-ease-expo);
+    transform var(--ais-dur-slow) var(--ais-ease-spring);
 }
 .reveal-stagger > :nth-child(2) { transition-delay: calc(1 * var(--ais-stagger)); }
 .reveal-stagger > :nth-child(3) { transition-delay: calc(2 * var(--ais-stagger)); }
