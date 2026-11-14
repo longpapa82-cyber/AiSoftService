@@ -20,9 +20,13 @@ async function collect(url) {
       const s = getComputedStyle(el);
       const op = parseFloat(s.opacity);
       if (op < 0.05) {
-        // identity: tag + class list (first class) + a stable-ish signature
+        // identity: tag + semantic class name.
+        // CSS-module 해시(_xxxxx_)는 빌드마다 달라지므로 제거해 의미 기반으로 비교
+        // (예: _soundRing_c46ul_1983 → soundRing). 해시가 포함되면 모든 변경이 거짓 양성.
         const cls = (el.className && el.className.baseVal !== undefined ? el.className.baseVal : el.className) || '';
-        out.push(`${el.tagName.toLowerCase()}.${String(cls).trim().split(/\s+/)[0] || '(none)'}`);
+        const first = String(cls).trim().split(/\s+/)[0] || '(none)';
+        const semantic = first.replace(/^_?([a-zA-Z][a-zA-Z0-9]*)_[a-z0-9]{5,6}_\d+$/, '$1');
+        out.push(`${el.tagName.toLowerCase()}.${semantic}`);
       }
     }
     return out;

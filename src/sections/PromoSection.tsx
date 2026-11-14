@@ -6,8 +6,34 @@ import { MoodIcon } from '../components/ui/MoodIcon';
 import { DoraniMascot } from '../components/DoraniMascot';
 import { useReveal } from '../hooks/useReveal';
 import { useCountUp } from '../hooks/useCountUp';
+import { useTilt } from '../hooks/useTilt';
 import { iconFor } from '../lib/icons';
 import styles from './PromoSection.module.css';
+
+/**
+ * 폰 목업 — 실제 앱 스크린샷을 폰 프레임에 담아 보여준다(myPet·숏킷 등).
+ * [v15 룸 폴리시] hover 시 ±3° 미세 틸트(정착 시 0° = 원본과 동일). 룸 금역 준수:
+ * 시각 요소 신규 추가 0, 순수 인터랙션만. reduce-motion/터치는 useTilt가 변수 미갱신.
+ */
+function PhoneMockup({
+  shot,
+  alt,
+  shotBadge,
+}: {
+  shot: string;
+  alt: string;
+  shotBadge?: string;
+}) {
+  const tiltRef = useTilt<HTMLDivElement>(3);
+  return (
+    <div ref={tiltRef} className={styles.phone}>
+      <span className={styles.phoneNotch} aria-hidden="true" />
+      <img className={styles.phoneShot} src={shot} alt={alt} loading="lazy" />
+      {/* 시그니처 배지(숏킷: "14분 → 30초!") — 폰 우상단 기울임 스티커 */}
+      {shotBadge && <span className={styles.shotBadge}>{shotBadge}</span>}
+    </div>
+  );
+}
 
 /**
  * FitSnap(cloth) 모티프용 의류 라인 아이콘 path — fitsnap 홍보웹 BgApparel의 ICONS 재사용.
@@ -582,19 +608,11 @@ export function PromoSection({ service, flip = false }: PromoSectionProps) {
               </div>
             ) : promo.shot ? (
               /* 실제 앱 홈 화면 스크린샷 → 폰 프레임 목업 (myPet) */
-              <div className={styles.phone}>
-                <span className={styles.phoneNotch} aria-hidden="true" />
-                <img
-                  className={styles.phoneShot}
-                  src={promo.shot}
-                  alt={`${service.name} 앱 화면`}
-                  loading="lazy"
-                />
-                {/* 시그니처 배지(숏킷: "14분 → 30초!") — 폰 우상단 기울임 스티커 */}
-                {promo.shotBadge && (
-                  <span className={styles.shotBadge}>{promo.shotBadge}</span>
-                )}
-              </div>
+              <PhoneMockup
+                shot={promo.shot}
+                alt={`${service.name} 앱 화면`}
+                shotBadge={promo.shotBadge}
+              />
             ) : promo.mascot || promo.mascotComponent ? (
               /* 마스코트 히어로 + 기분 칩 + 스텝 (myToday: 새싹 성장 서사) */
               <div className={styles.growCard}>

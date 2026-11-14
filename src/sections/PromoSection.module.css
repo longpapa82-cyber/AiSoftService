@@ -761,6 +761,31 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.22),
     0 4px 14px color-mix(in srgb, var(--p-primary) 10%, transparent),
     0 1px 3px rgba(0, 0, 0, 0.06);
+  /* v15 룸 폴리시: hover 리프트 전환. 정착 시 transform 없음 = 원본 동일. */
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    box-shadow var(--ais-dur-fast) var(--ais-ease-expo),
+    border-color var(--ais-dur-fast) var(--ais-ease-expo);
+}
+
+/* v15 룸 폴리시: 하이라이트 칩 hover 시 -2px 리프트 + 브랜드 컬러 글로우 강화.
+   순수 인터랙션(기존 요소 강조만) — 시각 요소 신규 추가 0. */
+.highlight:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--p-primary) 34%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 8px 20px color-mix(in srgb, var(--p-primary) 22%, transparent),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .highlight {
+    transition: none;
+  }
+  .highlight:hover {
+    transform: none;
+  }
 }
 
 .highlightValue {
@@ -943,10 +968,15 @@
   /* Apple식 float — 감속 곡선 유지, duration을 늘려 무게감 있는 부양 */
   transition: transform var(--ais-dur-slow) var(--ais-ease-expo);
   will-change: transform;
+  /* v15 룸 폴리시: 틸트 기본값 0(useTilt가 hover 시 갱신). 정착 시 0 = 원본 동일. */
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
 }
 
 .phone:hover {
-  transform: rotate(0deg) translateY(-6px) scale(1.02);
+  /* 기존 리프트(-6px·scale 1.02) + useTilt 회전 합성. 포인터 비활성 시 --tilt-*=0. */
+  transform: perspective(900px) rotate(0deg) translateY(-6px) scale(1.02)
+    rotateX(var(--tilt-x)) rotateY(var(--tilt-y));
 }
 
 /* 노치 */
@@ -2710,6 +2740,31 @@
   justify-content: center;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.32);
   cursor: ew-resize;
+  /* v15 룸 폴리시: hover 강조 전환. 정착 시 scale 없음 = 원본 동일. */
+  transition:
+    transform var(--ais-dur-fast) var(--ais-ease-spring),
+    box-shadow var(--ais-dur-fast) var(--ais-ease-expo);
+}
+
+/* v15 룸 폴리시: 슬라이더 영역 hover 시 그립 scale + 브랜드 글로우(드래그 어포던스 강조).
+   .csHandle은 .csDrag의 자식이라 스테이지 어디를 hover해도 강조(descendant 셀렉터).
+   순수 인터랙션(기존 핸들 강조만) — 시각 요소 신규 추가 0. */
+.csDrag:hover .csGrip,
+.csHandle:focus-visible .csGrip {
+  transform: scale(1.08);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.32),
+    0 0 0 6px color-mix(in srgb, var(--p-primary, #ff6b4a) 22%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .csGrip {
+    transition: none;
+  }
+  .csDrag:hover .csGrip,
+  .csHandle:focus-visible .csGrip {
+    transform: none;
+  }
 }
 .csHint {
   margin: 0;
