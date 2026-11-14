@@ -29,6 +29,15 @@
         ],
         "createdAt": "2026-11-07T09:44:13.221Z",
         "reason": "user confirmed: 사용자가 '더 고급스럽게' 명시 요청+AskUserQuestion 타이포·여백 방향 선택. 다크 무대 광원 일관성용 수직 그라데이션(색변화 아닌 조명 표현, 대비 AA 최저 12.84:1 통과). AI 클립은 기존 시그니처"
+      },
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/sections/About.module.css"
+        ],
+        "createdAt": "2026-11-14T12:22:08.498Z",
+        "reason": "Pre-existing top-edge hairlines (::before, 3px, inset:0 0 auto 0) unchanged from baseline 7ddb332; already neutralized in a prior accent-audit pass (blue→neutral near-black). Not side borders, not introduced by v15 tilt work."
       }
     ]
   }
