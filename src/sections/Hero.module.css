@@ -714,6 +714,9 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  /* v16 fix: 모든 행 높이 균등 — 긴 이름이 2줄로 접혀도 카드 높이는 동일.
+     (grid-auto-rows auto는 행마다 최장 셀에 맞춰 높이가 들쭉날쭉해짐) */
+  grid-auto-rows: 1fr;
   gap: var(--ais-space-sm);
 }
 
@@ -771,6 +774,10 @@
   align-items: center;
   gap: var(--ais-space-xs);
   padding: var(--ais-space-sm);
+  /* v16 fix: 카드 행 높이에 맞춰 링크가 꽉 차도록 — 높이 통일의 핵심.
+     previewCard(li)는 grid stretch로 행 높이를 받고, 링크가 100%로 채운다. */
+  height: 100%;
+  box-sizing: border-box;
   border-radius: var(--ais-radius-soft);
   border: 1px solid rgba(255, 255, 255, 0.09);
   background: rgba(255, 255, 255, 0.035);
