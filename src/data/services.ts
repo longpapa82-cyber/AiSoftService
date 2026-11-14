@@ -906,19 +906,18 @@ export const SERVICES: AppService[] = [
     description:
       '해외 여행에서 현지인과 자연스럽게 대화하세요. 말하면 상대 언어로 실시간 통역하고, 마주보고 하는 양방향 대화 모드와 오프라인 여행 회화집까지. 한·영·일·중 등 9개 언어를 지원합니다.',
     // iOS 출시 완료(App Store id6799329142, 2026-08-14 라이브 curl 200+title 대조 검증).
-    // Android는 아직 준비 중 → androidPending:true(Google Play "준비 중" 비활성 배지).
-    // AI Music(#44)·myToday(#38)와 동일한 iOS 출시 / Android 준비 중 혼합 상태.
-    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정). PLATFORM_COUNT(Hero)·
-    // PLATFORMS(Technology)는 links.ios/android 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총수 불변,
-    // androidPending은 별개 플래그라 미집계 = 허위 출시 플랫폼 방지(정직 지표).
-    // ⚠️ Android 패키지는 출시 시 app.json(com.systemplanners.interpreter)이 SoT — Android 출시 시 링크 추가.
+    // Android 출시 완료(Google Play com.systemplanners.interpreter, 2026-11-14 라이브
+    // curl 200 + og:title "Voice Buddy - Google Play 앱" 대조 검증). 패키지는 app.json이 SoT.
+    // iOS·Android 양 플랫폼 모두 실링크 노출. PLATFORM_COUNT(Hero)·PLATFORMS(Technology)는
+    // links.ios/android 실링크만 Set 집계 → iOS·Android 모두 타 앱 집계로 총수 불변(정직 지표).
+    // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정).
     status: 'live',
     moodLabel: 'Playful Pastel Voice',
     emoji: '🗣️',
     iconUrl: voicebuddyIcon,
     links: {
       ios: 'https://apps.apple.com/kr/app/id6799329142',
-      androidPending: true,
+      android: 'https://play.google.com/store/apps/details?id=com.systemplanners.interpreter',
       web: 'https://promo-web-gray.vercel.app/',
     },
     theme: {
@@ -1119,21 +1118,20 @@ export const SERVICES: AppService[] = [
       '오랜 친구처럼 나의 고민과 비밀을 들어주고 위로해주는 AI 친구 채팅 앱. 성별·나이·말투를 골라 나만의 친구를 만들고, 판단받지 않고 편하게 마음을 나눠보세요.',
     // iOS 출시 완료(App Store id6809109847 · 번들 com.systemplanners.dorandoran, 2026-09-18 라이브
     // curl lookup + App Store Connect "1.0 배포 준비됨" + trackName "도란도란 - AI 친구 상담" 3중 대조 검증).
-    // Android는 아직 스토어 미출시(준비 중) → androidPending:true(Google Play "준비 중" 비활성 배지).
-    // FitSnap(id6801993872)·Voice Buddy(id6799329142)·myToday와 동일한 "iOS 출시 + Android 준비 중" 혼합 상태.
+    // Android 출시 완료(Google Play com.systemplanners.dorandoran, 2026-11-14 라이브
+    // curl 200 + og:title "도란도란 - AI 친구 상담 - Google Play 앱" 대조 검증). 패키지는 app.json이 SoT
+    // (iOS 번들 com.systemplanners.dorandoran과 동일). iOS·Android 양 플랫폼 모두 실링크 노출.
     // 주 CTA(골드)는 웹사이트 — 전 서비스 통일(2026-10-02 사용자 결정). PLATFORM_COUNT(Hero)·PLATFORMS(Technology)·
-    // About는 links.ios 실링크만 Set 집계 → iOS 이미 타 앱 집계로 총 플랫폼 수 불변, androidPending은 별개
-    // 플래그라 미집계 = 허위 출시 방지(정직 지표). ⚠️ Android 출시 시 links.android 실링크 추가.
+    // About는 links.ios/android 실링크만 Set 집계 → iOS·Android 모두 타 앱 집계로 총 플랫폼 수 불변(정직 지표).
     status: 'live',
     moodLabel: 'Warm Mint Companion',
     emoji: '🫶',
     iconUrl: doranIcon,
-    // iOS 실링크 노출 + web(홍보 랜딩)이 주 CTA(골드) — 전 서비스 통일.
-    // androidPending:true → Google Play "준비 중" 비활성 배지(출시 전 기대감).
+    // iOS·Android 실링크 노출 + web(홍보 랜딩)이 주 CTA(골드) — 전 서비스 통일.
     links: {
       ios: 'https://apps.apple.com/kr/app/id6809109847',
+      android: 'https://play.google.com/store/apps/details?id=com.systemplanners.dorandoran',
       web: 'https://longpapa82-cyber.github.io/doran-web/',
-      androidPending: true,
     },
     theme: {
       surface: '#ffffff',
