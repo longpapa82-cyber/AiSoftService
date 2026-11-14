@@ -202,6 +202,9 @@
   --card-ink: var(--ais-text-mid);
   --card-soft: var(--ais-cream-3);
   --card-border: var(--ais-warm-border-strong);
+  /* v15: 틸트 기본값 0(useTilt가 hover 시 갱신). 라이트 톤이라 글레어 없이 회전만. */
+  --tilt-x: 0deg;
+  --tilt-y: 0deg;
 
   position: relative;
   isolation: isolate;
@@ -239,7 +242,9 @@
 
 .valueCard:hover,
 .valueCard:focus-within {
-  transform: translateY(-6px);
+  /* v15: 리프트(-6px) + useTilt 회전 합성. 포인터 비활성 시 --tilt-*=0이라 순수 리프트. */
+  transform: perspective(700px) translateY(-6px) rotateX(var(--tilt-x))
+    rotateY(var(--tilt-y));
   border-color: var(--card-border);
   /* accent 감사: 블루 hover 글로우 제거 → 뉴트럴 리프트 그림자만. */
   box-shadow: var(--ais-shadow-lift-warm);
