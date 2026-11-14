@@ -138,6 +138,28 @@ v14에서 계획됐으나 grep상 미구현. useCountUp에 re-trigger 옵션이 
 
 ---
 
+## 5-R. 실행 결과 (2026-11-14 구현 완료)
+
+계획 수립 후 **코드 선독으로 전제 교정**: `magnetic`은 死코드가 아니라 Hero 주 CTA가 이미 사용 중이었음(Track B 불필요). 실제 공백은 Footer·About 포인터 반응뿐이었다.
+
+| Track | 커밋 | 실제 구현 | 판정 |
+|---|---|---|---|
+| A (Footer) | 5084302 | 커서 스포트라이트(usePointerParallax externalRef 주입)·서비스 링크 브랜드 글로우 | ✅ 최대 공백 해소 |
+| B (magnetic) | — | Hero CTA 이미 사용 중, Header navCta는 `<Button>` 아닌 전용 `<a>` → **무변경**(리팩터 리스크 회피) | ✅ 정직한 skip |
+| C (About) | 297aa5a | 가치 카드 useTilt(±3°)·리프트 그림자 합성 | ✅ 공백 해소 |
+| D (Technology) | — | 이미 틸트+글로우+메트릭 밑줄 완비 → **무변경**(카운트 재생=산만) | ✅ 정직한 no-op |
+| E (룸 폴리시) | 55a3188 | **AskUserQuestion 3종 전원 승인**: 폰 틸트·칩 리프트·슬라이더 그립 강조 | ✅ 순수 인터랙션만 |
+
+**핵심 교훈**:
+1. **계획 전제도 코드로 검증**(#103 재확인): "magnetic 死코드"는 grep 착시, 실제론 Hero가 사용 중.
+2. **훅 ref 공유 패턴 확립**: useReveal·usePointerParallax에 `externalRef` 옵션 추가(반환은 항상 내부 ref라 직접부착 호출부 100% 호환). 콜백 ref 합성은 훅 mount 이펙트가 null 캡처해 실패.
+3. **룸 금역 증명법**: reduce-motion stuck-invisible 아이덴티티 비교(CSS-module 해시 정규화) — 26==26로 resting 바이트 동일 입증. 모든 폴리시가 `:hover`/`--tilt:0` 게이트라 정착 상태 불변.
+4. **Playwright 좌표 함정**: `boundingBox()`는 문서 좌표 → 뷰포트 밖 측정. `scrollTo` 즉시스크롤 후 `getBoundingClientRect()` 뷰포트 좌표로 hover해야 pointermove 도달.
+
+**검증 종합**: 빌드 그린(JS 84.94kB gzip·CSS 27.14kB, baseline 84.82/26.84 대비 +0.1/+0.3kB)·6뷰포트 오버플로 0·reduce-motion 회귀 0·Hero parallax·reve(28) 불변.
+
+**잔여**: `vercel deploy --prod --yes` + 라이브 번들 해시 검증(외부 액션 — 사용자 확인 후).
+
 ## 6. 요약 — 이 계획의 정직한 가치
 
 이 랜딩은 **"모션 부족"이 아니라 "특정 지점만 비어 있는" 상태**다. 가장 멋진 개선은:
