@@ -44,6 +44,37 @@
   z-index: -1;
 }
 
+/* v15: 커서 스포트라이트 — 포인터 추종 샴페인 골드 라이트(Hero .spotlight 패턴).
+   --px/--py(-1~1, usePointerParallax 내부 lerp)로 translate만 이동 = 컴포지터 온리.
+   배경 레이어(z-index 0, 콘텐츠 아래)라 텍스트 가독성 불변. 다크 무대 위 손전등 느낌. */
+.spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    38% 48% at 50% 38%,
+    rgba(232, 199, 102, 0.08),
+    rgba(232, 199, 102, 0.03) 46%,
+    transparent 70%
+  );
+  transform: translate3d(
+    calc(var(--px, 0) * 8%),
+    calc(var(--py, 0) * 6%),
+    0
+  );
+  transition: transform 0.4s var(--ais-ease-expo);
+  mix-blend-mode: screen;
+}
+
+/* 포인터 없는 환경(터치)·reduce-motion: 중앙 고정 은은한 광원만(translate/transition 제거). */
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .spotlight {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* accent 감사: 상단 시그널 라인 → 뉴트럴 near-white hairline(정적, 애니 없음 = repaint 0). */
 .footer::after {
   content: '';
@@ -327,9 +358,13 @@
 }
 
 .serviceLink:hover .serviceIcon {
-  /* accent 감사: 시안 보더+블루 글로우 → 뉴트럴 near-white 보더(글로우 제거). */
-  border-color: rgba(255, 255, 255, 0.4);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  /* v15: hover 시 해당 서비스 브랜드 컬러(--svc)로 보더+글로우 점등.
+     12룸이 아닌 "링크 아이콘"에 브랜드색을 쓰는 것이라 룸 금역과 무관(셸 UI). */
+  border-color: color-mix(in oklch, var(--svc, #fff) 70%, transparent);
+  box-shadow:
+    0 4px 14px rgba(0, 0, 0, 0.3),
+    0 0 0 3px color-mix(in oklch, var(--svc, #fff) 22%, transparent),
+    0 6px 18px color-mix(in oklch, var(--svc, #fff) 30%, transparent);
 }
 
 /* ── 하단 카피라이트 ── */

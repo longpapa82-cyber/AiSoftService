@@ -1,18 +1,24 @@
 import { useEffect, useRef } from 'react';
+import type { RefObject } from 'react';
 
 /**
  * 스크롤 진입 시 요소에 .is-visible 클래스를 부여하는 IntersectionObserver 훅.
  * 스크롤 핸들러 churn 없이 컴포지터 친화적 리빌 애니메이션을 구현한다.
+ *
+ * @param options.externalRef 한 DOM 노드를 다른 훅과 공유할 때 전달. 주면 내부 ref 대신 이 ref를 관찰한다.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>(options?: {
   threshold?: number;
   once?: boolean;
+  externalRef?: RefObject<T | null>;
 }) {
-  const ref = useRef<T>(null);
-  const { threshold = 0.15, once = true } = options ?? {};
+  const internalRef = useRef<T>(null);
+  const { threshold = 0.15, once = true, externalRef } = options ?? {};
+  // 관찰은 외부 ref(주어졌다면)의 노드에, 반환은 항상 내부 ref(직접 부착 호출부 호환).
+  const activeRef = externalRef ?? internalRef;
 
   useEffect(() => {
-    const el = ref.current;
+    const el = activeRef.current;
     if (!el) return;
 
     // reduced-motion 사용자는 즉시 표시
@@ -53,7 +59,7 @@ export function useReveal<T extends HTMLElement = HTMLDivElement>(options?: {
       window.clearTimeout(safety);
       io.disconnect();
     };
-  }, [threshold, once]);
+  }, [threshold, once, activeRef]);
 
-  return ref;
+  return internalRef;
 }

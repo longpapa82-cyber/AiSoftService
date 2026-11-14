@@ -1,4 +1,7 @@
+import type { CSSProperties } from 'react';
+import { useRef } from 'react';
 import { useReveal } from '../hooks/useReveal';
+import { usePointerParallax } from '../hooks/usePointerParallax';
 import { SERVICES_SORTED } from '../data/services';
 import { COMPANY } from '../data/company';
 import { TechBadge } from '../components/ui/TechBadge';
@@ -21,10 +24,21 @@ function primaryLink(links: {
  * 우측: 서비스 바로가기 + 정책 링크. 하단: 모노스페이스 시스템 카피.
  */
 export function Footer() {
-  const ref = useReveal<HTMLElement>();
+  // 단일 ref를 footer에 직접 부착하고, reveal·parallax 두 훅에 주입해 공유한다.
+  // (콜백 ref 합성은 훅의 mount 이펙트가 null을 캡처해 리스너가 안 붙는 문제가 있어 ref 주입으로 전환.)
+  const footerRef = useRef<HTMLElement>(null);
+  useReveal<HTMLElement>({ externalRef: footerRef });
+  usePointerParallax<HTMLElement>(footerRef);
 
   return (
-    <footer ref={ref} className={`${styles.footer} reveal`} data-header-dark>
+    <footer
+      ref={footerRef}
+      className={`${styles.footer} reveal`}
+      data-header-dark
+    >
+      {/* v15: 커서 스포트라이트 — 포인터 추종 샴페인 골드 라이트(Hero 패턴 재사용).
+          --px/--py(-1~1, 훅 내부 lerp)로 translate만 이동. 포인터 없는 환경은 중앙 고정. */}
+      <span className={styles.spotlight} aria-hidden="true" />
       {/* [OPT-4] 상단 골드 데이터 스트림(translateX 밴드, 컴포지터 온리). */}
       <span className={styles.stream} aria-hidden="true" />
       {/* v11 럭셔리: 필름 그레인(히어로·Technology와 동일 질감 언어) */}
@@ -81,6 +95,9 @@ export function Footer() {
                     href={href ?? '#services'}
                     target={href ? '_blank' : undefined}
                     rel={href ? 'noopener noreferrer' : undefined}
+                    style={
+                      { '--svc': service.theme.primary } as CSSProperties
+                    }
                   >
                     <span className={styles.serviceIcon} aria-hidden="true">
                       <img
