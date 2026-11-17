@@ -1211,18 +1211,17 @@ export const SERVICES: AppService[] = [
     description:
       '유튜브 영상 링크만 붙여넣으면 숏킷 AI가 핵심만 30초로 요약해 드려요. 자막이 없어도 음성을 인식해 요약하고, 레시피·운동·리뷰·지식 등 영상 유형에 맞춰 정말 필요한 정보만 정리합니다. 원본 영상과 전체 전사도 함께 확인할 수 있어요.',
     // iOS 출시 완료(App Store id6816935944, 번들 com.shortkit.app — iTunes lookup 실측 검증) → live.
-    // Android는 아직 미출시(Voice Buddy·도란과 함께 pending). 스토어 링크는 출시 시 후속 추가.
-    // 주 CTA=웹사이트로 전 서비스 통일(#85) 원칙 유지 — web이 primary, ios는 보조 CTA로 자동 렌더.
-    // (로픽·FitSnap·도란과 동일한 GitHub Pages 홍보웹 + App Store 패턴.)
+    // Android 출시 완료(Google Play com.shortkit.app — 소스 shortKit/app.json SoT, iOS 번들과 동일. 2026-11-17 반영).
+    // 주 CTA=웹사이트로 전 서비스 통일(#85) 원칙 유지 — web이 primary, ios·android는 보조 CTA로 자동 렌더.
+    // (로픽·FitSnap·도란과 동일한 GitHub Pages 홍보웹 + App Store/Play 패턴.)
     status: 'live',
     moodLabel: 'Bright Toss Blue',
     emoji: '▶',
     iconUrl: shortkitIcon,
     links: {
       ios: 'https://apps.apple.com/kr/app/id6816935944',
-      // Android는 아직 스토어 미출시(준비 중) → androidPending:true(Google Play "준비 중" 비활성 배지).
-      // Voice Buddy·도란과 동일 패턴. androidPending은 PLATFORM_COUNT 미집계 = 허위 출시 방지(정직 지표).
-      androidPending: true,
+      // Android 출시 완료 → Google Play 실링크(패키지 com.shortkit.app, 소스 app.json SoT·iOS와 동일).
+      android: 'https://play.google.com/store/apps/details?id=com.shortkit.app',
       web: 'https://longpapa82-cyber.github.io/shortkit-web/',
     },
     theme: {
